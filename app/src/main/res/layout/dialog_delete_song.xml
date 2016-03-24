@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:src="#87ceeb"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除歌曲"
+        android:textSize="24sp"
+        android:padding="8dp"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:src="#292421"/>
+    <TextView
+        android:id="@+id/tv_dialog_delete_song_songName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除"
+        android:padding="8dp"
+        android:textSize="16sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="同时删除:"
+        android:textSize="16sp"
+        android:padding="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/cb_dialog_delete_song_songFile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="歌曲文件"
+            android:layout_weight="1"
+            android:checked="false"/>
+        <CheckBox
+            android:id="@+id/cb_dialog_delete_song_singerPicture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="歌手图片"
+            android:layout_weight="1"
+            android:checked="false"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/cb_dialog_delete_song_soundFile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="音效文件"
+            android:layout_weight="1"
+            android:checked="true"/>
+        <CheckBox
+            android:id="@+id/cb_dialog_delete_song_lyric"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="歌词"
+            android:layout_weight="1"
+            android:checked="true"/>
+    </LinearLayout>
+
+</LinearLayout>

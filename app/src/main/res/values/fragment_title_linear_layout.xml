@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- -->
+    <declare-styleable name="FragmentTitleLinearLayout">
+        <attr name="fragmentTitleLinearLayout_titleIcon" format="reference"/><!--标题图片-->
+        <attr name="fragmentTitleLinearLayout_titleText" format="string"/><!--标题文字-->
+        <attr name="fragmentTitleLinearLayout_titleTextColor" format="color"/><!--文字颜色-->
+        <attr name="fragmentTitleLinearLayout_distance" format="dimension"/>
+        <attr name="fragmentTitleLinearLayout_titleTextSize" format="dimension"/><!--文字大小-->
+        <!--搜索图标是否可见-->
+        <attr name="fragmentTitleLinearLayout_searchImageVisibility">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="4"/>
+            <enum name="gone" value="8"/>
+        </attr>
+        <!--更多图表是否可见-->
+        <attr name="fragmentTitleLinearLayout_moreImageVisibility" >
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="4"/>
+            <enum name="gone" value="8" />
+        </attr>
+    </declare-styleable>
+</resources>

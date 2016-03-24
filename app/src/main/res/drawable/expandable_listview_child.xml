@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--当前布局是服务于，歌曲页卡的"ExpandableListView"子元素的所有控件-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:state_pressed="false"
+        android:drawable="@color/black">
+    </item>
+    <item
+        android:state_pressed="true"
+        android:drawable="@color/white_translucent">
+    </item>
+</selector>

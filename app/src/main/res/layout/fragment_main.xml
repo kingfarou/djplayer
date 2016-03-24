@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customView="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_fragment_mine"
+    android:background="@drawable/bg_fragment_mine">
+
+
+    <com.jf.djplayer.customview.FragmentTitleLinearLayout
+        android:id="@+id/fragmentTitleLinearLayout_fragment_mine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="8dp"
+        android:paddingEnd="8dp"
+        customView:fragmentTitleLinearLayout_titleTextSize="8sp"
+        customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_fragment_mine_loading"
+        customView:fragmentTitleLinearLayout_moreImageVisibility="gone"
+        customView:fragmentTitleLinearLayout_searchImageVisibility="gone"
+        customView:fragmentTitleLinearLayout_distance="8dp"
+        customView:fragmentTitleLinearLayout_titleText="登陆/注册"
+        android:background="@color/sky_blue">
+    </com.jf.djplayer.customview.FragmentTitleLinearLayout>
+
+
+
+    <!-- 这个只是用来占空间的-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8" />
+
+    <!-- 这个RelativeLayout
+  是中间的那个布局-->
+    <LinearLayout
+        android:id="@+id/ll_fragment_mine_local_music"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:orientation="horizontal"
+        android:layout_weight="4"
+        android:background="@drawable/blue_white_press_selector">
+
+        <ImageView
+            android:id="@+id/iv_fragment_mine_local_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_local_music"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp">
+            <TextView
+                android:id="@+id/tv_mine_fragment_local_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/local_music"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/tv_mine_fragment_song_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="0首歌曲"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/imgBtn_fragment_mine_dice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="这是随机播放按钮"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/blue_white_press_selector"
+            android:src="@drawable/icon_dice"/>
+        <ImageButton
+            android:id="@+id/ib_fragment_mine_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="这是一个选项菜单"
+            android:layout_gravity="bottom"
+            android:background="@drawable/blue_white_press_selector"
+            android:src="@drawable/slh"/>
+    </LinearLayout>
+
+    <!-- 中间那一层的布局-->
+    <LinearLayout
+        android:id="@+id/ll_fragment_mine_middle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:layout_weight="4">
+        <!--我的最爱-->
+        <com.jf.djplayer.customview.ImageTextLinearLayout
+            android:id="@+id/imageTextLinearLayout_fragment_mine_my_favorite"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            customView:imageTextLinearLayout_distance="8dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/blue_white_press_selector"
+            customView:imageTextLinearLayout_icon="@drawable/ic_fragment_mine_my_favorite"
+            android:padding="8dp"
+            customView:imageTextLinearLayout_text="@string/my_favorite"
+            customView:imageTextLinearLayout_textSize="10sp"
+            android:layout_weight="1">
+
+        </com.jf.djplayer.customview.ImageTextLinearLayout>
+
+        <com.jf.djplayer.customview.ImageTextLinearLayout
+            android:id="@+id/imageTextLinearLayout_fragment_mine_my_download"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            customView:imageTextLinearLayout_distance="8dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/blue_white_press_selector"
+            customView:imageTextLinearLayout_icon="@drawable/ic_fragment_mine_my_download"
+            android:padding="8dp"
+            customView:imageTextLinearLayout_text="@string/my_download"
+            customView:imageTextLinearLayout_textSize="10sp"
+            android:layout_weight="1">
+
+        </com.jf.djplayer.customview.ImageTextLinearLayout>
+    </LinearLayout>
+
+  <!-- 最底层的那栏布局-->
+    <LinearLayout
+        android:id="@+id/ll_fragment_mine_below"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:layout_weight="4"
+        android:orientation="horizontal">
+
+        <com.jf.djplayer.customview.ImageTextLinearLayout
+            android:id="@+id/imageTextLinearLayout_fragment_mine_song_menu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            customView:imageTextLinearLayout_distance="8dp"
+            customView:imageTextLinearLayout_text="@string/my_song_menu"
+            customView:imageTextLinearLayout_textSize="10sp"
+            customView:imageTextLinearLayout_icon="@drawable/icon_my_song_menu"
+            android:layout_margin="8dp"
+            android:background="@drawable/blue_white_press_selector"
+            android:layout_weight="1"
+            android:padding="8dp">
+
+        </com.jf.djplayer.customview.ImageTextLinearLayout>
+
+        <com.jf.djplayer.customview.ImageTextLinearLayout
+            android:id="@+id/imageTextLinearLayout_fragment_mine_recently_play"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            customView:imageTextLinearLayout_distance="8dp"
+            customView:imageTextLinearLayout_icon="@drawable/ic_fragment_mine_recently_play"
+            customView:imageTextLinearLayout_text="@string/recently_play"
+            customView:imageTextLinearLayout_textSize="10sp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:background="@drawable/blue_white_press_selector">
+
+        </com.jf.djplayer.customview.ImageTextLinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

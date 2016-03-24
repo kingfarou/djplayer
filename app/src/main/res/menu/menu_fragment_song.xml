@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_fragment_song_sort_song_name"
+        android:title="按歌曲名排序"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
+    <item
+        android:id="@+id/action_fragment_song_sort_singer_name"
+        android:title="按歌手名排序"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
+    <item
+        android:id="@+id/action_fragment_song_sort_add_time"
+        android:title="按添加时间排序"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
+    <item
+        android:id="@+id/action_fragment_song_batch_manage_songs"
+        android:title="批量管理歌曲"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_fragment_song_get_lyrics_picture"
+        android:title="一键获取词图"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
+
+</menu>

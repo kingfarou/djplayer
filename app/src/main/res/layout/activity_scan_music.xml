@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="10"
+      android:gravity="center">
+      <ImageView
+          android:id="@+id/iv_scan_music"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@drawable/icon_activity_scan_music"/>
+  </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_activity_scan_music_key_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:drawableRight="@drawable/icon_activity_scan_key_scan"
+        android:drawableEnd="@drawable/icon_activity_scan_key_scan"
+        android:background="#1874cd"
+        android:textColor="#ffffff"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:text="一键扫描"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+        <Button
+            android:id="@+id/btn_activity_scan_song_custom_scan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/icon_activity_menu_single_cycle"
+            android:background="#00000000"
+            android:text="自定义扫描"/>
+        <Button
+            android:id="@+id/btn_activity_scan_music_wifi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/icon_activity_scan_music_wifi"
+            android:text="Wi-Fi传歌"
+            android:background="#00000000"/>
+        <Button
+            android:id="@+id/btn_activity_scan_music_scan_settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/icon_activity_scan_music_scan_settings"
+            android:text="扫描设置"
+            android:background="#00000000"/>
+
+    </LinearLayout>
+</LinearLayout>

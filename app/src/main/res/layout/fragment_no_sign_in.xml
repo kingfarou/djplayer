@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--这是登录页面的布局-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_app"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="天籁之音"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"/>
+    <!-- 账号-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_activity_sign_in_username"/>
+        <EditText
+            android:id="@+id/et_activity_sign_in_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="邮箱地址"/>
+    </LinearLayout>
+
+    <!-- 密码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_activity_sign_in_password"/>
+        <EditText
+            android:id="@+id/et_activity_sign_in_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="密码"/>
+    </LinearLayout>
+    <!-- 登录按钮-->
+    <Button
+        android:id="@+id/btn_activity_sign_in_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="登录"/>
+
+    <!-- 注册按钮-->
+    <Button
+        android:id="@+id/btn_activity_sign_in_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="注册"
+        android:layout_margin="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选择第三方的账号登录"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:layout_margin="8dp"/>
+
+    <!-- 第三方的登陆选择-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
+        <Button
+            android:id="@+id/btn_activity_sign_in_qq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="QQ帐号"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn_activity_sign_in_weibo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="微博登录"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn_activity_sign_in_weixin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="微信登录"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>

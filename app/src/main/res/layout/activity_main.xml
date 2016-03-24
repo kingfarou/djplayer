@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 这个布局用来装着不同Fragment-->
+    <LinearLayout
+        android:id="@+id/ll_activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+    </LinearLayout>
+
+
+    <fragment
+        android:name="com.jf.djplayer.fragment.BottomFragment"
+        android:id="@+id/bottomFragment_activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_bottom" />
+
+
+</LinearLayout>

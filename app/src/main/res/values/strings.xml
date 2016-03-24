@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">天籁之音</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_search">搜索</string>
+    <string name="my_favorite">我的最爱</string>
+    <string name="my_download">我的下载</string>
+    <string name="my_song_menu">我的歌单</string>
+    <string name="recently_play">最近播放</string>
+    <string name="local_music">本地音乐</string>
+    <string name="action_scan_music">扫描音乐</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

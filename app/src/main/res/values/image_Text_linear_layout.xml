@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ImageTextLinearLayout">
+        <attr name="imageTextLinearLayout_icon" format="reference"/><!--ImageView的图标-->
+        <attr name="imageTextLinearLayout_text" format="string"/><!--textView文字-->
+        <attr name="imageTextLinearLayout_textSize" format="dimension"/><!--textView文字大小-->
+        <attr name="imageTextLinearLayout_textColor" format="color"/><!--字体颜色-->
+        <attr name="imageTextLinearLayout_distance" format="dimension"/><!--imageView和TextView距离-->
+    </declare-styleable>
+
+</resources>

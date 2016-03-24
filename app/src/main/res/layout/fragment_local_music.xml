@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customView="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 这个是标题栏布局-->
+    <com.jf.djplayer.customview.FragmentTitleLinearLayout
+        android:id="@+id/fragmentTitleLinearLayout_fragment_local_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        customView:fragmentTitleLinearLayout_titleTextSize="8dp"
+        customView:fragmentTitleLinearLayout_distance="8dp"
+        customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_return"
+        customView:fragmentTitleLinearLayout_titleText="本地音乐"
+        android:background="@color/sky_blue">
+
+    </com.jf.djplayer.customview.FragmentTitleLinearLayout>
+
+    <!--这是中间栏目标题布局-->
+    <com.jf.djplayer.customview.TextViewLinearLayout
+        android:id="@+id/textViewLinearLayout_fragment_local_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        customView:textViewLinearLayout_selectedTextColor="@color/sky_blue"
+        customView:textViewLinearLayout_textViewNumber="4"
+        customView:textViewLinearLayout_textViewTextSize="10sp">
+
+    </com.jf.djplayer.customview.TextViewLinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_fragment_local_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

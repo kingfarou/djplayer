@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#00ffffff"
+    android:paddingLeft="16dp" android:paddingStart="16dp"
+    android:paddingRight="16dp" android:paddingEnd="16dp">
+
+    <TextView
+        android:id="@+id/tv_fragment_two_line_lyric_singerName"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="@color/white"
+        android:layout_weight="1"
+        android:text="歌手名字"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:id="@+id/tv_fragment_two_line_lyric_topLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="left"
+        android:text="好音乐!"/>
+    <TextView
+        android:id="@+id/tv_fragment_two_line_lyric_bottomLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="right"
+        android:text="天籁之音"/>
+</LinearLayout>

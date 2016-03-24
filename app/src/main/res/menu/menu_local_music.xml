@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/local_music_action_search"
+        android:title="搜索"
+        android:icon="@drawable/icon_search"
+        android:orderInCategory="100"
+        android:showAsAction="always">
+    </item>
+
+    <item
+        android:id="@+id/action_activity_local_music_scan_music"
+        android:title="扫描音乐"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+</menu>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/action_fragment_folder_sort_folder_name"
+        android:title="按文件名排序"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
+
+    <item android:id="@+id/action_fragment_folder_sort_song_number"
+        android:title="按歌曲数量排序"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
+
+
+</menu>

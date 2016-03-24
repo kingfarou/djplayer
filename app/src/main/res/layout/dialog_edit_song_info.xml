@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="歌曲信息"
+        android:textSize="24sp"
+        android:padding="8dp"/>
+    <!-- 分割线-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:src="#87ceeb"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="歌曲："
+            android:padding="8dp"
+            android:textSize="16sp"/>
+        <EditText
+            android:id="@+id/et_dialog_edit_songInfo_songName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="歌曲名字"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:layout_marginRight="8dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="歌手："
+            android:padding="8dp"
+            android:textSize="16sp"/>
+        <EditText
+            android:id="@+id/et_dialog_edit_songInfo_artistName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="歌曲名字"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:layout_marginRight="8dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="专辑："
+            android:padding="8dp"
+            android:textSize="16sp"/>
+        <EditText
+            android:id="@+id/et_dialog_edit_songInfo_album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="歌曲名字"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:layout_marginRight="8dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="风格："
+            android:padding="8dp"
+            android:textSize="16sp"/>
+        <EditText
+            android:id="@+id/et_dialog_edit_songInfo_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="歌曲名字"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:layout_marginRight="8dp"/>
+    </LinearLayout>
+</LinearLayout>

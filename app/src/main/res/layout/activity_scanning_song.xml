@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+        <ImageView
+            android:id="@+id/iv_activity_scanning_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_app"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="天籁之音，想你所想，听你所听"
+            android:layout_marginTop="8dp"
+            android:textSize="24sp"
+            android:layout_below="@id/iv_activity_scanning_song"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+    <!-- 下面那个相对布局-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/sky_blue">
+        <FrameLayout
+            android:id="@+id/fl_activity_scanning_song"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <!-- -->
+            <ImageView
+                android:id="@+id/iv_activity_scanning_song_scanning"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:src="@drawable/icon_scanning"/>
+
+            <!-- 扫描完成显示这个图标-->
+            <ImageView
+                android:id="@+id/iv_activity_scanning_song_scanFinish"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:src="@drawable/icon_tick"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_activity_scanning_song_scanInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/fl_activity_scanning_song"
+            android:layout_toEndOf="@id/fl_activity_scanning_song"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:textColor="#ffffffff"
+            android:text="已找到歌曲0首"/>
+        <ProgressBar
+            android:id="@+id/pb_activity_scanning_song"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_activity_scanning_song_scanInfo"
+            android:layout_alignStart="@id/tv_activity_scanning_song_scanInfo"
+            android:layout_below="@id/tv_activity_scanning_song_scanInfo"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"/>
+
+        <Button
+            android:id="@+id/btn_activity_scanning_song_scanFinish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:layout_below="@id/tv_activity_scanning_song_scanInfo"
+            android:layout_centerInParent="true"
+            android:background="@drawable/green_white_press_selector"
+            android:textColor="@color/white"
+            android:text="扫描完成"/>
+    </RelativeLayout>
+</LinearLayout>

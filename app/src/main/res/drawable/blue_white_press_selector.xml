@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<!--按钮按下时的效果-->
+    <item
+        android:state_pressed="true"
+        android:drawable="@color/holo_blue_light">
+    </item>
+    <item
+        android:state_pressed="false"
+        android:drawable="@color/white_translucent">
+    </item>
+</selector>
+
