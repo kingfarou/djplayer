@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
+import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.tool.sortable.SortBySingerName;
@@ -69,14 +70,9 @@ public class HasFavoriteSongFragment extends ExpandableFragment implements Expan
     }
 
     @Override
-    protected View getPopupWindowsView() {
-//        popupWindows布局文件的初始化
-        View popupWindowsView = LayoutInflater.from(getActivity()).inflate(R.layout.popupwindows_list_view_fragment,null);//绘制自定义的布局
-        ListView popupWindowsListView = (ListView)popupWindowsView.findViewById(R.id.lv_popupWindows_list_view_fragment);//获取ListView
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,
-                new String[]{"按歌曲名排序","按歌手名排序","按添加时间排序"});
-        popupWindowsListView.setAdapter(arrayAdapter);
-        popupWindowsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    protected ListViewPopupWindows getListViewPopupWindow() {
+        ListViewPopupWindows listViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{"按歌曲名排序","按歌手名排序","按添加时间排序"});
+        listViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                如果用户想要扫描音乐
@@ -92,8 +88,9 @@ public class HasFavoriteSongFragment extends ExpandableFragment implements Expan
                 popupWindows.dismiss();
             }
         });
-        return popupWindowsView;
+        return listViewPopupWindows;
     }
+
 
 //    当歌曲的信息被修改了
 //    将在这里受到回调

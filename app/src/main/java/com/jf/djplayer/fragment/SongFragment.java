@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.activity.ScanningSongActivity;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
+import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.tool.sortable.SongInfoListSortable;
@@ -36,9 +40,8 @@ import java.util.List;
  */
 public class SongFragment extends ExpandableFragment implements ExpandableListView.OnGroupClickListener{
 
-//    private SongInfoListSortable songListCollator;
     private PlayControls playControls;
-    private SongInfoListSortable SongInfoListSortable;
+    private SongInfoListSortable songInfoListSortable;
     private View noDataView;
 
     @Nullable
@@ -102,18 +105,11 @@ public class SongFragment extends ExpandableFragment implements ExpandableListVi
         });
     }
 
-
-//    这个方法返回当前子类里的
-//    PopupWindows的View
     @Override
-    protected View getPopupWindowsView() {
-//        popupWindows布局文件的初始化
-        View popupWindowsView = LayoutInflater.from(getActivity()).inflate(R.layout.popupwindows_list_view_fragment,null);//绘制自定义的布局
-        ListView popupWindowsListView = (ListView)popupWindowsView.findViewById(R.id.lv_popupWindows_list_view_fragment);//获取ListView
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,
-                new String[]{"扫描音乐","按歌曲名排序","按歌手名排序","按添加时间排序","按文件名排序","一键获取词图","被删除的歌曲"});
-        popupWindowsListView.setAdapter(arrayAdapter);
-        popupWindowsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    protected ListViewPopupWindows getListViewPopupWindow() {
+        String[] dataString = new String[]{"扫描音乐","按歌曲名排序","按歌手名排序","按添加时间排序","按文件名排序","一键获取词图","被删除的歌曲"};
+        final ListViewPopupWindows listPopupWindow = new ListViewPopupWindows(getActivity(),dataString);
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                如果用户想要扫描音乐
@@ -122,24 +118,28 @@ public class SongFragment extends ExpandableFragment implements ExpandableListVi
                 } else if (position == 1 || position == 2 || position == 3 || position == 4) {
 //                    如果用户选择任意一类排序方式
 //                    根据选项创建不同排序方式
-                    if (position == 1) SongInfoListSortable = new SortBySongName();//按歌曲的名字排序
+                    if (position == 1) songInfoListSortable = new SortBySongName();//按歌曲的名字排序
                     else if (position == 2) {
-                        SongInfoListSortable = new SortBySingerName();//按歌手的名字排序
+                        songInfoListSortable = new SortBySingerName();//按歌手的名字排序
                     } else if (position == 3) {
-                        SongInfoListSortable = new SortBySongName();
+                        songInfoListSortable = new SortBySongName();
                     } else {
-                        SongInfoListSortable = new SortByFileName();
+                        songInfoListSortable = new SortByFileName();
                     }
-                    SongInfoListSortable.sort(songInfoList);
+                    songInfoListSortable.sort(songInfoList);
                     expandableFragmentAdapter.notifyDataSetChanged();
                 } else if (position == 5) {
+
                 } else if (position == 6) {
+
                 }
-                popupWindows.dismiss();
+                listPopupWindow.dismiss();
             }
         });
-        return popupWindowsView;
+        return listPopupWindow;
     }
+
+
 
 //    当界面上歌曲信息被修改时
 //    这个方法会被回调

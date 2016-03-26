@@ -16,6 +16,7 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.activity.ScanMusicActivity;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
 
+import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 
 import java.util.List;
@@ -40,31 +41,24 @@ public class FolderFragment extends ListViewFragment {
         return dataList;
     }
 
-    @Override
-    protected View getPopupWindowView() {
-
-//        popupWindows布局文件的初始化
-        View popupWindowsView = LayoutInflater.from(getActivity()).inflate(R.layout.popupwindows_list_view_fragment,null);//绘制自定义的布局
-        ListView popupWindowsListView = (ListView)popupWindowsView.findViewById(R.id.lv_popupWindows_list_view_fragment);//获取ListView
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1,new String[]{"扫描音乐","按文件夹排序","按歌曲数量排序"});
-        popupWindowsListView.setAdapter(arrayAdapter);
-        popupWindowsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    public ListViewPopupWindows getListViewPopupWindow(){
+        ListViewPopupWindows listViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{"扫描音乐","按文件夹排序","按歌曲数量排序"});
+        listViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    startActivity(new Intent(getActivity(),ScanMusicActivity.class));
-                }else if(position==1){
+                if (position == 0) {
+                    startActivity(new Intent(getActivity(), ScanMusicActivity.class));
+                } else if (position == 1) {
                     sortAccordingTitle();
                     listViewFragmentAdapter.notifyDataSetChanged();
-                }else if(position == 2){
+                } else if (position == 2) {
                     sortAccordingContent();
                     listViewFragmentAdapter.notifyDataSetChanged();
                 }
                 popupWindows.dismiss();
             }
         });
-        return popupWindowsView;
+        return listViewPopupWindows;
     }
 
     @Override
@@ -77,7 +71,7 @@ public class FolderFragment extends ListViewFragment {
         listViewFragmentAdapter = new ListViewFragmentAdapter(getActivity(), dataList);
 //        添加footerView
         footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer,null);
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(dataList.size()+"文件夹");
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(dataList.size() + "文件夹");
         listView.addFooterView(footerView);
 //        设置适配器和点击事件
         listView.setAdapter(listViewFragmentAdapter);

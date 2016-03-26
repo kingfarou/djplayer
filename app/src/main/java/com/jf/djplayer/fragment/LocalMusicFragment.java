@@ -12,6 +12,7 @@ import android.widget.PopupWindow;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.customview.FragmentTitleLinearLayout;
+import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.customview.TextViewLinearLayout;
 
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
@@ -108,10 +109,15 @@ public class LocalMusicFragment extends Fragment implements
     @Override
     public void onMoreIvOnclick() {
         int currentItems = viewPager.getCurrentItem();
-        if(currentItems==0) itemPopupWindows = ((SongFragment)(fragmentList.get(currentItems))).getPopupWindows();
-        else
-            itemPopupWindows = ((ListViewFragment)fragmentList.get(currentItems)).getPopupWindows();
-        itemPopupWindows.showAsDropDown(fragmentTitleLinearLayout,windowWidths-itemPopupWindows.getWidth(),0);
+        ListViewPopupWindows listViewPopupWindows;
+        if(currentItems==0) {
+            listViewPopupWindows = ((ExpandableFragment)fragmentList.get(0)).getListViewPopupWindow();
+            listViewPopupWindows.showAsDropDown(fragmentTitleLinearLayout,windowWidths-listViewPopupWindows.getWidth(),0);
+        }
+        else{
+            listViewPopupWindows = ((ListViewFragment)fragmentList.get(currentItems)).getListViewPopupWindow();
+            listViewPopupWindows.showAsDropDown(fragmentTitleLinearLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
+        }
     }
 
 

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
+import com.jf.djplayer.customview.ListViewPopupWindows;
 
 import java.text.CollationKey;
 import java.text.Collator;
@@ -49,13 +50,7 @@ public abstract class  ListViewFragment extends  Fragment implements AdapterView
      */
     abstract protected List<Map<String,String>> getData();
 
-    /**
-     * 这个方法将初始化popupWindows
-     * 所显示的视图样式
-     * @return
-     */
-    abstract protected View getPopupWindowView();
-
+    abstract protected ListViewPopupWindows getListViewPopupWindow();
     /**
      * 当异步任务完成时将会回调这个方法
      */
@@ -106,14 +101,6 @@ public abstract class  ListViewFragment extends  Fragment implements AdapterView
         readDataAsyncTask.cancel(true);
     }
 
-    public PopupWindow getPopupWindows(){
-//        getPopupWindowView()有子类去具体实现
-        popupWindows = new PopupWindow(getPopupWindowView(),(int)(getActivity().getWindowManager().getDefaultDisplay().getWidth()*0.5), ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindows.setBackgroundDrawable(new BitmapDrawable());
-        popupWindows.setOutsideTouchable(true);
-        popupWindows.setFocusable(true);
-        return popupWindows;
-    }
 
 
    //    异步读取数据的内部类

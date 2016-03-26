@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.jf.djplayer.activity.ScanMusicActivity;
 import com.jf.djplayer.activity.ScanningSongActivity;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
+import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
@@ -42,30 +43,24 @@ public class SingerFragment extends ListViewFragment{
         return dataList;
     }
 
-    @Override
-    protected View getPopupWindowView() {
-        View popupWindowsView = LayoutInflater.from(getActivity()).inflate(R.layout.popupwindows_list_view_fragment,null);//绘制自定义的布局
-//        popupWindowsView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        ListView popupWindowsListView = (ListView)popupWindowsView.findViewById(R.id.lv_popupWindows_list_view_fragment);//获取ListView
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,new String[]{"扫描音乐","按歌手名排序","按歌曲数量排序"});
-        popupWindowsListView.setAdapter(arrayAdapter);
-        popupWindowsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    public ListViewPopupWindows getListViewPopupWindow(){
+        ListViewPopupWindows listViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{"扫描音乐","按歌手名排序","按歌曲数量排序"});
+        listViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0) startActivity(new Intent(getActivity(),ScanMusicActivity.class));
-                else if(position==1){
+                if (position == 0) {
+                    startActivity(new Intent(getActivity(), ScanMusicActivity.class));
+                } else if (position == 1) {
                     sortAccordingTitle();
                     listViewFragmentAdapter.notifyDataSetChanged();
-                }else if(position==2){
-//                    listViewSortable = new SortByContents();
-//                    listViewSortable.sort(dataList);
+                } else if (position == 2) {
                     sortAccordingContent();
                     listViewFragmentAdapter.notifyDataSetChanged();
                 }
                 popupWindows.dismiss();
             }
         });
-        return popupWindowsView;
+        return listViewPopupWindows;
     }
 
     @Override

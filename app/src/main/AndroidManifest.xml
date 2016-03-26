@@ -14,7 +14,8 @@
         android:theme="@style/MyTheme" >
 
         <!-- 这是欢迎界面互动-->
-        <activity android:name=".activity.WelcomeActivity">
+        <activity android:name=".activity.WelcomeActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

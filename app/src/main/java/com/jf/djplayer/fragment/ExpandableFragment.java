@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.jf.djplayer.InfoClass;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
+import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.SongInfoObserver;
 import com.jf.djplayer.R;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
@@ -70,12 +71,7 @@ abstract public class ExpandableFragment extends Fragment
      */
     abstract protected void readDataFinish();
 
-    /**
-     * 子类实现自己的PopupWindows
-     * 布局
-     * @return
-     */
-    abstract protected View getPopupWindowsView();
+    abstract protected ListViewPopupWindows getListViewPopupWindow();
 
 
     @Nullable
@@ -131,19 +127,6 @@ abstract public class ExpandableFragment extends Fragment
         lastExpand = groupPosition;//不论当前是否首次展开都要保存新的栏目位置
     }
 
-    /**
-     * 获取当前Fragment所附带的
-     * PopupWindows
-     * @return
-     */
-    public PopupWindow getPopupWindows(){
-        View popupWindowsView = getPopupWindowsView();//从子类那获取自定义的视图
-        popupWindows = new PopupWindow(popupWindowsView, (int)(getActivity().getWindowManager().getDefaultDisplay().getWidth()*0.5), LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindows.setBackgroundDrawable(new BitmapDrawable());
-        popupWindows.setOutsideTouchable(true);
-        popupWindows.setFocusable(true);
-        return popupWindows;
-    }
 
 //    异步读取数据库信息的任务
     protected class ReadSongInfoAsyncTask extends AsyncTask<Void, Void, List<SongInfo>> {
