@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--这是自定义的用在fragment里的标题-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:background="@color/sky_blue"
+    android:gravity="center_vertical" android:padding="8dp">
+
+    <LinearLayout
+        android:id="@+id/ll_fragment_title_title_linearlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <ImageView
+            android:id="@+id/iv_fragment_title_title_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fragment_mine_loading"/>
+        <TextView
+            android:id="@+id/tv_fragment_title_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="8dp"
+            android:text="登陆/注册"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+    <!-- 这个用来占空用的-->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+    <ImageView
+        android:id="@+id/iv_fragment_title_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_search"/>
+    <ImageView
+        android:id="@+id/iv_fragment_title_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_more"
+        android:layout_marginLeft="8dp"/>
+</LinearLayout>

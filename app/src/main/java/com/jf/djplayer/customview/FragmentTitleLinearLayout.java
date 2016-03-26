@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -34,13 +35,14 @@ public class FragmentTitleLinearLayout extends LinearLayout implements OnClickLi
 
     public FragmentTitleLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-//        分别创建各个控件
-        titleImageView = new ImageView(context);
-        titleTextView = new TextView(context);
-        searchIv = new ImageView(context);
-        titleLinearLayout = new LinearLayout(context);
-        moreIv = new ImageView(context);
-//        解析XML文件的属性
+        View rootView = LayoutInflater.from(context).inflate(R.layout.fragment_title,this);
+//        从布局文件里找到各个控件
+        titleLinearLayout = (LinearLayout)rootView.findViewById(R.id.ll_fragment_title_title_linearlayout);
+        titleImageView = (ImageView)rootView.findViewById(R.id.iv_fragment_title_title_image);
+        titleTextView = (TextView)rootView.findViewById(R.id.tv_fragment_title_title_text);
+        searchIv = (ImageView)rootView.findViewById(R.id.iv_fragment_title_search);
+        moreIv = (ImageView)rootView.findViewById(R.id.iv_fragment_title_more);
+//        读取XML文件的属性
         typedArray = context.obtainStyledAttributes(attrs, R.styleable.FragmentTitleLinearLayout);
         setAttribute();
         typedArray.recycle();
@@ -48,41 +50,10 @@ public class FragmentTitleLinearLayout extends LinearLayout implements OnClickLi
 
 //    获取并且设置各个控件属性
     private void setAttribute() {
-//        LinearLayout设置属性
-        setGravity(Gravity.CENTER_VERTICAL);
-        setOrientation(LinearLayout.HORIZONTAL);
-//        标题图片的初始化
-        titleImageView.setImageResource(typedArray.getResourceId(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleIcon, R.drawable.ic_app));
-        titleImageView.setPadding(16,24,0,24);
-//        标题文字的初始化
+        titleImageView.setImageResource(typedArray.getResourceId(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleIcon, R.drawable.ic_fragment_mine_loading));
         titleTextView.setText(typedArray.getString(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleText));
-        titleTextView.setTextSize(typedArray.getDimension(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleTextSize, 8f));
-        titleTextView.setTextColor(typedArray.getColor(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleTextColor, Color.WHITE));
-        titleTextView.setPadding(0,24,16,24);
-//        标题图片和标题文字集合在一起
-        LinearLayout.LayoutParams titleLinearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        下行表示标题文字和图片之间的距离
-        titleLinearLayoutParams.setMargins((int) typedArray.getDimension(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_distance, 8f), 0, 0, 0);
-        titleLinearLayout.setOrientation(HORIZONTAL);
-        titleLinearLayout.setGravity(Gravity.CENTER_VERTICAL);
-//        titleLinearLayout.setPadding(16, 16, 16, 16);
-        titleLinearLayout.addView(titleImageView);
-        titleLinearLayout.addView(titleTextView, titleLinearLayoutParams);
-//        moreIv的初始化
-        moreIv.setPadding(24, 24, 24, 24);
         moreIv.setVisibility(typedArray.getInteger(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_moreImageVisibility, View.VISIBLE));
-        moreIv.setImageResource(R.drawable.icon_more);
-//        searchIv初始化的
         searchIv.setVisibility(typedArray.getInteger(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_searchImageVisibility, View.VISIBLE));
-        searchIv.setImageResource(R.drawable.icon_search);
-        searchIv.setPadding(0,24,0,24);
-//        各个控件添加进去
-        addView(titleLinearLayout);
-//        addView(fragmentTitle,linearLayoutParams);
-//        这个空间只是用来占位置的
-        addView(new TextView(getContext()), new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));//这个用来占空间的
-        addView(searchIv);
-        addView(moreIv);
     }
 
     /**
@@ -102,14 +73,14 @@ public class FragmentTitleLinearLayout extends LinearLayout implements OnClickLi
     public void setTitleText(String titleText){
         titleTextView.setText(titleText);
     }
+
     @Override
     public void onClick(View v) {
-        if(v == titleLinearLayout){
-            fragmentTitleListener.onTitleClick();
-        }else if (v == searchIv ){
-            fragmentTitleListener.onSearchIvOnclick();
-        }else if(v == moreIv){
-            fragmentTitleListener.onMoreIvOnclick();
+        switch(v.getId()){
+            case R.id.ll_fragment_title_title_linearlayout:fragmentTitleListener.onTitleClick();break;
+            case R.id.iv_fragment_title_search:fragmentTitleListener.onSearchIvOnclick();break;
+            case R.id.iv_fragment_title_more:fragmentTitleListener.onMoreIvOnclick();break;
+            default:break;
         }
     }
 

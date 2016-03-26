@@ -71,6 +71,11 @@ abstract public class ExpandableFragment extends Fragment
      */
     abstract protected void readDataFinish();
 
+    /**
+     * 获取一个自定义的"ListViewPopupWindows"对象
+     * 该对象是popupWindow，不过使用ListView显示数据
+     * @return ListViewPopupWindow
+     */
     abstract protected ListViewPopupWindows getListViewPopupWindow();
 
 
