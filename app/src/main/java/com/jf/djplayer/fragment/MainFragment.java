@@ -63,10 +63,10 @@ public class MainFragment extends Fragment implements View.OnClickListener, Frag
     private void viewInit() {
 //        各个控件设置点击事件
         layoutView.findViewById(R.id.ll_fragment_mine_local_music).setOnClickListener(this);
-        layoutView.findViewById(R.id.imageTextLinearLayout_fragment_mine_my_favorite).setOnClickListener(this);
-        layoutView.findViewById(R.id.imageTextLinearLayout_fragment_mine_my_download).setOnClickListener(this);
-        layoutView.findViewById(R.id.imageTextLinearLayout_fragment_mine_song_menu).setOnClickListener(this);
-        layoutView.findViewById(R.id.imageTextLinearLayout_fragment_mine_recently_play).setOnClickListener(this);
+        layoutView.findViewById(R.id.btn_fragment_main_my_favorite).setOnClickListener(this);
+        layoutView.findViewById(R.id.btn_fragment_main_my_down).setOnClickListener(this);
+        layoutView.findViewById(R.id.btn_fragment_mine_song_menu).setOnClickListener(this);
+        layoutView.findViewById(R.id.btn_fragment_mine_recently_play).setOnClickListener(this);
         fragmentTitleLinearLayout = (FragmentTitleLinearLayout)layoutView.findViewById(R.id.fragmentTitleLinearLayout_fragment_mine);
         fragmentTitleLinearLayout.setItemClickListener(this);
 
@@ -90,14 +90,14 @@ public class MainFragment extends Fragment implements View.OnClickListener, Frag
 //                更替Fragment
                 ((ChangeFragment)getActivity()).replaceFragments(new LocalMusicFragment());
                 break;
-            case R.id.imageTextLinearLayout_fragment_mine_my_favorite://如果点击我的最爱
+            case R.id.btn_fragment_main_my_favorite://如果点击我的最爱
                 ((ChangeFragment)getActivity()).replaceFragments(new MyFavoriteFragment());
                 break;
-            case R.id.imageTextLinearLayout_fragment_mine_my_download://如果点击我的下载
+            case R.id.btn_fragment_main_my_down://如果点击我的下载
                 break;
-            case R.id.imageTextLinearLayout_fragment_mine_song_menu://如果点击我的歌单
+            case R.id.btn_fragment_mine_song_menu://如果点击我的歌单
                 break;
-            case R.id.imageTextLinearLayout_fragment_mine_recently_play://如果点击最近播放
+            case R.id.btn_fragment_mine_recently_play://如果点击最近播放
                 break;
             case R.id.imgBtn_fragment_mine_dice://如果点击随机播放
                 break;

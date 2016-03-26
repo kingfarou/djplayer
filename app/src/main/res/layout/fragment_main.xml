@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:paddingRight="8dp"
         android:paddingEnd="8dp"
-        customView:fragmentTitleLinearLayout_titleTextSize="8sp"
         customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_fragment_mine_loading"
         customView:fragmentTitleLinearLayout_moreImageVisibility="gone"
         customView:fragmentTitleLinearLayout_searchImageVisibility="gone"
@@ -100,35 +99,32 @@
         android:gravity="center_vertical"
         android:layout_weight="4">
         <!--我的最爱-->
-        <com.jf.djplayer.customview.ImageTextLinearLayout
-            android:id="@+id/imageTextLinearLayout_fragment_mine_my_favorite"
+        <Button
+            android:id="@+id/btn_fragment_main_my_favorite"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            customView:imageTextLinearLayout_distance="8dp"
-            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_fragment_mine_my_favorite"
+            android:drawableStart="@drawable/ic_fragment_mine_my_favorite"
             android:background="@drawable/blue_white_press_selector"
-            customView:imageTextLinearLayout_icon="@drawable/ic_fragment_mine_my_favorite"
+            android:text="@string/my_favorite"
+            android:textSize="20sp"
             android:padding="8dp"
-            customView:imageTextLinearLayout_text="@string/my_favorite"
-            customView:imageTextLinearLayout_textSize="10sp"
-            android:layout_weight="1">
-
-        </com.jf.djplayer.customview.ImageTextLinearLayout>
-
-        <com.jf.djplayer.customview.ImageTextLinearLayout
-            android:id="@+id/imageTextLinearLayout_fragment_mine_my_download"
+            android:layout_margin="8dp"/>
+        <Button
+            android:id="@+id/btn_fragment_main_my_down"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            customView:imageTextLinearLayout_distance="8dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/blue_white_press_selector"
-            customView:imageTextLinearLayout_icon="@drawable/ic_fragment_mine_my_download"
+            android:drawableLeft="@drawable/ic_fragment_mine_my_download"
+            android:drawableStart="@drawable/ic_fragment_mine_my_download"
+            android:text="@string/my_download"
+            android:textSize="20sp"
             android:padding="8dp"
-            customView:imageTextLinearLayout_text="@string/my_download"
-            customView:imageTextLinearLayout_textSize="10sp"
+            android:background="@drawable/blue_white_press_selector"
+            android:layout_margin="8dp"
             android:layout_weight="1">
 
-        </com.jf.djplayer.customview.ImageTextLinearLayout>
+        </Button>
     </LinearLayout>
 
   <!-- 最底层的那栏布局-->
@@ -139,36 +135,48 @@
         android:gravity="center_vertical"
         android:layout_weight="4"
         android:orientation="horizontal">
-
-        <com.jf.djplayer.customview.ImageTextLinearLayout
-            android:id="@+id/imageTextLinearLayout_fragment_mine_song_menu"
+        <Button
+            android:id="@+id/btn_fragment_mine_song_menu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            customView:imageTextLinearLayout_distance="8dp"
-            customView:imageTextLinearLayout_text="@string/my_song_menu"
-            customView:imageTextLinearLayout_textSize="10sp"
-            customView:imageTextLinearLayout_icon="@drawable/icon_my_song_menu"
-            android:layout_margin="8dp"
-            android:background="@drawable/blue_white_press_selector"
-            android:layout_weight="1"
-            android:padding="8dp">
-
-        </com.jf.djplayer.customview.ImageTextLinearLayout>
-
-        <com.jf.djplayer.customview.ImageTextLinearLayout
-            android:id="@+id/imageTextLinearLayout_fragment_mine_recently_play"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            customView:imageTextLinearLayout_distance="8dp"
-            customView:imageTextLinearLayout_icon="@drawable/ic_fragment_mine_recently_play"
-            customView:imageTextLinearLayout_text="@string/recently_play"
-            customView:imageTextLinearLayout_textSize="10sp"
-            android:layout_weight="1"
-            android:layout_margin="8dp"
+            android:drawableLeft="@drawable/ic_fragment_mine_song_menu"
+            android:drawableStart="@drawable/ic_fragment_mine_song_menu"
+            android:text="我的歌单"
+            android:textSize="20sp"
             android:padding="8dp"
-            android:background="@drawable/blue_white_press_selector">
+            android:background="@drawable/blue_white_press_selector"
+            android:layout_margin="8dp"
+            android:layout_weight="1">
 
-        </com.jf.djplayer.customview.ImageTextLinearLayout>
+        </Button>
+        <Button
+            android:id="@+id/btn_fragment_mine_recently_play"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_fragment_mine_recently_play"
+            android:drawableStart="@drawable/ic_fragment_mine_recently_play"
+            android:text="@string/recently_play"
+            android:textSize="20sp"
+            android:padding="8dp"
+            android:background="@drawable/blue_white_press_selector"
+            android:layout_margin="8dp"
+            android:layout_weight="1">
+
+        </Button>
+        <!--<com.jf.djplayer.customview.ImageTextLinearLayout-->
+            <!--android:id="@+id/imageTextLinearLayout_fragment_mine_recently_play"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--customView:imageTextLinearLayout_distance="8dp"-->
+            <!--customView:imageTextLinearLayout_icon="@drawable/ic_fragment_mine_recently_play"-->
+            <!--customView:imageTextLinearLayout_text="@string/recently_play"-->
+            <!--customView:imageTextLinearLayout_textSize="10sp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_margin="8dp"-->
+            <!--android:padding="8dp"-->
+            <!--android:background="@drawable/blue_white_press_selector">-->
+
+        <!--</com.jf.djplayer.customview.ImageTextLinearLayout>-->
     </LinearLayout>
 
 </LinearLayout>
