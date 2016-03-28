@@ -8,17 +8,19 @@
     android:id="@+id/ll_activity_song_play_info">
 
 
-    <com.jf.djplayer.customview.FragmentTitleLinearLayout
+    <com.jf.djplayer.customview.FragmentTitleLayout
         android:id="@+id/fragmentTitleLinearLayout_activity_song_play_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white_transparent"
+        android:padding="8dp"
         customView:fragmentTitleLinearLayout_distance="8dp"
         customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_return"
         customView:fragmentTitleLinearLayout_searchImageVisibility="gone"
         customView:fragmentTitleLinearLayout_titleText="歌曲名字"
         customView:fragmentTitleLinearLayout_titleTextSize="12sp">
 
-    </com.jf.djplayer.customview.FragmentTitleLinearLayout>
+    </com.jf.djplayer.customview.FragmentTitleLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_activity_song_play_info"
@@ -68,44 +70,31 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical">
+        <!-- 这是播放模式按钮-->
         <ImageView
             android:id="@+id/iv_activity_song_playInfo_play_mode"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/play_info_activity_press"
-            android:src="@drawable/ic_activity_play_song_info_orderplay"
-            android:layout_weight="1"/>
+            style="@style/activity_song_play_info_imageView"
+            android:src="@drawable/ic_activity_play_song_info_orderplay" />
 
+        <!-- 这是前一曲的按钮-->
         <ImageView
             android:id="@+id/iv_activity_song_playInfo_previousSong"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/play_info_activity_press"
-            android:src="@drawable/activity_song_play_prev"
-            android:layout_weight="1"/>
+            style="@style/activity_song_play_info_imageView"
+            android:src="@drawable/activity_song_play_prev"/>
         <ImageView
             android:id="@+id/activity_song_play_info_playOrPaused"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/play_info_activity_press"
-            android:src="@drawable/activity_song_play_info_play"
-            android:layout_weight="1"/>
+            style="@style/activity_song_play_info_imageView"
+            android:src="@drawable/activity_song_play_info_play" />
 
         <ImageView
             android:id="@+id/iv_activity_song_playInfo_nextSong"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/play_info_activity_press"
-            android:src="@drawable/activity_song_play_info_next"
-            android:layout_weight="1"/>
+            style="@style/activity_song_play_info_imageView"
+            android:src="@drawable/activity_song_play_info_next" />
 
         <ImageView
             android:id="@+id/iv_activity_song_playInfo_collection"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/play_info_activity_press"
-            android:src="@drawable/activity_song_play_no_collection"
-            android:layout_weight="1"/>
+            style="@style/activity_song_play_info_imageView"
+            android:src="@drawable/activity_song_play_no_collection" />
 
     </LinearLayout>
 </LinearLayout>

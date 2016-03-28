@@ -67,12 +67,6 @@ public class ExpandableChildItemAdapter extends BaseAdapter {
         Drawable buttonDrawable = context.getResources().getDrawable(icon[position]);
         buttonDrawable.setBounds(0,0,buttonDrawable.getMinimumWidth(),buttonDrawable.getMinimumHeight());
         viewHolder.itemButton.setCompoundDrawables(null, buttonDrawable, null, null);
-//        viewHolder.itemButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(context,"buttoncl--"+position,Toast.LENGTH_LONG).show();
-//            }
-//        });
         return convertView;
     }
 }

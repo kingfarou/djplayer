@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--这里面汇集了应用所有"Fragment"布局文件所用到的"style"-->
+<resources>
+    <!-- fragment_main里的Button用的样式-->
+    <style name="fragment_main_button" parent="TextAppearance.AppCompat.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/blue_white_press_selector</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <!-- fragment_main里面两个线性布局用的样式-->
+    <style name="fragment_main_linear_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_weight">4</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+</resources>

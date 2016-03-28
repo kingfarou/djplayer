@@ -32,7 +32,7 @@ import com.jf.djplayer.tool.UserOptionTool;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.tool.playertool.PlayerOperator;
 
-import com.jf.djplayer.customview.FragmentTitleLinearLayout;
+import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.tool.playertool.SingerPictureTools;
 
 import android.support.v4.app.Fragment;
@@ -46,9 +46,9 @@ import java.util.List;
  */
 public class SongPlayInfoActivity extends FragmentActivity implements
         ServiceConnection ,SeekBar.OnSeekBarChangeListener,PlayInfoObserver,
-        FragmentTitleLinearLayout.FragmentTitleListener,View.OnClickListener{
+        FragmentTitleLayout.FragmentTitleListener,View.OnClickListener{
 
-    private FragmentTitleLinearLayout fragmentTitleLinearLayout;//标题
+    private FragmentTitleLayout FragmentTitleLayout;//标题
     private PlayInfoSubject playInfoSubject;//主题
     private TextView currentTime;//显示当前播放时间
     private ViewPager viewPager;
@@ -116,7 +116,7 @@ public class SongPlayInfoActivity extends FragmentActivity implements
     private void viewInit() {
         currentTime = (TextView) findViewById(R.id.tv_activity_song_playInfo_currenTime);//显示当前播放时间
         singerPictureLinearLayout = (LinearLayout)findViewById(R.id.ll_activity_song_play_info);
-        fragmentTitleLinearLayout = (FragmentTitleLinearLayout)findViewById(R.id.fragmentTitleLinearLayout_activity_song_play_info);
+        FragmentTitleLayout = (FragmentTitleLayout)findViewById(R.id.fragmentTitleLinearLayout_activity_song_play_info);
         seekBar = (SeekBar) findViewById(R.id.sb_activity_song_play_info);//一个可调节进度条
         totalTime = (TextView) findViewById(R.id.tv_activity_song_playInfo_totalTime);//显示歌曲总的时长
         circulationsMode = (ImageView) findViewById(R.id.iv_activity_song_playInfo_play_mode);
@@ -126,7 +126,7 @@ public class SongPlayInfoActivity extends FragmentActivity implements
         collectionIv = (ImageView) findViewById(R.id.iv_activity_song_playInfo_collection);//收藏或者取消收藏
         playModeIv = (ImageView)findViewById(R.id.iv_activity_song_playInfo_play_mode);
 //        各个空间设置好监听器
-        fragmentTitleLinearLayout.setItemClickListener(this);
+        FragmentTitleLayout.setItemClickListener(this);
         playOrPaused.setOnClickListener(this);
         collectionIv.setOnClickListener(this);
         circulationsMode.setOnClickListener(this);
@@ -320,7 +320,7 @@ public class SongPlayInfoActivity extends FragmentActivity implements
 //    用来更换新的歌曲信息
     private void setNewPlayInfo(SongInfo currentPlaySongInfo){
 //        设置所播放的歌曲名字
-        fragmentTitleLinearLayout.setTitleText(currentPlaySongInfo.getSongName());
+        FragmentTitleLayout.setTitleText(currentPlaySongInfo.getSongName());
 //            设置当前歌手图片
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             SingerPictureTools singerPictureTools = new SingerPictureTools(currentPlaySongInfo.getSongSinger());

@@ -2,13 +2,11 @@ package com.jf.djplayer.customview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,7 +21,7 @@ import com.jf.djplayer.R;
  * 最右边有一个搜索图标
  * 还有一个指示更多图标
  */
-public class FragmentTitleLinearLayout extends LinearLayout implements OnClickListener{
+public class FragmentTitleLayout extends FrameLayout implements OnClickListener{
 
     private ImageView searchIv;//搜索
     private ImageView moreIv;//更多
@@ -33,11 +31,11 @@ public class FragmentTitleLinearLayout extends LinearLayout implements OnClickLi
     private TypedArray typedArray;
     private FragmentTitleListener fragmentTitleListener;
 
-    public FragmentTitleLinearLayout(Context context, AttributeSet attrs) {
+    public FragmentTitleLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         View rootView = LayoutInflater.from(context).inflate(R.layout.fragment_title,this);
 //        从布局文件里找到各个控件
-        titleLinearLayout = (LinearLayout)rootView.findViewById(R.id.ll_fragment_title_title_linearlayout);
+        titleLinearLayout = (LinearLayout)rootView.findViewById(R.id.ll_fragment_title_linear_layout);
         titleImageView = (ImageView)rootView.findViewById(R.id.iv_fragment_title_title_image);
         titleTextView = (TextView)rootView.findViewById(R.id.tv_fragment_title_title_text);
         searchIv = (ImageView)rootView.findViewById(R.id.iv_fragment_title_search);
@@ -50,9 +48,13 @@ public class FragmentTitleLinearLayout extends LinearLayout implements OnClickLi
 
 //    获取并且设置各个控件属性
     private void setAttribute() {
+//        设置标题图标里的图片资源
         titleImageView.setImageResource(typedArray.getResourceId(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleIcon, R.drawable.ic_fragment_mine_loading));
+//        设置标题显示文字
         titleTextView.setText(typedArray.getString(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleText));
+//        设置“更多”按钮的显示的状态
         moreIv.setVisibility(typedArray.getInteger(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_moreImageVisibility, View.VISIBLE));
+//        设置“搜索”按钮的显示的状态
         searchIv.setVisibility(typedArray.getInteger(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_searchImageVisibility, View.VISIBLE));
     }
 
@@ -74,10 +76,11 @@ public class FragmentTitleLinearLayout extends LinearLayout implements OnClickLi
         titleTextView.setText(titleText);
     }
 
+//    各个按钮点击事件响应方法
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.ll_fragment_title_title_linearlayout:fragmentTitleListener.onTitleClick();break;
+            case R.id.ll_fragment_title_linear_layout:fragmentTitleListener.onTitleClick();break;
             case R.id.iv_fragment_title_search:fragmentTitleListener.onSearchIvOnclick();break;
             case R.id.iv_fragment_title_more:fragmentTitleListener.onMoreIvOnclick();break;
             default:break;

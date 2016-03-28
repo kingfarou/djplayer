@@ -12,16 +12,16 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 
-import com.jf.djplayer.customview.FragmentTitleLinearLayout;
+import com.jf.djplayer.customview.FragmentTitleLayout;
 
 /**
  * Created by JF on 2016/2/21.
  */
-public class MyFavoriteFragment extends Fragment implements FragmentTitleLinearLayout.FragmentTitleListener{
+public class MyFavoriteFragment extends Fragment implements FragmentTitleLayout.FragmentTitleListener{
 
     private View layoutView;
     private ChangeFragment changeFragment;
-    private FragmentTitleLinearLayout fragmentTitleLinearLayout;
+    private FragmentTitleLayout FragmentTitleLayout;
     private LinearLayout contentLinearLayout;
 
     @Nullable
@@ -33,8 +33,8 @@ public class MyFavoriteFragment extends Fragment implements FragmentTitleLinearL
     }
 
     private void viewInit(){
-        fragmentTitleLinearLayout = (FragmentTitleLinearLayout)layoutView.findViewById(R.id.fragmentTitleLinearLayout_fragment_my_favorite);
-        fragmentTitleLinearLayout.setItemClickListener(this);
+        FragmentTitleLayout = (FragmentTitleLayout)layoutView.findViewById(R.id.fragmentTitleLinearLayout_fragment_my_favorite);
+        FragmentTitleLayout.setItemClickListener(this);
         contentLinearLayout = (LinearLayout)layoutView.findViewById(R.id.ll_fragment_my_favorite);
 //        到数据库根据收藏与否加载不同布局
         SongInfoOpenHelper collectionOpenHelper = new SongInfoOpenHelper(getActivity(),1);

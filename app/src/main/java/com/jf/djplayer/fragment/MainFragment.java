@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jf.djplayer.activity.UserInfoActivity;
-import com.jf.djplayer.customview.FragmentTitleLinearLayout;
+import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.other.UserInfo;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
@@ -27,12 +27,12 @@ import com.jf.djplayer.activity.MainActivity;
  * 这个Fragment仅做基本显示以及响应用户操作
  *
  */
-public class MainFragment extends Fragment implements View.OnClickListener, FragmentTitleLinearLayout.FragmentTitleListener {
+public class MainFragment extends Fragment implements View.OnClickListener, FragmentTitleLayout.FragmentTitleListener {
 
     private View layoutView;//这个指向当前fragment布局文件
     private TextView songNumberTv = null;//这是显示歌曲数量用的
     private ImageButton dice = null;//中间布局那个色子
-    private FragmentTitleLinearLayout fragmentTitleLinearLayout;
+    private FragmentTitleLayout FragmentTitleLayout;
     private final int SIGN_IN_REQUEST_CODE = 1;//这是启动登录的请求码
     private ImageButton menu = null;//中间布局右下角的那个菜单
     private PopupWindow menuWindow = null;
@@ -67,8 +67,8 @@ public class MainFragment extends Fragment implements View.OnClickListener, Frag
         layoutView.findViewById(R.id.btn_fragment_main_my_down).setOnClickListener(this);
         layoutView.findViewById(R.id.btn_fragment_mine_song_menu).setOnClickListener(this);
         layoutView.findViewById(R.id.btn_fragment_mine_recently_play).setOnClickListener(this);
-        fragmentTitleLinearLayout = (FragmentTitleLinearLayout)layoutView.findViewById(R.id.fragmentTitleLinearLayout_fragment_mine);
-        fragmentTitleLinearLayout.setItemClickListener(this);
+        FragmentTitleLayout = (FragmentTitleLayout)layoutView.findViewById(R.id.fragmentTitleLinearLayout_fragment_mine);
+        FragmentTitleLayout.setItemClickListener(this);
 
         //这是显示歌曲数目那个TextView
         songNumberTv = (TextView) layoutView.findViewById(R.id.tv_mine_fragment_song_num);
@@ -113,7 +113,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Frag
     }
 
 
-    //   FragmentTitleLinearLayout
+    //   FragmentTitleLayout
 //    三个方法下面覆盖
     @Override
     public void onTitleClick() {
@@ -144,7 +144,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Frag
 //        如果是登录请求码
         if(requestCode == SIGN_IN_REQUEST_CODE){
             UserInfo userInfo = (UserInfo)data.getSerializableExtra("userInfo");
-            fragmentTitleLinearLayout.setTitleText(userInfo.getUserName());
+            FragmentTitleLayout.setTitleText(userInfo.getUserName());
             //这里填写登录成功后的操作
             Toast.makeText(getActivity(),"登陆成功",Toast.LENGTH_SHORT).show();
         }

@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.PopupWindow;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.customview.FragmentTitleLinearLayout;
+import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.customview.TextViewLinearLayout;
 
@@ -26,16 +26,13 @@ import java.util.List;
  * Created by JF on 2016/1/19.
  */
 public class LocalMusicFragment extends Fragment implements
-        FragmentTitleLinearLayout.FragmentTitleListener,AdapterView.OnItemClickListener,ViewPager.OnPageChangeListener{
+        FragmentTitleLayout.FragmentTitleListener,AdapterView.OnItemClickListener,ViewPager.OnPageChangeListener{
 
     private View layoutView;
-    private FragmentTitleLinearLayout fragmentTitleLinearLayout;
+    private FragmentTitleLayout FragmentTitleLayout;
     private ViewPager viewPager;
     private FragmentViewPagerAdapter fragmentViewPagerAdapter;
     private int windowWidths;
-    private int windowHeight;
-    private PopupWindow itemPopupWindows;
-    private List<Fragment> fragmentList;
 
     private TextViewLinearLayout textViewLinearLayout;
 
@@ -44,7 +41,6 @@ public class LocalMusicFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         layoutView = inflater.inflate(R.layout.fragment_local_music,container,false);
         windowWidths = getActivity().getWindowManager().getDefaultDisplay().getWidth();
-        windowHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight();
         viewInit();
         return layoutView;
     }
@@ -52,9 +48,9 @@ public class LocalMusicFragment extends Fragment implements
 
     //    view做初始化
     private void viewInit() {
-//        fragmentTitleLinearLayout
-        fragmentTitleLinearLayout = (FragmentTitleLinearLayout) layoutView.findViewById(R.id.fragmentTitleLinearLayout_fragment_local_music);
-        fragmentTitleLinearLayout.setItemClickListener(this);
+//        FragmentTitleLayout
+        FragmentTitleLayout = (FragmentTitleLayout) layoutView.findViewById(R.id.fragmentTitleLinearLayout_fragment_local_music);
+        FragmentTitleLayout.setItemClickListener(this);
 //        viewPager初始化
         viewPager = (ViewPager) layoutView.findViewById(R.id.vp_fragment_local_music);
         viewPagerInit();
@@ -69,21 +65,12 @@ public class LocalMusicFragment extends Fragment implements
 //        初始化数据库适配器和数据集合
         SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(getActivity(), 1);
         fragmentViewPagerAdapter = new FragmentViewPagerAdapter(getChildFragmentManager());
-        fragmentList = new ArrayList<>(4);
+        List<Fragment> fragmentList = new ArrayList<>(4);
 //   如果数据库里面有歌曲
-            fragmentList.add(new SongFragment());
-            fragmentList.add(new SingerFragment());
-            fragmentList.add(new AlbumFragment());
-            fragmentList.add(new FolderFragment());
-//        if (songInfoOpenHelper.getLocalMusicNumber() != 0) {
-//            fragmentList.add(new SongFragment());
-//            fragmentList.add(new SingerFragment());
-//            fragmentList.add(new AlbumFragment());
-//            fragmentList.add(new FolderFragment());
-//        } else {
-////            所有页卡都装着同一个Fragment
-//            for (int i = 0; i < 4; i++) fragmentList.add(new NoSongFragment());
-//        }
+        fragmentList.add(new SongFragment());
+        fragmentList.add(new SingerFragment());
+        fragmentList.add(new AlbumFragment());
+        fragmentList.add(new FolderFragment());
         fragmentViewPagerAdapter.setFragments(fragmentList);
         viewPager.setAdapter(fragmentViewPagerAdapter);
         viewPager.setOnPageChangeListener(this);
@@ -111,12 +98,12 @@ public class LocalMusicFragment extends Fragment implements
         int currentItems = viewPager.getCurrentItem();
         ListViewPopupWindows listViewPopupWindows;
         if(currentItems==0) {
-            listViewPopupWindows = ((ExpandableFragment)fragmentList.get(0)).getListViewPopupWindow();
-            listViewPopupWindows.showAsDropDown(fragmentTitleLinearLayout,windowWidths-listViewPopupWindows.getWidth(),0);
+            listViewPopupWindows = ((ExpandableFragment)fragmentViewPagerAdapter.getItem(0)).getListViewPopupWindow();
+            listViewPopupWindows.showAsDropDown(FragmentTitleLayout,windowWidths-listViewPopupWindows.getWidth(),0);
         }
         else{
-            listViewPopupWindows = ((ListViewFragment)fragmentList.get(currentItems)).getListViewPopupWindow();
-            listViewPopupWindows.showAsDropDown(fragmentTitleLinearLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
+            listViewPopupWindows = ((ListViewFragment)fragmentViewPagerAdapter.getItem(currentItems)).getListViewPopupWindow();
+            listViewPopupWindows.showAsDropDown(FragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
         }
     }
 

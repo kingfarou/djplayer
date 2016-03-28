@@ -12,7 +12,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        this.context = this;
+//        this.context = this;
+        context = this;
     }
     public static Context getContext(){
         return context;

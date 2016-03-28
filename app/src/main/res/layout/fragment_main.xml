@@ -7,22 +7,18 @@
     android:id="@+id/rl_fragment_mine"
     android:background="@drawable/bg_fragment_mine">
 
-
-    <com.jf.djplayer.customview.FragmentTitleLinearLayout
+    <com.jf.djplayer.customview.FragmentTitleLayout
         android:id="@+id/fragmentTitleLinearLayout_fragment_mine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="8dp"
-        android:paddingEnd="8dp"
+        android:padding="12dp"
         customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_fragment_mine_loading"
         customView:fragmentTitleLinearLayout_moreImageVisibility="gone"
         customView:fragmentTitleLinearLayout_searchImageVisibility="gone"
         customView:fragmentTitleLinearLayout_distance="8dp"
         customView:fragmentTitleLinearLayout_titleText="登陆/注册"
         android:background="@color/sky_blue">
-    </com.jf.djplayer.customview.FragmentTitleLinearLayout>
-
-
+    </com.jf.djplayer.customview.FragmentTitleLayout>
 
     <!-- 这个只是用来占空间的-->
     <TextView
@@ -94,75 +90,38 @@
     <!-- 中间那一层的布局-->
     <LinearLayout
         android:id="@+id/ll_fragment_mine_middle"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center_vertical"
-        android:layout_weight="4">
+        style="@style/fragment_main_linear_layout">
         <!--我的最爱-->
         <Button
             android:id="@+id/btn_fragment_main_my_favorite"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:drawableLeft="@drawable/ic_fragment_mine_my_favorite"
             android:drawableStart="@drawable/ic_fragment_mine_my_favorite"
-            android:background="@drawable/blue_white_press_selector"
             android:text="@string/my_favorite"
-            android:textSize="20sp"
-            android:padding="8dp"
-            android:layout_margin="8dp"/>
+            style="@style/fragment_main_button"/>
         <Button
             android:id="@+id/btn_fragment_main_my_down"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:drawableLeft="@drawable/ic_fragment_mine_my_download"
             android:drawableStart="@drawable/ic_fragment_mine_my_download"
             android:text="@string/my_download"
-            android:textSize="20sp"
-            android:padding="8dp"
-            android:background="@drawable/blue_white_press_selector"
-            android:layout_margin="8dp"
-            android:layout_weight="1">
+            style="@style/fragment_main_button"/>
 
-        </Button>
     </LinearLayout>
-
   <!-- 最底层的那栏布局-->
     <LinearLayout
         android:id="@+id/ll_fragment_mine_below"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center_vertical"
-        android:layout_weight="4"
-        android:orientation="horizontal">
+        style="@style/fragment_main_linear_layout">
         <Button
             android:id="@+id/btn_fragment_mine_song_menu"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:drawableLeft="@drawable/ic_fragment_mine_song_menu"
             android:drawableStart="@drawable/ic_fragment_mine_song_menu"
             android:text="我的歌单"
-            android:textSize="20sp"
-            android:padding="8dp"
-            android:background="@drawable/blue_white_press_selector"
-            android:layout_margin="8dp"
-            android:layout_weight="1">
-
-        </Button>
+            style="@style/fragment_main_button"/>
         <Button
             android:id="@+id/btn_fragment_mine_recently_play"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:drawableLeft="@drawable/ic_fragment_mine_recently_play"
             android:drawableStart="@drawable/ic_fragment_mine_recently_play"
             android:text="@string/recently_play"
-            android:textSize="20sp"
-            android:padding="8dp"
-            android:background="@drawable/blue_white_press_selector"
-            android:layout_margin="8dp"
-            android:layout_weight="1">
-
-        </Button>
+            style="@style/fragment_main_button"/>
         <!--<com.jf.djplayer.customview.ImageTextLinearLayout-->
             <!--android:id="@+id/imageTextLinearLayout_fragment_mine_recently_play"-->
             <!--android:layout_width="0dp"-->

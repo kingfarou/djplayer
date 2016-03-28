@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--这里面汇集了应用所有"Activity"布局文件所用到的"style"-->
+<resources>
+
+    <!-- activity_song_play_info里的ImageView的样式-->
+    <style name="activity_song_play_info_imageView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/play_info_activity_press</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+</resources>

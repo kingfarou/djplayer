@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.jf.djplayer.customview.FragmentTitleLinearLayout
+    <com.jf.djplayer.customview.FragmentTitleLayout
         android:id="@+id/fragmentTitleLinearLayout_fragment_my_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         customView:fragmentTitleLinearLayout_titleText="我的最爱"
         customView:fragmentTitleLinearLayout_titleTextSize="8sp">
 
-    </com.jf.djplayer.customview.FragmentTitleLinearLayout>
+    </com.jf.djplayer.customview.FragmentTitleLayout>
 
     <LinearLayout
         android:id="@+id/ll_fragment_my_favorite"
