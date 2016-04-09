@@ -5,15 +5,14 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.SongInfo;
+import com.jf.djplayer.baseactivity.BaseNoTitleActivity;
 import com.jf.djplayer.fragment.MainFragment;
 import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.interfaces.PlayControls;
@@ -30,7 +29,7 @@ import java.util.List;
  * 实现几个回调接口
  *
  */
-public class MainActivity extends FragmentActivity implements ChangeFragment, PlayControls, ServiceConnection{
+public class MainActivity extends BaseNoTitleActivity implements ChangeFragment, PlayControls, ServiceConnection{
 
     private FragmentManager fragmentManager;
     private PlayerService playerService;
@@ -38,15 +37,46 @@ public class MainActivity extends FragmentActivity implements ChangeFragment, Pl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);//删除掉ActionBar
+        /*
+        由于继承"BaseNoTitleActivity"部分方法需要修改或者迁移
+        requestWindowFeature(Window.FEATURE_NO_TITLE)方法已在几类里面调用，不再重复。
+        绑定服务转移到了"extraInit()"方法里面。
+        动态添加"Fragment"转移到了"widgetsInit()"方法里面
+         */
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);//删除掉ActionBar
+//        setContentView(R.layout.activity_main);
+////        通过两个方式启动服务确保解绑之后服务不会关闭
+//        Intent startService = new Intent(this,PlayerService.class);
+//        startService(startService);
+//        bindService(startService,this,BIND_AUTO_CREATE);
+////        动态加载MineFragment
+//        fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().add(R.id.ll_activity_main,new MainFragment()).commit();
+////        创建应用在外存的相关目录
+//        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+//            appDirInit();
+//        }else{
+//            Toast.makeText(this, "SD卡读取失败，请确定已正确插入", Toast.LENGTH_SHORT).show();
+//        }
+    }
+
+    @Override
+    protected void doSetContentView() {
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void widgetsInit() {
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.ll_activity_main,new MainFragment()).commit();
+    }
+
+    @Override
+    protected void extrasInit() {
 //        通过两个方式启动服务确保解绑之后服务不会关闭
         Intent startService = new Intent(this,PlayerService.class);
         startService(startService);
         bindService(startService,this,BIND_AUTO_CREATE);
-//        动态加载MineFragment
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.ll_activity_main,new MainFragment()).commit();
 //        创建应用在外存的相关目录
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             appDirInit();
@@ -55,7 +85,7 @@ public class MainActivity extends FragmentActivity implements ChangeFragment, Pl
         }
     }
 
-//    创建应用在外村的相关目录
+    //    创建应用在外村的相关目录
     private void appDirInit(){
         FileTool fileTool = new FileTool(this);
         fileTool.createAppRootDir();//创建应用的根目录

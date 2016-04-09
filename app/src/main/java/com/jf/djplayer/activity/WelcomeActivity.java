@@ -1,25 +1,43 @@
 package com.jf.djplayer.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.baseactivity.BaseNoTitleActivity;
 
 /**
  * Created by JF on 2016/3/6.
  * 这是本软件的欢迎界面活动
+ * 由原来的直接继承"Activity"变成继承"BaseNoTitleActivity"
  */
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends BaseNoTitleActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        以下操作全部放到基类响应方法里面
+//        另外"requestWindowFeature(Window.FEATURE_NO_TITLE)"已在几类里面调用，不再重复
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        setContentView(R.layout.activity_welcome);
+//        new StartMainActivityThread().start();//使用一个异步任务完成到主活动的跳转
+    }
+
+    @Override
+    protected void doSetContentView() {
         setContentView(R.layout.activity_welcome);
-        new StartMainActivityThread().start();//使用一个异步任务完成到主活动的跳转
+    }
+
+    @Override
+    protected void widgetsInit() {
+
+    }
+
+    @Override
+    protected void extrasInit() {
+//        使用异步任务来完成到"MainActivity"跳转
+        new StartMainActivityThread().start();
     }
 
     private class StartMainActivityThread extends Thread{

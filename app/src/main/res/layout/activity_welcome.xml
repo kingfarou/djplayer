@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--修改，最外层的布局文件，由原来的"LinearLayout"变成"FrameLayout"-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" android:background="@drawable/bg_activity_welcome">
 
-</LinearLayout>
+</FrameLayout>

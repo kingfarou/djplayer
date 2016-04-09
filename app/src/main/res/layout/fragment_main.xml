@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rl_fragment_mine"
+    android:id="@+id/ll_fragment_main"
     android:background="@drawable/bg_fragment_mine">
 
     <com.jf.djplayer.customview.FragmentTitleLayout
@@ -14,7 +14,6 @@
         android:padding="12dp"
         customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_fragment_mine_loading"
         customView:fragmentTitleLinearLayout_moreImageVisibility="gone"
-        customView:fragmentTitleLinearLayout_searchImageVisibility="gone"
         customView:fragmentTitleLinearLayout_distance="8dp"
         customView:fragmentTitleLinearLayout_titleText="登陆/注册"
         android:background="@color/sky_blue">
@@ -24,7 +23,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8" />
+        android:layout_weight="10" />
 
     <!-- 这个RelativeLayout
   是中间的那个布局-->

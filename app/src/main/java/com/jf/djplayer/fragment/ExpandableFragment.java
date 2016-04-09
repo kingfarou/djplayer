@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,7 +40,6 @@ import java.util.Set;
  * 子类需要完成两件事情
  * 重写获取数据那个方法：getData();
  * 重写异步任务完成时的回调方法：
- *
  */
 
 abstract public class ExpandableFragment extends Fragment
