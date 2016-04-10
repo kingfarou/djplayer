@@ -7,16 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListPopupWindow;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.activity.ScanningSongActivity;
+import com.jf.djplayer.base.fragment.BaseListViewFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
-import com.jf.djplayer.activity.ScanMusicActivity;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
 
 import java.util.List;
@@ -25,7 +22,7 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class AlbumFragment extends ListViewFragment {
+public class AlbumFragment extends BaseListViewFragment {
 
     private View noDataView;
 
@@ -49,7 +46,9 @@ public class AlbumFragment extends ListViewFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    startActivity(new Intent(getActivity(), ScanMusicActivity.class));
+//                    startActivity(new Intent(getActivity(), ScanMusicActivity.class));
+//                    原来启动"ScanMusicActivity.class"，直接启动"ScanningSongActivity.class"跳过扫描设置过程
+                    startActivity(new Intent(getActivity(),ScanningSongActivity.class));
                 } else if (position == 1) {
                     sortAccordingTitle();
                     listViewFragmentAdapter.notifyDataSetChanged();

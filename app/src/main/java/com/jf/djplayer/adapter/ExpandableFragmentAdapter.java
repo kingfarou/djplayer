@@ -81,15 +81,15 @@ public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
 
     //用于优化ListView性能的内部类
     private class MyGroupViewHolder {
-        RelativeLayout rl = null;
-        TextView position = null;
-        TextView songName = null;
-        TextView artistName = null;
-        ImageView arrow = null;//箭头图标的ImageView
+        RelativeLayout rl;
+        TextView position;
+        TextView songName;
+        TextView artistName;
+        ImageView arrow;//箭头图标的ImageView
     }
 
     private class MyChildViewHolder {
-        GridView gridView = null;
+        GridView gridView;
     }
 
     @Override

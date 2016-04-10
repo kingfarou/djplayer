@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.SongInfo;
-import com.jf.djplayer.baseactivity.BaseNoTitleActivity;
+import com.jf.djplayer.base.activity.BaseNoTitleActivity;
 import com.jf.djplayer.fragment.MainFragment;
 import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.interfaces.PlayControls;
@@ -66,9 +66,9 @@ public class MainActivity extends BaseNoTitleActivity implements ChangeFragment,
     }
 
     @Override
-    protected void widgetsInit() {
+    protected void viewInit() {
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.ll_activity_main,new MainFragment()).commit();
+        fragmentManager.beginTransaction().add(R.id.fl_activity_main_fragment_container,new MainFragment()).commit();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class MainActivity extends BaseNoTitleActivity implements ChangeFragment,
 //    更换新的Fragment
     @Override
     public void replaceFragments(Fragment fragment) {
-        fragmentManager.beginTransaction().replace(R.id.ll_activity_main,fragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.fl_activity_main_fragment_container,fragment).addToBackStack(null).commit();
     }
 
 

@@ -7,13 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.activity.ScanMusicActivity;
 import com.jf.djplayer.activity.ScanningSongActivity;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
+import com.jf.djplayer.base.fragment.BaseListViewFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
@@ -24,7 +23,7 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class SingerFragment extends ListViewFragment{
+public class SingerFragment extends BaseListViewFragment {
 
     private View noDataView;
 

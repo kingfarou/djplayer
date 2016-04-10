@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jf.djplayer.activity.UserInfoActivity;
+import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.other.UserInfo;
@@ -27,7 +28,7 @@ import com.jf.djplayer.activity.MainActivity;
  * 这个Fragment仅做基本显示以及响应用户操作
  *
  */
-public class MainFragment extends Fragment implements View.OnClickListener, FragmentTitleLayout.FragmentTitleListener {
+public class MainFragment extends BaseFragment implements View.OnClickListener, FragmentTitleLayout.FragmentTitleListener {
 
     private View layoutView;//这个指向当前fragment布局文件
     private TextView songNumberTv = null;//这是显示歌曲数量用的
@@ -36,17 +37,17 @@ public class MainFragment extends Fragment implements View.OnClickListener, Frag
     private final int SIGN_IN_REQUEST_CODE = 1;//这是启动登录的请求码
     private ImageButton menu = null;//中间布局右下角的那个菜单
     private PopupWindow menuWindow = null;
-    private int windowsWidth = 0;
-    private int windowsHeigth = 0;
+//    private int windowsWidth = 0;
+//    private int windowsHeigth = 0;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //获取当前屏幕宽高
-        WindowManager windowManager = (WindowManager)getActivity().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-        windowsWidth = windowManager.getDefaultDisplay().getWidth();
-        windowsHeigth = windowManager.getDefaultDisplay().getHeight();
+//        WindowManager windowManager = (WindowManager)getActivity().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+//        windowsWidth = windowManager.getDefaultDisplay().getWidth();
+//        windowsHeigth = windowManager.getDefaultDisplay().getHeight();
 
     }
 
@@ -112,8 +113,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Frag
         }
     }
 
-
-    //   FragmentTitleLayout
+//   FragmentTitleLayout
 //    三个方法下面覆盖
     @Override
     public void onTitleClick() {
@@ -138,17 +138,20 @@ public class MainFragment extends Fragment implements View.OnClickListener, Frag
         super.onActivityResult(requestCode, resultCode, data);
 //        Log.i("test","返回数据");
 //        如果目标活动没有处理直接返回
-        if(resultCode == MainActivity.RESULT_CANCELED) {
-            return;
+//        if(resultCode == MainActivity.RESULT_CANCELED) {
+//            return;
+//          }
+//        如果请求已经成功
+        if(resultCode==MainActivity.RESULT_OK){
+//            如果是登录请求码
+            if(requestCode == SIGN_IN_REQUEST_CODE){
+                UserInfo userInfo = (UserInfo)data.getSerializableExtra("userInfo");
+                FragmentTitleLayout.setTitleText(userInfo.getUserName());
+                //这里填写登录成功后的操作
+                Toast.makeText(getActivity(),"登陆成功",Toast.LENGTH_SHORT).show();
+            }
         }
-//        如果是登录请求码
-        if(requestCode == SIGN_IN_REQUEST_CODE){
-            UserInfo userInfo = (UserInfo)data.getSerializableExtra("userInfo");
-            FragmentTitleLayout.setTitleText(userInfo.getUserName());
-            //这里填写登录成功后的操作
-            Toast.makeText(getActivity(),"登陆成功",Toast.LENGTH_SHORT).show();
-        }
-    }
+    }//onActivityResult()
 }
 
 

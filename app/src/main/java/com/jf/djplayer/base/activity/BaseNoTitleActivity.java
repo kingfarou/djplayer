@@ -1,9 +1,9 @@
-package com.jf.djplayer.baseactivity;
+package com.jf.djplayer.base.activity;
 
 import android.os.Bundle;
 import android.view.Window;
 
-import com.jf.djplayer.baseactivity.BaseActivity;
+import com.jf.djplayer.base.activity.BaseActivity;
 
 /**
  * Created by JF on 2016/4/9.
@@ -18,7 +18,7 @@ abstract public class BaseNoTitleActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        调用工厂方法进行子类的初始化
         doSetContentView();
-        widgetsInit();
+        viewInit();
         extrasInit();
     }
 }

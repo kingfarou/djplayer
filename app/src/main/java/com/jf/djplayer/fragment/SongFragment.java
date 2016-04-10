@@ -2,25 +2,20 @@ package com.jf.djplayer.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
-import android.widget.ListPopupWindow;
-import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jf.djplayer.MyApplication;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.R;
 import com.jf.djplayer.activity.ScanningSongActivity;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
+import com.jf.djplayer.base.fragment.BaseExpandableListFragment;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
@@ -38,18 +33,12 @@ import java.util.List;
  * 如果用户有收藏有歌曲
  * 这个Fragment将被加载
  */
-public class SongFragment extends ExpandableFragment implements ExpandableListView.OnGroupClickListener{
+public class SongFragment extends BaseExpandableListFragment implements ExpandableListView.OnGroupClickListener{
 
     private PlayControls playControls;
     private SongInfoListSortable songInfoListSortable;
     private View noDataView;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
+    private View footerView;
 
     @Override
     public void onAttach(Activity activity) {
@@ -57,8 +46,7 @@ public class SongFragment extends ExpandableFragment implements ExpandableListVi
         playControls = (PlayControls)activity;//将活动转换成为播放控制者
     }
 
-    //    实现超类所定义的抽象方法
-//    这是子类所获取的数据
+//    提供数据用的方法
     @Override
     protected List<SongInfo> getSongInfoList() {
         List<SongInfo> songInfoList = null;
@@ -74,7 +62,7 @@ public class SongFragment extends ExpandableFragment implements ExpandableListVi
     这里实现自己要做的事
      */
     @Override
-    protected void readDataFinish(){
+    protected void asyncReadDataFinished(){
 //        如果没有读到任何数据
         if(songInfoList==null) {
             noDataSettings();
@@ -82,15 +70,16 @@ public class SongFragment extends ExpandableFragment implements ExpandableListVi
         }
 //        如果数据库由歌曲
 //            ExpandableListView做初始化
-        expandableListView.setOnGroupClickListener(this);
-        expandableFragmentAdapter = new ExpandableFragmentAdapter(getActivity(),expandableListView,songInfoList);
+//        expandableListView.setOnGroupClickListener(this);
+//        expandableFragmentAdapter = new ExpandableFragmentAdapter(MyApplication.getContext(),expandableListView,songInfoList);
 //        添加一个底部视图
         if(footerView==null){
             footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer,null);
             expandableListView.addFooterView(footerView);
         }
         ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(songInfoList.size() + "首歌");
-        expandableListView.setAdapter(expandableFragmentAdapter);
+//        expandableListView.setAdapter(expandableFragmentAdapter);
+
     }
 
 //    集合里面没数据是调此方法
@@ -106,7 +95,7 @@ public class SongFragment extends ExpandableFragment implements ExpandableListVi
     }
 
     @Override
-    protected ListViewPopupWindows getListViewPopupWindow() {
+    public ListViewPopupWindows getListViewPopupWindow() {
         String[] dataString = new String[]{"扫描音乐","按歌曲名排序","按歌手名排序","按添加时间排序","按文件名排序","一键获取词图","被删除的歌曲"};
         final ListViewPopupWindows listPopupWindow = new ListViewPopupWindows(getActivity(),dataString);
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -139,9 +128,23 @@ public class SongFragment extends ExpandableFragment implements ExpandableListVi
         return listPopupWindow;
     }
 
+//    "expandableListView"的groupItem被按下时所回调的方法
+    @Override
+    protected void doExpandableOnItemClick(ExpandableListView parent, View v, int groupPosition, long id) {
+        playControls.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
+    }
 
+//    长安情况下无动作
+    @Override
+    protected void doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    }
 
-//    当界面上歌曲信息被修改时
+    @Override
+    protected View getExpandableEmptyView() {
+        return null;
+    }
+
+    //    当界面上歌曲信息被修改时
 //    这个方法会被回调
     @Override
     public void updateSongInfo(String updateAction, int position) {
@@ -166,11 +169,11 @@ public class SongFragment extends ExpandableFragment implements ExpandableListVi
         需要注意不要监听栏目展开动作，
         因为这个动作已在超类里面监听好了
          */
-    @Override
-    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        playControls.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
-        return true;
-    }
+//    @Override
+//    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+////        playControls.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
+//        return true;
+//    }
 
 
 }

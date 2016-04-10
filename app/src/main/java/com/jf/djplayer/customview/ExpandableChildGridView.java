@@ -1,4 +1,4 @@
-package com.jf.djplayer;
+package com.jf.djplayer.customview;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,9 +7,9 @@ import android.widget.GridView;
 /**
  * Created by JF on 2015/11/1.
  */
-public class ExpandableGridView extends GridView {
+public class ExpandableChildGridView extends GridView {
 
-    public ExpandableGridView(Context context, AttributeSet attrs) {
+    public ExpandableChildGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

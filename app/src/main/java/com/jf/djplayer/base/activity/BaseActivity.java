@@ -1,4 +1,4 @@
-package com.jf.djplayer.baseactivity;
+package com.jf.djplayer.base.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -22,17 +22,17 @@ public abstract class BaseActivity extends FragmentActivity{
     }
 
     /**
-     * 设置Activity布局文件，这是一个工厂方法
+     * 之类在此设置Activity布局文件，这是一个工厂方法
      */
     abstract protected void doSetContentView();
 
     /**
-     * 对控件进行初始化，这是一个工厂方法
+     * 子类在此对控件进行初始化，这是一个工厂方法
      */
-    abstract protected void widgetsInit();
+    abstract protected void viewInit();
 
     /**
-     * 其他东西的初始化，这是一个工厂方法
+     * 子类在此进行其他的初始化，这是一个工厂方法
      */
     abstract protected void extrasInit();
 }

@@ -7,14 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
+import com.jf.djplayer.base.fragment.BaseExpandableListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
@@ -31,11 +30,12 @@ import java.util.List;
  * 这个Fragment
  * 用来展示所有用户收藏歌曲
  */
-public class HasFavoriteSongFragment extends ExpandableFragment implements ExpandableListView.OnGroupClickListener{
+public class HasFavoriteSongFragment extends BaseExpandableListFragment implements ExpandableListView.OnGroupClickListener{
 
 //    private Context context = null;
     private SongInfoListSortable SongInfoListSortable;
     private PlayControls playControls;
+    private View footerView;
 
     @Nullable
     @Override
@@ -56,21 +56,22 @@ public class HasFavoriteSongFragment extends ExpandableFragment implements Expan
     }
 
     @Override
-    protected void readDataFinish() {
+    protected void asyncReadDataFinished() {
 //        如果没有读到数据直接返回
-        if(songInfoList==null) return;
-        expandableListView.setOnGroupClickListener(this);
+        if(songInfoList==null) {
+            return;
+        }
         //        expandableListView.setGroupIndicator(null);
-        expandableFragmentAdapter = new ExpandableFragmentAdapter(getActivity(),expandableListView,songInfoList);
+//        expandableFragmentAdapter = new ExpandableFragmentAdapter(getActivity(),expandableListView,songInfoList);
         //        添加一个底部视图
         footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer,null);
         ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(songInfoList.size()+"首歌");
         expandableListView.addFooterView(footerView);
-        expandableListView.setAdapter(expandableFragmentAdapter);
+//        expandableListView.setAdapter(expandableFragmentAdapter);
     }
 
     @Override
-    protected ListViewPopupWindows getListViewPopupWindow() {
+    public ListViewPopupWindows getListViewPopupWindow() {
         ListViewPopupWindows listViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{"按歌曲名排序","按歌手名排序","按添加时间排序"});
         listViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -107,11 +108,26 @@ public class HasFavoriteSongFragment extends ExpandableFragment implements Expan
     }
 
     @Override
-    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//        Log.i("test","点击播放");
-        playControls.play(songInfoList,groupPosition);//传入当前播放列表以及用户所点击的位置
-        return true;
+    protected void doExpandableOnItemClick(ExpandableListView parent, View v, int groupPosition, long id) {
+        playControls.play(songInfoList,groupPosition);
     }
+
+    @Override
+    protected void doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    protected View getExpandableEmptyView() {
+        return null;
+    }
+
+    //    @Override
+//    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+////        Log.i("test","点击播放");
+//        playControls.play(songInfoList,groupPosition);//传入当前播放列表以及用户所点击的位置
+//        return true;
+//    }
 
 
 }

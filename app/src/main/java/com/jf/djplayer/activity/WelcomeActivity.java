@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.baseactivity.BaseNoTitleActivity;
+import com.jf.djplayer.base.activity.BaseNoTitleActivity;
 
 /**
  * Created by JF on 2016/3/6.
@@ -30,7 +30,7 @@ public class WelcomeActivity extends BaseNoTitleActivity {
     }
 
     @Override
-    protected void widgetsInit() {
+    protected void viewInit() {
 
     }
 

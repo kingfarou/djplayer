@@ -9,16 +9,15 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.jf.djplayer.SongInfo;
+import com.jf.djplayer.base.activity.BaseNoTitleActivity;
 import com.jf.djplayer.fragment.TwoLineLyricFragment;
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.SongPlayInfoAdapter;
@@ -44,7 +43,7 @@ import java.util.List;
  * Created by Administrator on 2015/8/4.
  * 这是专门用于显示音乐播放信息窗体
  */
-public class SongPlayInfoActivity extends FragmentActivity implements
+public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         ServiceConnection ,SeekBar.OnSeekBarChangeListener,PlayInfoObserver,
         FragmentTitleLayout.FragmentTitleListener,View.OnClickListener{
 
@@ -68,19 +67,41 @@ public class SongPlayInfoActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);//先去掉ActionBar
+//        requestWindowFeature(Window.FEATURE_NO_TITLE)方法已在超类里调用过，不再重复
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);//先去掉ActionBar
+//        以下代码迁移到相应的工厂方法里面
+//        setContentView(R.layout.activity_song_play_info);
+////        绑定控制播放用的服务
+//        Intent intent = new Intent(this, PlayerService.class);
+//        bindService(intent, this, Context.BIND_AUTO_CREATE);
+////        获取更新播放信息用的主题
+//        playInfoSubject = PlayerOperator.getInstance();
+//        viewInit();//调用方法对视图初始化
+//        handlerInits();//对Handler做初始化
+//        viewPagerInits();//对ViewPager做初始化
+    }
+
+    @Override
+    protected void doSetContentView() {
         setContentView(R.layout.activity_song_play_info);
-//        绑定控制播放用的服务
+    }
+
+    @Override
+    protected void viewInit() {
+        layoutViewInit();//调用方法对视图初始化
+        viewPagerInits();//对ViewPager做初始化
+    }
+
+    @Override
+    protected void extrasInit() {
         Intent intent = new Intent(this, PlayerService.class);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
 //        获取更新播放信息用的主题
         playInfoSubject = PlayerOperator.getInstance();
-        viewInit();//调用方法对视图初始化
         handlerInits();//对Handler做初始化
-        viewPagerInits();//对ViewPager做初始化
     }
 
-//    这里注册为观察者
+    //    这里注册为观察者
 //    可以保证不论活动是新启动
 //    还是进入后台之后重启
 //    都能获取主题里的信息
@@ -113,13 +134,13 @@ public class SongPlayInfoActivity extends FragmentActivity implements
     /*
     这里获取各个控件
      */
-    private void viewInit() {
+    private void layoutViewInit() {
         currentTime = (TextView) findViewById(R.id.tv_activity_song_playInfo_currenTime);//显示当前播放时间
         singerPictureLinearLayout = (LinearLayout)findViewById(R.id.ll_activity_song_play_info);
         FragmentTitleLayout = (FragmentTitleLayout)findViewById(R.id.fragmentTitleLinearLayout_activity_song_play_info);
         seekBar = (SeekBar) findViewById(R.id.sb_activity_song_play_info);//一个可调节进度条
         totalTime = (TextView) findViewById(R.id.tv_activity_song_playInfo_totalTime);//显示歌曲总的时长
-        circulationsMode = (ImageView) findViewById(R.id.iv_activity_song_playInfo_play_mode);
+//        circulationsMode = (ImageView) findViewById(R.id.iv_activity_song_playInfo_play_mode);
         findViewById(R.id.iv_activity_song_playInfo_previousSong).setOnClickListener(this);//播放前一曲的按钮
         findViewById(R.id.iv_activity_song_playInfo_nextSong).setOnClickListener(this);//播放下一曲的按钮
         playOrPaused = (ImageView) findViewById(R.id.activity_song_play_info_playOrPaused);//播放以及控制按钮
@@ -129,7 +150,8 @@ public class SongPlayInfoActivity extends FragmentActivity implements
         FragmentTitleLayout.setItemClickListener(this);
         playOrPaused.setOnClickListener(this);
         collectionIv.setOnClickListener(this);
-        circulationsMode.setOnClickListener(this);
+//        circulationsMode.setOnClickListener(this);
+        playModeIv.setOnClickListener(this);
         seekBar.setOnSeekBarChangeListener(this);
 //        根据播放模式设置不同图片
         playModeIv.setImageResource(getPictureFromPlayMode());
@@ -153,15 +175,13 @@ public class SongPlayInfoActivity extends FragmentActivity implements
         int playMode = new UserOptionTool(this).getPlayModes();
         if(playMode == UserOptionTool.PLAY_MODE_ORDER){//如果需要顺序播放
             return R.drawable.ic_activity_play_song_info_orderplay;
-        }
-        if(playMode == UserOptionTool.PLAY_MODE_RANDOM){//如果需要随机播放
+        }else if(playMode == UserOptionTool.PLAY_MODE_RANDOM){//如果需要随机播放
             return R.drawable.ic_activity_play_song_info_random;
-        }
-        if(playMode == UserOptionTool.PLAY_MODE_CIRCULATE){//如果需要列表循环
+        }else if(playMode == UserOptionTool.PLAY_MODE_CIRCULATE){//如果需要列表循环
             return R.drawable.ic_activity_play_song_info_listcirculate;
+        }else{//如果需要单曲循环
+            return R.drawable.ic_activity_play_song_info_singlecirculate;
         }
-        //如果需要单曲循环
-        return R.drawable.ic_activity_play_song_info_singlecirculate;
     }
 
     private void viewPagerInits(){

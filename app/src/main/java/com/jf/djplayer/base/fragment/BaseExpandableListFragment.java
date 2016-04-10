@@ -1,4 +1,4 @@
-package com.jf.djplayer.fragment;
+package com.jf.djplayer.base.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,18 +7,18 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jf.djplayer.InfoClass;
+import com.jf.djplayer.MyApplication;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
 import com.jf.djplayer.customview.ListViewPopupWindows;
@@ -36,55 +36,34 @@ import java.util.Set;
  * 异步读取Expandable需显示的数据
  * 读取之前有进度条提示用户读取之后正常显示数据
  * expandable任何一个栏目展开之后
- * 自动搜索其他栏目
- * 子类需要完成两件事情
- * 重写获取数据那个方法：getData();
- * 重写异步任务完成时的回调方法：
+ * 自动收起其他栏目
+ * 子类根据需要重写方法即可
  */
 
-abstract public class ExpandableFragment extends Fragment
-        implements ExpandableListView.OnGroupExpandListener,SongInfoObserver {
+abstract public class BaseExpandableListFragment extends BaseFragment
+        implements ExpandableListView.OnGroupExpandListener,SongInfoObserver,
+                ExpandableListView.OnGroupClickListener,AdapterView.OnItemLongClickListener{
 
     protected ExpandableListView expandableListView;//expandableListView
-    protected ProgressBar progressBar;//正在载入提示图标
-    protected TextView loadingTv;//正在载入提示文字
+    private ProgressBar loadingProgressBar;//正在载入提示图标
+    private TextView loadingTv;//正在载入提示文字
     private UpdateUiSongInfoReceiver updateUiSongInfoReceiver;
-    protected PopupWindow popupWindows;//点击选项菜单那时弹出的PopupWindow
     private ReadSongInfoAsyncTask readSongInfoAsyncTask;
-    protected View footerView;//expandableListView底部
+//    protected View footerView;//expandableListView底部
     protected ExpandableFragmentAdapter expandableFragmentAdapter;//expandableListView适配器
     protected List<SongInfo> songInfoList;
     private int lastExpand = -1;//记录上次"expandableListView"所展开的那个位置
     protected View layoutView;//跟布局
-
-    /**
-     * 数据的具体来源有子类进行实现
-     * @return
-     */
-    abstract protected List<SongInfo> getSongInfoList();
-
-    /**
-     * 数据读取完成以后将会回调这个方法
-     * 子类再次实现自己要做的事
-     */
-    abstract protected void readDataFinish();
-
-    /**
-     * 获取一个自定义的"ListViewPopupWindows"对象
-     * 该对象是popupWindow，不过使用ListView显示数据
-     * @return ListViewPopupWindow
-     */
-    abstract protected ListViewPopupWindows getListViewPopupWindow();
-
+    protected PopupWindow popupWindows;//点击选项菜单那时弹出的PopupWindow
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        找到布局里的所有空间
+//        对界面进行初始化
         layoutView = inflater.inflate(R.layout.fragment_expandalbe, container, false);
-        expandableListView = (ExpandableListView) layoutView.findViewById(R.id.el_fragment_expandable_list_view);
-        progressBar = (ProgressBar) layoutView.findViewById(R.id.pb_fragment_expandable);
+        loadingProgressBar = (ProgressBar) layoutView.findViewById(R.id.pb_fragment_expandable);
         loadingTv = (TextView) layoutView.findViewById(R.id.tv_fragment_expandable_loading);
+
 //        开始执行异步任务工作
         readSongInfoAsyncTask = new ReadSongInfoAsyncTask();
         readSongInfoAsyncTask.execute();
@@ -131,43 +110,99 @@ abstract public class ExpandableFragment extends Fragment
     }
 
 
-//    异步读取数据库信息的任务
-    protected class ReadSongInfoAsyncTask extends AsyncTask<Void, Void, List<SongInfo>> {
+    @Override
+    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+//        被调用的方法在子类里实现
+        doExpandableOnItemClick(parent, v, groupPosition, id);
+        return true;
+    }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-//            在获取到数据之前去掉“expandableListView”所占空间
-            progressBar.setVisibility(View.VISIBLE);
-            loadingTv.setVisibility(View.VISIBLE);
-            expandableListView.setVisibility(View.GONE);
-        }
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//        被调用的方法在子类里实现
+        doExpandableItemLongClick(parent, view, position, id);
+        return true;
+    }
+
+    /**
+     * 数据的具体来源有子类进行实现
+     * @return 返回读取到的歌曲信息集合，如果没有读到信息真返回空
+     */
+    abstract protected List<SongInfo> getSongInfoList();
+
+    /**
+     * 异步任务读取数据完成时的回调方法
+     * 子类再次实现自己要做的事
+     */
+    abstract protected void asyncReadDataFinished();
+
+    /**
+     * 获取一个自定义的"ListViewPopupWindows"对象
+     * 该对象是popupWindow，不过使用ListView显示数据
+     * @return ListViewPopupWindow
+     */
+    abstract public ListViewPopupWindows getListViewPopupWindow();
+
+    /**
+     * 当"ExpandableListView"item被点击时将会执行这个方法
+     * @param parent
+     * @param v
+     * @param groupPosition 被点位置
+     * @param id
+     */
+    abstract protected void doExpandableOnItemClick(ExpandableListView parent, View v, int groupPosition, long id);
+
+    /**
+     * 当"ExpandableListView"item被长按时执行这个方法
+     * @param parent
+     * @param view
+     * @param position 按下位置
+     * @param id
+     */
+    abstract protected void doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id);
+
+    /**
+     * 如果子类想在"ExpandableListView"没数据时显示一些提示，在这设置
+     * @return
+     */
+    abstract protected View getExpandableEmptyView();
+
+    //    异步读取数据库信息的任务
+    private class ReadSongInfoAsyncTask extends AsyncTask<Void, Void, List<SongInfo>> {
 
         @Override
         protected List<SongInfo> doInBackground(Void... params) {
             try {
                 Thread.sleep(400L);
             }catch (Exception e){}
-            List<SongInfo> songInfoList = getSongInfoList();
-            return songInfoList;
+            return getSongInfoList();
         }
 
         @Override
         protected void onPostExecute(List<SongInfo> songInfos) {
             super.onPostExecute(songInfos);
-//            将相应的试图隐藏
-            progressBar.setVisibility(View.GONE);
+//           将用于提示“正读取”信息用的控件隐藏
+            loadingProgressBar.setVisibility(View.GONE);
             loadingTv.setVisibility(View.GONE);
-
-//            如果有数据才能让"ExpandableListView"占据空间
+//            如果读取到了数据
             if(songInfos!=null){
+//                如果有数据就要对"ExpandableListView"进行设置
+                expandableListView = (ExpandableListView) layoutView.findViewById(R.id.el_fragment_expandable_list_view);
                 expandableListView.setVisibility(View.VISIBLE);
-                expandableListView.setOnGroupExpandListener(ExpandableFragment.this);
+                expandableListView.setOnGroupExpandListener(BaseExpandableListFragment.this);
                 expandableListView.setGroupIndicator(null);
+                expandableListView.setOnGroupClickListener(BaseExpandableListFragment.this);
+                expandableListView.setOnItemLongClickListener(BaseExpandableListFragment.this);
+                songInfoList = songInfos;//将读取的数据保存
+            }else{
+                expandableListView.setEmptyView(getExpandableEmptyView());
             }
-//            将读区的数据保存
-            songInfoList = songInfos;
-            readDataFinish();//通知子类数据已经读取完成
+//            将数据加载到适配器里
+            expandableFragmentAdapter = new ExpandableFragmentAdapter(MyApplication.getContext(),expandableListView,songInfoList);
+            asyncReadDataFinished();//通知子类数据已经读取完成
+//            显示
+            expandableListView.setAdapter(expandableFragmentAdapter);
+
         }
     }
 

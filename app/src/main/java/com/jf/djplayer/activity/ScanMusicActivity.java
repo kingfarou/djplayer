@@ -1,6 +1,5 @@
 package com.jf.djplayer.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,11 +8,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.base.activity.BaseTitleActivity;
 
 /**
  * Created by Administrator on 2015/8/12.
+ * 修改：由原来的继承自"Activity"改成"BaseTitleActivity"
  */
-public class ScanMusicActivity extends Activity implements OnClickListener{
+public class ScanMusicActivity extends BaseTitleActivity implements OnClickListener{
 
     private Button keyScanMusicButton = null;
     private Button customScanButton = null;
@@ -24,7 +25,27 @@ public class ScanMusicActivity extends Activity implements OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        以下代码分别前移到对应的工厂方法里面
+//        setContentView(R.layout.activity_scan_music);
+//        keyScanMusicButton = (Button)findViewById(R.id.btn_activity_scan_music_key_scan);
+//        customScanButton = (Button)findViewById(R.id.btn_activity_scan_song_custom_scan);
+//        wifiButton = (Button)findViewById(R.id.btn_activity_scan_music_wifi);
+//        scanSettingsButton = (Button)findViewById(R.id.btn_activity_scan_music_key_scan);
+//
+//        keyScanMusicButton.setOnClickListener(this);
+//        customScanButton.setOnClickListener(this);
+//        wifiButton.setOnClickListener(this);
+//        scanSettingsButton.setOnClickListener(this);
+
+    }
+
+    @Override
+    protected void doSetContentView() {
         setContentView(R.layout.activity_scan_music);
+    }
+
+    @Override
+    protected void viewInit() {
         keyScanMusicButton = (Button)findViewById(R.id.btn_activity_scan_music_key_scan);
         customScanButton = (Button)findViewById(R.id.btn_activity_scan_song_custom_scan);
         wifiButton = (Button)findViewById(R.id.btn_activity_scan_music_wifi);
@@ -34,9 +55,12 @@ public class ScanMusicActivity extends Activity implements OnClickListener{
         customScanButton.setOnClickListener(this);
         wifiButton.setOnClickListener(this);
         scanSettingsButton.setOnClickListener(this);
-
     }
 
+    @Override
+    protected void extrasInit() {
+
+    }
 
 
     @Override

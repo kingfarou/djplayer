@@ -9,6 +9,7 @@
         android:id="@+id/fragmentTitleLinearLayout_fragment_my_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:background="@color/sky_blue"
         customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_return"
         customView:fragmentTitleLinearLayout_titleText="我的最爱"

@@ -1,9 +1,7 @@
 package com.jf.djplayer.activity;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +11,7 @@ import android.widget.TextView;
 
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.R;
+import com.jf.djplayer.base.activity.BaseTitleActivity;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.tool.database.SystemMediaDatabaseUtils;
 
@@ -27,7 +26,7 @@ import java.util.List;
  * 逻辑方面制作一件事情：根据所获得的路径扫描音乐，如果得到路径为空，扫描所有路径下的音乐
  * 显示方面也做一件事情：将所扫描到的歌曲路径不断更新，最后显示所扫描到的歌曲数
  */
-public class ScanningSongActivity extends Activity {
+public class ScanningSongActivity extends BaseTitleActivity {
 
     private List<File> fileList;
     private ImageView scanFinishIv = null;//这是扫描完成图标
@@ -41,13 +40,43 @@ public class ScanningSongActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        以下代码分别都迁移到对应工厂方法里面
+//        setContentView(R.layout.activity_scanning_song);
+//        viewInit();//findViewById
+//        pathList = getIntent().getStringArrayListExtra("scanFileList");//获取用户所选择的扫描路径
+////        如果用户没有选择任何路径
+//        if (pathList==null) new ScanSongAsyncTask().execute(null,null);//读取系统所有路径下的文件
+//        else new ScanSongAsyncTask().execute((String[]) (pathList.toArray()));//读取用户指定路径下的文件
+//        Log.i("test", "异步任务开始执行");
+    }
+
+    @Override
+    protected void doSetContentView() {
         setContentView(R.layout.activity_scanning_song);
-        viewInit();//findViewById
+    }
+
+    @Override
+    protected void viewInit() {
+        scanningIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanning);
+        scanFinishIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanFinish);
+        scanInfoTv = (TextView) findViewById(R.id.tv_activity_scanning_song_scanInfo);
+        progressBar = (ProgressBar)findViewById(R.id.pb_activity_scanning_song);
+        scanFinishButton = (Button) findViewById(R.id.btn_activity_scanning_song_scanFinish);
+        scanFinishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();//点击扫描完成按钮即可结束窗体
+            }
+        });
+    }
+
+    @Override
+    protected void extrasInit() {
         pathList = getIntent().getStringArrayListExtra("scanFileList");//获取用户所选择的扫描路径
 //        如果用户没有选择任何路径
         if (pathList==null) new ScanSongAsyncTask().execute(null,null);//读取系统所有路径下的文件
         else new ScanSongAsyncTask().execute((String[]) (pathList.toArray()));//读取用户指定路径下的文件
-        Log.i("test", "异步任务开始执行");
+//        Log.i("test", "异步任务开始执行");
     }
 
     @Override
@@ -60,19 +89,20 @@ public class ScanningSongActivity extends Activity {
     /*
     显示界面的初始化
      */
-    private void viewInit() {
-        this.scanningIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanning);
-        this.scanFinishIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanFinish);
-        this.scanInfoTv = (TextView) findViewById(R.id.tv_activity_scanning_song_scanInfo);
-        this.progressBar = (ProgressBar)findViewById(R.id.pb_activity_scanning_song);
-        this.scanFinishButton = (Button) findViewById(R.id.btn_activity_scanning_song_scanFinish);
-        this.scanFinishButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();//点击扫描完成按钮即可结束窗体
-            }
-        });
-    }
+//    该方法体里的代码"widgetsInit()"方法里面
+//    private void viewInit() {
+//        this.scanningIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanning);
+//        this.scanFinishIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanFinish);
+//        this.scanInfoTv = (TextView) findViewById(R.id.tv_activity_scanning_song_scanInfo);
+//        this.progressBar = (ProgressBar)findViewById(R.id.pb_activity_scanning_song);
+//        this.scanFinishButton = (Button) findViewById(R.id.btn_activity_scanning_song_scanFinish);
+//        this.scanFinishButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();//点击扫描完成按钮即可结束窗体
+//            }
+//        });
+//    }
 
     private class ScanSongAsyncTask extends AsyncTask<String,String,Integer>{
 

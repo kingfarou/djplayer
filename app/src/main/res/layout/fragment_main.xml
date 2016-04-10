@@ -121,20 +121,6 @@
             android:drawableStart="@drawable/ic_fragment_mine_recently_play"
             android:text="@string/recently_play"
             style="@style/fragment_main_button"/>
-        <!--<com.jf.djplayer.customview.ImageTextLinearLayout-->
-            <!--android:id="@+id/imageTextLinearLayout_fragment_mine_recently_play"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--customView:imageTextLinearLayout_distance="8dp"-->
-            <!--customView:imageTextLinearLayout_icon="@drawable/ic_fragment_mine_recently_play"-->
-            <!--customView:imageTextLinearLayout_text="@string/recently_play"-->
-            <!--customView:imageTextLinearLayout_textSize="10sp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_margin="8dp"-->
-            <!--android:padding="8dp"-->
-            <!--android:background="@drawable/blue_white_press_selector">-->
-
-        <!--</com.jf.djplayer.customview.ImageTextLinearLayout>-->
     </LinearLayout>
 
 </LinearLayout>

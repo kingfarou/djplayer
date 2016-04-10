@@ -1,4 +1,4 @@
-package com.jf.djplayer.fragment;
+package com.jf.djplayer.base.fragment;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -30,7 +30,7 @@ import java.util.Map;
  * Created by JF on 2016/1/23.
  * “歌手Fragment”“专辑Fragment”“文件夹的Fragment”共用此类
  */
-public abstract class  ListViewFragment extends  Fragment implements AdapterView.OnItemClickListener{
+public abstract class BaseListViewFragment extends  Fragment implements AdapterView.OnItemClickListener{
 
     protected ListView listView;//显示栏目用的控件
     protected ProgressBar loadingProgressBar;//信息读取完成之前的进度条

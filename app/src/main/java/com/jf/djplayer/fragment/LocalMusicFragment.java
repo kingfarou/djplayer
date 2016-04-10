@@ -8,9 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.PopupWindow;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.base.fragment.BaseExpandableListFragment;
+import com.jf.djplayer.base.fragment.BaseListViewFragment;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.customview.TextViewLinearLayout;
@@ -67,6 +68,7 @@ public class LocalMusicFragment extends Fragment implements
         fragmentViewPagerAdapter = new FragmentViewPagerAdapter(getChildFragmentManager());
         List<Fragment> fragmentList = new ArrayList<>(4);
 //   如果数据库里面有歌曲
+//        fragmentList.add(new SongFragment());
         fragmentList.add(new SongFragment());
         fragmentList.add(new SingerFragment());
         fragmentList.add(new AlbumFragment());
@@ -98,11 +100,11 @@ public class LocalMusicFragment extends Fragment implements
         int currentItems = viewPager.getCurrentItem();
         ListViewPopupWindows listViewPopupWindows;
         if(currentItems==0) {
-            listViewPopupWindows = ((ExpandableFragment)fragmentViewPagerAdapter.getItem(0)).getListViewPopupWindow();
+            listViewPopupWindows = ((BaseExpandableListFragment)fragmentViewPagerAdapter.getItem(0)).getListViewPopupWindow();
             listViewPopupWindows.showAsDropDown(FragmentTitleLayout,windowWidths-listViewPopupWindows.getWidth(),0);
         }
         else{
-            listViewPopupWindows = ((ListViewFragment)fragmentViewPagerAdapter.getItem(currentItems)).getListViewPopupWindow();
+            listViewPopupWindows = ((BaseListViewFragment)fragmentViewPagerAdapter.getItem(currentItems)).getListViewPopupWindow();
             listViewPopupWindows.showAsDropDown(FragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
         }
     }

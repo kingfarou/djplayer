@@ -5,14 +5,14 @@
     android:layout_height="match_parent">
 
     <!-- 这个布局用来装着不同Fragment-->
-    <LinearLayout
-        android:id="@+id/ll_activity_main"
+    <FrameLayout
+        android:id="@+id/fl_activity_main_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_weight="1">
 
-    </LinearLayout>
+    </FrameLayout>
 
 
     <fragment
