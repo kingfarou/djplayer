@@ -6,7 +6,8 @@
     <ListView
         android:id="@+id/lv_fragment_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
     </ListView>
     <ProgressBar
         android:id="@+id/pb_fragment_list_view"

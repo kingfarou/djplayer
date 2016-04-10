@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.fragment.BaseExpandableListFragment;
-import com.jf.djplayer.base.fragment.BaseListViewFragment;
+import com.jf.djplayer.base.fragment.LocalMusicListFragment;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.customview.TextViewLinearLayout;
@@ -104,7 +104,7 @@ public class LocalMusicFragment extends Fragment implements
             listViewPopupWindows.showAsDropDown(FragmentTitleLayout,windowWidths-listViewPopupWindows.getWidth(),0);
         }
         else{
-            listViewPopupWindows = ((BaseListViewFragment)fragmentViewPagerAdapter.getItem(currentItems)).getListViewPopupWindow();
+            listViewPopupWindows = ((LocalMusicListFragment)fragmentViewPagerAdapter.getItem(currentItems)).getListViewPopupWindow();
             listViewPopupWindows.showAsDropDown(FragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
         }
     }

@@ -33,8 +33,9 @@ import java.util.Set;
  * Created by Administrator on 2015/9/14.
  * 该类定义所有使用"ExpandableListView"显示歌曲信息的"Fragment"的显示样式
  * 该抽象类已经实现的功能有
- * 异步读取Expandable需显示的数据
+ * 异步读取Expandable需显示的数据（在“getSongInfoList()”方法里面）
  * 读取之前有进度条提示用户读取之后正常显示数据
+ * 读取完成将数据设置到"ExpandableListView"里面
  * expandable任何一个栏目展开之后
  * 自动收起其他栏目
  * 子类根据需要重写方法即可
@@ -131,8 +132,8 @@ abstract public class BaseExpandableListFragment extends BaseFragment
     abstract protected List<SongInfo> getSongInfoList();
 
     /**
-     * 异步任务读取数据完成时的回调方法
-     * 子类再次实现自己要做的事
+     * 异步任务读取数据完成之后回调这个方法
+     * 具体时间：数据读取完成之后，expandableListView.setAdapter();方法被调用之前
      */
     abstract protected void asyncReadDataFinished();
 
@@ -181,28 +182,29 @@ abstract public class BaseExpandableListFragment extends BaseFragment
         @Override
         protected void onPostExecute(List<SongInfo> songInfos) {
             super.onPostExecute(songInfos);
-//           将用于提示“正读取”信息用的控件隐藏
-            loadingProgressBar.setVisibility(View.GONE);
-            loadingTv.setVisibility(View.GONE);
 //            如果读取到了数据
             if(songInfos!=null){
 //                如果有数据就要对"ExpandableListView"进行设置
                 expandableListView = (ExpandableListView) layoutView.findViewById(R.id.el_fragment_expandable_list_view);
-                expandableListView.setVisibility(View.VISIBLE);
                 expandableListView.setOnGroupExpandListener(BaseExpandableListFragment.this);
                 expandableListView.setGroupIndicator(null);
                 expandableListView.setOnGroupClickListener(BaseExpandableListFragment.this);
                 expandableListView.setOnItemLongClickListener(BaseExpandableListFragment.this);
-                songInfoList = songInfos;//将读取的数据保存
+//                将数据存到成员变量里
+                songInfoList = songInfos;
+//                将数据加载到适配器里
+                expandableFragmentAdapter = new ExpandableFragmentAdapter(MyApplication.getContext(),expandableListView,songInfoList);
+                asyncReadDataFinished();//通知子类数据已经读取完成
+//                显示
+                expandableListView.setAdapter(expandableFragmentAdapter);
             }else{
                 expandableListView.setEmptyView(getExpandableEmptyView());
             }
-//            将数据加载到适配器里
-            expandableFragmentAdapter = new ExpandableFragmentAdapter(MyApplication.getContext(),expandableListView,songInfoList);
-            asyncReadDataFinished();//通知子类数据已经读取完成
-//            显示
-            expandableListView.setAdapter(expandableFragmentAdapter);
-
+//            将用于提示“正读取”信息用的控件隐藏
+            loadingProgressBar.setVisibility(View.GONE);
+            loadingTv.setVisibility(View.GONE);
+//            显示"ExpandableListView"
+            expandableListView.setVisibility(View.VISIBLE);
         }
     }
 

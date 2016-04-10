@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.jf.djplayer.activity.ScanMusicActivity;
 import com.jf.djplayer.activity.ScanningSongActivity;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
-import com.jf.djplayer.base.fragment.BaseListViewFragment;
+import com.jf.djplayer.base.fragment.LocalMusicListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class SingerFragment extends BaseListViewFragment {
+public class SingerFragment extends LocalMusicListFragment {
 
     private View noDataView;
 
@@ -68,8 +68,8 @@ public class SingerFragment extends BaseListViewFragment {
             noDataSettings();
             return;
         }
-//        先将数据设置给适配器
-        listViewFragmentAdapter = new ListViewFragmentAdapter(getActivity(), dataList);
+////        先将数据设置给适配器
+//        listViewFragmentAdapter = new ListViewFragmentAdapter(getActivity(), dataList);
 //        添加footerView
         if(footerView==null){
             footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer,null);
@@ -77,8 +77,13 @@ public class SingerFragment extends BaseListViewFragment {
         }
         ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(dataList.size()+"歌手");
 //        设置适配器和点击事件
-        listView.setAdapter(listViewFragmentAdapter);
+//        listView.setAdapter(listViewFragmentAdapter);
         listView.setOnItemClickListener(this);
+    }
+
+    @Override
+    protected void doListViewOnItemClick() {
+
     }
 
     private void noDataSettings(){
@@ -91,9 +96,9 @@ public class SingerFragment extends BaseListViewFragment {
             }
         });
     }
-//    ListView点击事件的监听器
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
+////    ListView点击事件的监听器
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//    }
 }

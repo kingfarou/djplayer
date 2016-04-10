@@ -14,7 +14,7 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.activity.ScanMusicActivity;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
 
-import com.jf.djplayer.base.fragment.BaseListViewFragment;
+import com.jf.djplayer.base.fragment.LocalMusicListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 
@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class FolderFragment extends BaseListViewFragment {
+public class FolderFragment extends LocalMusicListFragment {
 
     private View noDataView;
     @Nullable
@@ -66,15 +66,20 @@ public class FolderFragment extends BaseListViewFragment {
             noDataSettings();
             return;
         }
-//        先将数据设置给适配器
-        listViewFragmentAdapter = new ListViewFragmentAdapter(getActivity(), dataList);
+////        先将数据设置给适配器
+//        listViewFragmentAdapter = new ListViewFragmentAdapter(getActivity(), dataList);
 //        添加footerView
         footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer,null);
         ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(dataList.size() + "文件夹");
         listView.addFooterView(footerView);
 //        设置适配器和点击事件
-        listView.setAdapter(listViewFragmentAdapter);
-        listView.setOnItemClickListener(this);
+//        listView.setAdapter(listViewFragmentAdapter);
+//        listView.setOnItemClickListener(this);
+    }
+
+    @Override
+    protected void doListViewOnItemClick() {
+
     }
 
     private void noDataSettings(){
@@ -88,8 +93,8 @@ public class FolderFragment extends BaseListViewFragment {
         });
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//    }
 }
