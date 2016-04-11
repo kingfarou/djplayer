@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -71,7 +72,9 @@ public class DeleteSongDialogFragment extends DialogFragment implements Compound
 //                如果删除歌曲文件
                 if (isDeleteSongFile) {
                     File songFile = new File(songInfo.getSongAbsolutePath());
-                    songFile.delete();
+                    if(!songFile.delete()){
+                        Toast.makeText(getActivity(),"原音频文件未删除",Toast.LENGTH_SHORT).show();
+                    }
                 }
 //                如果删除歌手图片
                 if (isDeleteSingerPicture) {
@@ -134,6 +137,7 @@ public class DeleteSongDialogFragment extends DialogFragment implements Compound
             case R.id.cb_dialog_delete_song_lyric:
                 isDeleteLyricFile = isChecked;
                 break;
+            default:break;
         }
     }//onCheckedChanged
 }
