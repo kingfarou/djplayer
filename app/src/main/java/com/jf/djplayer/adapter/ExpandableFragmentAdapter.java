@@ -36,12 +36,12 @@ import java.util.List;
 public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
 
     private List<SongInfo> songInfoList;
-    private Context context;
+    private Activity activity;
     private ExpandableListView expandableListView;
 
-    public ExpandableFragmentAdapter(Context context, ExpandableListView expandableListView, List<SongInfo> songInfoList){
+    public ExpandableFragmentAdapter(Activity context, ExpandableListView expandableListView, List<SongInfo> songInfoList){
         this.songInfoList = songInfoList;
-        this.context = context;
+        this.activity = context;
         this.expandableListView = expandableListView;
     }
     @Override
@@ -98,7 +98,7 @@ public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
         MyGroupViewHolder myGroupViewHolder = null;
         if (convertView==null) {
             myGroupViewHolder = new MyGroupViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_expandable_fragment_group, null);
+            convertView = LayoutInflater.from(activity).inflate(R.layout.item_expandable_fragment_group, null);
             myGroupViewHolder.position = (TextView) convertView.findViewById(R.id.tv_item_expandable_fragment_group_position);
             myGroupViewHolder.songName = (TextView)convertView.findViewById(R.id.tv_item_expandable_fragment_group_songName);
             myGroupViewHolder.artistName = (TextView)convertView.findViewById(R.id.tv_item_expandable_fragment_group_artist);
@@ -135,7 +135,7 @@ public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
         MyChildViewHolder myChildViewHolder = null;
         if (convertView == null) {
             myChildViewHolder = new MyChildViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_expandable_fragment_chil, null);
+            convertView = LayoutInflater.from(activity).inflate(R.layout.item_expandable_fragment_chil, null);
             myChildViewHolder.gridView = (GridView) convertView.findViewById(R.id.gv_item_expandable_fragment_child);
             convertView.setTag(myChildViewHolder);
         } else {
@@ -149,7 +149,7 @@ public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
 //        如果歌曲已被收藏需要更改一下图片
         if (songInfoList.get(groupPosition).getCollection() == 1) icon[0] = R.drawable.fragment_song_collection;
 
-        ExpandableChildItemAdapter childItemAdapter = new ExpandableChildItemAdapter(context, text, icon);
+        ExpandableChildItemAdapter childItemAdapter = new ExpandableChildItemAdapter(activity, text, icon);
 //        设置GridView每一项的点击事件
         myChildViewHolder.gridView.setOnItemClickListener(new ExpandableChildItemClick(songInfoList.get(groupPosition),groupPosition));
         myChildViewHolder.gridView.setAdapter(childItemAdapter);
@@ -178,7 +178,7 @@ public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //            如果用户收藏或者取消收藏某一首歌
             if(position==0){
-                SongInfoOpenHelper collectionOpenHelper = new SongInfoOpenHelper(context,1);
+                SongInfoOpenHelper collectionOpenHelper = new SongInfoOpenHelper(activity,1);
                 Intent updateCollection;
                 if (songInfo.getCollection()==0) {
                 //如果歌曲原先没有被收藏的
@@ -191,21 +191,21 @@ public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
                     updateCollection = new Intent(UpdateUiSongInfoReceiver.CANCEL_COLLECTION_SONG);
                 }
 //                发送广播通知界面更新UI
-                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(activity);
                 updateCollection.putExtra(UpdateUiSongInfoReceiver.position,groupPosition);//传递所操作的序号
                 localBroadcastManager.sendBroadcast(updateCollection);
 //                Toast.makeText(context,toastContent,Toast.LENGTH_SHORT).show();
             }else if(position==1){
 //                如果点击删除歌曲
 //                打开删除的提示框
-                DeleteSongDialogFragment deleteSongDialogFragment = new DeleteSongDialogFragment((Activity)context,songInfo,groupPosition);
-                deleteSongDialogFragment.show( ((Activity)context).getFragmentManager(),"DeleteSongDialogFragment");
+                DeleteSongDialogFragment deleteSongDialogFragment = new DeleteSongDialogFragment(activity,songInfo,groupPosition);
+                deleteSongDialogFragment.show(activity.getFragmentManager(),"DeleteSongDialogFragment");
             }else if(position==3){
-                SetToBellDialog setToBellDialog = new SetToBellDialog(context,this.songInfo);
-                setToBellDialog.show(((Activity)context).getFragmentManager(),"setToBellDialog");
+                SetToBellDialog setToBellDialog = new SetToBellDialog(activity,this.songInfo);
+                setToBellDialog.show(activity.getFragmentManager(),"setToBellDialog");
             }else if(position==6){
                 SongInfoDialog songInfoDialog = new SongInfoDialog(songInfo,groupPosition);
-                songInfoDialog.show(((Activity)context).getFragmentManager(), "songOperationDialog");
+                songInfoDialog.show(activity.getFragmentManager(), "songOperationDialog");
             }//判断position
         }
     }//ExpandableChildItemClick

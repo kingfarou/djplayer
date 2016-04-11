@@ -1,4 +1,4 @@
-package com.jf.djplayer.base.fragment;
+package com.jf.djplayer.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

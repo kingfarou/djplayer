@@ -17,7 +17,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.jf.djplayer.SongInfo;
-import com.jf.djplayer.base.activity.BaseNoTitleActivity;
 import com.jf.djplayer.fragment.TwoLineLyricFragment;
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.SongPlayInfoAdapter;
@@ -90,6 +89,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     protected void viewInit() {
         layoutViewInit();//调用方法对视图初始化
         viewPagerInits();//对ViewPager做初始化
+        handlerInits();//对Handler做初始化
     }
 
     @Override
@@ -98,7 +98,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         bindService(intent, this, Context.BIND_AUTO_CREATE);
 //        获取更新播放信息用的主题
         playInfoSubject = PlayerOperator.getInstance();
-        handlerInits();//对Handler做初始化
+//        handlerInits();//对Handler做初始化
     }
 
     //    这里注册为观察者

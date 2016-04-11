@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 
 import com.jf.djplayer.SongInfo;
-import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
-import com.jf.djplayer.base.fragment.BaseExpandableListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;

@@ -10,12 +10,9 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jf.djplayer.MyApplication;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.R;
 import com.jf.djplayer.activity.ScanningSongActivity;
-import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
-import com.jf.djplayer.base.fragment.BaseExpandableListFragment;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;

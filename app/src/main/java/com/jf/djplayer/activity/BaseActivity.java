@@ -1,4 +1,4 @@
-package com.jf.djplayer.base.activity;
+package com.jf.djplayer.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

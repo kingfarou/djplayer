@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.SongInfo;
-import com.jf.djplayer.base.activity.BaseNoTitleActivity;
 import com.jf.djplayer.fragment.MainFragment;
 import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.interfaces.PlayControls;

@@ -10,11 +10,9 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.jf.djplayer.activity.ScanningSongActivity;
-import com.jf.djplayer.base.fragment.LocalMusicListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
-import com.jf.djplayer.adapter.ListViewFragmentAdapter;
 
 import java.util.List;
 import java.util.Map;

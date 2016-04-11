@@ -1,8 +1,8 @@
-package com.jf.djplayer.base.activity;
+package com.jf.djplayer.activity;
 
 import android.os.Bundle;
 
-import com.jf.djplayer.base.activity.BaseActivity;
+import com.jf.djplayer.activity.BaseActivity;
 
 /**
  * Created by JF on 2016/4/9.
@@ -13,8 +13,9 @@ abstract public class BaseTitleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         doSetContentView();
-        viewInit();
+//        viewInit();
         extrasInit();
+        viewInit();
     }
 
 

@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.fragment.BaseExpandableListFragment;
-import com.jf.djplayer.base.fragment.LocalMusicListFragment;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.customview.TextViewLinearLayout;

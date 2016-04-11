@@ -1,20 +1,16 @@
 package com.jf.djplayer.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jf.djplayer.activity.UserInfoActivity;
-import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.other.UserInfo;

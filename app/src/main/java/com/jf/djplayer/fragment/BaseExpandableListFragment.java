@@ -1,4 +1,4 @@
-package com.jf.djplayer.base.fragment;
+package com.jf.djplayer.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -193,7 +193,7 @@ abstract public class BaseExpandableListFragment extends BaseFragment
 //                将数据存到成员变量里
                 songInfoList = songInfos;
 //                将数据加载到适配器里
-                expandableFragmentAdapter = new ExpandableFragmentAdapter(MyApplication.getContext(),expandableListView,songInfoList);
+                expandableFragmentAdapter = new ExpandableFragmentAdapter(getActivity(),expandableListView,songInfoList);
                 asyncReadDataFinished();//通知子类数据已经读取完成
 //                显示
                 expandableListView.setAdapter(expandableFragmentAdapter);

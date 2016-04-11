@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.jf.djplayer.activity.ScanMusicActivity;
 import com.jf.djplayer.activity.ScanningSongActivity;
-import com.jf.djplayer.adapter.ListViewFragmentAdapter;
-import com.jf.djplayer.base.fragment.LocalMusicListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;

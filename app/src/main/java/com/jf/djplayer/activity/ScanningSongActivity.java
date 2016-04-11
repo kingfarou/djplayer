@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.activity.BaseTitleActivity;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.tool.database.SystemMediaDatabaseUtils;
 
@@ -55,6 +54,11 @@ public class ScanningSongActivity extends BaseTitleActivity {
         setContentView(R.layout.activity_scanning_song);
     }
 
+
+    @Override
+    protected void extrasInit() {
+    }
+
     @Override
     protected void viewInit() {
         scanningIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanning);
@@ -68,15 +72,16 @@ public class ScanningSongActivity extends BaseTitleActivity {
                 finish();//点击扫描完成按钮即可结束窗体
             }
         });
-    }
 
-    @Override
-    protected void extrasInit() {
+//        根据用户所选择的路径扫描音乐文件
         pathList = getIntent().getStringArrayListExtra("scanFileList");//获取用户所选择的扫描路径
 //        如果用户没有选择任何路径
-        if (pathList==null) new ScanSongAsyncTask().execute(null,null);//读取系统所有路径下的文件
-        else new ScanSongAsyncTask().execute((String[]) (pathList.toArray()));//读取用户指定路径下的文件
-//        Log.i("test", "异步任务开始执行");
+        if (pathList==null) {
+            new ScanSongAsyncTask().execute(null,null);//读取系统所有路径下的文件
+        }
+        else {
+            new ScanSongAsyncTask().execute((String[]) (pathList.toArray()));//读取用户指定路径下的文件
+        }
     }
 
     @Override

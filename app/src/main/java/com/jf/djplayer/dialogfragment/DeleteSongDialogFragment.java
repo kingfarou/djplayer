@@ -3,6 +3,7 @@ package com.jf.djplayer.dialogfragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class DeleteSongDialogFragment extends DialogFragment implements Compound
     private View view = null;
 
     public DeleteSongDialogFragment(){}
-    public DeleteSongDialogFragment(Activity activity,SongInfo songInfo,int groupPosition) {
+    public DeleteSongDialogFragment(Context context,SongInfo songInfo,int groupPosition) {
         this.songInfo = songInfo;
         this.groupPosition = groupPosition;
     }

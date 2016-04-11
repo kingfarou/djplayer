@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.activity.BaseTitleActivity;
 
 /**
  * Created by Administrator on 2015/8/12.
@@ -16,9 +15,9 @@ import com.jf.djplayer.base.activity.BaseTitleActivity;
  */
 public class ScanMusicActivity extends BaseTitleActivity implements OnClickListener{
 
-    private Button keyScanMusicButton = null;
-    private Button customScanButton = null;
-    private Button wifiButton = null;
+    private Button keyScanMusicButton;
+    private Button customScanButton;
+    private Button wifiButton;
     public static final int CUSTOM_SCAN_SONG_REQUEST_CODE = 1<<1;//自定义扫描方式请求码
     public static final int ONE_KEY_SCAN_REQUEST_CODE = 1<<2;//一键扫描的请求码
     private Button scanSettingsButton = null;
@@ -44,6 +43,12 @@ public class ScanMusicActivity extends BaseTitleActivity implements OnClickListe
         setContentView(R.layout.activity_scan_music);
     }
 
+
+    @Override
+    protected void extrasInit() {
+
+    }
+
     @Override
     protected void viewInit() {
         keyScanMusicButton = (Button)findViewById(R.id.btn_activity_scan_music_key_scan);
@@ -56,13 +61,6 @@ public class ScanMusicActivity extends BaseTitleActivity implements OnClickListe
         wifiButton.setOnClickListener(this);
         scanSettingsButton.setOnClickListener(this);
     }
-
-    @Override
-    protected void extrasInit() {
-
-    }
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){

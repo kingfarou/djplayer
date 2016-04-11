@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.activity.BaseNoTitleActivity;
 
 /**
  * Created by JF on 2016/3/6.
@@ -30,14 +29,14 @@ public class WelcomeActivity extends BaseNoTitleActivity {
     }
 
     @Override
-    protected void viewInit() {
-
-    }
-
-    @Override
     protected void extrasInit() {
 //        使用异步任务来完成到"MainActivity"跳转
         new StartMainActivityThread().start();
+    }
+
+    @Override
+    protected void viewInit() {
+
     }
 
     private class StartMainActivityThread extends Thread{

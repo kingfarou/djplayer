@@ -1,10 +1,8 @@
-package com.jf.djplayer.base.fragment;
+package com.jf.djplayer.fragment;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +15,7 @@ import android.widget.TextView;
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
 import com.jf.djplayer.customview.ListViewPopupWindows;
+import com.jf.djplayer.fragment.BaseFragment;
 
 import java.text.CollationKey;
 import java.text.Collator;
