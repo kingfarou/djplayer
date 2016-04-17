@@ -1,33 +1,23 @@
 package com.jf.djplayer.fragment;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.jf.djplayer.InfoClass;
-import com.jf.djplayer.MyApplication;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
 import com.jf.djplayer.customview.ListViewPopupWindows;
-import com.jf.djplayer.interfaces.SongInfoObserver;
 import com.jf.djplayer.R;
-import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Administrator on 2015/9/14.
@@ -42,17 +32,14 @@ import java.util.Set;
  */
 
 abstract public class BaseExpandableListFragment extends BaseFragment
-        implements ExpandableListView.OnGroupExpandListener,SongInfoObserver,
-                ExpandableListView.OnGroupClickListener,AdapterView.OnItemLongClickListener{
+        implements ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupClickListener,
+                AdapterView.OnItemLongClickListener{
 
     protected ExpandableListView expandableListView;//expandableListView
-    private ProgressBar loadingProgressBar;//正在载入提示图标
-    private TextView loadingTv;//正在载入提示文字
-    private UpdateUiSongInfoReceiver updateUiSongInfoReceiver;
-    private ReadSongInfoAsyncTask readSongInfoAsyncTask;
-//    protected View footerView;//expandableListView底部
+    private View loadingHintView;//"ExpandableListView"读到数据前显示的提示视图
+    private View noDataHintView;//"ExpandableListView"没有数据可显式时所显示的提示视图
+    private LoadingAsyncTask loadingAsyncTask;//异步读取数据的内部类
     protected ExpandableFragmentAdapter expandableFragmentAdapter;//expandableListView适配器
-    protected List<SongInfo> songInfoList;
     private int lastExpand = -1;//记录上次"expandableListView"所展开的那个位置
     protected View layoutView;//跟布局
     protected PopupWindow popupWindows;//点击选项菜单那时弹出的PopupWindow
@@ -61,38 +48,41 @@ abstract public class BaseExpandableListFragment extends BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        对界面进行初始化
-        layoutView = inflater.inflate(R.layout.fragment_expandalbe, container, false);
-        loadingProgressBar = (ProgressBar) layoutView.findViewById(R.id.pb_fragment_expandable);
-        loadingTv = (TextView) layoutView.findViewById(R.id.tv_fragment_expandable_loading);
-
+        layoutView = inflater.inflate(R.layout.fragment_base_expandable_list_view, container, false);
+        expandableListView = (ExpandableListView)layoutView.findViewById(R.id.el_fragment_expandable_list_view);
+//        显示读取数据前的提示
+        loadingHintView = getExpandableLoadingView();
+        if(loadingHintView!=null) {
+            ((ViewGroup) layoutView).addView(loadingHintView);
+        }
+        initBeforeReturnView();
 //        开始执行异步任务工作
-        readSongInfoAsyncTask = new ReadSongInfoAsyncTask();
-        readSongInfoAsyncTask.execute();
+        loadingAsyncTask = new LoadingAsyncTask();
+        loadingAsyncTask.execute();
         return layoutView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-//        动态注册广播接收
-        IntentFilter updateUiFilter = new IntentFilter();
-        updateUiFilter.addAction(UpdateUiSongInfoReceiver.COLLECTION_SONG);
-        updateUiFilter.addAction(UpdateUiSongInfoReceiver.CANCEL_COLLECTION_SONG);
-        updateUiFilter.addAction(UpdateUiSongInfoReceiver.DELETE_SONG);
-        updateUiSongInfoReceiver = new UpdateUiSongInfoReceiver(this);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateUiSongInfoReceiver,updateUiFilter);
-    }
+    /**
+     * 在"onCreateView()"返回View之前调用，之类在此作对应初始化
+     */
+    protected abstract void initBeforeReturnView();
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateUiSongInfoReceiver);
-    }
+    /**
+     * 返回"ExpandableListView"读到数据前显示的视图
+     * @return 这是要显示的视图
+     */
+    protected abstract View getExpandableLoadingView();
+
+    /**
+     * 如果子类想在"ExpandableListView"没数据时显示一些提示，在这设置
+     * @return "ExpandableListView"要显示的提示视图
+     */
+    protected abstract View getExpandableNoDataView();
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        readSongInfoAsyncTask.cancel(true);
+        loadingAsyncTask.cancel(true);
     }
 
     @Override
@@ -129,13 +119,13 @@ abstract public class BaseExpandableListFragment extends BaseFragment
      * 数据的具体来源有子类进行实现
      * @return 返回读取到的歌曲信息集合，如果没有读到信息真返回空
      */
-    abstract protected List<SongInfo> getSongInfoList();
+    abstract protected List getSongInfoList();
 
     /**
      * 异步任务读取数据完成之后回调这个方法
      * 具体时间：数据读取完成之后，expandableListView.setAdapter();方法被调用之前
      */
-    abstract protected void asyncReadDataFinished();
+    abstract protected void asyncReadDataFinished(List dataList);
 
     /**
      * 获取一个自定义的"ListViewPopupWindows"对象
@@ -163,79 +153,114 @@ abstract public class BaseExpandableListFragment extends BaseFragment
     abstract protected void doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id);
 
     /**
-     * 如果子类想在"ExpandableListView"没数据时显示一些提示，在这设置
-     * @return
+     * 如果要为"ExpandableListView"添加"headerView"在次返回
+     * @return headerView
      */
-    abstract protected View getExpandableEmptyView();
+    abstract protected View getExpandableHeaderView();
 
-    //    异步读取数据库信息的任务
-    private class ReadSongInfoAsyncTask extends AsyncTask<Void, Void, List<SongInfo>> {
+    /**
+     * 如果要为"ExpandableListView"添加"footerView"在此返回
+     * @return footerView
+     */
+    abstract protected View getExpandableFooterView();
+
+//    异步读取数据用的任务
+    private class LoadingAsyncTask extends AsyncTask<Void, Void, List> {
 
         @Override
-        protected List<SongInfo> doInBackground(Void... params) {
+        protected List doInBackground(Void... params) {
             try {
                 Thread.sleep(400L);
-            }catch (Exception e){}
+            }catch (Exception e){
+                Log.i("test",this.getClass().getName()+"--"+e.toString());
+            }
             return getSongInfoList();
         }
 
         @Override
-        protected void onPostExecute(List<SongInfo> songInfos) {
+        protected void onPostExecute(List songInfos) {
             super.onPostExecute(songInfos);
-//            如果读取到了数据
-            if(songInfos!=null){
-//                如果有数据就要对"ExpandableListView"进行设置
-                expandableListView = (ExpandableListView) layoutView.findViewById(R.id.el_fragment_expandable_list_view);
-                expandableListView.setOnGroupExpandListener(BaseExpandableListFragment.this);
-                expandableListView.setGroupIndicator(null);
-                expandableListView.setOnGroupClickListener(BaseExpandableListFragment.this);
-                expandableListView.setOnItemLongClickListener(BaseExpandableListFragment.this);
-//                将数据存到成员变量里
-                songInfoList = songInfos;
+//            移除"loadingHintView"
+            ((ViewGroup)layoutView).removeView(loadingHintView);
+//            添加"emptyView"
+            setExpandableEmptyView();
+//            如果没读取到数据
+            if(songInfos==null){
+            }else {
 //                将数据加载到适配器里
-                expandableFragmentAdapter = new ExpandableFragmentAdapter(getActivity(),expandableListView,songInfoList);
-                asyncReadDataFinished();//通知子类数据已经读取完成
+                asyncReadDataFinished(songInfos);//通知子类数据已经读取完成
+                expandableListViewInit();
 //                显示
+                expandableFragmentAdapter = new ExpandableFragmentAdapter(getActivity(), expandableListView, songInfos);
                 expandableListView.setAdapter(expandableFragmentAdapter);
-            }else{
-                expandableListView.setEmptyView(getExpandableEmptyView());
+                expandableListView.setVisibility(View.VISIBLE);
             }
-//            将用于提示“正读取”信息用的控件隐藏
-            loadingProgressBar.setVisibility(View.GONE);
-            loadingTv.setVisibility(View.GONE);
-//            显示"ExpandableListView"
-            expandableListView.setVisibility(View.VISIBLE);
         }
-    }
 
-
-
-    protected class FileOperationReceiver extends BroadcastReceiver {
-        //            收到这个广播说明数据库的内容已被修改
-        @Override
-        public void onReceive(Context context, Intent intent) {
-//            如果用户修改音乐文件信息
-            if (intent.getAction().equals(InfoClass.ActionString.UPDATE_SONG_FILE_INFO_ACTION)) {
-                Set category = intent.getCategories();
-//                用户收藏或者取消收藏某一首歌
-                if (category.contains(InfoClass.CategoryString.UPDATE_COLLECTION_CATEGORY)) {
-//                    歌曲信息被修改后，修改集合里面该歌曲得信息，可以保持信息里的一致
-                    int collection = songInfoList.get(intent.getIntExtra("groupPosition", -1)).getCollection();
-                    songInfoList.get(intent.getIntExtra("groupPosition", -1)).setCollection((collection ^ 1));
-//                    收起该列，视觉效果，忽悠用户
-                    expandableListView.collapseGroup(intent.getIntExtra("groupPosition", -1));
-
-                }
-//                如果用户曾经删除文件
-                else if (category.contains(InfoClass.CategoryString.DELETE_SONG_FILE_CATEGORY)) {
-//                    列表修改原有数据状况
-                    songInfoList.remove(intent.getIntExtra("groupPosition", -1));
-                    expandableFragmentAdapter.notifyDataSetChanged();
-//                    修改尾巴上显示的歌曲数量
-                } else if (category.contains(InfoClass.CategoryString.UPDATE_SONG_FILE_INFO_CATEGORY)) {
-
-                }
+        private void setExpandableEmptyView(){
+            noDataHintView = getExpandableNoDataView();
+            if(noDataHintView!=null){
+                ((ViewGroup) layoutView).addView(noDataHintView);
+                expandableListView.setEmptyView(noDataHintView);
             }
-        }//onReceive
+        }
+
+//        "ExpandableListView"初始化的相关设置
+        private void expandableListViewInit(){
+            expandableListView.setOnGroupExpandListener(BaseExpandableListFragment.this);
+            expandableListView.setGroupIndicator(null);
+//            点击事件相关设置
+            expandableListView.setOnGroupClickListener(BaseExpandableListFragment.this);
+            expandableListView.setOnItemLongClickListener(BaseExpandableListFragment.this);
+//            添加头尾view
+            View headerView = getExpandableHeaderView();
+            if(headerView!=null){
+                expandableListView.addHeaderView(headerView);
+            }
+            View footerView = getExpandableFooterView();
+            if(footerView!=null){
+                expandableListView.addFooterView(footerView);
+            }
+        }//expandableListViewInit()
     }
+
+
+
+//    protected class FileOperationReceiver extends BroadcastReceiver {
+//        //            收到这个广播说明数据库的内容已被修改
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            String actionString = intent.getAction();
+//            if(actionString == null){
+//                return;
+//            }
+//            if(actionString.equals(UpdateUiSongInfoReceiver.ACTION_DELETE_SONG_FILE)){
+////                如果用户删除音乐文件
+//                songInfoList.remove(intent.getStringExtra(UpdateUiSongInfoReceiver.position));
+//            }
+////            如果用户修改音乐文件信息
+//            if (intent.getAction().equals(InfoClass.ActionString.ACTION_UPDATE_SONG_FILE_INFO)) {
+//                Set category = intent.getCategories();
+////                用户收藏或者取消收藏某一首歌
+//                if (category.contains(InfoClass.CategoryString.UPDATE_COLLECTION_CATEGORY)) {
+////                    歌曲信息被修改后，修改集合里面该歌曲得信息，可以保持信息里的一致
+//                    int collection = songInfoList.get(intent.getIntExtra("groupPosition", -1)).getCollection();
+//                    songInfoList.get(intent.getIntExtra("groupPosition", -1)).setCollection((collection ^ 1));
+////                    收起该列，视觉效果，忽悠用户
+//                    expandableListView.collapseGroup(intent.getIntExtra("groupPosition", -1));
+//
+//                }
+////                如果用户曾经删除文件
+//                else if (category.contains(InfoClass.CategoryString.CATEGORY_DELETE_SONG_FILE)) {
+////                    列表修改原有数据状况
+//                    songInfoList.remove(intent.getIntExtra("groupPosition", -1));
+//                    Toast.makeText(getActivity(),"删除歌曲", Toast.LENGTH_SHORT).show();
+//                    expandableFragmentAdapter.notifyDataSetChanged();
+////                    修改尾巴上显示的歌曲数量
+//                } else if (category.contains(InfoClass.CategoryString.UPDATE_SONG_FILE_INFO_CATEGORY)) {
+//
+//                }
+//            }
+//        }//onReceive
+//    }
 }

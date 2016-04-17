@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
+import com.jf.djplayer.interfaces.SongInfoObserver;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.tool.sortable.SortBySingerName;
 import com.jf.djplayer.R;
@@ -28,12 +29,14 @@ import java.util.List;
  * 这个Fragment
  * 用来展示所有用户收藏歌曲
  */
-public class HasFavoriteSongFragment extends BaseExpandableListFragment implements ExpandableListView.OnGroupClickListener{
+public class MyFavoriteListFragment extends BaseExpandableListFragment
+        implements ExpandableListView.OnGroupClickListener, SongInfoObserver{
 
 //    private Context context = null;
     private SongInfoListSortable SongInfoListSortable;
     private PlayControls playControls;
     private View footerView;
+    private List<SongInfo> favoriteList;
 
     @Nullable
     @Override
@@ -48,24 +51,33 @@ public class HasFavoriteSongFragment extends BaseExpandableListFragment implemen
     }
 
     @Override
-    protected List<SongInfo> getSongInfoList() {
+    protected void initBeforeReturnView() {
+
+    }
+
+    @Override
+    protected List getSongInfoList() {
         SongInfoOpenHelper collectionOpenHelper = new SongInfoOpenHelper(getActivity(),1);
         return collectionOpenHelper.getCollectionSongInfo();
     }
 
     @Override
-    protected void asyncReadDataFinished() {
+    protected View getExpandableLoadingView() {
+        return LayoutInflater.from(getActivity()).inflate(R.layout.loading_layout,null);
+    }
+
+    @Override
+    protected View getExpandableNoDataView() {
+        return LayoutInflater.from(getActivity()).inflate(R.layout.fragment_no_favourites,null);
+    }
+
+    @Override
+    protected void asyncReadDataFinished(List dataList) {
 //        如果没有读到数据直接返回
-        if(songInfoList==null) {
+        if(dataList==null) {
             return;
         }
-        //        expandableListView.setGroupIndicator(null);
-//        expandableFragmentAdapter = new ExpandableFragmentAdapter(getActivity(),expandableListView,songInfoList);
-        //        添加一个底部视图
-        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer,null);
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(songInfoList.size()+"首歌");
-        expandableListView.addFooterView(footerView);
-//        expandableListView.setAdapter(expandableFragmentAdapter);
+        favoriteList = (List<SongInfo>)dataList;
     }
 
     @Override
@@ -77,12 +89,12 @@ public class HasFavoriteSongFragment extends BaseExpandableListFragment implemen
 //                如果用户想要扫描音乐
                 if (position == 0) {
                     SongInfoListSortable = new SortBySongName();
-                }else if(position==1){
+                } else if (position == 1) {
                     SongInfoListSortable = new SortBySingerName();
-                }else if(position==2){
+                } else if (position == 2) {
 
                 }
-                SongInfoListSortable.sort(songInfoList);
+                SongInfoListSortable.sort(favoriteList);
                 expandableFragmentAdapter.notifyDataSetChanged();
                 popupWindows.dismiss();
             }
@@ -96,18 +108,18 @@ public class HasFavoriteSongFragment extends BaseExpandableListFragment implemen
     @Override
     public void updateSongInfo(String updateAction, int position) {
         expandableListView.collapseGroup(position);//现将所操作的栏目收起
-        if(updateAction.equals(UpdateUiSongInfoReceiver.CANCEL_COLLECTION_SONG)){
-            songInfoList.remove(position);//从集合里移除数据
+        if(updateAction.equals(UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG_FILE)){
+            favoriteList.remove(position);//从集合里移除数据
             expandableFragmentAdapter.notifyDataSetChanged();//通知界面刷新数据
-            ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(songInfoList.size()+"首歌");
-        }else if(updateAction.equals(UpdateUiSongInfoReceiver.DELETE_SONG)){
+//            ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(songInfoList.size()+"首歌");
+        }else if(updateAction.equals(UpdateUiSongInfoReceiver.ACTION_DELETE_SONG_FILE)){
 
         }
     }
 
     @Override
     protected void doExpandableOnItemClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        playControls.play(songInfoList,groupPosition);
+        playControls.play(favoriteList,groupPosition);
     }
 
     @Override
@@ -115,17 +127,19 @@ public class HasFavoriteSongFragment extends BaseExpandableListFragment implemen
 
     }
 
+
     @Override
-    protected View getExpandableEmptyView() {
+    protected View getExpandableHeaderView() {
         return null;
     }
 
-    //    @Override
-//    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-////        Log.i("test","点击播放");
-//        playControls.play(songInfoList,groupPosition);//传入当前播放列表以及用户所点击的位置
-//        return true;
-//    }
-
-
+    @Override
+    protected View getExpandableFooterView() {
+        if(favoriteList==null) {
+            return null;
+        }
+        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(favoriteList.size()+"首歌");
+        return footerView;
+    }
 }

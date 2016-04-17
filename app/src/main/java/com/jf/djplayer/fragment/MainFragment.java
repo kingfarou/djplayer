@@ -38,16 +38,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //获取当前屏幕宽高
-//        WindowManager windowManager = (WindowManager)getActivity().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-//        windowsWidth = windowManager.getDefaultDisplay().getWidth();
-//        windowsHeigth = windowManager.getDefaultDisplay().getHeight();
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         layoutView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -132,11 +122,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Log.i("test","返回数据");
-//        如果目标活动没有处理直接返回
-//        if(resultCode == MainActivity.RESULT_CANCELED) {
-//            return;
-//          }
 //        如果请求已经成功
         if(resultCode==MainActivity.RESULT_OK){
 //            如果是登录请求码

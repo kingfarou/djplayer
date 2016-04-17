@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jf.djplayer.activity.ScanningSongActivity;
+import com.jf.djplayer.adapter.ListViewFragmentAdapter;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
@@ -20,9 +22,9 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class AlbumFragment extends LocalMusicListFragment {
+public class AlbumFragment extends BaseListViewFragment {
 
-    private View noDataView;
+    private List<Map<String,String>> albumList;
 
     @Nullable
     @Override
@@ -31,11 +33,51 @@ public class AlbumFragment extends LocalMusicListFragment {
     }
 
     @Override
-    protected List<Map<String, String>> getData() {
-        List<Map<String,String>> dataList = null;//这是要返回的数据
-        dataList = new SongInfoOpenHelper(getActivity(),1).getValueSongNumber(SongInfoOpenHelper.album);
-        return dataList;
+    protected void initBeforeReturnView() {
 
+    }
+
+    @Override
+    protected View getLoadingHintView() {
+        return LayoutInflater.from(getActivity()).inflate(R.layout.loading_layout,null);
+    }
+
+    @Override
+    protected View getNoDataHintView() {
+        View noDataView = LayoutInflater.from(getActivity()).inflate(R.layout.local_music_no_song,null);
+        noDataView.findViewById(R.id.btn_localmusic_nosong_keyscan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ScanningSongActivity.class));
+            }
+        });
+        return noDataView;
+    }
+
+    @Override
+    protected List getData() {
+        return new SongInfoOpenHelper(getActivity(), 1).getValueSongNumber(SongInfoOpenHelper.album);
+    }
+
+    @Override
+    protected BaseAdapter getListViewAdapter(List dataList) {
+        return new ListViewFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+
+    }
+
+    @Override
+    protected View getListViewFooterView(){
+        if(albumList==null){
+            return null;
+        }
+        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(albumList.size()+"专辑");
+        return footerView;
+    }
+
+    @Override
+    protected View getListViewHeaderView() {
+        return null;
     }
 
     public ListViewPopupWindows getListViewPopupWindow(){
@@ -61,40 +103,24 @@ public class AlbumFragment extends LocalMusicListFragment {
     }
 
     @Override
-    protected void readDataFinish(){
+    protected void readDataFinish(List dataList){
         if(dataList==null){
-            noDataSettings();
             return;
         }
-////        先将数据设置给适配器
-//        listViewFragmentAdapter = new ListViewFragmentAdapter(getActivity(), dataList);
-//        添加footerView
-        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer,null);
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(dataList.size()+"专辑");
-        listView.addFooterView(footerView);
-//        设置适配器和点击事件
-//        listView.setAdapter(listViewFragmentAdapter);
-//        listView.setOnItemClickListener(this);
+        albumList = dataList;
     }
 
     @Override
-    protected void doListViewOnItemClick() {
+    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
 
-    private void noDataSettings(){
-        noDataView = LayoutInflater.from(getActivity()).inflate(R.layout.local_music_no_song,null);
-        ((ViewGroup)layoutView).addView(noDataView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        noDataView.findViewById(R.id.btn_scan_music_localmusic_no_song).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ScanningSongActivity.class));
-            }
-        });
+    @Override
+    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 
-
-//    @Override
+    //    @Override
 //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //
 //    }

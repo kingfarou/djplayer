@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jf.djplayer.activity.ScanMusicActivity;
 import com.jf.djplayer.activity.ScanningSongActivity;
+import com.jf.djplayer.adapter.ListViewFragmentAdapter;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
@@ -21,10 +23,9 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class SingerFragment extends LocalMusicListFragment {
+public class SingerFragment extends BaseListViewFragment {
 
-    private View noDataView;
-
+    private List<Map<String,String>> singerList;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,12 +33,51 @@ public class SingerFragment extends LocalMusicListFragment {
     }
 
     @Override
-    protected List<Map<String,String>> getData() {
-        List<Map<String,String>> dataList = null;//这是要返回的数据
-//        通过数据库的方法读取所有列值
-//        以及他们所对应的歌曲数目
-        dataList = new SongInfoOpenHelper(getActivity(),1).getValueSongNumber(SongInfoOpenHelper.artist);
-        return dataList;
+    protected void initBeforeReturnView() {
+
+    }
+
+    @Override
+    protected View getLoadingHintView() {
+        return LayoutInflater.from(getActivity()).inflate(R.layout.loading_layout,null);
+    }
+
+    @Override
+    protected View getNoDataHintView() {
+        View noDataView = LayoutInflater.from(getActivity()).inflate(R.layout.local_music_no_song,null);
+//        ((ViewGroup)layoutView).addView(noDataView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        noDataView.findViewById(R.id.btn_localmusic_nosong_keyscan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ScanningSongActivity.class));
+            }
+        });
+        return  noDataView ;
+    }
+
+    @Override
+    protected List getData() {
+        return new SongInfoOpenHelper(getActivity(),1).getValueSongNumber(SongInfoOpenHelper.artist);
+    }
+
+    @Override
+    protected BaseAdapter getListViewAdapter(List dataList) {
+        return new ListViewFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+    }
+
+    @Override
+    protected View getListViewFooterView() {
+        if(singerList==null){
+            return null;
+        }
+        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(singerList.size()+"歌手");
+        return footerView;
+    }
+
+    @Override
+    protected View getListViewHeaderView() {
+        return null;
     }
 
     public ListViewPopupWindows getListViewPopupWindow(){
@@ -61,42 +101,21 @@ public class SingerFragment extends LocalMusicListFragment {
     }
 
     @Override
-    protected void readDataFinish() {
+    protected void readDataFinish(List dataList) {
         if(dataList==null){
-            noDataSettings();
             return;
         }
-////        先将数据设置给适配器
-//        listViewFragmentAdapter = new ListViewFragmentAdapter(getActivity(), dataList);
-//        添加footerView
-        if(footerView==null){
-            footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer,null);
-            listView.addFooterView(footerView);
-        }
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_number)).setText(dataList.size()+"歌手");
-//        设置适配器和点击事件
-//        listView.setAdapter(listViewFragmentAdapter);
-        listView.setOnItemClickListener(this);
+        singerList = dataList;
+    }
+
+
+    @Override
+    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 
     @Override
-    protected void doListViewOnItemClick() {
+    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
-
-    private void noDataSettings(){
-        noDataView = LayoutInflater.from(getActivity()).inflate(R.layout.local_music_no_song,null);
-        ((ViewGroup)layoutView).addView(noDataView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        noDataView.findViewById(R.id.btn_scan_music_localmusic_no_song).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ScanningSongActivity.class));
-            }
-        });
-    }
-////    ListView点击事件的监听器
-//    @Override
-//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//    }
 }

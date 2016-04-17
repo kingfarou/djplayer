@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_list_footer_number"
+        android:id="@+id/tv_list_footer_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"

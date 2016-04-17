@@ -20,6 +20,11 @@ public class UpdateUiSongInfoReceiver extends BroadcastReceiver {
     public static final String UPDATE_SONG_INFO = "updateSongInfo";//表示用户修改歌曲信息
     public static final String position = "position";//表示用户所操作的歌曲在列表里面的序号
 
+    public static final String ACTION_UPDATE_SONG_FILE_INFO = "com.danjuan.www.djplayer.ActionString.action_update_song_file_info";
+    public static final String ACTION_COLLECTION_SONG_FILE = "com.jf.djplayer.ActionString.action_collection_song_file";
+    public static final String ACTION_CANCEL_COLLECTION_SONG_FILE = "com.jf.djplayer.ActionString.action_cancel_collection_song_file";
+    public static final String ACTION_DELETE_SONG_FILE = "com.jf.djplayer.ActionString.action_delete_song_file";
+
     private SongInfoObserver songInfoObserver;
     public UpdateUiSongInfoReceiver(SongInfoObserver songInfoObserver){
         this.songInfoObserver = songInfoObserver;

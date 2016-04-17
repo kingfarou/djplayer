@@ -22,7 +22,7 @@ public abstract class BaseActivity extends FragmentActivity{
     }
 
     /**
-     * 之类在此设置Activity布局文件，这是一个工厂方法
+     * 子类在此设置Activity布局文件，这是一个工厂方法
      */
     abstract protected void doSetContentView();
 

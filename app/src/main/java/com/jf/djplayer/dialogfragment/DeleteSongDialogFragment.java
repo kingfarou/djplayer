@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.jf.djplayer.InfoClass;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.tool.FileTool;
@@ -97,7 +98,7 @@ public class DeleteSongDialogFragment extends DialogFragment implements Compound
                 SongInfoOpenHelper deleteOpenHelper = new SongInfoOpenHelper(getActivity(), 1);
                 deleteOpenHelper.deleteFromLocalMusicTable(songInfo);
 //                发送广播通知界面更新UI
-                Intent deleteSongInfo = new Intent(UpdateUiSongInfoReceiver.DELETE_SONG);
+                Intent deleteSongInfo = new Intent(UpdateUiSongInfoReceiver.ACTION_DELETE_SONG_FILE);
                 deleteSongInfo.putExtra(UpdateUiSongInfoReceiver.position,groupPosition);
                 LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(deleteSongInfo);
             }

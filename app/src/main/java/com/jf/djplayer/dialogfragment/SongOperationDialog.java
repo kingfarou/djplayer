@@ -83,7 +83,7 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
                 if (songInfo.getCollection()==0){
                     if(songOperationTools.collect()){
 //                        设置Intent发送广播
-                        Intent sendToUpdateCollection = new Intent(InfoClass.ActionString.UPDATE_SONG_FILE_INFO_ACTION);
+                        Intent sendToUpdateCollection = new Intent(InfoClass.ActionString.ACTION_UPDATE_SONG_FILE_INFO);
                         sendToUpdateCollection.addCategory(InfoClass.CategoryString.UPDATE_COLLECTION_CATEGORY).putExtra("groupPosition",groupPosition);
                         activity.sendBroadcast(sendToUpdateCollection);
                         Toast.makeText(activity, "收藏成功", Toast.LENGTH_SHORT).show();
@@ -93,7 +93,7 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
                 }
                 else{
                     if (songOperationTools.cancelCollect()){
-                        Intent sendToUpdateCollection = new Intent(InfoClass.ActionString.UPDATE_SONG_FILE_INFO_ACTION);
+                        Intent sendToUpdateCollection = new Intent(InfoClass.ActionString.ACTION_UPDATE_SONG_FILE_INFO);
                         sendToUpdateCollection.addCategory(InfoClass.CategoryString.UPDATE_COLLECTION_CATEGORY).putExtra("groupPosition",groupPosition);
                         activity.sendBroadcast(sendToUpdateCollection);
                         Toast.makeText(activity,"取消收藏",Toast.LENGTH_SHORT).show();

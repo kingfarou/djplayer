@@ -102,7 +102,7 @@ public class LocalMusicFragment extends Fragment implements
             listViewPopupWindows.showAsDropDown(FragmentTitleLayout,windowWidths-listViewPopupWindows.getWidth(),0);
         }
         else{
-            listViewPopupWindows = ((LocalMusicListFragment)fragmentViewPagerAdapter.getItem(currentItems)).getListViewPopupWindow();
+            listViewPopupWindows = ((BaseListViewFragment)fragmentViewPagerAdapter.getItem(currentItems)).getListViewPopupWindow();
             listViewPopupWindows.showAsDropDown(FragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
         }
     }

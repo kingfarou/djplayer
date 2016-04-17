@@ -59,8 +59,12 @@ public final class InfoClass {
 
 //    记录所有自己软件所用到的action常量
     public static final class ActionString{
+
 //        任何对数据库的操作发送他
-        public static final String UPDATE_SONG_FILE_INFO_ACTION = "com.danjuan.www.djplayer.ActionString.updateDatabase";
+        public static final String ACTION_UPDATE_SONG_FILE_INFO = "com.danjuan.www.djplayer.ActionString.action_update_song_file_info";
+        public static final String ACTION_COLLECTION_SONG_FILE = "com.jf.djplayer.ActionString.action_collection_song_file";
+        public static final String ACTION_CANCEL_COLLECTION_SONG_FILE = "com.jf.djplayer.ActionString.action_cancel_collection_song_file";
+        public static final String ACTION_DELETE_SONG_FILE = "com.jf.djplayer.ActionString.action_delete_song_file";
 //        任何歌曲状态的改变发送他
         public static final String SONG_STATUS_CHANGE = "com.danjuan.www.djplayer.ActionString.songStatusChange";
     }
@@ -68,7 +72,7 @@ public final class InfoClass {
     public static final class CategoryString{
         public static final String SONG_STATUS_PLAY="com.danjuan.www.djplayer.categoryString.play";
         public static final String SONG_STATUS_PAUSE="com.danjuan.www.djplayer.categoryString.pause";
-        public static final String DELETE_SONG_FILE_CATEGORY = "com.danjuan.www.djplayer.categoryString.deleteSongFile";
+        public static final String CATEGORY_DELETE_SONG_FILE = "com.danjuan.www.djplayer.categoryString.category_delete_song_file";
         public static final String UPDATE_COLLECTION_CATEGORY = "com.danjuan.www.djplayer.categoryString.updateCollection";
         public static final String UPDATE_SONG_FILE_INFO_CATEGORY = "com.danjuan.www.djplayer.categoryString.updateSongFileInfo";
     }

@@ -23,7 +23,7 @@ public class NoSongFragment extends Fragment implements OnClickListener{
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.local_music_no_song, container, false);
-        scanMusicBtn = (Button)view.findViewById(R.id.btn_scan_music_localmusic_no_song);
+        scanMusicBtn = (Button)view.findViewById(R.id.btn_localmusic_nosong_keyscan);
         scanMusicBtn.setOnClickListener(this);
         return view;
     }
