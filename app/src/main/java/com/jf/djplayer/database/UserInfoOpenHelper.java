@@ -1,4 +1,4 @@
-package com.jf.djplayer.tool.database;
+package com.jf.djplayer.database;
 
 import android.content.ContentValues;
 import android.content.Context;

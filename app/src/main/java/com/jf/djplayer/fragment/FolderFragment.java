@@ -15,8 +15,9 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.activity.ScanMusicActivity;
 
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
+import com.jf.djplayer.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
+import com.jf.djplayer.database.SongInfoOpenHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class FolderFragment extends BaseListFragmentInterface{
+public class FolderFragment extends BaseListFragmentInterface {
 
     private View footerView;
     private List<Map<String,String>> folderList;
@@ -59,7 +60,7 @@ public class FolderFragment extends BaseListFragmentInterface{
 
     @Override
     protected List getData() {
-        return new SongInfoOpenHelper(getActivity(),1).getValueSongNumber(SongInfoOpenHelper.folderPath);
+        return new SongInfoOpenHelper(getActivity()).getValueSongNumber(SongInfoOpenHelper.folderPath);
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.jf.djplayer.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +14,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jf.djplayer.GroupBean;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.dialogfragment.SetToBellDialog;
 import com.jf.djplayer.R;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.dialogfragment.DeleteSongDialogFragment;
 import com.jf.djplayer.dialogfragment.SongInfoDialog;
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
+import com.jf.djplayer.database.SongInfoOpenHelper;
 
 import java.util.List;
 

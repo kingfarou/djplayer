@@ -18,7 +18,7 @@
     </com.jf.djplayer.customview.FragmentTitleLayout>
 
     <FrameLayout
-        android:id="@+id/ll_fragment_my_favorite"
+        android:id="@+id/fl_fragment_my_favorite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

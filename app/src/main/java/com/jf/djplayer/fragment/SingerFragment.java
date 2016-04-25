@@ -13,8 +13,9 @@ import android.widget.TextView;
 import com.jf.djplayer.activity.ScanMusicActivity;
 import com.jf.djplayer.activity.ScanningSongActivity;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
+import com.jf.djplayer.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
+import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public class SingerFragment extends BaseListFragmentInterface {
 
     @Override
     protected List getData() {
-        return new SongInfoOpenHelper(getActivity(),1).getValueSongNumber(SongInfoOpenHelper.artist);
+        return new SongInfoOpenHelper(getActivity()).getValueSongNumber(SongInfoOpenHelper.artist);
     }
 
     @Override

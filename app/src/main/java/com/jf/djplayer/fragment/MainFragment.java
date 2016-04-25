@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.jf.djplayer.basefragment.BaseFragment;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.interfaces.ChangeFragment;
-import com.jf.djplayer.other.UserInfo;
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
+import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
 import com.jf.djplayer.activity.MainActivity;
@@ -63,7 +62,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         layoutView.findViewById(R.id.ib_fragment_mine_menu).setOnClickListener(this);//菜单
         menuWindow = new PopupWindow();
 //      读取当前歌曲数量
-        songNumberTv.setText(new SongInfoOpenHelper(getActivity(),1).getLocalMusicNumber()+"首歌曲");
+        songNumberTv.setText(new SongInfoOpenHelper(getActivity()).getLocalMusicNumber()+"首歌曲");
 
     }
 

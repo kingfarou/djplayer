@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.R;
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
-import com.jf.djplayer.tool.database.SystemMediaDatabaseUtils;
+import com.jf.djplayer.database.SongInfoOpenHelper;
+import com.jf.djplayer.database.SystemMediaDatabaseUtils;
 
 
 import java.io.File;
@@ -100,7 +100,7 @@ public class ScanningSongActivity extends BaseTitleActivity {
                 scanPath = params;
             }
             SystemMediaDatabaseUtils systemMediaDatabaseUtils = new SystemMediaDatabaseUtils(ScanningSongActivity.this);//读取系统数据库用的工具类
-            SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(ScanningSongActivity.this,1);
+            SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(ScanningSongActivity.this);
 //            根据所传入的路径读取路径下的所有歌曲
             List<SongInfo> songInfoList = systemMediaDatabaseUtils.getSongInfoAccordingPath(scanPath);
 //            如果没有任何歌曲直接返回

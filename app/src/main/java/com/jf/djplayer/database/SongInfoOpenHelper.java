@@ -1,4 +1,4 @@
-package com.jf.djplayer.tool.database;
+package com.jf.djplayer.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -38,18 +38,13 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
     public static final String absolutionPath = "absolute_path";//音频文件绝对路径
     public static final String folderPath = "folder_path";//歌曲文件所在的文件夹路径
     public static final String collection = "_collection";//标记用户是否收藏音乐
-    public static final String lastPlayTime = "last_play_time";//标记歌曲最后一次播放时间
+    private static final String lastPlayTime = "last_play_time";//标记歌曲最后一次播放时间
     public static final String isDownload = "is_download";//标记歌曲是否是从网络下载
 
     /**
      * 创建本地音乐的数据库操作工具
      * @param context 环境
-     * @param version 版本
      */
-    public SongInfoOpenHelper(Context context,int version){
-        super(context,SONG_INFO_DATABASE_NAME,null,version);
-    }
-
     public SongInfoOpenHelper(Context context){
         super(context,SONG_INFO_DATABASE_NAME,null,1);
     }
@@ -62,22 +57,9 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
                 duration + " " + "INTEGER," +size + " " + "INTEGER," +
                 absolutionPath + " " + "TEXT UNIQUE,"+folderPath+" "+"TEXT,"+
                 collection + " " + "INTEGER," + lastPlayTime+" "+"INTEGER,"+
-                isDownload+" "+"INTEGER"+
-                ");";
-
-////        拼接一个建表语句
-////        表里存着所有经由本软件所下载的歌
-//        String createDownLoadTables = "CREATE TABLE IF NOT EXISTS"+" "+ DOWNLOAD_SONG_TABLE_NAME +"("+
-//                id+" "+"INTEGER PRIMARY KEY,"+absolutionPath+" "+"TEXT UNIQUE"+");";
-
-////        拼接一个建表语句
-////        里面存着用户最近所播放的十首歌曲
-//        String createRecentlyPlayTables = "CREATE TABLE IF NOT EXISTS"+" "+ RECENTLY_PLAY_TABLE_NAME +"("+
-//                id+" "+"INTEGER PRIMARY KEY,"+absolutionPath+" "+"TEXT UNIQUE,"+LAST_PLAY_TIME+" "+"INTEGER"+");";
+                isDownload+" "+"INTEGER"+");";
 
         db.execSQL(createLocalMusicTables);//创建本地音乐的表
-//        db.execSQL(createDownLoadTables);//创建所下载的歌曲的表
-//        db.execSQL(createRecentlyPlayTables);//创建最近播放歌曲的表
     }
 
     @Override
@@ -114,8 +96,8 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         songInfoCursor.close();
         return songInfoList;
     }
+
     /**
-     *
      * 向本地音乐表里面插入一首歌曲信息
      * @param songInfo 需插入的歌曲对象
      * @return 返回新插入的行数ID，如果插入发生错误，返回-1
@@ -158,18 +140,18 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
                 "where"+" "+absolutionPath+"="+"'"+songInfo.getSongAbsolutePath()+"'"+";";
         songInfoDatabase.execSQL(updateString);
 
-//        StringBuilder updateBuilder = new StringBuilder(34);
-////        拼接SQLite语句
-//        updateBuilder.append("update").append(" ").append(LOCAL_MUSIC_TABLE_NAME).append(" ")
-//                .append("set").append(" ").append(title).append("=")
-//                .append("'").append(songInfo.getSongName()).append("'").append(",")
-//                .append(artist).append("=").append("'").append(songInfo.getSingerName())
-//                .append("'").append(",").append(album).append("=")
-//                .append("'").append(songInfo.getSongAlbum()).append("'").append(" ")
-//                .append("where").append(" ").append(absolutionPath).append("=")
-//                .append("'").append(songInfo.getSongAbsolutePath()).append("'").append(";");
-//        songInfoDatabase.execSQL(updateBuilder.toString());
         songInfoDatabase.close();
+    }
+
+    /**
+     * 更新由"songInfo"所制定的绝对路径最近一次播放时间
+     * @param songInfo 要更新的"SongInfo"对象
+     * @param lastPlayTime 最近一次播放时间
+     */
+    public void updateSongRecentlyPlay(SongInfo songInfo, long lastPlayTime){
+        String updateString = "update"+" "+LOCAL_MUSIC_TABLE_NAME+" "+"set"+" "+
+                SongInfoOpenHelper.lastPlayTime+"="+lastPlayTime+" "+
+                "where"+" "+absolutionPath+"="+"'"+songInfo.getSongAbsolutePath()+"'"+";";
     }
 
     /**

@@ -15,7 +15,7 @@ import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.R;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
+import com.jf.djplayer.database.SongInfoOpenHelper;
 
 /**
  * Created by Administrator on 2015/8/20.
@@ -62,7 +62,7 @@ public class EditSongInfoDialog extends DialogFragment {
                         songInfo.setSingerName(artistNameEditText.getText().toString());
                         songInfo.setSongAlbum(albumEditText.getText().toString());
 //                        调用工具类来更新数据库的歌曲信息
-                        SongInfoOpenHelper updateOpenHelper = new SongInfoOpenHelper(getActivity(),1);
+                        SongInfoOpenHelper updateOpenHelper = new SongInfoOpenHelper(getActivity());
                         updateOpenHelper.updateLocalMusicTables(songInfo);
 //                        发送广播通知界面更新数据
 //                        Intent updateSongInfoIntent = new Intent(UpdateUiSongInfoReceiver.UPDATE_SONG_INFO);

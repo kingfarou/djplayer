@@ -19,11 +19,12 @@ import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.R;
 import com.jf.djplayer.activity.ScanningSongActivity;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
+import com.jf.djplayer.basefragment.BaseExpandableListFragment;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
 import com.jf.djplayer.interfaces.SongInfoObserver;
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
+import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.tool.sortable.SongInfoListSortable;
 import com.jf.djplayer.tool.sortable.SortByFileName;
 import com.jf.djplayer.tool.sortable.SortBySingerName;
@@ -178,7 +179,9 @@ public class SongFragment extends BaseExpandableListFragment
                 } else if (position == 1 || position == 2 || position == 3 || position == 4) {
 //                    如果用户选择任意一类排序方式
 //                    根据选项创建不同排序方式
-                    if (position == 1) songInfoListSortable = new SortBySongName();//按歌曲的名字排序
+                    if (position == 1) {
+                        songInfoListSortable = new SortBySongName();//按歌曲的名字排序
+                    }
                     else if (position == 2) {
                         songInfoListSortable = new SortBySingerName();//按歌手的名字排序
                     } else if (position == 3) {

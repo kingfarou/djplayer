@@ -1,4 +1,4 @@
-package com.jf.djplayer.fragment;
+package com.jf.djplayer.basefragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -168,10 +168,17 @@ abstract public class BaseExpandableListFragment extends BaseFragment
     }
 
     protected final void loadingDataAsync(){
-        new LoadingAsyncTask().execute();
+       loadingAsyncTask = new LoadingAsyncTask();
+        loadingAsyncTask.execute();
     }
 
-    //    异步读取数据用的任务
+    /**
+     * 这个异步任务实现如下效果：
+     * 1>在读取要显示到"ExpandableListView"的数据前，显示一个提示界面，界面由子类来决定
+     * 2>读取数据的方法在异步线程里面调用
+     * 3>数据读取完成之后，为"ExpandableListView"设置一个"EmptyView"，用于无数据时候的显示
+     * 需要注意的一点是，这个任务既可以在"onCreateView()"方法调用，也可以在"onActivityResult()"里面调用
+     */
     private class LoadingAsyncTask extends AsyncTask<Void, Void, List> {
 
         @Override

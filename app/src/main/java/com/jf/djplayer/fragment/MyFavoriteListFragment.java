@@ -17,10 +17,11 @@ import android.widget.TextView;
 
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
+import com.jf.djplayer.basefragment.BaseExpandableListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
 import com.jf.djplayer.interfaces.SongInfoObserver;
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
+import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.tool.sortable.SortBySingerName;
 import com.jf.djplayer.R;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
@@ -80,7 +81,7 @@ public class MyFavoriteListFragment extends BaseExpandableListFragment
 
     @Override
     protected List readData() {
-        favoriteList = new SongInfoOpenHelper(getActivity(),1).getCollectionSongInfo();
+        favoriteList = new SongInfoOpenHelper(getActivity()).getCollectionSongInfo();
         return favoriteList;
     }
 

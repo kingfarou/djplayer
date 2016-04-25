@@ -1,4 +1,4 @@
-package com.jf.djplayer.tool.database;
+package com.jf.djplayer.database;
 
 import android.content.Context;
 import android.database.Cursor;

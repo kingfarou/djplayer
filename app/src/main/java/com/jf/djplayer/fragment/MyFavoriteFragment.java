@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.interfaces.ChangeFragment;
@@ -35,8 +34,8 @@ public class MyFavoriteFragment extends Fragment implements FragmentTitleLayout.
     private void viewInit(){
         FragmentTitleLayout = (FragmentTitleLayout)layoutView.findViewById(R.id.fragmentTitleLinearLayout_fragment_my_favorite);
         FragmentTitleLayout.setItemClickListener(this);
-        contentLinearLayout = (FrameLayout)layoutView.findViewById(R.id.ll_fragment_my_favorite);
-        getChildFragmentManager().beginTransaction().add(R.id.ll_fragment_my_favorite,new MyFavoriteListFragment()).commit();
+        contentLinearLayout = (FrameLayout)layoutView.findViewById(R.id.fl_fragment_my_favorite);
+        getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_my_favorite,new MyFavoriteListFragment()).commit();
     }
     @Override
     public void onAttach(Activity activity) {

@@ -27,7 +27,7 @@ import com.jf.djplayer.service.PlayerService;
 import com.jf.djplayer.tool.RemindUiUpdateThread;
 import com.jf.djplayer.tool.SendSongPlayProgress;
 import com.jf.djplayer.tool.UserOptionTool;
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
+import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.tool.playertool.PlayerOperator;
 
 import com.jf.djplayer.customview.FragmentTitleLayout;
@@ -252,7 +252,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         }else if(id == R.id.iv_activity_song_playInfo_nextSong){//如果用户点击了下一曲
             playerService.nextSong();
         }else if(id == R.id.iv_activity_song_playInfo_collection){//如果用户点击收藏或者取消收藏
-            SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(SongPlayInfoActivity.this,1);
+            SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(SongPlayInfoActivity.this);
             if(lastSongInfo.getCollection()==0){
                 lastSongInfo.setCollection(1);
                 songInfoOpenHelper.updateCollection(lastSongInfo,1);

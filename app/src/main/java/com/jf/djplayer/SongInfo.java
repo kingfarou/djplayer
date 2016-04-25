@@ -52,87 +52,53 @@ public class SongInfo implements Serializable {
     }
 
 
-    /**
-     * 设置当前歌曲名字
-     * @param songName 歌曲名字
-     */
     public void setSongName(String songName) {
         this.songName = songName;
     }
-
-    /**
-     * 设置当前歌手名字
-     * @param singerName 歌手名字
-     */
-    public void setSingerName(String singerName) {
-        this.singerName = singerName;
-    }
-
-    /**
-     * 设置当前歌曲专辑
-     * @param songAlbum 歌曲专辑
-     */
-    public void setSongAlbum(String songAlbum) {
-        this.songAlbum = songAlbum;
-    }
-
-    /**
-     * 设置当前歌曲播放时长
-     * @param songDuration 毫秒数表示的歌曲播放时长
-     */
-    public void setSongDuration(int songDuration) {
-        this.songDuration = songDuration;
-    }
-
-    /**
-     * 传入当前歌曲文件大小
-     * @param songSize 文件大小
-     */
-    public void setSongSize(int songSize) {
-            this.songSize = songSize;
-
-    }
-
-    /**
-     * 设置当前歌曲文件绝对路径
-     * @param songAbsolutePath 字符串形式表示的绝对路径
-     */
-    public void setSongAbsolutePath(String songAbsolutePath){
-            this.songAbsolutePath = songAbsolutePath;
-
-    }
-
-    /**
-     * 设置歌曲是否被用户说收藏
-     * @param collection 1表示被用户收藏，0则表示没有收藏
-     */
-    public void setCollection(int collection){
-            this.collection = collection;
-
-    }
-
-
     public String getSongName() {
         return songName;
     }
 
+    public void setSingerName(String singerName) {
+        this.singerName = singerName;
+    }
     public String getSingerName() {
         return singerName;
     }
 
+    public void setSongAlbum(String songAlbum) {
+        this.songAlbum = songAlbum;
+    }
     public String getSongAlbum() {
         return songAlbum;
+    }
+
+    public void setSongDuration(int songDuration) {
+        this.songDuration = songDuration;
     }
     public int getSongDuration() {
         return songDuration;
     }
 
+    public void setSongSize(int songSize) {
+        this.songSize = songSize;
+
+    }
     public int getSongSize() {
         return songSize;
     }
 
+    public void setSongAbsolutePath(String songAbsolutePath){
+        this.songAbsolutePath = songAbsolutePath;
+
+    }
     public String getSongAbsolutePath() {
         return songAbsolutePath;
+    }
+
+    public void setCollection(int collection){
+        this.collection = collection;
+
     }
     public int getCollection(){
         return this.collection;

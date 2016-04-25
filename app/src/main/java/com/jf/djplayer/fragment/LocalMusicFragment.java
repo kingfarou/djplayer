@@ -5,20 +5,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.basefragment.BaseListFragment;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.customview.TextViewLinearLayout;
 
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.interfaces.ChangeFragment;
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,7 @@ public class LocalMusicFragment extends Fragment implements
     //    viewPager初始化
     private void viewPagerInit() {
 //        初始化数据库适配器和数据集合
-        SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(getActivity(), 1);
+//        SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(getActivity(), 1);
         fragmentViewPagerAdapter = new FragmentViewPagerAdapter(getChildFragmentManager());
         List<Fragment> fragmentList = new ArrayList<>(4);
 //   如果数据库里面有歌曲

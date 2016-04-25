@@ -1,4 +1,4 @@
-package com.jf.djplayer.fragment;
+package com.jf.djplayer.basefragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;

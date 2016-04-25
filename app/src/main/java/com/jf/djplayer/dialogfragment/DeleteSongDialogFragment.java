@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.tool.FileTool;
-import com.jf.djplayer.tool.database.SongInfoOpenHelper;
+import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
 import java.io.File;
@@ -92,7 +92,7 @@ public class DeleteSongDialogFragment extends DialogFragment implements Compound
                     lyricFile.delete();
                 }
 //                清除数据库里面的歌曲记录
-                SongInfoOpenHelper deleteOpenHelper = new SongInfoOpenHelper(getActivity(), 1);
+                SongInfoOpenHelper deleteOpenHelper = new SongInfoOpenHelper(getActivity());
                 deleteOpenHelper.deleteFromLocalMusicTable(songInfo);
 //                发送广播通知界面更新UI
                 Intent deleteSongInfo = new Intent(UpdateUiSongInfoReceiver.ACTION_DELETE_SONG_FILE);

@@ -1,9 +1,10 @@
-package com.jf.djplayer.fragment;
+package com.jf.djplayer.basefragment;
 
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.jf.djplayer.basefragment.BaseListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * 该类作为"BaseListFragment"类和其子类间的一个类，
  * 使得其子类不需要被迫实现用不上的方法
  */
-public class BaseListFragmentInterface extends BaseListFragment{
+public class BaseListFragmentInterface extends BaseListFragment {
 
 
     @Override
