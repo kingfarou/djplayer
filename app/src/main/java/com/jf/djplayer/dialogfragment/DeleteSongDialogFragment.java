@@ -1,6 +1,5 @@
 package com.jf.djplayer.dialogfragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,7 +10,6 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -20,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.jf.djplayer.InfoClass;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.tool.FileTool;
@@ -80,7 +77,7 @@ public class DeleteSongDialogFragment extends DialogFragment implements Compound
 //                如果删除歌手图片
                 if (isDeleteSingerPicture) {
 //                    File artistPictureDir = new File(Environment.getExternalStorageDirectory(),FileTool.SINGER_PICTURE_DIR);
-//                    File artistPictureFile = new File(artistPictureDir,songInfo.getSongSinger()+".jpg");
+//                    File artistPictureFile = new File(artistPictureDir,songInfo.getSingerName()+".jpg");
 //                    artistPictureFile.delete();
                 }
                 if (isDeleteSoundFile) {

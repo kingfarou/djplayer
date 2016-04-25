@@ -1,9 +1,9 @@
 package com.jf.djplayer.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +15,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jf.djplayer.GroupBean;
 import com.jf.djplayer.SongInfo;
 import com.jf.djplayer.dialogfragment.SetToBellDialog;
-import com.jf.djplayer.tool.SongOperationUtils;
 import com.jf.djplayer.R;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.dialogfragment.DeleteSongDialogFragment;
@@ -37,13 +37,12 @@ public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
 
     private List<SongInfo> songInfoList;
     private Activity activity;
-    private ExpandableListView expandableListView;
 
-    public ExpandableFragmentAdapter(Activity context, ExpandableListView expandableListView, List<SongInfo> songInfoList){
-        this.songInfoList = songInfoList;
+    public ExpandableFragmentAdapter(Activity context, List<SongInfo> songInfoList){
         this.activity = context;
-        this.expandableListView = expandableListView;
+        this.songInfoList = songInfoList;
     }
+
     @Override
     public int getGroupCount() {
         return songInfoList.size();
@@ -93,8 +92,7 @@ public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-
+    public View getGroupView(final int groupPosition, final boolean isExpanded, View convertView, final ViewGroup parent) {
         MyGroupViewHolder myGroupViewHolder = null;
         if (convertView==null) {
             myGroupViewHolder = new MyGroupViewHolder();
@@ -110,17 +108,25 @@ public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
 //        设置要显示的歌曲信息
         myGroupViewHolder.position.setText(groupPosition+1+"");
         myGroupViewHolder.songName.setText(songInfoList.get(groupPosition).getSongName());
-        myGroupViewHolder.artistName.setText(songInfoList.get(groupPosition).getSongSinger());
+        myGroupViewHolder.artistName.setText(songInfoList.get(groupPosition).getSingerName());
         //如果栏目原本打开那就绘制向上那个箭头
-        if (isExpanded) myGroupViewHolder.arrow.setImageResource(R.drawable.icon_drop);
+        if (isExpanded) {
+            myGroupViewHolder.arrow.setImageResource(R.drawable.icon_drop);
+        }
 //        否则会指向下那个
-        else myGroupViewHolder.arrow.setImageResource(R.drawable.icon_down);
+        else {
+            myGroupViewHolder.arrow.setImageResource(R.drawable.icon_down);
+        }
 //        给箭头按钮设置监听器
         myGroupViewHolder.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (expandableListView.isGroupExpanded(groupPosition)) expandableListView.collapseGroup(groupPosition);
-                else expandableListView.expandGroup(groupPosition);
+                if (((ExpandableListView)parent).isGroupExpanded(groupPosition)) {
+                    ((ExpandableListView)parent).collapseGroup(groupPosition);
+                }
+                else {
+                    ((ExpandableListView)parent).expandGroup(groupPosition);
+                }
             }
         });
         return convertView;
@@ -165,49 +171,58 @@ public class ExpandableFragmentAdapter extends BaseExpandableListAdapter {
     该类定义"ExpandableListView"里的子列表里面的"GridView"里的item点击事件
      */
     private class ExpandableChildItemClick implements AdapterView.OnItemClickListener{
-        private SongOperationUtils songOperationTools;
         private SongInfo songInfo;
         private int groupPosition;
 
         ExpandableChildItemClick(SongInfo songInfo,int groupPosition){
-            this.songOperationTools = new SongOperationUtils(songInfo);
             this.songInfo = songInfo;
             this.groupPosition = groupPosition;
         }
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            switch(position){
 //            如果用户收藏或者取消收藏某一首歌
-            if(position==0){
-                SongInfoOpenHelper collectionOpenHelper = new SongInfoOpenHelper(activity,1);
-                Intent updateCollection;
-                if (songInfo.getCollection()==0) {
-                //如果歌曲原先没有被收藏的
-                    collectionOpenHelper.updateCollection(songInfo, 1);//1表示歌曲需收藏
-                    songInfo.setCollection(1);
-                    updateCollection = new Intent(UpdateUiSongInfoReceiver.COLLECTION_SONG);
-                }else{
-                    collectionOpenHelper.updateCollection(songInfo, 0);
-                    songInfo.setCollection(0);
-                    updateCollection = new Intent(UpdateUiSongInfoReceiver.CANCEL_COLLECTION_SONG);
-                }
+                case 0:
+                    SongInfoOpenHelper collectionOpenHelper = new SongInfoOpenHelper(activity);
+                    Intent updateCollection;
+                    if (songInfo.getCollection()==0) {
+                        //如果歌曲原先没有被收藏的
+                        collectionOpenHelper.updateCollection(songInfo, 1);//1表示歌曲需收藏
+                        songInfo.setCollection(1);
+//                        updateCollection = new Intent(UpdateUiSongInfoReceiver.COLLECTION_SONG);
+                        updateCollection = new Intent(UpdateUiSongInfoReceiver.ACTION_COLLECTION_SONG);
+                    }else{
+                        collectionOpenHelper.updateCollection(songInfo, 0);
+                        songInfo.setCollection(0);
+                        updateCollection = new Intent(UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG);
+                    }
 //                发送广播通知界面更新UI
-                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(activity);
-                updateCollection.putExtra(UpdateUiSongInfoReceiver.position,groupPosition);//传递所操作的序号
-                localBroadcastManager.sendBroadcast(updateCollection);
-//                Toast.makeText(context,toastContent,Toast.LENGTH_SHORT).show();
-            }else if(position==1){
-//                如果点击删除歌曲
-//                打开删除的提示框
-                DeleteSongDialogFragment deleteSongDialogFragment = new DeleteSongDialogFragment(activity,songInfo,groupPosition);
-                deleteSongDialogFragment.show(activity.getFragmentManager(),"DeleteSongDialogFragment");
-            }else if(position==3){
-                SetToBellDialog setToBellDialog = new SetToBellDialog(activity,this.songInfo);
-                setToBellDialog.show(activity.getFragmentManager(),"setToBellDialog");
-            }else if(position==6){
-                SongInfoDialog songInfoDialog = new SongInfoDialog(songInfo,groupPosition);
-                songInfoDialog.show(activity.getFragmentManager(), "songOperationDialog");
-            }//判断position
-        }
+                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(activity);
+                    updateCollection.putExtra(UpdateUiSongInfoReceiver.position,groupPosition);//传递所操作的序号
+                    localBroadcastManager.sendBroadcast(updateCollection);
+                    break;
+                case 1:
+                    //如果点击删除歌曲
+                    //打开删除的提示框
+                    DeleteSongDialogFragment deleteSongDialogFragment = new DeleteSongDialogFragment(activity,songInfo,groupPosition);
+                    deleteSongDialogFragment.show(activity.getFragmentManager(),"DeleteSongDialogFragment");
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    SetToBellDialog setToBellDialog = new SetToBellDialog(activity,this.songInfo);
+                    setToBellDialog.show(activity.getFragmentManager(),"setToBellDialog");
+                    break;
+                //这个表示分享功能
+                case 4:
+                    break;
+                case 6:
+                    SongInfoDialog songInfoDialog = new SongInfoDialog(songInfo,groupPosition);
+                    songInfoDialog.show(activity.getFragmentManager(), "songOperationDialog");
+                    break;
+                default:break;
+            }//switch(position)
+        }//onItemClick()
     }//ExpandableChildItemClick
 
 }

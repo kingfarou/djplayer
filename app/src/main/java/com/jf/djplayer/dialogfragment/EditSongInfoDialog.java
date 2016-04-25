@@ -44,7 +44,7 @@ public class EditSongInfoDialog extends DialogFragment {
         albumEditText = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_album);
         styleEditText = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_style);
         songNameEditText.setText(songInfo.getSongName());
-        artistNameEditText.setText(songInfo.getSongSinger());
+        artistNameEditText.setText(songInfo.getSingerName());
         albumEditText.setText(songInfo.getSongAlbum());
         styleEditText.setText("<未知>");
     }
@@ -59,13 +59,14 @@ public class EditSongInfoDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
 //                        将新数据给设置好
                         songInfo.setSongName(songNameEditText.getText().toString());
-                        songInfo.setSongSinger(artistNameEditText.getText().toString());
+                        songInfo.setSingerName(artistNameEditText.getText().toString());
                         songInfo.setSongAlbum(albumEditText.getText().toString());
 //                        调用工具类来更新数据库的歌曲信息
                         SongInfoOpenHelper updateOpenHelper = new SongInfoOpenHelper(getActivity(),1);
                         updateOpenHelper.updateLocalMusicTables(songInfo);
 //                        发送广播通知界面更新数据
-                        Intent updateSongInfoIntent = new Intent(UpdateUiSongInfoReceiver.UPDATE_SONG_INFO);
+//                        Intent updateSongInfoIntent = new Intent(UpdateUiSongInfoReceiver.UPDATE_SONG_INFO);
+                        Intent updateSongInfoIntent = new Intent(UpdateUiSongInfoReceiver.ACTION_UPDATE_SONG_FILE_INFO);
                         updateSongInfoIntent.putExtra(UpdateUiSongInfoReceiver.position,position);
                         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(updateSongInfoIntent);
                     }

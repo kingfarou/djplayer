@@ -39,21 +39,12 @@ public class ScanningSongActivity extends BaseTitleActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        以下代码分别都迁移到对应工厂方法里面
-//        setContentView(R.layout.activity_scanning_song);
-//        viewInit();//findViewById
-//        pathList = getIntent().getStringArrayListExtra("scanFileList");//获取用户所选择的扫描路径
-////        如果用户没有选择任何路径
-//        if (pathList==null) new ScanSongAsyncTask().execute(null,null);//读取系统所有路径下的文件
-//        else new ScanSongAsyncTask().execute((String[]) (pathList.toArray()));//读取用户指定路径下的文件
-//        Log.i("test", "异步任务开始执行");
     }
 
     @Override
     protected void doSetContentView() {
         setContentView(R.layout.activity_scanning_song);
     }
-
 
     @Override
     protected void extrasInit() {
@@ -91,23 +82,6 @@ public class ScanningSongActivity extends BaseTitleActivity {
         //这里需要结束后台任务
     }
 
-    /*
-    显示界面的初始化
-     */
-//    该方法体里的代码"widgetsInit()"方法里面
-//    private void viewInit() {
-//        this.scanningIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanning);
-//        this.scanFinishIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanFinish);
-//        this.scanInfoTv = (TextView) findViewById(R.id.tv_activity_scanning_song_scanInfo);
-//        this.progressBar = (ProgressBar)findViewById(R.id.pb_activity_scanning_song);
-//        this.scanFinishButton = (Button) findViewById(R.id.btn_activity_scanning_song_scanFinish);
-//        this.scanFinishButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();//点击扫描完成按钮即可结束窗体
-//            }
-//        });
-//    }
 
     private class ScanSongAsyncTask extends AsyncTask<String,String,Integer>{
 
@@ -122,11 +96,17 @@ public class ScanningSongActivity extends BaseTitleActivity {
         protected Integer doInBackground(String... params) {
             String[] scanPath = null;
 //            params[0]!=null说明用户对路径有选择，否则的话表示搜索所有路径
-            if (params[0]!=null) scanPath = params;
+            if (params[0]!=null) {
+                scanPath = params;
+            }
             SystemMediaDatabaseUtils systemMediaDatabaseUtils = new SystemMediaDatabaseUtils(ScanningSongActivity.this);//读取系统数据库用的工具类
             SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(ScanningSongActivity.this,1);
 //            根据所传入的路径读取路径下的所有歌曲
             List<SongInfo> songInfoList = systemMediaDatabaseUtils.getSongInfoAccordingPath(scanPath);
+//            如果没有任何歌曲直接返回
+            if(songInfoList==null){
+                return 0;
+            }
 //            循环遍历读取到的所有歌曲
             int insertSongNumber = 0;
             for(SongInfo songInfo:songInfoList){

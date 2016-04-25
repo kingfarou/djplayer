@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class AlbumFragment extends BaseListViewFragment {
+public class AlbumFragment extends BaseListFragmentInterface {
 
     private List<Map<String,String>> albumList;
 
@@ -56,7 +56,8 @@ public class AlbumFragment extends BaseListViewFragment {
 
     @Override
     protected List getData() {
-        return new SongInfoOpenHelper(getActivity(), 1).getValueSongNumber(SongInfoOpenHelper.album);
+//        return new SongInfoOpenHelper(getActivity(), 1).getValueSongNumber(SongInfoOpenHelper.album);
+        return new SongInfoOpenHelper(getActivity()).getValueSongNumber(SongInfoOpenHelper.album);
     }
 
     @Override
@@ -70,14 +71,11 @@ public class AlbumFragment extends BaseListViewFragment {
         if(albumList==null){
             return null;
         }
-        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
+        View footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(albumList.size()+"专辑");
+//        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
+//        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(albumList.size()+"专辑");
         return footerView;
-    }
-
-    @Override
-    protected View getListViewHeaderView() {
-        return null;
     }
 
     public ListViewPopupWindows getListViewPopupWindow(){
@@ -91,10 +89,10 @@ public class AlbumFragment extends BaseListViewFragment {
                     startActivity(new Intent(getActivity(),ScanningSongActivity.class));
                 } else if (position == 1) {
                     sortAccordingTitle();
-                    listViewFragmentAdapter.notifyDataSetChanged();
+                    listViewAdapter.notifyDataSetChanged();
                 } else if (position == 2) {
                     sortAccordingContent();
-                    listViewFragmentAdapter.notifyDataSetChanged();
+                    listViewAdapter.notifyDataSetChanged();
                 }
                 popupWindows.dismiss();
             }

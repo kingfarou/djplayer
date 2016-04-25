@@ -36,27 +36,11 @@ public class MainActivity extends BaseNoTitleActivity implements ChangeFragment,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
-        由于继承"BaseNoTitleActivity"部分方法需要修改或者迁移
-        requestWindowFeature(Window.FEATURE_NO_TITLE)方法已在几类里面调用，不再重复。
-        绑定服务转移到了"extraInit()"方法里面。
-        动态添加"Fragment"转移到了"widgetsInit()"方法里面
-         */
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);//删除掉ActionBar
-//        setContentView(R.layout.activity_main);
-////        通过两个方式启动服务确保解绑之后服务不会关闭
-//        Intent startService = new Intent(this,PlayerService.class);
-//        startService(startService);
-//        bindService(startService,this,BIND_AUTO_CREATE);
-////        动态加载MineFragment
-//        fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().add(R.id.ll_activity_main,new MainFragment()).commit();
-////        创建应用在外存的相关目录
-//        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-//            appDirInit();
-//        }else{
-//            Toast.makeText(this, "SD卡读取失败，请确定已正确插入", Toast.LENGTH_SHORT).show();
-//        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -84,7 +68,7 @@ public class MainActivity extends BaseNoTitleActivity implements ChangeFragment,
         }
     }
 
-    //    创建应用在外村的相关目录
+    //创建应用在外存的相关目录
     private void appDirInit(){
         FileTool fileTool = new FileTool(this);
         fileTool.createAppRootDir();//创建应用的根目录
@@ -99,7 +83,7 @@ public class MainActivity extends BaseNoTitleActivity implements ChangeFragment,
 
 
 //    活动里的Fragment通过他来通知活动
-//    更换新的Fragment
+//      添加新的Fragment
     @Override
     public void replaceFragments(Fragment fragment) {
         fragmentManager.beginTransaction().replace(R.id.fl_activity_main_fragment_container,fragment).addToBackStack(null).commit();

@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class SingerFragment extends BaseListViewFragment {
+public class SingerFragment extends BaseListFragmentInterface {
 
     private List<Map<String,String>> singerList;
     @Nullable
@@ -70,18 +70,15 @@ public class SingerFragment extends BaseListViewFragment {
         if(singerList==null){
             return null;
         }
-        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
+//        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
+//        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(singerList.size()+"歌手");
+        View footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(singerList.size()+"歌手");
         return footerView;
     }
 
-    @Override
-    protected View getListViewHeaderView() {
-        return null;
-    }
-
     public ListViewPopupWindows getListViewPopupWindow(){
-        ListViewPopupWindows listViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{"扫描音乐","按歌手名排序","按歌曲数量排序"});
+        final ListViewPopupWindows listViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{"扫描音乐","按歌手名排序","按歌曲数量排序"});
         listViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -89,10 +86,10 @@ public class SingerFragment extends BaseListViewFragment {
                     startActivity(new Intent(getActivity(), ScanMusicActivity.class));
                 } else if (position == 1) {
                     sortAccordingTitle();
-                    listViewFragmentAdapter.notifyDataSetChanged();
+                    listViewAdapter.notifyDataSetChanged();
                 } else if (position == 2) {
                     sortAccordingContent();
-                    listViewFragmentAdapter.notifyDataSetChanged();
+                    listViewAdapter.notifyDataSetChanged();
                 }
                 popupWindows.dismiss();
             }

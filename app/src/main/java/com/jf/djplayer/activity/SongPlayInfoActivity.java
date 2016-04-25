@@ -343,7 +343,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         FragmentTitleLayout.setTitleText(currentPlaySongInfo.getSongName());
 //            设置当前歌手图片
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            SingerPictureTools singerPictureTools = new SingerPictureTools(currentPlaySongInfo.getSongSinger());
+            SingerPictureTools singerPictureTools = new SingerPictureTools(currentPlaySongInfo.getSingerName());
             if(singerPictureTools.hasSingerPicture()) singerPictureLinearLayout.setBackground(singerPictureTools.getSingerPicture());
         }
 //            设置进度条最大值

@@ -11,11 +11,11 @@
         android:id="@+id/fragmentTitleLinearLayout_fragment_mine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
-        customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_fragment_mine_loading"
+        android:padding="8dp"
+        customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_app"
         customView:fragmentTitleLinearLayout_moreImageVisibility="gone"
         customView:fragmentTitleLinearLayout_distance="8dp"
-        customView:fragmentTitleLinearLayout_titleText="登陆/注册"
+        customView:fragmentTitleLinearLayout_titleText="@string/app_name"
         android:background="@color/sky_blue">
     </com.jf.djplayer.customview.FragmentTitleLayout>
 
@@ -95,13 +95,13 @@
             android:id="@+id/btn_fragment_main_my_favorite"
             android:drawableLeft="@drawable/ic_fragment_mine_my_favorite"
             android:drawableStart="@drawable/ic_fragment_mine_my_favorite"
-            android:text="@string/my_favorite"
+            android:text="@string/fragment_name_my_favorite"
             style="@style/fragment_main_button"/>
         <Button
             android:id="@+id/btn_fragment_main_my_down"
             android:drawableLeft="@drawable/ic_fragment_mine_my_download"
             android:drawableStart="@drawable/ic_fragment_mine_my_download"
-            android:text="@string/my_download"
+            android:text="@string/fragment_name_my_download"
             style="@style/fragment_main_button"/>
 
     </LinearLayout>
@@ -113,13 +113,13 @@
             android:id="@+id/btn_fragment_mine_song_menu"
             android:drawableLeft="@drawable/ic_fragment_mine_song_menu"
             android:drawableStart="@drawable/ic_fragment_mine_song_menu"
-            android:text="我的歌单"
+            android:text="@string/fragment_name_my_song_menu"
             style="@style/fragment_main_button"/>
         <Button
             android:id="@+id/btn_fragment_mine_recently_play"
             android:drawableLeft="@drawable/ic_fragment_mine_recently_play"
             android:drawableStart="@drawable/ic_fragment_mine_recently_play"
-            android:text="@string/recently_play"
+            android:text="@string/fragment_name_recently_play"
             style="@style/fragment_main_button"/>
     </LinearLayout>
 

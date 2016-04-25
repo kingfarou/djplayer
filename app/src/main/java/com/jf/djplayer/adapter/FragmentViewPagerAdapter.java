@@ -20,6 +20,11 @@ public class FragmentViewPagerAdapter extends FragmentStatePagerAdapter{
     public void setFragments(List<Fragment> fragmentList){
         this.fragmentList = fragmentList;
     }
+
+    public List<Fragment> getFragmentList() {
+        return fragmentList;
+    }
+
     @Override
     public Fragment getItem(int position) {
         return fragmentList.get(position);

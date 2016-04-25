@@ -1,9 +1,11 @@
 package com.jf.djplayer.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,13 @@ public class LocalMusicFragment extends Fragment implements
         return layoutView;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for(Fragment fragment:fragmentViewPagerAdapter.getFragmentList()){
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     //    view做初始化
     private void viewInit() {
@@ -95,15 +104,20 @@ public class LocalMusicFragment extends Fragment implements
     //    标题栏的"更多按钮"被按下了
     @Override
     public void onMoreIvOnclick() {
-        int currentItems = viewPager.getCurrentItem();
         ListViewPopupWindows listViewPopupWindows;
-        if(currentItems==0) {
-            listViewPopupWindows = ((BaseExpandableListFragment)fragmentViewPagerAdapter.getItem(0)).getListViewPopupWindow();
-            listViewPopupWindows.showAsDropDown(FragmentTitleLayout,windowWidths-listViewPopupWindows.getWidth(),0);
-        }
-        else{
-            listViewPopupWindows = ((BaseListViewFragment)fragmentViewPagerAdapter.getItem(currentItems)).getListViewPopupWindow();
-            listViewPopupWindows.showAsDropDown(FragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
+        Fragment fragment = fragmentViewPagerAdapter.getItem(viewPager.getCurrentItem());
+        switch (viewPager.getCurrentItem()){
+            case 0:
+                listViewPopupWindows = ((SongFragment)fragment).getListViewPopupWindow();
+                listViewPopupWindows.showAsDropDown(FragmentTitleLayout,windowWidths-listViewPopupWindows.getWidth(),0);
+                break;
+            case 1:
+            case 2:
+            case 3:
+                listViewPopupWindows = ((BaseListFragment)fragment).getListViewPopupWindow();
+                listViewPopupWindows.showAsDropDown(FragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
+                break;
+            default:break;
         }
     }
 

@@ -12,7 +12,7 @@
         android:padding="8dp"
         android:background="@color/sky_blue"
         customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_return"
-        customView:fragmentTitleLinearLayout_titleText="我的最爱"
+        customView:fragmentTitleLinearLayout_titleText="@string/fragment_name_my_favorite"
         customView:fragmentTitleLinearLayout_titleTextSize="8sp">
 
     </com.jf.djplayer.customview.FragmentTitleLayout>

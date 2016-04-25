@@ -26,9 +26,9 @@ public class SortBySingerName implements SongInfoListSortable,Comparator<SongInf
     @Override
     public int compare(SongInfo lhs, SongInfo rhs) {
         CollationKey key1 = collator
-                .getCollationKey(lhs.getSongSinger());
+                .getCollationKey(lhs.getSingerName());
         CollationKey key2 = collator
-                .getCollationKey(rhs.getSongSinger());
+                .getCollationKey(rhs.getSingerName());
         return key1.compareTo(key2);
     }
 }

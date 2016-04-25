@@ -10,7 +10,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jf.djplayer.activity.UserInfoActivity;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.other.UserInfo;
@@ -30,7 +29,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     private TextView songNumberTv = null;//这是显示歌曲数量用的
     private ImageButton dice = null;//中间布局那个色子
     private FragmentTitleLayout FragmentTitleLayout;
-    private final int SIGN_IN_REQUEST_CODE = 1;//这是启动登录的请求码
+//    新版取消登录功能
+//    private final int SIGN_IN_REQUEST_CODE = 1;//这是启动登录的请求码
     private ImageButton menu = null;//中间布局右下角的那个菜单
     private PopupWindow menuWindow = null;
 //    private int windowsWidth = 0;
@@ -103,15 +103,14 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 //    三个方法下面覆盖
     @Override
     public void onTitleClick() {
+//        新版取消登录功能
 //        用户点击登录或者注册
-        startActivityForResult(new Intent(getActivity(), UserInfoActivity.class),SIGN_IN_REQUEST_CODE);
+//        startActivityForResult(new Intent(getActivity(), UserInfoActivity.class),SIGN_IN_REQUEST_CODE);
     }
 
 //    当前页卡并不支持搜索按钮
     @Override
-    public void onSearchIvOnclick() {
-
-    }
+    public void onSearchIvOnclick() {}
 
 
 //    更多按钮按下时的回调方法
@@ -124,13 +123,14 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         super.onActivityResult(requestCode, resultCode, data);
 //        如果请求已经成功
         if(resultCode==MainActivity.RESULT_OK){
+//            新版取消登录功能
 //            如果是登录请求码
-            if(requestCode == SIGN_IN_REQUEST_CODE){
-                UserInfo userInfo = (UserInfo)data.getSerializableExtra("userInfo");
-                FragmentTitleLayout.setTitleText(userInfo.getUserName());
-                //这里填写登录成功后的操作
-                Toast.makeText(getActivity(),"登陆成功",Toast.LENGTH_SHORT).show();
-            }
+//            if(requestCode == SIGN_IN_REQUEST_CODE){
+//                UserInfo userInfo = (UserInfo)data.getSerializableExtra("userInfo");
+//                FragmentTitleLayout.setTitleText(userInfo.getUserName());
+//                //这里填写登录成功后的操作
+//                Toast.makeText(getActivity(),"登陆成功",Toast.LENGTH_SHORT).show();
+//            }
         }
     }//onActivityResult()
 }

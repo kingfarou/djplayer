@@ -13,6 +13,6 @@ public class BaseFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        打印当前在哪一个Fragment，方便调试
-        Log.i("which_fragment",this.getClass().getName());
+        Log.i("fragment_name",this.getClass().getSimpleName());
     }
 }

@@ -148,7 +148,7 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
 
     private void setNewSongInfo(SongInfo theNewSongInfo){
         //            这里更新歌手名字
-        singerNameTv.setText(theNewSongInfo.getSongSinger());
+        singerNameTv.setText(theNewSongInfo.getSingerName());
 //            如果外存可读的话读取歌词
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
 //            根据音乐文件读取歌词：文件名字.mp3

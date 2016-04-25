@@ -59,7 +59,7 @@ public class SongInfoDialog extends DialogFragment {
         int minutes = songInfo.getSongDuration()/1000/60;
         int second = songInfo.getSongDuration()/1000%60;
         ((TextView)view.findViewById(R.id.tv_dialog_song_info_songName)).setText("歌曲："+songInfo.getSongName());
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_singer)).setText("歌手："+songInfo.getSongSinger());
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_singer)).setText("歌手："+songInfo.getSingerName());
         ((TextView)view.findViewById(R.id.tv_dialog_song_info_albumn)).setText("专辑："+songInfo.getSongAlbum());
         ((TextView)view.findViewById(R.id.tv_dialog_song_info_style)).setText("风格；未知");
         ((TextView)view.findViewById(R.id.tv_dialog_song_info_duration)).setText("时长："+minutes/10+minutes%10+":"+second);

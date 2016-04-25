@@ -18,7 +18,6 @@ abstract public class BaseNoTitleActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        调用工厂方法进行子类的初始化
         doSetContentView();
-//        viewInit();
         extrasInit();
         viewInit();
     }

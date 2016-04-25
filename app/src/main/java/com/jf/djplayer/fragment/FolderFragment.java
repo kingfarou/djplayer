@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class FolderFragment extends BaseListViewFragment {
+public class FolderFragment extends BaseListFragmentInterface{
 
     private View footerView;
     private List<Map<String,String>> folderList;
@@ -74,14 +74,11 @@ public class FolderFragment extends BaseListViewFragment {
             return null;
         }
 //        如果有数据则返回对应"footerView"
-        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
+//        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
+//        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(folderList.size()+"文件夹");
+        View footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(folderList.size()+"文件夹");
         return footerView;
-    }
-
-    @Override
-    protected View getListViewHeaderView() {
-        return null;
     }
 
     public ListViewPopupWindows getListViewPopupWindow(){
@@ -93,10 +90,10 @@ public class FolderFragment extends BaseListViewFragment {
                     startActivity(new Intent(getActivity(), ScanMusicActivity.class));
                 } else if (position == 1) {
                     sortAccordingTitle();
-                    listViewFragmentAdapter.notifyDataSetChanged();
+                    listViewAdapter.notifyDataSetChanged();
                 } else if (position == 2) {
                     sortAccordingContent();
-                    listViewFragmentAdapter.notifyDataSetChanged();
+                    listViewAdapter.notifyDataSetChanged();
                 }
                 popupWindows.dismiss();
             }

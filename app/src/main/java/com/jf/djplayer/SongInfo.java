@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class SongInfo implements Serializable {
     private String songName ;//歌名
-    private String songSinger;//歌手
+    private String singerName;//歌手
     private String songAlbum;//专辑
     private int songDuration = -1;//歌曲播放所用时长
     private int songSize = -1;//表示歌曲文件大小
@@ -26,7 +26,7 @@ public class SongInfo implements Serializable {
                     int songSize, String songAbsolutePath,int collection) {
 
         this.songName = songName;
-        this.songSinger = songArtist;
+        this.singerName = songArtist;
         this.songAlbum = songAlbum;
         this.songDuration = songDuration;
         this.songSize = songSize;
@@ -62,10 +62,10 @@ public class SongInfo implements Serializable {
 
     /**
      * 设置当前歌手名字
-     * @param songSinger 歌手名字
+     * @param singerName 歌手名字
      */
-    public void setSongSinger(String songSinger) {
-        this.songSinger = songSinger;
+    public void setSingerName(String singerName) {
+        this.singerName = singerName;
     }
 
     /**
@@ -116,8 +116,8 @@ public class SongInfo implements Serializable {
         return songName;
     }
 
-    public String getSongSinger() {
-        return songSinger;
+    public String getSingerName() {
+        return singerName;
     }
 
     public String getSongAlbum() {

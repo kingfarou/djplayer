@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.adapter.ListViewFragmentAdapter;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 
 import java.text.CollationKey;
@@ -29,22 +27,25 @@ import java.util.Map;
  * 本地音乐里面三个"ListViewFragment"共有该类作为基类
  * “歌手Fragment”“专辑Fragment”“文件夹的Fragment”共用此类
  */
-public abstract class BaseListViewFragment extends BaseFragment
+public abstract class BaseListFragment extends BaseFragment
         implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
 
     private ListView listView;
     private View loadingHintView;//在"ListVIew"获取到数据之前显示的视图
-    private View noDataHintView;//读取完数据之后"ListVIew"没有数据要显示时所显示的View
+    private View noDataHintView;//读取完数据之后"ListView"没有数据要显示时所显示的View
+
     protected String title = "title";
     protected String content = "content";
-    protected ListViewFragmentAdapter listViewFragmentAdapter;
-    protected BaseAdapter listViewAdapter;
-    protected PopupWindow popupWindows;
-    protected List<Map<String,String>> dataList;//装填所获取的数据用的集合
-    private ReadDataAsyncTask readDataAsyncTask;
-    protected View layoutView;//这是布局文件的根视图
-    protected View footerView;//"ListVIew"的"FooterView"
 
+    protected BaseAdapter listViewAdapter;
+    protected List dataList;//装填所获取的数据用的集合
+
+    protected View layoutView;//这是布局文件的根视图
+//    private View footerView;//"ListVIew"的"FooterView"
+//    private View headerView;//"ListView"的"headerView"
+
+    private ReadDataAsyncTask readDataAsyncTask;
+    protected PopupWindow popupWindows;
 
     @Nullable
     @Override
@@ -88,13 +89,6 @@ public abstract class BaseListViewFragment extends BaseFragment
     abstract protected View getNoDataHintView();
 
     /**
-     * 如果子类想要为"ListVIew"添加footerView
-     * 在此返回就可以了
-     * @return footerView
-     */
-    abstract protected View getListViewFooterView();
-
-    /**
      * 如果子类想要为"ListVIew"添加"headerView"
      * 在此返回就可以了
      * @return headerView
@@ -102,11 +96,23 @@ public abstract class BaseListViewFragment extends BaseFragment
     abstract protected View getListViewHeaderView();
 
     /**
-     * 异步任务调用这个方法获得数据
+     * 如果子类想要为"ListView"添加footerView
+     * 在此返回就可以了
+     * @return footerView
+     */
+    abstract protected View getListViewFooterView();
+
+    /**
+     * 异步任务调用这个方法获得数据，子类再次返回自己所特有的数据集合
      * @return 这是读取到的数据集合
      */
     abstract protected List getData();
 
+    /**
+     * 获取子类的适配器
+     * @param dataList getData()方法所读到的数据
+     * @return 子类所特有数据适配器
+     */
     abstract protected BaseAdapter getListViewAdapter(List dataList);
 
     abstract public ListViewPopupWindows getListViewPopupWindow();
@@ -164,11 +170,26 @@ public abstract class BaseListViewFragment extends BaseFragment
         readDataAsyncTask.cancel(true);
     }
 
+    /**
+     * "LiseView"点击事件响应方法
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         doListViewOnItemClick(parent, view, position, id);
     }
 
+    /**
+     * "ListView"长按事件响应方法
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     * @return
+     */
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         doListViewOnItemLongClick(parent, view, position, id);
@@ -197,13 +218,11 @@ public abstract class BaseListViewFragment extends BaseFragment
 //                如果读取到有数据，将数据给显示出来
 //                子类进行相关设置
                 readDataFinish(dataList);//任务完成之后回调方法
+                BaseListFragment.this.dataList = dataList;
                 // listView做初始化
                 listViewInit();
 //                将数据设置进适配器里
 //                listViewFragmentAdapter = new ListViewFragmentAdapter(getActivity(), mapList);
-                listViewAdapter = getListViewAdapter(dataList);
-                listView.setAdapter(listViewAdapter);
-                listView.setVisibility(View.VISIBLE);
             }
         }
 
@@ -219,17 +238,26 @@ public abstract class BaseListViewFragment extends BaseFragment
 //        当读取到有数据时，"listView"的初始化
         private void listViewInit(){
 //            设置相应点击事件
-            listView.setOnItemClickListener(BaseListViewFragment.this);
-            listView.setOnItemLongClickListener(BaseListViewFragment.this);
-//            添加头尾View
-            View listViewHeaderView = getListViewHeaderView();
-            if(listViewHeaderView!=null){
-                listView.addHeaderView(listViewHeaderView);
+            listView.setOnItemClickListener(BaseListFragment.this);
+            listView.setOnItemLongClickListener(BaseListFragment.this);
+//            添加头View
+            if(listView.getHeaderViewsCount()==0){
+                View headerView = getListViewHeaderView();
+                if(headerView!=null){
+                    listView.addHeaderView(headerView);
+                }
             }
-            View listViewFooterView = getListViewFooterView();
-            if(listViewFooterView!=null){
-                listView.addFooterView(listViewFooterView);
+//            添加尾View
+            if(listView.getFooterViewsCount()==0){
+                View footerView = getListViewFooterView();
+                if(footerView!=null){
+                    listView.addFooterView(footerView);
+                }
             }
+//            将数据给设置上去
+            listViewAdapter = getListViewAdapter(dataList);
+            listView.setAdapter(listViewAdapter);
+            listView.setVisibility(View.VISIBLE);
         }//listViewInit()
     }
 

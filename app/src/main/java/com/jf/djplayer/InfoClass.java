@@ -31,23 +31,6 @@ public final class InfoClass {
         public static final String playerOptionsFileName = "playerOptions";
     }
 
-    //这个类保存的是与数据库相关的信息
-    public static final class DatabaseInfo{
-        //这是我的数据库的路径
-//        public static final File DATABASE_FILE_DIR = FileInfo.DJ_FILE_DIR;
-        public static final File DATABASE_FILE_DIR = new File(FileInfo.DATABASE_FILE);
-        //除了"ABSOLUTE_PATH","collection"以外
-        //其余列名与数据库列名相同
-        public static final String TABLE_NAME="JF_SONG_INFO";//表名
-        public static final String _ID = "_ID";//主键
-        public static final String TITLE = "title";//歌名
-        public static final String ARTIST = "artist";//歌手
-        public static final String ALBUM = "album";//专辑
-        public static final String DURATION = "duration";//时长
-        public static final String SIZE = "_size";//大小
-        public static final String ABSOLUTE_PATH = "absolutePath";//音频文件绝对路径
-        public static final String COLLECTION = "collection";//标记用户是否收藏音乐
-    }
 
     //这个类保存的是与用户设置相关信息
     public static final class Options {

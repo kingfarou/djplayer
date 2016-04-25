@@ -166,7 +166,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
 //    更新歌曲名字歌手名字和进度条的最大值
     private void setNewPlayInfo(SongInfo currentSongInfo){
         songNameTv.setText(currentSongInfo.getSongName());
-        songArtistTv.setText(currentSongInfo.getSongSinger());
+        songArtistTv.setText(currentSongInfo.getSingerName());
         progressBar.setMax(currentSongInfo.getSongDuration());
     }
 

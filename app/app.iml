@@ -83,8 +83,20 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-2.7.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="MobCommons-2016.0406.1915" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-QQ-2.7.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-SinaWeibo-2.7.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.7.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.7.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.7.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Douban-2.7.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Core-2.7.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-2.7.1" level="project" />
+    <orderEntry type="library" exported="" name="MobTools-2016.0406.1915" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-QZone-2.7.1" level="project" />
   </component>
 </module>

@@ -79,7 +79,7 @@ public class PlayInfoNotification {
      */
     public void updateNotification(SongInfo songInfo){
         remoteViews.setTextViewText(R.id.tv_notification_custom_title, songInfo.getSongName());
-        remoteViews.setTextViewText(R.id.tv_notification_custom_artist, songInfo.getSongSinger());
+        remoteViews.setTextViewText(R.id.tv_notification_custom_artist, songInfo.getSingerName());
         builder.setContent(remoteViews).setTicker(songInfo.getSongName());
         notificationManager.notify(SONG_NOTIFICATION_FLAG, builder.build());
     }
