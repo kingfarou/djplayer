@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.jf.djplayer.SongInfo;
+import com.jf.djplayer.other.SongInfo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,17 +40,20 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
     public static final String collection = "_collection";//标记用户是否收藏音乐
     private static final String lastPlayTime = "last_play_time";//标记歌曲最后一次播放时间
     public static final String isDownload = "is_download";//标记歌曲是否是从网络下载
+    public static final int isCollection = 1;
+    public static final int noCollection = 0;
 
     /**
      * 创建本地音乐的数据库操作工具
      * @param context 环境
      */
     public SongInfoOpenHelper(Context context){
-        super(context,SONG_INFO_DATABASE_NAME,null,1);
+        super(context, SONG_INFO_DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //创建本地音乐信息的表
         String createLocalMusicTables = "CREATE TABLE IF NOT EXISTS" + " " + LOCAL_MUSIC_TABLE_NAME +"(" +
                 id + " " + "INTEGER PRIMARY KEY," + title + " " + "TEXT," +
                 artist + " " + "TEXT,"+ album + " " + "TEXT," +
@@ -67,37 +70,30 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    /**
-     * 获取本地音乐所有歌曲信息
-     * @return 一个装着本地数据库所有歌曲的集合
+    /*
+    将结果集里的音乐信息，变成"List<SongInfo>"对象
      */
-    public List<SongInfo> getLocalMusicSongInfo(){
-//        读取所有歌曲数据
-        Cursor songInfoCursor = getReadableDatabase().query(LOCAL_MUSIC_TABLE_NAME,null,null,null,null,null,null);
-        //如果没有歌曲数据直接返回
-        if (songInfoCursor.getCount()==0){
-            songInfoCursor.close();
-            return null;
-        }
-        List<SongInfo> songInfoList = new ArrayList<>(songInfoCursor.getCount());
+    private List<SongInfo> cursorToSongInfoList(Cursor cursor){
+        List<SongInfo> songInfoList = new ArrayList<>(cursor.getCount());
         SongInfo songInfo;
 //        装填所有歌曲数据
-        while (songInfoCursor.moveToNext()){
+        while (cursor.moveToNext()){
             songInfo = new SongInfo();
-            songInfo.setSongName(songInfoCursor.getString(songInfoCursor.getColumnIndex(title)));
-            songInfo.setSingerName(songInfoCursor.getString(songInfoCursor.getColumnIndex(artist)));
-            songInfo.setSongAlbum(songInfoCursor.getString(songInfoCursor.getColumnIndex(album)));
-            songInfo.setSongDuration(songInfoCursor.getInt(songInfoCursor.getColumnIndex(duration)));
-            songInfo.setSongSize(songInfoCursor.getInt(songInfoCursor.getColumnIndex(size)));
-            songInfo.setSongAbsolutePath(songInfoCursor.getString(songInfoCursor.getColumnIndex(absolutionPath)));
-            songInfo.setCollection(songInfoCursor.getInt(songInfoCursor.getColumnIndex(collection)));
+            songInfo.setSongName(cursor.getString(cursor.getColumnIndex(title)));
+            songInfo.setSingerName(cursor.getString(cursor.getColumnIndex(artist)));
+            songInfo.setSongAlbum(cursor.getString(cursor.getColumnIndex(album)));
+            songInfo.setSongDuration(cursor.getInt(cursor.getColumnIndex(duration)));
+            songInfo.setSongSize(cursor.getInt(cursor.getColumnIndex(size)));
+            songInfo.setSongAbsolutePath(cursor.getString(cursor.getColumnIndex(absolutionPath)));
+            songInfo.setCollection(cursor.getInt(cursor.getColumnIndex(collection)));
+            songInfo.setLastPlayTime(cursor.getInt(cursor.getColumnIndex(lastPlayTime)));
             songInfoList.add(songInfo);
         }
-        songInfoCursor.close();
         return songInfoList;
     }
 
-    /**
+    /*本地音乐列表所有歌曲：增、删、改、查--start*/
+   /**
      * 向本地音乐表里面插入一首歌曲信息
      * @param songInfo 需插入的歌曲对象
      * @return 返回新插入的行数ID，如果插入发生错误，返回-1
@@ -122,6 +118,18 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         return id;
     }
 
+
+    /**
+     * 删除SongInfo对象里的绝对路径
+     * 所标示的歌曲文件
+     * @param songInfo
+     */
+    public void deleteFromLocalMusicTable(SongInfo songInfo) {
+        String deleteSql = "delete from "+ LOCAL_MUSIC_TABLE_NAME +" where "+absolutionPath+"="+"'"+songInfo.getSongAbsolutePath()+"';";
+        getWritableDatabase().execSQL(deleteSql);
+    }
+
+
     /**
      * 更新由songInfo对象里面的绝对路径
      * 所指定的那条歌曲记录
@@ -144,65 +152,21 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * 更新由"songInfo"所制定的绝对路径最近一次播放时间
-     * @param songInfo 要更新的"SongInfo"对象
-     * @param lastPlayTime 最近一次播放时间
+     * 获取本地音乐所有歌曲信息
+     * @return 一个装着本地数据库所有歌曲的集合
      */
-    public void updateSongRecentlyPlay(SongInfo songInfo, long lastPlayTime){
-        String updateString = "update"+" "+LOCAL_MUSIC_TABLE_NAME+" "+"set"+" "+
-                SongInfoOpenHelper.lastPlayTime+"="+lastPlayTime+" "+
-                "where"+" "+absolutionPath+"="+"'"+songInfo.getSongAbsolutePath()+"'"+";";
-    }
-
-    /**
-     * 删除SongInfo对象里的绝对路径
-     * 所标示的歌曲文件
-     * @param songInfo
-     */
-    public void deleteFromLocalMusicTable(SongInfo songInfo) {
-        String deleteSql = "delete from "+ LOCAL_MUSIC_TABLE_NAME +" where "+absolutionPath+"="+"'"+songInfo.getSongAbsolutePath()+"';";
-        getWritableDatabase().execSQL(deleteSql);
-    }
-
-    /**
-     * 获取所有用户收藏的歌
-     */
-    public List<SongInfo> getCollectionSongInfo(){
-        List<SongInfo> songInfoList;
-        SongInfo collectionSongInfo;
-        Cursor collectionCursor = getReadableDatabase().query(LOCAL_MUSIC_TABLE_NAME,null,collection+"=?",new String[]{"1"},null,null,null,null);
-//        如果没有收藏歌曲直接返回元素个数零的集合
-        if(collectionCursor.getCount()==0) {
-            collectionCursor.close();
+    public List<SongInfo> getLocalMusicSongInfo(){
+//        读取所有歌曲数据
+        Cursor songInfoCursor = getReadableDatabase().query(LOCAL_MUSIC_TABLE_NAME,null,null,null,null,null,null);
+        //如果没有歌曲数据直接返回
+        if (songInfoCursor.getCount()==0){
+            songInfoCursor.close();
             return null;
         }
-        songInfoList = new ArrayList<>(collectionCursor.getCount());
-        while(collectionCursor.moveToNext()){
-            collectionSongInfo = new SongInfo();
-            collectionSongInfo.setSongName(collectionCursor.getString(collectionCursor.getColumnIndex(title)));
-            collectionSongInfo.setSingerName(collectionCursor.getString(collectionCursor.getColumnIndex(artist)));
-            collectionSongInfo.setSongAlbum(collectionCursor.getString(collectionCursor.getColumnIndex(album)));
-            collectionSongInfo.setSongDuration(collectionCursor.getInt(collectionCursor.getColumnIndex(duration)));
-            collectionSongInfo.setSongSize(collectionCursor.getInt(collectionCursor.getColumnIndex(size)));
-            collectionSongInfo.setSongAbsolutePath(collectionCursor.getString(collectionCursor.getColumnIndex(absolutionPath)));
-            collectionSongInfo.setCollection(1);
-            songInfoList.add(collectionSongInfo);
-        }
-        collectionCursor.close();
+        List<SongInfo> songInfoList = cursorToSongInfoList(songInfoCursor);
+        songInfoCursor.close();
         return songInfoList;
     }
-
-    /**
-     * 获取用户所收藏的歌曲数量
-     * @return 返回用户所收藏的歌曲数量
-     */
-    public int getCollectionNum(){
-        Cursor collectionCursor = getReadableDatabase().query(LOCAL_MUSIC_TABLE_NAME,new String[]{id},collection+"=?",new String[]{"1"},null,null,null,null);
-        int collectionSongNumber = collectionCursor.getCount();
-        collectionCursor.close();
-        return collectionSongNumber;
-    }
-
     /**
      * 获取本地音乐歌曲数量
      * @return 数据库的歌曲数量
@@ -213,9 +177,12 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         songNumberCursor.close();
         return songNumber;
     }
+    /*本地音乐列表所有歌曲：增、删、改、查--end*/
+
+    /*用户所收藏的歌曲：改、查--start*/
 
     /**
-     * 蒋某一首歌设置为收藏或者取消收藏
+     * 改变歌曲被收藏的状态
      * @param songInfo 要收藏的（或者要取消收藏的）歌曲对象
      */
     public void updateCollection(SongInfo songInfo,int collectionOrNot){
@@ -224,6 +191,81 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
                 collection+"="+collectionOrNot+" "+"where"+" "+absolutionPath+"="+"'"+songInfo.getSongAbsolutePath()+"'"+";";
         sqLiteDatabase.execSQL(collectionString);
     }
+
+    /**
+     * 获取用户所收藏的所有歌曲
+     * 一个装填这用户收藏的所有歌曲的集合
+     */
+    public List<SongInfo> getCollectionSongInfo(){
+        Cursor collectionCursor = getReadableDatabase().query(LOCAL_MUSIC_TABLE_NAME, null, collection + "=?", new String[]{"1"}, null, null, null, null);
+//        如果没有收藏歌曲直接返回元素个数零的集合
+        if(collectionCursor.getCount()==0) {
+            collectionCursor.close();
+            return null;
+        }
+        List<SongInfo> songInfoList;
+        songInfoList = cursorToSongInfoList(collectionCursor);
+        collectionCursor.close();
+        return songInfoList;
+    }
+
+    /**
+     * 获取用户所收藏的歌曲数量
+     * @return 返回用户所收藏的歌曲数量
+     */
+    public int getCollectionNum(){
+        Cursor collectionCursor = getReadableDatabase().query(LOCAL_MUSIC_TABLE_NAME, new String[]{id}, collection + "=?", new String[]{"1"}, null, null, null, null);
+        int collectionSongNumber = collectionCursor.getCount();
+        collectionCursor.close();
+        return collectionSongNumber;
+    }
+    /*用户所收藏的歌曲：改查--end*/
+
+    /*用户最近播放歌曲：改、查--start*/
+    /**
+     * 更新由"songInfo"所制定的绝对路径最近一次播放时间
+     * @param songInfo 要更新的"SongInfo"对象
+     * @param lastPlayTime 最近一次播放时间
+     */
+    public void setLastPlayTime(SongInfo songInfo, long lastPlayTime){
+        String updateString = "update"+" "+LOCAL_MUSIC_TABLE_NAME+" "+"set"+" "+
+                SongInfoOpenHelper.lastPlayTime+"="+lastPlayTime+" "+
+                "where"+" "+absolutionPath+"="+"'"+songInfo.getSongAbsolutePath()+"'"+";";
+        getWritableDatabase().execSQL(updateString);
+    }
+
+    /**
+     * 获取本地音乐列表里面指定数量歌曲，并且按照最后一次播放时间，从最近得到最远的开始排列
+     * @param songNumber 要获取的歌曲数量
+     * @return 按照最后一次播放时间，从近到远，有序排列的歌曲集合，集合的第一个元素是最近播放的一首，如果数据库没歌曲，则返回空
+     */
+    public List<SongInfo> getRecentlyPlaySong(int songNumber){
+        String selectString = "SELECT * FROM"+" "+LOCAL_MUSIC_TABLE_NAME+" "+"ORDER BY"+" "+lastPlayTime+" "+"DESC"+" "+"LIMIT"+" "+songNumber;
+        Cursor recentlyPlayerCursor = getReadableDatabase().rawQuery(selectString,null);
+        if(recentlyPlayerCursor.getCount()==0){
+            recentlyPlayerCursor.close();
+            return null;
+        }
+        List<SongInfo> recentlyPlayList = cursorToSongInfoList(recentlyPlayerCursor);
+        recentlyPlayerCursor.close();
+        return recentlyPlayList;
+    }
+
+    /**
+     * 获取指定列下面的指定的值所对应的所有歌曲信息
+     * @param columnName
+     * @param columnValues
+     * @return
+     */
+    public List<SongInfo> getClassifySongInfo(String columnName, String columnValues){
+        String queryStr = "SELECT * FROM"+" "+LOCAL_MUSIC_TABLE_NAME+" "+"where"+" "+columnName+"="+"'"+columnValues+"'";
+        Cursor cursor = getReadableDatabase().rawQuery(queryStr,null);
+        if(cursor.getCount() == 0){
+            return null;
+        }
+        return cursorToSongInfoList(cursor);
+    }
+
 
     /*
      * 获取"LOCAL_MUSIC_TABLES"表里指定列下面的所有的值（不重复的）

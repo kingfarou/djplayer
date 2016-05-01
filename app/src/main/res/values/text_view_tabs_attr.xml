@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- "TextViewTabs"类用的属性-->
+    <declare-styleable name="TextViewTabs">
+        <attr name="textViewTabs_itemTextSize" format="dimension"/><!--字体大小-->
+        <attr name="textViewTabs_selectedTextColor" format="color"/><!--被选中的字体颜色-->
+        <attr name="textViewTabs_unSelectedTextColor" format="color"/><!--未选中的字体颜色-->
+    </declare-styleable>
+</resources>

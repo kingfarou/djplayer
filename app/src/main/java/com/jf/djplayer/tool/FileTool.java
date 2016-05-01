@@ -16,13 +16,14 @@ public class FileTool {
      * 在应用的根目录前加上SD卡的路径，方可使用
      * 比如：new File(Environment.getExternalStoryDir(),APP_ROOT_DIR);
      */
-    public static final String APP_ROOT_DIR = "jfPlayer";//这是应用存储文件的根目录（相对路径）
+    public static final String APP_ROOT_DIR = "djPlayer";//这是应用存储文件的根目录（相对路径）
     public static final String SINGER_INFO_DIR = APP_ROOT_DIR+"/artist";//存储歌手信息的文件夹
     public static final String SONG = APP_ROOT_DIR+"/song";//存放歌曲文件的文件夹
     public static final String LYRIC_DIR = APP_ROOT_DIR+"/lyric";//存放歌词文件的文件夹
     public static final String SINGER_PICTURE_DIR = APP_ROOT_DIR+"/artistPicture";//这是存放歌手图片路径
 
     private File sdDirFile;
+
     public FileTool(Context context){
         this.sdDirFile = Environment.getExternalStorageDirectory();
     }
@@ -46,7 +47,9 @@ public class FileTool {
         File appDirFile;
         for(String appDirFileString:appDirFileStrings){
             appDirFile = new File(sdDirFile,appDirFileString);
-            if(!appDirFile.exists()) appDirFile.mkdir();
+            if(!appDirFile.exists()) {
+                appDirFile.mkdir();
+            }
         }
         return true;
     }

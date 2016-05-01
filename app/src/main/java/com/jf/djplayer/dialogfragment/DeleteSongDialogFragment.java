@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.jf.djplayer.SongInfo;
+import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.tool.FileTool;
 import com.jf.djplayer.database.SongInfoOpenHelper;

@@ -17,7 +17,7 @@
         customView:fragmentTitleLinearLayout_distance="8dp"
         customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_return"
         customView:fragmentTitleLinearLayout_searchImageVisibility="gone"
-        customView:fragmentTitleLinearLayout_titleText="歌曲名字"
+        customView:fragmentTitleLinearLayout_titleText="@string/app_name"
         customView:fragmentTitleLinearLayout_titleTextSize="12sp">
 
     </com.jf.djplayer.customview.FragmentTitleLayout>

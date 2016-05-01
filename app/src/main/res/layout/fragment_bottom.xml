@@ -30,20 +30,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="歌曲名字"
+                android:text="好音质!"
                 android:textSize="16sp"/>
             <TextView
                 android:id="@+id/tv_fragment_bottom_control_artistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="歌手名字"
+                android:text="@string/app_name"
                 android:textSize="12sp"/>
         </LinearLayout>
         <ImageButton
             android:id="@+id/ib_fragment_bottom_control_play"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:background="@drawable/white_blue_selector"
@@ -51,8 +51,9 @@
         <ImageButton
             android:id="@+id/ib_fragment_bottom_control_next"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/white_blue_selector"
             android:src="@drawable/bottom_fragment_next_song"/>
         <ImageButton
@@ -60,6 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/white_blue_selector"
             android:src="@drawable/bottom_fragment_menu"/>
     </LinearLayout>

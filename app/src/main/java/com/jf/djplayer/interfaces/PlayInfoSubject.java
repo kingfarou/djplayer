@@ -1,6 +1,6 @@
 package com.jf.djplayer.interfaces;
 
-import com.jf.djplayer.SongInfo;
+import com.jf.djplayer.other.SongInfo;
 
 /**
  * Created by JF on 2016/1/28.

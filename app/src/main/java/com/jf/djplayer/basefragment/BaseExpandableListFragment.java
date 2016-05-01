@@ -33,9 +33,10 @@ abstract public class BaseExpandableListFragment extends BaseFragment
                 AdapterView.OnItemLongClickListener {
 
     private ExpandableListView expandableListView;//expandableListView
-    protected BaseExpandableListAdapter expandableFragmentAdapter;//expandableListView适配器
+    protected BaseExpandableListAdapter baseExpandableListAdapter;//expandableListView适配器
 
     private View loadingHintView;//"ExpandableListView"读到数据前显示的提示视图
+    private View expandableListEmptyView;
 
     private LoadingAsyncTask loadingAsyncTask;//异步读取数据的内部类
     private int lastExpand = -1;//记录上次"expandableListView"所展开的那个位置
@@ -48,8 +49,10 @@ abstract public class BaseExpandableListFragment extends BaseFragment
 //        对界面进行初始化
         layoutView = inflater.inflate(R.layout.fragment_base_expandable_list_view, container, false);
         expandableListView = (ExpandableListView) layoutView.findViewById(R.id.el_fragment_expandable_list_view);
+
         //子类在此做View初始化
         initBeforeReturnView();
+
 //        开始执行异步任务工作
         loadingAsyncTask = new LoadingAsyncTask();
         loadingAsyncTask.execute();
@@ -89,7 +92,7 @@ abstract public class BaseExpandableListFragment extends BaseFragment
      * 异步任务读取数据完成之后回调这个方法
      * 具体时间：数据读取完成之后，expandableListView.setAdapter();方法被调用之前
      */
-    abstract protected void asyncReadDataFinished();
+    abstract protected void asyncReadDataFinished(List dataList);
 
     /**
      * 获取"ExpandableListView"的适配器
@@ -167,12 +170,15 @@ abstract public class BaseExpandableListFragment extends BaseFragment
         expandableListView.collapseGroup(groupPos);
     }
 
-    protected final void loadingDataAsync(){
-       loadingAsyncTask = new LoadingAsyncTask();
+    /**
+     * 重新进行一次异步数据读取
+     */
+    protected final void refreshDataAsync(){
+        loadingAsyncTask = new LoadingAsyncTask();
         loadingAsyncTask.execute();
     }
 
-    /**
+    /*
      * 这个异步任务实现如下效果：
      * 1>在读取要显示到"ExpandableListView"的数据前，显示一个提示界面，界面由子类来决定
      * 2>读取数据的方法在异步线程里面调用
@@ -184,8 +190,10 @@ abstract public class BaseExpandableListFragment extends BaseFragment
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            expandableListView.setVisibility(View.GONE);
-            addLoadingHintView();
+            //隐藏"ExpandableListView"及其"EmptyView"
+            hideExpandableListView();
+            //显示载入提示用的"View"
+            showLoadingHintView();
         }
 
         @Override
@@ -201,22 +209,32 @@ abstract public class BaseExpandableListFragment extends BaseFragment
         @Override
         protected void onPostExecute(List dataList) {
             super.onPostExecute(dataList);
-//            移除"loadingHintView"
-            if(loadingHintView!=null){
-                ((ViewGroup) layoutView).removeView(loadingHintView);
-            }
-//            添加"emptyView"
-            setExpandableEmptyView();
+            //移除载入提示的"View"
+            removeLoadingHintView();
+            //显示"ExpandableListView"以及设置其对应的"EmptyView"
+            showExpandableListView();
 //            如果没读取到数据
-            if (dataList == null) {
+            if (dataList == null||dataList.size()==0) {
             } else {
-                asyncReadDataFinished();//通知子类数据已经读取完成
+                //初始化各点击事件并且设置适配器
                 expandableListViewInit();
-                expandableListView.setVisibility(View.VISIBLE);
+                asyncReadDataFinished(dataList);//通知子类数据已经读取完成
             }
         }
 
-        private void addLoadingHintView() {
+        //隐藏"ExpandableListView"及其对应"EmptyView"
+        private void hideExpandableListView(){
+            //断开"ExpandableListView"对"EmptyView"控制
+            expandableListView.setEmptyView(null);
+            //从布局容器里移除"EmptyView"
+            if(expandableListEmptyView!=null){
+                ((ViewGroup)expandableListView.getParent()).removeView(expandableListEmptyView);
+            }
+            expandableListView.setVisibility(View.GONE);
+        }
+
+        //显示数据读取前的提示页面
+        private void showLoadingHintView() {
             if(loadingHintView==null){
                 //显示读取数据前的提示
                 loadingHintView = getExpandableLoadingView();
@@ -226,17 +244,23 @@ abstract public class BaseExpandableListFragment extends BaseFragment
             }
         }
 
-        //给"ExpandableListView"添加"EmptyView"
-        private void setExpandableEmptyView() {
-            if(expandableListView.getEmptyView()==null){
-                View emptyView = getExpandableNoDataView();
-                if(emptyView!=null){
-                    ((ViewGroup) layoutView).addView(emptyView);
-                    expandableListView.setEmptyView(emptyView);
-                }
+        //移除"showLoadingHintView()"方法所显示的页面
+        private void removeLoadingHintView(){
+            if(loadingHintView!=null){
+                ((ViewGroup) layoutView).removeView(loadingHintView);
             }
         }
 
+        //给"ExpandableListView"添加"EmptyView"
+        private void showExpandableListView() {
+            if(expandableListView.getEmptyView()==null){
+                expandableListEmptyView = getExpandableNoDataView();
+                if(expandableListEmptyView!=null){
+                    ((ViewGroup) layoutView).addView(expandableListEmptyView);
+                    expandableListView.setEmptyView(expandableListEmptyView);
+                }
+            }
+        }
 
         //"ExpandableListView"初始化的相关设置
         private void expandableListViewInit() {
@@ -259,8 +283,8 @@ abstract public class BaseExpandableListFragment extends BaseFragment
                 }
             }
             //"ExpandableListView"添加数据
-            expandableFragmentAdapter = getExpandableAdapter();
-            expandableListView.setAdapter(expandableFragmentAdapter);
+            baseExpandableListAdapter = getExpandableAdapter();
+            expandableListView.setAdapter(baseExpandableListAdapter);
         }//expandableListViewInit()
     }
 

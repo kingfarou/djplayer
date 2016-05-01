@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="TextViewLinearLayout">
-        <attr name="textViewLinearLayout_textViewNumber" format="integer"/><!--文字个数-->
-        <attr name="textViewLinearLayout_textViewTextSize" format="dimension"/><!--字体大小-->
-        <attr name="textViewLinearLayout_selectedTextColor" format="color"/><!--被选中的字体颜色-->
-        <attr name="textViewLinearLayout_unSelectedTextColor" format="color"/><!--未选中的字体颜色-->
-    </declare-styleable>
-</resources>

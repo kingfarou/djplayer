@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
-import com.jf.djplayer.SongInfo;
+import com.jf.djplayer.other.SongInfo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,9 +36,11 @@ public class SystemMediaDatabaseUtils{
         Cursor songInfoCursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Audio.Media.DATA}, null, null, null);
 //        如果系统没有歌曲直接返回
-        if(songInfoCursor.getCount()==0) return null;
+        if(songInfoCursor==null||songInfoCursor.getCount()==0) {
+            return null;
+        }
 //        集合过滤歌曲路径
-        pathSet = new TreeSet<String>();
+        pathSet = new TreeSet<>();
         while(songInfoCursor.moveToNext()){
             pathFile = new File(songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
             pathSet.add(pathFile.getParent());
@@ -71,7 +73,9 @@ public class SystemMediaDatabaseUtils{
             }
             selection.append(MediaStore.Audio.Media.DATA + " like ?");
             //        拼接出selectionArgs
-            for (int i = 0; i < selectionArgs.length; i++) selectionArgs[i] = pathString[i] + "%";
+            for (int i = 0; i < selectionArgs.length; i++) {
+                selectionArgs[i] = pathString[i] + "%";
+            }
         }
 //        条件查询指定路径下的歌曲
         Cursor songInfoCursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
@@ -82,7 +86,9 @@ public class SystemMediaDatabaseUtils{
                         MediaStore.Audio.Media.SIZE,
                         MediaStore.Audio.Media.DATA}, selection.toString(), selectionArgs, null);
 //        如果数据库里没有歌曲则返回空
-        if(songInfoCursor.getCount()==0) return null;
+        if(songInfoCursor == null||songInfoCursor.getCount()==0) {
+            return null;
+        }
         songInfoList = new ArrayList<>(songInfoCursor.getCount());
 //                歌曲信息全部都以SongInfo对象形式存入集合
         while (songInfoCursor.moveToNext()) {
@@ -92,8 +98,7 @@ public class SystemMediaDatabaseUtils{
                     songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)),
                     songInfoCursor.getInt(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)),
                     songInfoCursor.getInt(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.SIZE)),
-                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DATA)),
-                    0);//最后一个零是表示没被收藏
+                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
 //            Log.i("test",songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
             songInfoList.add(songInfo);
         }

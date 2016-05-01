@@ -19,15 +19,14 @@
     </com.jf.djplayer.customview.FragmentTitleLayout>
 
     <!--这是中间栏目标题布局-->
-    <com.jf.djplayer.customview.TextViewLinearLayout
+    <com.jf.djplayer.customview.TextViewTabs
         android:id="@+id/textViewLinearLayout_fragment_local_music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        customView:textViewLinearLayout_selectedTextColor="@color/sky_blue"
-        customView:textViewLinearLayout_textViewNumber="4"
-        customView:textViewLinearLayout_textViewTextSize="10sp">
+        customView:textViewTabs_selectedTextColor="@color/sky_blue"
+        customView:textViewTabs_itemTextSize="10sp">
 
-    </com.jf.djplayer.customview.TextViewLinearLayout>
+    </com.jf.djplayer.customview.TextViewTabs>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_fragment_local_music"

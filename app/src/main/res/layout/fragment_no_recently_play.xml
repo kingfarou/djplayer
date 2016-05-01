@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_fragment_no_recently_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最近没有播放歌曲哦\n快去本地音乐播放一首试试"
+        android:textSize="16sp"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_fragment_no_recently_play"
+        android:layout_marginBottom="16dp"
+        android:layout_above="@id/tv_fragment_no_recently_play"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

@@ -28,7 +28,7 @@ public class BaseListFragmentInterface extends BaseListFragment {
     }
 
     @Override
-    protected View getNoDataHintView() {
+    protected View getListViewEmptyView() {
         return null;
     }
 

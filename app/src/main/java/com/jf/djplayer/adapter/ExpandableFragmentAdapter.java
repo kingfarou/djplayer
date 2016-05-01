@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jf.djplayer.SongInfo;
+import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.dialogfragment.SetToBellDialog;
 import com.jf.djplayer.R;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;

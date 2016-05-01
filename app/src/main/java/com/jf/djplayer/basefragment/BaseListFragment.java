@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.customview.ListViewPopupWindows;
@@ -21,6 +20,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by JF on 2016/1/23.
@@ -32,7 +33,7 @@ public abstract class BaseListFragment extends BaseFragment
 
     private ListView listView;
     private View loadingHintView;//在"ListVIew"获取到数据之前显示的视图
-    private View noDataHintView;//读取完数据之后"ListView"没有数据要显示时所显示的View
+    private View listViewEmptyView;//读取完数据之后"ListView"没有数据要显示时所显示的View
 
     protected String title = "title";
     protected String content = "content";
@@ -41,11 +42,8 @@ public abstract class BaseListFragment extends BaseFragment
     protected List dataList;//装填所获取的数据用的集合
 
     protected View layoutView;//这是布局文件的根视图
-//    private View footerView;//"ListVIew"的"FooterView"
-//    private View headerView;//"ListView"的"headerView"
 
     private ReadDataAsyncTask readDataAsyncTask;
-    protected PopupWindow popupWindows;
 
     @Nullable
     @Override
@@ -53,18 +51,20 @@ public abstract class BaseListFragment extends BaseFragment
 //        获取"ListView"
         layoutView = inflater.inflate(R.layout.fragment_list_view,container,false);
         listView = (ListView)layoutView.findViewById(R.id.lv_fragment_list_view);
-//        添加"ListView"加载前的默认视图
-        loadingHintView = getLoadingHintView();
-        if(loadingHintView!=null) {
-            ((ViewGroup)listView.getParent()).addView(loadingHintView);
-
-        }
 //        子类做对应初始化
         initBeforeReturnView();
 //        开始执行读数据的异步任务
         readDataAsyncTask = new ReadDataAsyncTask();
         readDataAsyncTask.execute();
         return layoutView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+//        如果用户在异步任务完成前离开界面
+//        则要取消异步任务
+        readDataAsyncTask.cancel(true);
     }
 
     /**
@@ -86,7 +86,7 @@ public abstract class BaseListFragment extends BaseFragment
      * 子类在此返回视图即可
      * @return "ListVIew"没有数据可显式时用的视图
      */
-    abstract protected View getNoDataHintView();
+    abstract protected View getListViewEmptyView();
 
     /**
      * 如果子类想要为"ListVIew"添加"headerView"
@@ -114,6 +114,7 @@ public abstract class BaseListFragment extends BaseFragment
      * @return 子类所特有数据适配器
      */
     abstract protected BaseAdapter getListViewAdapter(List dataList);
+
 
     abstract public ListViewPopupWindows getListViewPopupWindow();
 
@@ -153,6 +154,7 @@ public abstract class BaseListFragment extends BaseFragment
             }
         });
     }
+
     protected void sortAccordingContent(){
         Collections.sort(dataList, new Comparator<Map<String, String>>() {
             @Override
@@ -162,13 +164,6 @@ public abstract class BaseListFragment extends BaseFragment
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-//        如果用户在异步任务完成前离开界面
-//        则要取消异步任务
-        readDataAsyncTask.cancel(true);
-    }
 
     /**
      * "LiseView"点击事件响应方法
@@ -196,8 +191,20 @@ public abstract class BaseListFragment extends BaseFragment
         return true;
     }
 
+    protected void refreshDataAsync(){
+        readDataAsyncTask = new ReadDataAsyncTask();
+        readDataAsyncTask.execute();
+    }
+
     //    异步读取数据的内部类
     private class  ReadDataAsyncTask extends AsyncTask<Void, Void, List>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            hideListView();
+            showLoadingHintView();
+        }
 
         @Override
         protected List doInBackground(Void... params) {
@@ -210,30 +217,59 @@ public abstract class BaseListFragment extends BaseFragment
         protected void onPostExecute(List dataList) {
             super.onPostExecute(dataList);
 //            移除"loadingHintView"
-            ((ViewGroup)layoutView).removeView(loadingHintView);
-//            添加"listView"的"emptyView"
-            setListViewEmptyView();
+            removeLoadingHintView();
+            showListView();
             if(dataList==null){
             }else{
-//                如果读取到有数据，将数据给显示出来
 //                子类进行相关设置
-                readDataFinish(dataList);//任务完成之后回调方法
                 BaseListFragment.this.dataList = dataList;
                 // listView做初始化
                 listViewInit();
-//                将数据设置进适配器里
-//                listViewFragmentAdapter = new ListViewFragmentAdapter(getActivity(), mapList);
+                readDataFinish(dataList);//任务完成之后回调方法
             }
         }
 
-//        给"ListView"添加没数据显示的默认视图
-        private void setListViewEmptyView(){
-            noDataHintView = getNoDataHintView();
-            if(noDataHintView!=null) {
-                ((ViewGroup)layoutView).addView(noDataHintView);
-                listView.setEmptyView(noDataHintView);
+
+        //隐藏"ListView"和其"EmptyView"
+        private void hideListView(){
+            //断开"ListView"对其"EmptyView"的控制
+            listView.setEmptyView(null);
+            //从布局容器里移除"EmptyView"
+            if(listViewEmptyView!=null){
+                ((ViewGroup)listView.getParent()).removeView(listViewEmptyView);
             }
-        }//setListViewEmptyView()
+            //隐藏"ListView"
+            listView.setVisibility(View.GONE);
+        }
+
+        private void showLoadingHintView(){
+            //添加"ListView"加载前的默认视图
+            if(loadingHintView==null){
+                loadingHintView = getLoadingHintView();
+            }
+            if(loadingHintView!=null) {
+                ((ViewGroup)listView.getParent()).addView(loadingHintView);
+            }
+        }
+
+        //移除"showLoadingHintView()"方法所设置的视图
+        private void removeLoadingHintView(){
+            if(loadingHintView!=null){
+                ((ViewGroup)layoutView).removeView(loadingHintView);
+            }
+        }
+
+        //显示"ListView"以及添加"EmptyView"
+        private void showListView(){
+            if(listView.getEmptyView() == null) {
+                listViewEmptyView = getListViewEmptyView();
+                if (listViewEmptyView != null) {
+                    ((ViewGroup) listView.getParent()).addView(listViewEmptyView);
+                    listView.setEmptyView(listViewEmptyView);
+                }
+            }
+            listView.setVisibility(View.VISIBLE);
+        }//_showListView()
 
 //        当读取到有数据时，"listView"的初始化
         private void listViewInit(){
@@ -257,7 +293,6 @@ public abstract class BaseListFragment extends BaseFragment
 //            将数据给设置上去
             listViewAdapter = getListViewAdapter(dataList);
             listView.setAdapter(listViewAdapter);
-            listView.setVisibility(View.VISIBLE);
         }//listViewInit()
     }
 
