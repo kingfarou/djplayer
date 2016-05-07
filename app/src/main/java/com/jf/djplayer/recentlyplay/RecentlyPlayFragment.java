@@ -35,7 +35,7 @@ public class RecentlyPlayFragment extends BaseGroupFragment {
         setTitleMoreVisibility(View.VISIBLE);
     }
 
-
+    //返回空表示该容器只有一个页卡，所以就不需要显示页卡
     @Override
     protected String[] getTextViewTabsText() {
         return null;

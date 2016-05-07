@@ -62,7 +62,6 @@ public class SingerFragment extends BaseListFragmentInterface {
     @Override
     protected View getListViewEmptyView() {
         View noDataView = LayoutInflater.from(getActivity()).inflate(R.layout.local_music_no_song,null);
-//        ((ViewGroup)layoutView).addView(noDataView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         noDataView.findViewById(R.id.btn_localmusic_nosong_keyscan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

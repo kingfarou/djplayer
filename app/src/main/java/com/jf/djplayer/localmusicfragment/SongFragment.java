@@ -19,7 +19,7 @@ import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.R;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
-import com.jf.djplayer.basefragment.BaseExpandableListFragment;
+import com.jf.djplayer.basefragment.BaseExpandListFragment;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
@@ -38,7 +38,7 @@ import java.util.List;
  * 如果用户有收藏有歌曲
  * 这个Fragment将被加载
  */
-public class SongFragment extends BaseExpandableListFragment
+public class SongFragment extends BaseExpandListFragment
         implements SongInfoObserver{
 
     private PlayControls playControls;
@@ -145,7 +145,7 @@ public class SongFragment extends BaseExpandableListFragment
     @Override
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         playControls.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
-         return true;
+        return true;
     }
 
 //    长安情况下无动作

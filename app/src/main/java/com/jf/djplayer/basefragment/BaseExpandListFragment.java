@@ -28,7 +28,7 @@ import java.util.List;
  * 子类根据需要重写方法即可
  */
 
-abstract public class BaseExpandableListFragment extends BaseFragment
+abstract public class BaseExpandListFragment extends BaseFragment
         implements ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupClickListener,
                 AdapterView.OnItemLongClickListener {
 
@@ -264,11 +264,11 @@ abstract public class BaseExpandableListFragment extends BaseFragment
 
         //"ExpandableListView"初始化的相关设置
         private void expandableListViewInit() {
-            expandableListView.setOnGroupExpandListener(BaseExpandableListFragment.this);
+            expandableListView.setOnGroupExpandListener(BaseExpandListFragment.this);
             expandableListView.setGroupIndicator(null);
 //            点击事件相关设置
-            expandableListView.setOnGroupClickListener(BaseExpandableListFragment.this);
-            expandableListView.setOnItemLongClickListener(BaseExpandableListFragment.this);
+            expandableListView.setOnGroupClickListener(BaseExpandListFragment.this);
+            expandableListView.setOnItemLongClickListener(BaseExpandListFragment.this);
 //            添加头尾view
             if (expandableListView.getHeaderViewsCount()==0){
                 View headerView = getExpandableHeaderView();

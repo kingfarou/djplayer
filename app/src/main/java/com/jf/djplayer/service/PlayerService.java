@@ -7,6 +7,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.jf.djplayer.other.IntentConstant;
 import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
@@ -76,25 +77,22 @@ public class PlayerService extends Service implements PlayInfoObserver{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent==null){
-            return START_NOT_STICKY;
-        }
-        if(intent.getAction()==null){
+        if(intent == null || intent.getAction() == null){
             return START_NOT_STICKY;
         }
         //如果收到了来自于"PlayNotification"的意图，自行向对应的操作
         switch (intent.getAction()) {
-            case PlayInfoNotification.ACTION_PREVIOUS:
+            case IntentConstant.ACTION_PLAY_PREVIOUS_SONG:
                 playerOperator.previousSong();
                 break;
-            case PlayInfoNotification.ACTION_PLAY:
+            case IntentConstant.ACTION_PLAY_SONG:
                 if(playerOperator.isPlaying()){
                     playerOperator.pause();
                 }else{
                     playerOperator.play();
                 }
                 break;
-            case PlayInfoNotification.ACTION_NEXT:
+            case IntentConstant.ACTION_PLAY_NEXT_SONG:
                 playerOperator.nextSong();
                 break;
             default:

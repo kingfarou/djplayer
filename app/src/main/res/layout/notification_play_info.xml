@@ -10,18 +10,18 @@
         android:src="@drawable/ic_app"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="8dp"
-        android:paddingStart="8dp">
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp">
         <!-- 歌曲名字-->
         <TextView
             android:id="@+id/tv_notification_play_info_songName"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="bottom"
             android:textSize="16sp"
             android:singleLine="true"
             android:text="歌曲名字"/>
@@ -31,43 +31,44 @@
             android:id="@+id/tv_notification_play_info_singerName"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:gravity="center_vertical"
+            android:gravity="top"
             android:layout_weight="1"
             android:text="歌手名字"/>
+    </LinearLayout>
 
-        <!-- 这是几个按钮控制模块-->
-        <LinearLayout
-            android:id="@+id/iv_notification_play_info_previous"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+    <!-- 这是几个按钮控制模块-->
+    <LinearLayout
+        android:id="@+id/iv_notification_play_info_previous"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <!-- 前一曲-->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="16dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-            <!-- 前一曲-->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/blue_white_press_selector"
-                android:src="@drawable/ic_notification_play_info_previous"/>
-            <!-- 播放/暂停-->
-            <ImageView
-                android:id="@+id/iv_notification_play_info_play"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/blue_white_press_selector"
-                android:layout_weight="1"
-                android:src="@drawable/ic_notification_play_info_play"/>
-            <!-- 下一曲-->
-            <ImageView
-                android:id="@+id/iv_notification_play_info_next"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/blue_white_press_selector"
-                android:layout_weight="1"
-                android:src="@drawable/ic_notification_play_info_next"/>
-        </LinearLayout>
-
+            android:background="@drawable/blue_white_press_selector"
+            android:src="@drawable/ic_notification_play_info_previous"/>
+        <!-- 播放/暂停-->
+        <ImageView
+            android:id="@+id/iv_notification_play_info_play"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:background="@drawable/blue_white_press_selector"
+            android:layout_weight="1"
+            android:src="@drawable/ic_notification_play_info_play"/>
+        <!-- 下一曲-->
+        <ImageView
+            android:id="@+id/iv_notification_play_info_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:background="@drawable/blue_white_press_selector"
+            android:layout_weight="1"
+            android:src="@drawable/ic_notification_play_info_next"/>
     </LinearLayout>
         <!--<ProgressBar-->
             <!--style="?android:attr/progressBarStyleHorizontal"-->

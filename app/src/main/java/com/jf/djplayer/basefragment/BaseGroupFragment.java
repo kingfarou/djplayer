@@ -26,7 +26,7 @@ abstract public class BaseGroupFragment extends Fragment
         implements FragmentTitleLayout.FragmentTitleListener, ViewPager.OnPageChangeListener,
         AdapterView.OnItemClickListener{
 
-    protected FragmentTitleLayout mFragmentTitleLayout;//这是"Fragment"统一标题
+    protected FragmentTitleLayout mFragmentTitleLayout;//这是"Fragment"容器的统一标题
     private TextViewTabs mTextViewTabs;//自定义栏目指示器
     private ViewPager mViewPager;//用来装填多个的"Fragment"
     protected FragmentStatePagerAdapter mFragmentStatePagerAdapter;
@@ -68,7 +68,7 @@ abstract public class BaseGroupFragment extends Fragment
 
     /**
      * 子类在该方法里面返回"TextViewTabs"所显示的文字内容
-     * @return
+     * @return 字符串数组，里面装着"TextViewTabs"每个Item显示文字
      */
     abstract protected String[] getTextViewTabsText();
 
@@ -103,7 +103,7 @@ abstract public class BaseGroupFragment extends Fragment
     }
 
     /**
-     * 设置更多按钮是否可见
+     * 设置“更多”按钮是否是可见的
      * @param visibility 他只能是如下几个值的一个：View.VISIBLE、View.INVISIBLE、View.GONE
      */
     protected final void setTitleMoreVisibility(int visibility){
@@ -119,6 +119,7 @@ abstract public class BaseGroupFragment extends Fragment
     }
 
       /*"FragmentTitleListener"方法实现--start，子类根据需要进行重写*/
+
     @Override
     public void onTitleClick() {
     }

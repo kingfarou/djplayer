@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
-import com.jf.djplayer.basefragment.BaseExpandableListFragment;
+import com.jf.djplayer.basefragment.BaseExpandListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
 import com.jf.djplayer.interfaces.SongInfoObserver;
@@ -35,7 +35,7 @@ import java.util.List;
  * 这个Fragment
  * 用来展示所有用户收藏歌曲
  */
-public class MyFavoriteListFragment extends BaseExpandableListFragment
+public class MyFavoriteListFragment extends BaseExpandListFragment
         implements ExpandableListView.OnGroupClickListener, SongInfoObserver{
 
 //    private Context context = null;

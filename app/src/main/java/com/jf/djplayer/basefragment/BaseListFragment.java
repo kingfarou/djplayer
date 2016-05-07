@@ -20,13 +20,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
  * Created by JF on 2016/1/23.
- * 本地音乐里面三个"ListViewFragment"共有该类作为基类
- * “歌手Fragment”“专辑Fragment”“文件夹的Fragment”共用此类
+ * 所有使用"ListView"的"Fragment"的基类
  */
 public abstract class BaseListFragment extends BaseFragment
         implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
@@ -41,22 +38,22 @@ public abstract class BaseListFragment extends BaseFragment
     protected BaseAdapter listViewAdapter;
     protected List dataList;//装填所获取的数据用的集合
 
-    protected View layoutView;//这是布局文件的根视图
+    protected View rootView;//这是布局文件的根视图
 
-    private ReadDataAsyncTask readDataAsyncTask;
+    private ReadDataAsyncTask readDataAsyncTask;//内部类，用来读取异步任务，给"ListView"加载数据
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        获取"ListView"
-        layoutView = inflater.inflate(R.layout.fragment_list_view,container,false);
-        listView = (ListView)layoutView.findViewById(R.id.lv_fragment_list_view);
+        rootView = inflater.inflate(R.layout.fragment_list_view,container,false);
+        listView = (ListView) rootView.findViewById(R.id.lv_fragment_list_view);
 //        子类做对应初始化
         initBeforeReturnView();
 //        开始执行读数据的异步任务
         readDataAsyncTask = new ReadDataAsyncTask();
         readDataAsyncTask.execute();
-        return layoutView;
+        return rootView;
     }
 
     @Override
@@ -103,7 +100,7 @@ public abstract class BaseListFragment extends BaseFragment
     abstract protected View getListViewFooterView();
 
     /**
-     * 异步任务调用这个方法获得数据，子类再次返回自己所特有的数据集合
+     * 异步任务调用这个方法获得数据，子类在此返回自己所特有的数据集合
      * @return 这是读取到的数据集合
      */
     abstract protected List getData();
@@ -255,7 +252,7 @@ public abstract class BaseListFragment extends BaseFragment
         //移除"showLoadingHintView()"方法所设置的视图
         private void removeLoadingHintView(){
             if(loadingHintView!=null){
-                ((ViewGroup)layoutView).removeView(loadingHintView);
+                ((ViewGroup) rootView).removeView(loadingHintView);
             }
         }
 

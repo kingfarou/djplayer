@@ -1,18 +1,14 @@
 package com.jf.djplayer.classifysongshow;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.basefragment.BaseExpandableListFragment;
-import com.jf.djplayer.basefragment.BaseListFragmentInterface;
-import com.jf.djplayer.customview.ListViewPopupWindows;
+import com.jf.djplayer.basefragment.BaseExpandListFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.other.SongInfo;
 
@@ -21,7 +17,7 @@ import java.util.List;
 /**
  * Created by JF on 2016/5/1.
  */
-public class ClassifySongListFragment extends BaseExpandableListFragment{
+public class ClassifySongListFragment extends BaseExpandListFragment {
 
     private View footerView;
     private List<SongInfo> songInfoList;
