@@ -11,15 +11,14 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.jf.djplayer.classifysongshow.ClassifySongFragment;
-import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
-import com.jf.djplayer.basefragment.BaseListFragmentInterface;
+import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -132,4 +131,10 @@ public class SingerFragment extends BaseListFragmentInterface {
     protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
+
+    @Override
+    public List getDatasList() {
+        return singerList;
+    }
+
 }

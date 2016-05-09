@@ -14,11 +14,9 @@ import android.widget.TextView;
 import com.jf.djplayer.R;
 import com.jf.djplayer.interfaces.PlayControls;
 import com.jf.djplayer.other.SongInfo;
-import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
-import com.jf.djplayer.basefragment.BaseExpandListFragment;
+import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
+import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ import java.util.List;
  * Created by JF on 2016/4/27.
  * 最近播放数据列表，显示最近所播放的歌曲
  */
-public class RecentlyPlayListFragment extends BaseExpandListFragment {
+public class RecentlyPlayListFragment extends BaseExpandFragment {
 
     private List<SongInfo> recentlyPlaySongInfo;//数据
     private PlayControls playControls;//歌曲播放控制接口对象
@@ -58,12 +56,12 @@ public class RecentlyPlayListFragment extends BaseExpandListFragment {
     }
 
     @Override
-    protected View getExpandableNoDataView() {
+    protected View getExpandListEmptyView() {
         return LayoutInflater.from(getActivity()).inflate(R.layout.fragment_no_recently_play,null);
     }
 
     @Override
-    protected List readData() {
+    protected List getData() {
         recentlyPlaySongInfo = new SongInfoOpenHelper(getActivity()).getRecentlyPlaySong(8);
         //只有数据库里没有歌曲那是，才会为空
         if(recentlyPlaySongInfo == null){
@@ -85,7 +83,7 @@ public class RecentlyPlayListFragment extends BaseExpandListFragment {
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-        return new ExpandableFragmentAdapter(getActivity(),recentlyPlaySongInfo);
+        return new BaseExpandFragmentAdapter(getActivity(),recentlyPlaySongInfo);
     }
 
     @Override

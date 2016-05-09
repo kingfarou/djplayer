@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.R;
-import com.jf.djplayer.baseactivity.BaseTitleActivity;
+import com.jf.djplayer.base.baseactivity.BaseTitleActivity;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.database.SystemMediaDatabaseUtils;
 

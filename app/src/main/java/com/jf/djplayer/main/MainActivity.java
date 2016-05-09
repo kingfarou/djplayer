@@ -3,19 +3,16 @@ package com.jf.djplayer.main;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.other.SongInfo;
-import com.jf.djplayer.baseactivity.BaseNoTitleActivity;
+import com.jf.djplayer.base.baseactivity.BaseNoTitleActivity;
 import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.interfaces.PlayControls;
-import com.jf.djplayer.tool.FileTool;
 import com.jf.djplayer.service.PlayerService;
 
 

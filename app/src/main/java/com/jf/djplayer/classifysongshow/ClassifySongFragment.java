@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
-import com.jf.djplayer.basefragment.BaseGroupFragment;
+import com.jf.djplayer.base.basefragment.BaseGroupFragment;
 
 import java.util.ArrayList;
 import java.util.List;

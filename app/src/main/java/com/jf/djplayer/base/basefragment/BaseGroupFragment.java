@@ -1,4 +1,4 @@
-package com.jf.djplayer.basefragment;
+package com.jf.djplayer.base.basefragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

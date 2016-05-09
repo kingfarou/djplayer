@@ -1,10 +1,10 @@
-package com.jf.djplayer.basefragment;
+package com.jf.djplayer.base.basefragment;
 
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.jf.djplayer.basefragment.BaseListFragment;
+import com.jf.djplayer.base.basefragment.BaseListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 
 import java.util.List;
@@ -44,6 +44,11 @@ public class BaseListFragmentInterface extends BaseListFragment {
 
     @Override
     protected List getData() {
+        return null;
+    }
+
+    @Override
+    public List getDatasList() {
         return null;
     }
 

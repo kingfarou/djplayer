@@ -4,11 +4,11 @@ package com.jf.djplayer.other;
  * Created by Administrator on 2015/7/19.
  * 一个对象代表着在"ExpandableListView"一栏上面所显示的所有数据
  */
-public class GroupBean {
+public class ExpandListGroupBean {
     private String title = null;//歌名
     private String artist = null;//歌手
 
-    public GroupBean( String title, String artist){
+    public ExpandListGroupBean(String title, String artist){
         this.title = title;
         this.artist = artist;
     }

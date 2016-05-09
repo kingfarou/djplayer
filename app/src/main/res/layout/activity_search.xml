@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--这是搜索功能的"Activity"所用布局-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 标题栏-->
+    <com.jf.djplayer.customview.FragmentTitleLayout
+        android:id="@+id/fragment_title_layout_activity_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@color/sky_blue"
+        >
+    </com.jf.djplayer.customview.FragmentTitleLayout>
+
+    <!-- 用户输入搜索内容-->
+    <EditText
+        android:id="@+id/et_activity_search_key_word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"        />
+
+    <!-- 用来装填Fragment-->
+    <FrameLayout
+        android:id="@+id/fl_activity_search_fragment_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+</LinearLayout>

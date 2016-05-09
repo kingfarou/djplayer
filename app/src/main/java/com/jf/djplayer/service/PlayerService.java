@@ -50,13 +50,16 @@ public class PlayerService extends Service implements PlayInfoObserver{
 
     @Override
     public void updatePlayInfo(SongInfo currentPlaySongInfo, boolean isPlaying, int progress) {
-        if(isPlaying){
-            playInfoNotification.updateNotification(currentPlaySongInfo);
-            //更新歌曲最后一次播放时间
-            songInfoOpenHelper.setLastPlayTime(currentPlaySongInfo, System.currentTimeMillis());
-        }else{
-            playInfoNotification.cancelNotification();
+        if(currentPlaySongInfo == null) {
+            return;
         }
+
+        //只有歌曲播放了才需要更新最后一次播放时间
+        if(isPlaying){
+            songInfoOpenHelper.setLastPlayTime(currentPlaySongInfo, System.currentTimeMillis());
+        }
+        //不论歌曲是否播放，都要更新通知栏的信息
+        playInfoNotification.updateNotification(currentPlaySongInfo, isPlaying);
     }
 
     /**

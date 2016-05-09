@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 
 import com.jf.djplayer.other.SongInfo;
-import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
-import com.jf.djplayer.basefragment.BaseExpandListFragment;
+import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
+import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
 import com.jf.djplayer.interfaces.SongInfoObserver;
@@ -35,7 +35,7 @@ import java.util.List;
  * 这个Fragment
  * 用来展示所有用户收藏歌曲
  */
-public class MyFavoriteListFragment extends BaseExpandListFragment
+public class MyFavoriteListFragment extends BaseExpandFragment
         implements ExpandableListView.OnGroupClickListener, SongInfoObserver{
 
 //    private Context context = null;
@@ -80,7 +80,7 @@ public class MyFavoriteListFragment extends BaseExpandListFragment
     }
 
     @Override
-    protected List readData() {
+    protected List getData() {
         favoriteList = new SongInfoOpenHelper(getActivity()).getCollectionSongInfo();
         return favoriteList;
     }
@@ -91,7 +91,7 @@ public class MyFavoriteListFragment extends BaseExpandListFragment
     }
 
     @Override
-    protected View getExpandableNoDataView() {
+    protected View getExpandListEmptyView() {
         return LayoutInflater.from(getActivity()).inflate(R.layout.fragment_no_favourites,null);
     }
 
@@ -102,7 +102,7 @@ public class MyFavoriteListFragment extends BaseExpandListFragment
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
 //        return new ExpandableFragmentAdapter(getActivity(), expandableListView, favoriteList);
-        return new ExpandableFragmentAdapter(getActivity(), favoriteList);
+        return new BaseExpandFragmentAdapter(getActivity(), favoriteList);
     }
 
     public ListViewPopupWindows getListViewPopupWindow() {

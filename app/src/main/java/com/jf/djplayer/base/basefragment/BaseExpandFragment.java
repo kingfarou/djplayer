@@ -1,4 +1,4 @@
-package com.jf.djplayer.basefragment;
+package com.jf.djplayer.base.basefragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ import java.util.List;
  * Created by Administrator on 2015/9/14.
  * 该类定义所有使用"ExpandableListView"显示歌曲信息的"Fragment"的显示样式
  * 该抽象类已经实现的功能有
- * 异步读取Expandable需显示的数据（在“readData()”方法里面）
+ * 异步读取Expandable需显示的数据（在“_readData()”方法里面）
  * 读取之前有进度条提示用户读取之后正常显示数据
  * 读取完成将数据设置到"ExpandableListView"里面
  * expandable任何一个栏目展开之后
@@ -28,15 +28,15 @@ import java.util.List;
  * 子类根据需要重写方法即可
  */
 
-abstract public class BaseExpandListFragment extends BaseFragment
+abstract public class BaseExpandFragment extends BaseFragment
         implements ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupClickListener,
                 AdapterView.OnItemLongClickListener {
 
     private ExpandableListView expandableListView;//expandableListView
-    protected BaseExpandableListAdapter baseExpandableListAdapter;//expandableListView适配器
+    protected BaseExpandableListAdapter baseExpandableListAdapter;
 
     private View loadingHintView;//"ExpandableListView"读到数据前显示的提示视图
-    private View expandableListEmptyView;
+    private View expandableListEmptyView;//"ExpandableListView"没有数据显式时的提示视图
 
     private LoadingAsyncTask loadingAsyncTask;//异步读取数据的内部类
     private int lastExpand = -1;//记录上次"expandableListView"所展开的那个位置
@@ -80,13 +80,13 @@ abstract public class BaseExpandListFragment extends BaseFragment
      * 如果子类想在"ExpandableListView"没数据时显示一些提示，在这设置
      * @return "ExpandableListView"要显示的提示视图
      */
-    protected abstract View getExpandableNoDataView();
+    protected abstract View getExpandListEmptyView();
 
     /**
      * 数据的具体来源有子类进行实现
-     * @return 返回读取到的歌曲信息集合，如果没有读到信息真返回空
+     * @return 返回读取到的歌曲信息集合，如果没有读到信息则返回空
      */
-    abstract protected List readData();
+    abstract protected List getData();
 
     /**
      * 异步任务读取数据完成之后回调这个方法
@@ -203,7 +203,7 @@ abstract public class BaseExpandListFragment extends BaseFragment
             } catch (Exception e) {
                 Log.i("test", this.getClass().getName() + "--" + e.toString());
             }
-            return readData();
+            return getData();
         }
 
         @Override
@@ -219,6 +219,9 @@ abstract public class BaseExpandListFragment extends BaseFragment
                 //初始化各点击事件并且设置适配器
                 expandableListViewInit();
                 asyncReadDataFinished(dataList);//通知子类数据已经读取完成
+                //"ExpandableListView"添加数据
+                baseExpandableListAdapter = getExpandableAdapter();
+                expandableListView.setAdapter(baseExpandableListAdapter);
             }
         }
 
@@ -251,24 +254,24 @@ abstract public class BaseExpandListFragment extends BaseFragment
             }
         }
 
-        //给"ExpandableListView"添加"EmptyView"
         private void showExpandableListView() {
             if(expandableListView.getEmptyView()==null){
-                expandableListEmptyView = getExpandableNoDataView();
+                expandableListEmptyView = getExpandListEmptyView();
                 if(expandableListEmptyView!=null){
                     ((ViewGroup) layoutView).addView(expandableListEmptyView);
                     expandableListView.setEmptyView(expandableListEmptyView);
                 }
             }
+            expandableListView.setVisibility(View.VISIBLE);
         }
 
         //"ExpandableListView"初始化的相关设置
         private void expandableListViewInit() {
-            expandableListView.setOnGroupExpandListener(BaseExpandListFragment.this);
+            expandableListView.setOnGroupExpandListener(BaseExpandFragment.this);
             expandableListView.setGroupIndicator(null);
 //            点击事件相关设置
-            expandableListView.setOnGroupClickListener(BaseExpandListFragment.this);
-            expandableListView.setOnItemLongClickListener(BaseExpandListFragment.this);
+            expandableListView.setOnGroupClickListener(BaseExpandFragment.this);
+            expandableListView.setOnItemLongClickListener(BaseExpandFragment.this);
 //            添加头尾view
             if (expandableListView.getHeaderViewsCount()==0){
                 View headerView = getExpandableHeaderView();
@@ -282,9 +285,7 @@ abstract public class BaseExpandListFragment extends BaseFragment
                     expandableListView.addFooterView(footerView);
                 }
             }
-            //"ExpandableListView"添加数据
-            baseExpandableListAdapter = getExpandableAdapter();
-            expandableListView.setAdapter(baseExpandableListAdapter);
+
         }//expandableListViewInit()
     }
 

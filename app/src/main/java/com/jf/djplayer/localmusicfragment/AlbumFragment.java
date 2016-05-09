@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
-import com.jf.djplayer.basefragment.BaseListFragmentInterface;
+import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
@@ -124,8 +124,12 @@ public class AlbumFragment extends BaseListFragmentInterface {
 
     }
 
-    //    @Override
-//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//    }
+    /**
+     * 返回当前列表数据集合
+     * @return 专辑列表数据集合
+     */
+    @Override
+    public List getDatasList() {
+        return albumList;
+    }
 }

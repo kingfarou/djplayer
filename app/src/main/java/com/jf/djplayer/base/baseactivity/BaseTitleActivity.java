@@ -1,8 +1,6 @@
-package com.jf.djplayer.baseactivity;
+package com.jf.djplayer.base.baseactivity;
 
 import android.os.Bundle;
-
-import com.jf.djplayer.baseactivity.BaseActivity;
 
 /**
  * Created by JF on 2016/4/9.

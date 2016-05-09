@@ -3,13 +3,11 @@ package com.jf.djplayer.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Message;
 import android.util.Log;
-import android.os.Handler;
 import android.widget.Toast;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.baseactivity.BaseNoTitleActivity;
+import com.jf.djplayer.base.baseactivity.BaseNoTitleActivity;
 import com.jf.djplayer.tool.FileTool;
 
 

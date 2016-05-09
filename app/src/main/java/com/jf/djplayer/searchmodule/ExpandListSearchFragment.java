@@ -1,32 +1,28 @@
-package com.jf.djplayer.classifysongshow;
+package com.jf.djplayer.searchmodule;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
-import com.jf.djplayer.R;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
-import com.jf.djplayer.database.SongInfoOpenHelper;
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
 
 import java.util.List;
 
 /**
- * Created by JF on 2016/5/1.
+ * Created by JF on 2016/5/8.
  */
-public class ClassifySongListFragment extends BaseExpandFragment {
+public class ExpandListSearchFragment extends BaseExpandFragment{
 
-    private View footerView;
-    private List<SongInfo> songInfoList;
-    private String columnName;
-    private String columnValues;
-
-    public void setDataResource(String columnName, String columnValues){
-        this.columnName = columnName;
-        this.columnValues = columnValues;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -46,8 +42,7 @@ public class ClassifySongListFragment extends BaseExpandFragment {
 
     @Override
     protected List getData() {
-        songInfoList = new SongInfoOpenHelper(getActivity()).getClassifySongInfo(columnName, columnValues);
-        return songInfoList;
+        return null;
     }
 
     @Override
@@ -77,11 +72,6 @@ public class ClassifySongListFragment extends BaseExpandFragment {
 
     @Override
     protected View getExpandableFooterView() {
-        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view, null);
-        if(songInfoList == null){
-            return null;
-        }
-        ((TextView)footerView.getParent()).setText(songInfoList.size()+"首歌");
-        return footerView;
+        return null;
     }
 }

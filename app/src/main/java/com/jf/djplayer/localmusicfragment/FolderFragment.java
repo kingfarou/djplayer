@@ -15,7 +15,7 @@ import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.R;
 
 import com.jf.djplayer.adapter.ListViewFragmentAdapter;
-import com.jf.djplayer.basefragment.BaseListFragmentInterface;
+import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
@@ -119,7 +119,7 @@ public class FolderFragment extends BaseListFragmentInterface {
             return;
         }
         folderList = dataList;
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(folderList.size()+"文件夹");
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(folderList.size() + "文件夹");
     }
 
     @Override
@@ -131,4 +131,14 @@ public class FolderFragment extends BaseListFragmentInterface {
     protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
+
+    /**
+     * 返回当前列表数据集合
+     * @return 文件夹列表数据的集合
+     */
+    @Override
+    public List getDatasList() {
+        return folderList;
+    }
+
 }

@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.jf.djplayer.basefragment.BaseFragment;
+import com.jf.djplayer.base.basefragment.BaseFragment;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.myfavorite.MyFavoriteFragment;
 import com.jf.djplayer.interfaces.ChangeFragment;

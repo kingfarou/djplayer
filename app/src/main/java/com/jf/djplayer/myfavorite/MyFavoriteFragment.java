@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
-import com.jf.djplayer.basefragment.BaseGroupFragment;
+import com.jf.djplayer.base.basefragment.BaseGroupFragment;
 import com.jf.djplayer.interfaces.ChangeFragment;
 
 import com.jf.djplayer.customview.FragmentTitleLayout;

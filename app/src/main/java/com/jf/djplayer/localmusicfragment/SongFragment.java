@@ -18,8 +18,8 @@ import android.widget.Toast;
 import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.R;
 import com.jf.djplayer.songscan.ScanningSongActivity;
-import com.jf.djplayer.adapter.ExpandableFragmentAdapter;
-import com.jf.djplayer.basefragment.BaseExpandListFragment;
+import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
+import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
@@ -38,7 +38,7 @@ import java.util.List;
  * 如果用户有收藏有歌曲
  * 这个Fragment将被加载
  */
-public class SongFragment extends BaseExpandListFragment
+public class SongFragment extends BaseExpandFragment
         implements SongInfoObserver{
 
     private PlayControls playControls;
@@ -47,6 +47,7 @@ public class SongFragment extends BaseExpandListFragment
     private List<SongInfo> songInfoList;//保存要显示的歌曲信息集合
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
     private View footerView;
+
 
     @Nullable
     @Override
@@ -59,9 +60,9 @@ public class SongFragment extends BaseExpandListFragment
         super.onStart();
 //        动态注册广播接收
         IntentFilter updateUiFilter = new IntentFilter();
-        updateUiFilter.addAction(UpdateUiSongInfoReceiver.ACTION_COLLECTION_SONG);
-        updateUiFilter.addAction(UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG);
-        updateUiFilter.addAction(UpdateUiSongInfoReceiver.ACTION_DELETE_SONG_FILE);
+        updateUiFilter.addAction(UpdateUiSongInfoReceiver.ACTION_COLLECTION_SONG);//监听用户收藏歌曲操作
+        updateUiFilter.addAction(UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG);//监听用户取消收藏歌曲操作
+        updateUiFilter.addAction(UpdateUiSongInfoReceiver.ACTION_DELETE_SONG_FILE);//监听用户删除歌曲操作
         updateUiSongInfoReceiver = new UpdateUiSongInfoReceiver(this);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateUiSongInfoReceiver, updateUiFilter);
     }
@@ -85,7 +86,7 @@ public class SongFragment extends BaseExpandListFragment
         if(resultCode==Activity.RESULT_OK){
             //如果是扫描音乐的返回
             if(requestCode==REQUEST_CODE_SCAN_MUSIC){
-                refreshDataAsync();
+                refreshDataAsync();//异步任务刷新数据
             }
         }
     }
@@ -101,27 +102,28 @@ public class SongFragment extends BaseExpandListFragment
         return LayoutInflater.from(getActivity()).inflate(R.layout.loading_layout,null);
     }
 
-    //返回"ExpandableListView"数据读取完成后且没有数据显式时的提示界面
+    //当"ExpandableListView"数据读取完成后且没有数据显式时的提示界面
     @Override
-    protected View getExpandableNoDataView() {
-        View noDataView = LayoutInflater.from(getActivity()).inflate(R.layout.local_music_no_song,null);
+    protected View getExpandListEmptyView() {
+        View expandListEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.local_music_no_song,null);
         //一键扫描按钮点击事件
-        noDataView.findViewById(R.id.btn_localmusic_nosong_keyscan).setOnClickListener(new View.OnClickListener() {
+        expandListEmptyView.findViewById(R.id.btn_localmusic_nosong_keyscan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //启动"Activity"一键扫描
                 getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
             }
         });
-        return noDataView;
+        return expandListEmptyView;
     }
 
     //    提供数据用的方法
     @Override
-    protected List readData() {
+    protected List getData() {
         songInfoList = new SongInfoOpenHelper(getActivity()).getLocalMusicSongInfo();
 //        return new SongInfoOpenHelper(getActivity(), 1).getLocalMusicSongInfo();
         return songInfoList;
-    }//readData()
+    }//_readData()
 
     /*
     当异步任务执行完，
@@ -138,7 +140,7 @@ public class SongFragment extends BaseExpandListFragment
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
 //        return new ExpandableFragmentAdapter(getActivity(), expandableListView, songInfoList);
-        return new ExpandableFragmentAdapter(getActivity(), songInfoList);
+        return new BaseExpandFragmentAdapter(getActivity(), songInfoList);
     }
 
     //    "expandableListView"的groupItem被按下时所回调的方法
@@ -168,6 +170,7 @@ public class SongFragment extends BaseExpandListFragment
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
         return footerView;
     }
+
 
     public ListViewPopupWindows getListViewPopupWindow() {
         String[] dataString = new String[]{"扫描音乐","按歌曲名排序","按歌手名排序","按添加时间排序","按文件名排序","一键获取词图","被删除的歌曲"};
@@ -202,6 +205,14 @@ public class SongFragment extends BaseExpandListFragment
             }
         });
         return listPopupWindow;
+    }
+
+    /**
+     * 给外层的容器调用，用来返回当前所显示的内容数据列表
+     * @return 当前歌曲数据列表
+     */
+    public List getContentList(){
+        return songInfoList;
     }
 
     //    当界面上歌曲信息被修改时

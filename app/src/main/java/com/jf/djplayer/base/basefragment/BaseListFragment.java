@@ -1,4 +1,4 @@
-package com.jf.djplayer.basefragment;
+package com.jf.djplayer.base.basefragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -112,8 +112,17 @@ public abstract class BaseListFragment extends BaseFragment
      */
     abstract protected BaseAdapter getListViewAdapter(List dataList);
 
-
+    /**
+     * 获取页卡所对应的"ListViewPopupWindow"
+     * @return 子类说特有"ListViewPopupWindow"
+     */
     abstract public ListViewPopupWindows getListViewPopupWindow();
+
+    /**
+     * 返回当前"Fragment"里的"ListView"所显示的数据集合
+     * @return
+     */
+    abstract public List getDatasList();
 
     /**
      * 当异步任务完成时将会回调这个方法
@@ -223,6 +232,9 @@ public abstract class BaseListFragment extends BaseFragment
                 // listView做初始化
                 listViewInit();
                 readDataFinish(dataList);//任务完成之后回调方法
+                //            将数据给设置上去
+                listViewAdapter = getListViewAdapter(dataList);
+                listView.setAdapter(listViewAdapter);
             }
         }
 
@@ -287,9 +299,6 @@ public abstract class BaseListFragment extends BaseFragment
                     listView.addFooterView(footerView);
                 }
             }
-//            将数据给设置上去
-            listViewAdapter = getListViewAdapter(dataList);
-            listView.setAdapter(listViewAdapter);
         }//listViewInit()
     }
 

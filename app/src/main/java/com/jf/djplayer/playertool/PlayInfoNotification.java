@@ -76,6 +76,9 @@ public class PlayInfoNotification {
      * @param songInfo 要显示的歌曲信息对象
      */
     public void updateNotification(SongInfo songInfo){
+        if(songInfo == null){
+            return;
+        }
         //设置要显示的歌曲名字歌手名字
         remoteViews.setTextViewText(R.id.tv_notification_play_info_songName, songInfo.getSongName());
         remoteViews.setTextViewText(R.id.tv_notification_play_info_singerName, songInfo.getSingerName());
@@ -87,6 +90,35 @@ public class PlayInfoNotification {
         builder.setContent(remoteViews)
                 .setTicker(songInfo.getSongName());
         notificationManager.notify(PLAY_INFO_NOTIFICATION_FLAG, builder.build());
+    }
+
+    /**
+     * 传入歌曲信息对象，更新通知栏的歌曲信息
+     * @param songInfo 待更新的歌曲信息对象
+     * @param isPlaying 当前歌曲是否正在播放
+     */
+    public void updateNotification(SongInfo songInfo, boolean isPlaying){
+        if(songInfo == null){
+            return;
+        }
+        //设置要显示的歌曲名字歌手名字
+        remoteViews.setTextViewText(R.id.tv_notification_play_info_songName, songInfo.getSongName());
+        remoteViews.setTextViewText(R.id.tv_notification_play_info_singerName, songInfo.getSingerName());
+        //根据歌曲播放状态设置图片
+        if(isPlaying){
+            remoteViews.setImageViewResource(R.id.iv_notification_play_info_play,R.drawable.icon_notification_pause);
+        }else{
+            remoteViews.setImageViewResource(R.id.iv_notification_play_info_play, R.drawable.ic_notification_play_info_play);
+        }
+        //设置前一曲和播放以及下一曲按钮的点击
+        remoteViews.setOnClickPendingIntent(R.id.iv_notification_play_info_previous, getPreviousPending());
+        remoteViews.setOnClickPendingIntent(R.id.iv_notification_play_info_play, getPlayPending());
+        remoteViews.setOnClickPendingIntent(R.id.iv_notification_play_info_next, getNextPending());
+
+        builder.setContent(remoteViews)
+                .setTicker(songInfo.getSongName());
+        notificationManager.notify(PLAY_INFO_NOTIFICATION_FLAG, builder.build());
+
     }
 
     public void cancelNotification(){
