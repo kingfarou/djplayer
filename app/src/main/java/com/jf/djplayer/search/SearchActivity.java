@@ -1,18 +1,14 @@
-package com.jf.djplayer.searchmodule;
-import android.content.Intent;
+package com.jf.djplayer.search;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseactivity.BaseNoTitleActivity;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -24,10 +20,11 @@ import java.util.List;
  */
 public class SearchActivity extends BaseNoTitleActivity
         implements FragmentTitleLayout.FragmentTitleListener, TextWatcher,
-        ListViewSearchFragment.ListSearchInterface {
+        SearchedDataProvider {
 
     private FragmentTitleLayout fragmentTitleLayout;//标题
-    private EditText et_activity_search_key_word;//用户输入搜索内容
+    private EditText searchKeywordEt;//用户输入搜索内容
+    private SearcherFragment searcherFragment;//搜索用的"Fragment"
 
     //跟搜索有关的信息常量
     /*要显示的"Fragment"类型*/
@@ -70,14 +67,14 @@ public class SearchActivity extends BaseNoTitleActivity
 
     //用户输入框初始化
     private void editInit(){
-        et_activity_search_key_word = (EditText) findViewById(R.id.et_activity_search_key_word);
-        et_activity_search_key_word.addTextChangedListener(this);
+        searchKeywordEt = (EditText) findViewById(R.id.et_activity_search_key_word);
+        searchKeywordEt.addTextChangedListener(this);
         //设置要显示的提示内容
         String editTextHint = getIntent().getStringExtra(EDIT_TEXT_HINT);
         if(editTextHint == null){
             return;
         }
-        et_activity_search_key_word.setHint(editTextHint);
+        searchKeywordEt.setHint(editTextHint);
     }
 
     //对所加载的"Fragment"做初始化
@@ -86,18 +83,47 @@ public class SearchActivity extends BaseNoTitleActivity
         if(fragmentType == null){
             return;
         }
-        //根据表及判断加载哪类"Fragment"
+        //根据标记判断加载哪类"Fragment"
         switch(fragmentType){
-            case "ExpandableListView":
+            case EXPANDABLE_LIST_VIEW:
+                searcherFragment = new ExpandListSearchFragment();
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fl_activity_search_fragment_group, new ExpandListSearchFragment()).commit();
+                        .add(R.id.fl_activity_search_fragment_group, (Fragment) searcherFragment).commit();
                 break;
-            case "ListView":
+            case LIST_VIEW:
+                searcherFragment = new ListViewSearchFragment();
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fl_activity_search_fragment_group, new ListViewSearchFragment()).commit();
+                        .add(R.id.fl_activity_search_fragment_group, (Fragment) searcherFragment).commit();
                 break;
             default:break;
         }
+    }
+
+
+    /*"TextWatch"方法覆盖--start*/
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        //一旦用户有所输入，立即搜索
+        String keyword = s.toString();
+        searcherFragment.search(keyword);
+    }
+    /*"TextWatch"方法覆盖--end*/
+
+    //"SearchDataInterface"方法覆盖
+    @Override
+    public List returnSearchedDataList() {
+        //将待搜索的数据返回给"Fragment"
+        return (List)getIntent().getSerializableExtra(SEARCH_LIST);
     }
 
     @Override
@@ -114,27 +140,4 @@ public class SearchActivity extends BaseNoTitleActivity
     public void onMoreIvOnclick() {
         //“更多”按钮没有显示所以这里不用做任何事
     }
-
-    /*"TextWatch"方法覆盖--start*/
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
-
-    @Override
-    public List getListDatas() {
-        return (List)getIntent().getSerializableExtra(SEARCH_LIST);
-    }
-    /*"TextWatch"方法覆盖--end*/
-
 }

@@ -1,4 +1,4 @@
-package com.jf.djplayer.searchmodule;
+package com.jf.djplayer.search;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.jf.djplayer.adapter.ListViewFragmentAdapter;
-import com.jf.djplayer.base.basefragment.BaseListFragment;
+import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +20,11 @@ import java.util.Map;
  * Created by JF on 2016/5/8.
  * 以"ListView"方式显示数据的搜索的列表
  */
-public class ListViewSearchFragment extends BaseListFragmentInterface {
+public class ListViewSearchFragment extends BaseListFragmentInterface
+                implements SearcherFragment {
 
-    private List searchList;//这是待搜索的数据
+    private List<Map<String,String>> searchedList;//这是待搜索的数据
+    private List<Map<String,String>> showList;//用户输入关键字后要显示的数据
 
     @Nullable
     @Override
@@ -30,22 +32,31 @@ public class ListViewSearchFragment extends BaseListFragmentInterface {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @Override
-    protected void initBeforeReturnView() {
-
+    public void search(String keyWord){
+        showList.clear();
+        for(Map<String,String> content:searchedList){
+            if(content.get("title").contains(keyWord)){
+                showList.add(content);
+            }
+        }
+        ((BaseListFragmentAdapter)listViewAdapter).setData(showList);
     }
-
 
     @Override
     protected List getData() {
         //通过"Activity"获取待搜索的数据列表
-        searchList = ((ListSearchInterface)getActivity()).getListDatas();
-        return searchList;
+        searchedList = ((SearchedDataProvider)getActivity()).returnSearchedDataList();
+        //注意这里必须创建新的集合，不可以和"searchedList"共用同样一个集合
+        showList = new ArrayList<>(searchedList.size());
+        return searchedList;
     }
 
     @Override
     protected BaseAdapter getListViewAdapter(List dataList) {
-        return new ListViewFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+        if(listViewAdapter == null){
+            listViewAdapter = new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+        }
+        return listViewAdapter;
     }
 
     @Override
@@ -68,14 +79,4 @@ public class ListViewSearchFragment extends BaseListFragmentInterface {
 
     }
 
-    /**
-     * 从"Activity"获取列表数据用的接口
-     */
-    public interface ListSearchInterface{
-        /**
-         * 返回要显示的数据
-         * @return
-         */
-        public List getListDatas();
-    }
 }

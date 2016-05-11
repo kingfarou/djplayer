@@ -11,21 +11,22 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
-import com.jf.djplayer.adapter.ListViewFragmentAdapter;
+import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by JF on 2016/1/29.
  */
-public class SingerFragment extends BaseListFragmentInterface {
+public class SingerFragment extends BaseListFragmentInterface
+                implements SearchedDataProvider{
 
     private List<Map<String,String>> singerList;
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
@@ -78,7 +79,7 @@ public class SingerFragment extends BaseListFragmentInterface {
 
     @Override
     protected BaseAdapter getListViewAdapter(List dataList) {
-        return new ListViewFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+        return new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
     }
 
     @Override
@@ -132,9 +133,9 @@ public class SingerFragment extends BaseListFragmentInterface {
 
     }
 
+
     @Override
-    public List getDatasList() {
+    public List returnSearchedDataList() {
         return singerList;
     }
-
 }

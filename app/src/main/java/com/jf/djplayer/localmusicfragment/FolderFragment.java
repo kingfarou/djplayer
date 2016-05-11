@@ -11,10 +11,11 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.R;
 
-import com.jf.djplayer.adapter.ListViewFragmentAdapter;
+import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
@@ -25,7 +26,8 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class FolderFragment extends BaseListFragmentInterface {
+public class FolderFragment extends BaseListFragmentInterface
+                implements SearchedDataProvider{
 
     private View footerView;//"ListView"的"footerView"
     private List<Map<String,String>> folderList;//数据
@@ -78,7 +80,7 @@ public class FolderFragment extends BaseListFragmentInterface {
 
     @Override
     protected BaseAdapter getListViewAdapter(List dataList) {
-        return new ListViewFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+        return new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
 
     }
 
@@ -128,17 +130,11 @@ public class FolderFragment extends BaseListFragmentInterface {
     }
 
     @Override
-    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id) {}
 
-    }
-
-    /**
-     * 返回当前列表数据集合
-     * @return 文件夹列表数据的集合
-     */
     @Override
-    public List getDatasList() {
+    public List returnSearchedDataList() {
+
         return folderList;
     }
-
 }

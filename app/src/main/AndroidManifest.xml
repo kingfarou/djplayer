@@ -43,7 +43,7 @@
         </activity>
 
         <!-- 搜索模块"Activity"__start-->
-        <activity android:name=".searchmodule.SearchActivity"/>
+        <activity android:name=".search.SearchActivity"/>
         <!-- 搜索模块"Activity"__end-->
         
         <!-- 后台控制播放用的服务-->

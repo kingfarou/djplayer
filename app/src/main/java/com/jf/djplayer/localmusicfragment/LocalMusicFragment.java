@@ -16,8 +16,8 @@ import com.jf.djplayer.customview.ListViewPopupWindows;
 
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.interfaces.ChangeFragment;
-import com.jf.djplayer.other.SongInfo;
-import com.jf.djplayer.searchmodule.SearchActivity;
+import com.jf.djplayer.search.SearchActivity;
+import com.jf.djplayer.search.SearchedDataProvider;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,6 +29,7 @@ import java.util.List;
 public class LocalMusicFragment extends BaseGroupFragment {
 
     private int windowWidths;
+    private SearchedDataProvider searchedDataProvider;//搜索按钮被按下时，从搜索数据提供者那里获取待搜索的数据
 
     @Nullable
     @Override
@@ -88,27 +89,24 @@ public class LocalMusicFragment extends BaseGroupFragment {
     //如果标题栏的搜索按钮被按下了
     @Override
     public void onSearchIvOnclick() {
-        List searchList = null;//待搜索的数据集合
+        //待搜索的数据集合
+        List searchedList = ((SearchedDataProvider)mFragmentStatePagerAdapter.getItem(getCurrentItem())).returnSearchedDataList();
         String fragmentType = SearchActivity.LIST_VIEW;//表示需要使用哪类"Fragment"展示数据
         String keyHint = null;//用户没有输入搜索关键字时所显示的提示文字
         switch(getCurrentItem()){
             case 0://获取歌曲列表数据
-                searchList = ((SongFragment)mFragmentStatePagerAdapter.getItem(0)).getContentList();
                 fragmentType = SearchActivity.EXPANDABLE_LIST_VIEW;
                 keyHint = "输入歌曲名字搜索";
                 break;
             case 1://获取歌手列表数据
-                searchList = ((BaseListFragment)mFragmentStatePagerAdapter.getItem(1)).getDatasList();
                 keyHint = "搜索歌手";
 //                fragmentType = "ListView";
                 break;
             case 2://获取专辑列表数据
-                searchList = ((BaseListFragment)mFragmentStatePagerAdapter.getItem(2)).getDatasList();
-                keyHint = "搜索专辑";
+               keyHint = "搜索专辑";
 //                fragmentType = "ListView";
                 break;
             case 3://获取文件夹列表的数据
-                searchList = ((FolderFragment)mFragmentStatePagerAdapter.getItem(3)).getDatasList();
                 keyHint = "搜索文件夹";
 //                fragmentType = "ListView";
                 break;
@@ -117,7 +115,7 @@ public class LocalMusicFragment extends BaseGroupFragment {
         }
         Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
         //装填待搜索的数据列表
-        searchIntent.putExtra(SearchActivity.SEARCH_LIST, (Serializable)searchList);
+        searchIntent.putExtra(SearchActivity.SEARCH_LIST, (Serializable)searchedList);
         //装填展示数据所需要的"Fragment"类型
         searchIntent.putExtra(SearchActivity.FRAGMENT_TYPE, fragmentType);
         //装填用户没有输入是的提示信息

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.R;
+import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
@@ -39,7 +40,7 @@ import java.util.List;
  * 这个Fragment将被加载
  */
 public class SongFragment extends BaseExpandFragment
-        implements SongInfoObserver{
+        implements SongInfoObserver, SearchedDataProvider{
 
     private PlayControls playControls;
     private SongInfoListSortable songInfoListSortable;//对列表歌曲进行排序的工具
@@ -167,7 +168,7 @@ public class SongFragment extends BaseExpandFragment
             return null;
         }
         footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size() + "首歌");
         return footerView;
     }
 
@@ -207,13 +208,6 @@ public class SongFragment extends BaseExpandFragment
         return listPopupWindow;
     }
 
-    /**
-     * 给外层的容器调用，用来返回当前所显示的内容数据列表
-     * @return 当前歌曲数据列表
-     */
-    public List getContentList(){
-        return songInfoList;
-    }
 
     //    当界面上歌曲信息被修改时
 //    这个方法会被回调
@@ -239,4 +233,12 @@ public class SongFragment extends BaseExpandFragment
         }
     }
 
+    /**
+     * 给外层的容器调用，用来返回当前所显示的内容数据列表
+     * @return 当前歌曲数据列表
+     */
+    @Override
+    public List returnSearchedDataList() {
+        return songInfoList;
+    }
 }

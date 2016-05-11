@@ -1,4 +1,4 @@
-package com.jf.djplayer.adapter;
+package com.jf.djplayer.base.baseadapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,15 +14,17 @@ import java.util.Map;
 /**
  * Created by Administrator on 2015/9/15.
  */
-public class ListViewFragmentAdapter extends BaseAdapter {
+public class BaseListFragmentAdapter extends BaseAdapter {
 
 
     private List<Map<String,String>> mapList;
     private Context context;
-    public ListViewFragmentAdapter(Context context, List<Map<String, String>> mapList){
+
+    public BaseListFragmentAdapter(Context context, List<Map<String, String>> mapList){
         this.context = context;
         this.mapList = mapList;
     }
+
     @Override
     public int getCount() {
         return mapList.size();
@@ -49,16 +51,25 @@ public class ListViewFragmentAdapter extends BaseAdapter {
         if (convertView==null){
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_view_fragment,null);
-            viewHolder.position = (TextView)convertView.findViewById(R.id.tv_item_list_view_fragment_position);
+//            viewHolder.position = (TextView)convertView.findViewById(R.id.tv_item_list_view_fragment_position);
             viewHolder.title = (TextView)convertView.findViewById(R.id.tv_item_list_view_fragment_title);
             viewHolder.content = (TextView)convertView.findViewById(R.id.tv_item_list_view_fragment_content);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        viewHolder.position.setText(position+1+"");
+//        viewHolder.position.setText(position+1+"");
         viewHolder.title.setText(mapList.get(position).get("title"));
         viewHolder.content.setText(mapList.get(position).get("content")+"首歌曲");
         return convertView;
+    }
+
+    /**
+     * 设置数据，该方法会调用刷新数据那个方法
+     * @param mapList 需显示的新的数据
+     */
+    public void setData(List mapList){
+        this.mapList = mapList;
+        notifyDataSetChanged();
     }
 }

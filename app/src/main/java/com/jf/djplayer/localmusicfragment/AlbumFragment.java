@@ -10,8 +10,9 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
-import com.jf.djplayer.adapter.ListViewFragmentAdapter;
+import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
@@ -23,7 +24,8 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/29.
  */
-public class AlbumFragment extends BaseListFragmentInterface {
+public class AlbumFragment extends BaseListFragmentInterface
+                implements SearchedDataProvider{
 
     private List<Map<String,String>> albumList;//数据
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
@@ -67,7 +69,7 @@ public class AlbumFragment extends BaseListFragmentInterface {
 
     @Override
     protected BaseAdapter getListViewAdapter(List dataList) {
-        return new ListViewFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+        return new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
 
     }
 
@@ -124,12 +126,13 @@ public class AlbumFragment extends BaseListFragmentInterface {
 
     }
 
+
     /**
-     * 返回当前列表数据集合
-     * @return 专辑列表数据集合
+     * 返回带搜索的数据集合，本对象是专辑集合
+     * @return 专辑集合
      */
     @Override
-    public List getDatasList() {
+    public List returnSearchedDataList() {
         return albumList;
     }
 }
