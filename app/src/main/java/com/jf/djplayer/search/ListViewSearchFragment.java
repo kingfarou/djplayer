@@ -1,7 +1,6 @@
 package com.jf.djplayer.search;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,21 +25,11 @@ public class ListViewSearchFragment extends BaseListFragmentInterface
     private List<Map<String,String>> searchedList;//这是待搜索的数据
     private List<Map<String,String>> showList;//用户输入关键字后要显示的数据
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public void search(String keyWord){
-        showList.clear();
-        for(Map<String,String> content:searchedList){
-            if(content.get("title").contains(keyWord)){
-                showList.add(content);
-            }
-        }
-        ((BaseListFragmentAdapter)listViewAdapter).setData(showList);
-    }
 
     @Override
     protected List getData() {
@@ -59,6 +48,16 @@ public class ListViewSearchFragment extends BaseListFragmentInterface
         return listViewAdapter;
     }
 
+    public void search(String keyWord){
+        showList.clear();
+        for(Map<String,String> content:searchedList){
+            if(content.get("title").contains(keyWord)){
+                showList.add(content);
+            }
+        }
+        ((BaseListFragmentAdapter)listViewAdapter).setData(showList);
+        listViewAdapter.notifyDataSetChanged();
+    }
     @Override
     public ListViewPopupWindows getListViewPopupWindow() {
         return null;

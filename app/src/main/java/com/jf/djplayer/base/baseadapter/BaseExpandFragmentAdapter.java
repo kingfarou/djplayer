@@ -169,8 +169,8 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter {
 
     public void setData(List<SongInfo> dataList){
         this.songInfoList = dataList;
-        notifyDataSetChanged();
     }
+
     /*
     该类定义"ExpandableListView"里的子列表里面的"GridView"里的item点击事件
      */

@@ -94,8 +94,8 @@
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.7.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.7.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Douban-2.7.1" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Core-2.7.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-2.7.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Core-2.7.1" level="project" />
     <orderEntry type="library" exported="" name="MobTools-2016.0406.1915" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-QZone-2.7.1" level="project" />
   </component>

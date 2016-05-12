@@ -70,6 +70,5 @@ public class BaseListFragmentAdapter extends BaseAdapter {
      */
     public void setData(List mapList){
         this.mapList = mapList;
-        notifyDataSetChanged();
     }
 }

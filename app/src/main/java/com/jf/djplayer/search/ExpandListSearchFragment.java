@@ -2,7 +2,6 @@ package com.jf.djplayer.search;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ public class ExpandListSearchFragment extends BaseExpandFragment
     private List<SongInfo> showList;//这是得到关键字后需展示的数据列表
     private SearchedDataProvider searchedDataProvider;//搜索数据的提供者
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -106,5 +104,6 @@ public class ExpandListSearchFragment extends BaseExpandFragment
             }
         }
         ((BaseExpandFragmentAdapter)baseExpandableListAdapter).setData(showList);
+        baseExpandableListAdapter.notifyDataSetChanged();
     }
 }
