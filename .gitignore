@@ -30,3 +30,8 @@ proguard/
 
 # Android Studio captures folder
 captures/
+
+# Windows files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

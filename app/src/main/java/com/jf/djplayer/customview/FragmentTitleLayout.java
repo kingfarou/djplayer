@@ -42,7 +42,8 @@ public class FragmentTitleLayout extends FrameLayout implements OnClickListener{
 
 //        读取XML文件的属性，并加各个属性设置到控件上
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FragmentTitleLinearLayout);
-        titleImageView.setImageResource(typedArray.getResourceId(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleIcon, R.drawable.ic_fragment_mine_loading));
+//        titleImageView.setImageResource(typedArray.getResourceId(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleIcon, R.drawable.ic_fragment_mine_loading));
+        titleImageView.setImageResource(typedArray.getResourceId(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleIcon, R.drawable.ic_return));
         titleTextView.setText(typedArray.getString(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleText));
         moreIv.setVisibility(typedArray.getInteger(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_moreImageVisibility, View.VISIBLE));
         searchIv.setVisibility(typedArray.getInteger(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_searchImageVisibility, View.VISIBLE));
