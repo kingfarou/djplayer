@@ -86,7 +86,7 @@ public class MyFavoriteListFragment extends BaseExpandFragment
     }
 
     @Override
-    protected View getExpandableLoadingView() {
+    protected View getLoadingView() {
         return LayoutInflater.from(getActivity()).inflate(R.layout.loading_layout,null);
     }
 

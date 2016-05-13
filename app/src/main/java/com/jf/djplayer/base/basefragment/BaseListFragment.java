@@ -46,8 +46,21 @@ public abstract class BaseListFragment extends BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        获取"ListView"
-        rootView = inflater.inflate(R.layout.fragment_list_view,container,false);
+        rootView = inflater.inflate(R.layout.fragment_list_view, container, false);
         listView = (ListView) rootView.findViewById(R.id.lv_fragment_list_view);
+
+
+        //数据载入时的提示界面、没有数据可显示的提示界面的初始化
+        loadingHintView = getLoadingHintView();
+        listViewEmptyView = getListViewEmptyView();
+        if(loadingHintView!=null){
+            ((ViewGroup)rootView).addView(loadingHintView);
+        }
+        if(listViewEmptyView!=null){
+            ((ViewGroup)rootView).addView(listViewEmptyView);
+            listViewEmptyView.setVisibility(View.INVISIBLE);
+        }
+
 //        子类做对应初始化
         initBeforeReturnView();
 //        开始执行读数据的异步任务
@@ -223,7 +236,7 @@ public abstract class BaseListFragment extends BaseFragment
         protected void onPostExecute(List dataList) {
             super.onPostExecute(dataList);
 //            移除"loadingHintView"
-            removeLoadingHintView();
+            hideLoadingHintView();
             showListView();
             if(dataList==null){
             }else{
@@ -243,41 +256,31 @@ public abstract class BaseListFragment extends BaseFragment
         private void hideListView(){
             //断开"ListView"对其"EmptyView"的控制
             listView.setEmptyView(null);
-            //从布局容器里移除"EmptyView"
             if(listViewEmptyView!=null){
-                ((ViewGroup)listView.getParent()).removeView(listViewEmptyView);
+                listViewEmptyView.setVisibility(View.INVISIBLE);
             }
-            //隐藏"ListView"
-            listView.setVisibility(View.GONE);
+            listView.setVisibility(View.INVISIBLE);
+
         }
 
         private void showLoadingHintView(){
             //添加"ListView"加载前的默认视图
-            if(loadingHintView==null){
-                loadingHintView = getLoadingHintView();
-            }
-            if(loadingHintView!=null) {
-                ((ViewGroup)listView.getParent()).addView(loadingHintView);
+            if(loadingHintView!=null){
+                loadingHintView.setVisibility(View.VISIBLE);
             }
         }
 
         //移除"showLoadingHintView()"方法所设置的视图
-        private void removeLoadingHintView(){
+        private void hideLoadingHintView(){
             if(loadingHintView!=null){
-                ((ViewGroup) rootView).removeView(loadingHintView);
+                loadingHintView.setVisibility(View.INVISIBLE);
             }
         }
 
         //显示"ListView"以及添加"EmptyView"
         private void showListView(){
-            if(listView.getEmptyView() == null) {
-                listViewEmptyView = getListViewEmptyView();
-                if (listViewEmptyView != null) {
-                    ((ViewGroup) listView.getParent()).addView(listViewEmptyView);
-                    listView.setEmptyView(listViewEmptyView);
-                }
-            }
             listView.setVisibility(View.VISIBLE);
+            listView.setEmptyView(listViewEmptyView);
         }//_showListView()
 
 //        当读取到有数据时，"listView"的初始化

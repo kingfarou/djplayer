@@ -99,7 +99,7 @@ public class SongFragment extends BaseExpandFragment
 
     //返回"ExpandableListView"数据读取完成前的提示界面
     @Override
-    protected View getExpandableLoadingView() {
+    protected View getLoadingView() {
         return LayoutInflater.from(getActivity()).inflate(R.layout.loading_layout,null);
     }
 

@@ -12,7 +12,8 @@ import java.util.List;
 
 /**
  * Created by JF on 2016/5/1.
- * 分类显示歌曲"Fragment"对应"GroupFragment"
+ * 用于分类显示歌曲
+ * 在“歌手”、“文件夹”、“专辑”页面里面点击栏目，将会跳到这个页面
  */
 public class ClassifySongFragment extends BaseGroupFragment{
 

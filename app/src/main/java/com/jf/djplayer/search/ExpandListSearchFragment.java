@@ -46,7 +46,7 @@ public class ExpandListSearchFragment extends BaseExpandFragment
     }
 
     @Override
-    protected View getExpandableLoadingView() {
+    protected View getLoadingView() {
         return null;
     }
 

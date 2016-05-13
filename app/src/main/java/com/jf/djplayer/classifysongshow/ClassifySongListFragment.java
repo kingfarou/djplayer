@@ -35,7 +35,7 @@ public class ClassifySongListFragment extends BaseExpandFragment {
     }
 
     @Override
-    protected View getExpandableLoadingView() {
+    protected View getLoadingView() {
         return null;
     }
 
