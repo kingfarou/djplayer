@@ -1,27 +1,33 @@
-package com.jf.djplayer.classifysongshow;
+package com.jf.djplayer.classify;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.base.basefragment.BaseGroupFragment;
+import com.jf.djplayer.interfaces.ChangeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by JF on 2016/5/1.
- * 用于分类显示歌曲
+ * 分类显示--外层容器
  * 在“歌手”、“文件夹”、“专辑”页面里面点击栏目，将会跳到这个页面
  */
 public class ClassifySongFragment extends BaseGroupFragment{
+
+    public static final String COLUMN_NAME = "columnName";
+    public static final String COLUMN_VALUES = "columnValues";
 
     @Override
     protected void initBeforeReturnView() {
         //搜索按钮菜单按钮设置可见
         mFragmentTitleLayout.setSearchIvVisibility(View.VISIBLE);
         mFragmentTitleLayout.setMoreIvVisivility(View.VISIBLE);
+        mFragmentTitleLayout.setTitleText(getArguments().getString((COLUMN_VALUES), "分类显示"));
     }
 
     @Override
@@ -31,9 +37,21 @@ public class ClassifySongFragment extends BaseGroupFragment{
 
     @Override
     protected FragmentStatePagerAdapter getViewPagerAdapter() {
+        Bundle bundle = new Bundle();
+        bundle.putString(COLUMN_NAME, getArguments().getString(COLUMN_NAME));
+        bundle.putString(COLUMN_VALUES, getArguments().getString(COLUMN_VALUES));
+        //创建"ClassifySongListFragment"
+        ClassifySongListFragment fragment = new ClassifySongListFragment();
+        fragment.setArguments(bundle);
+        //初始化集合以及适配器
         List<Fragment> fragmentList = new ArrayList<>(1);
-        fragmentList.add(new ClassifySongListFragment());
+        fragmentList.add(fragment);
         mFragmentStatePagerAdapter = new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
         return mFragmentStatePagerAdapter;
+    }
+
+    @Override
+    public void onTitleClick() {
+        ((ChangeFragment)getActivity()).finishFragment();
     }
 }

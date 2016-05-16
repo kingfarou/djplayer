@@ -1,4 +1,4 @@
-package com.jf.djplayer.classifysongshow;
+package com.jf.djplayer.classify;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.other.SongInfo;
@@ -24,10 +25,6 @@ public class ClassifySongListFragment extends BaseExpandFragment {
     private String columnName;
     private String columnValues;
 
-    public void setDataResource(String columnName, String columnValues){
-        this.columnName = columnName;
-        this.columnValues = columnValues;
-    }
 
     @Override
     protected void initBeforeReturnView() {
@@ -36,7 +33,7 @@ public class ClassifySongListFragment extends BaseExpandFragment {
 
     @Override
     protected View getLoadingView() {
-        return null;
+        return LayoutInflater.from(getParentFragment().getActivity()).inflate(R.layout.loading_layout, null);
     }
 
     @Override
@@ -46,6 +43,8 @@ public class ClassifySongListFragment extends BaseExpandFragment {
 
     @Override
     protected List getData() {
+        columnName = getArguments().getString(ClassifySongFragment.COLUMN_NAME);
+        columnValues = getArguments().getString(ClassifySongFragment.COLUMN_VALUES);
         songInfoList = new SongInfoOpenHelper(getActivity()).getClassifySongInfo(columnName, columnValues);
         return songInfoList;
     }
@@ -57,7 +56,7 @@ public class ClassifySongListFragment extends BaseExpandFragment {
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-        return null;
+        return new BaseExpandFragmentAdapter(getParentFragment().getActivity(), songInfoList);
     }
 
     @Override
@@ -81,7 +80,7 @@ public class ClassifySongListFragment extends BaseExpandFragment {
         if(songInfoList == null){
             return null;
         }
-        ((TextView)footerView.getParent()).setText(songInfoList.size()+"首歌");
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
         return footerView;
     }
 }

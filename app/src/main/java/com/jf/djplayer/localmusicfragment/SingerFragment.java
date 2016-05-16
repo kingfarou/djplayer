@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.jf.djplayer.classify.ClassifySongFragment;
+import com.jf.djplayer.interfaces.ChangeFragment;
 import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
@@ -126,6 +128,15 @@ public class SingerFragment extends BaseListFragmentInterface
 
     @Override
     protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //设置"fragment.setArguments()"参数
+        Bundle bundle = new Bundle();
+        bundle.putString(ClassifySongFragment.COLUMN_NAME, SongInfoOpenHelper.artist);
+        bundle.putString(ClassifySongFragment.COLUMN_VALUES, singerList.get(position).get("title"));
+        //将"Bundle"设置到待启动那个"Fragment"
+        ClassifySongFragment fragment = new ClassifySongFragment();
+        fragment.setArguments(bundle);
+        //启动"Fragment"
+        ((ChangeFragment)getParentFragment().getActivity()).replaceFragments(fragment);
     }
 
     @Override
