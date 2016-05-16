@@ -28,7 +28,7 @@ import com.jf.djplayer.tool.RemindUiUpdateThread;
 
 /**
  * Created by Administrator on 2015/8/22.
- * 每个窗体底边的音乐播放控制栏来的
+ * 播放控制底边栏
  */
 public class BottomFragment extends Fragment implements PlayInfoObserver,View.OnClickListener{
 

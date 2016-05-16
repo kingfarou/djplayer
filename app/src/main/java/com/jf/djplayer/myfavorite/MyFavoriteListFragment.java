@@ -32,8 +32,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2015/8/28.
- * 这个Fragment
- * 用来展示所有用户收藏歌曲
+ * 我的最爱-收藏列表
  */
 public class MyFavoriteListFragment extends BaseExpandFragment
         implements ExpandableListView.OnGroupClickListener, SongInfoObserver{

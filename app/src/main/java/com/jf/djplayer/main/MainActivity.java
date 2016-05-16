@@ -19,7 +19,7 @@ import com.jf.djplayer.service.PlayerService;
 import java.util.List;
 
 /**
- * MainFragment
+ * MainActivity
  * 做几件事
  * 动态加载MineFragment
  * 实现几个回调接口

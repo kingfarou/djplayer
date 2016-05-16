@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * Created by JF on 2016/2/21.
+ * 我的最爱-外层容器
  */
 public class MyFavoriteFragment extends BaseGroupFragment{
 
@@ -36,7 +37,7 @@ public class MyFavoriteFragment extends BaseGroupFragment{
 
     @Override
     protected void initBeforeReturnView() {
-        setTitleImageResourceId(R.drawable.ic_return);
+//        setTitleImageResourceId(R.drawable.ic_return);
         setTitleText("我的最爱");
         setTitleSearchVisibility(View.VISIBLE);
         setTitleMoreVisibility(View.VISIBLE);

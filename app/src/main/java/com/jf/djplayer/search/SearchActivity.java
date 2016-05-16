@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by JF on 2016/5/8.
+ * 搜索与查找
  * 分类搜索歌曲信息用的"Activity"
  * 负责接受用户输入搜索内容，
  * 搜索结果的显示由其包含的"Fragment"显示

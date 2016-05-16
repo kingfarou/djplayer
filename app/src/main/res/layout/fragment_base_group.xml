@@ -8,9 +8,7 @@
     <com.jf.djplayer.customview.FragmentTitleLayout
         android:id="@+id/fragmentTitleLayout_fragment_base_group"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/sky_blue"
-        android:padding="8dp">
+        android:layout_height="wrap_content">
     </com.jf.djplayer.customview.FragmentTitleLayout>
 
     <com.jf.djplayer.customview.TextViewTabs

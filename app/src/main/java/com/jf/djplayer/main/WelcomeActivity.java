@@ -13,8 +13,7 @@ import com.jf.djplayer.tool.FileTool;
 
 /**
  * Created by JF on 2016/3/6.
- * 这是本软件的欢迎界面活动
- * 由原来的直接继承"Activity"变成继承"BaseNoTitleActivity"
+ * 欢迎界面-welcome page
  */
 public class WelcomeActivity extends BaseNoTitleActivity {
 
