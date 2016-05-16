@@ -24,12 +24,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9eefac03-5e6b-4dde-9832-34eb43e12239" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classify/ClassifySongFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classify/ClassifySongFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/localmusicfragment/LocalMusicFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/localmusicfragment/LocalMusicFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/localmusicfragment/SingerFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/localmusicfragment/SingerFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_title.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_title.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classifysongshow/ClassifySongFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classify/ClassifySongFragment.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classifysongshow/ClassifySongListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classify/ClassifySongListFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/main/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/main/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/main/MainFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/main/MainFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/myfavorite/MyFavoriteFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/myfavorite/MyFavoriteFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/recentlyplay/RecentlyPlayFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/recentlyplay/RecentlyPlayFragment.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/interfaces/ChangeFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/interfaces/FragmentChanger.java" />
     </list>
     <ignored path="djplayer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,9 +57,9 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classify/ClassifySongFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="29" selection-start-line="54" selection-start-column="29" selection-end-line="54" selection-end-column="29" />
+              <caret line="54" column="30" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
               <folding>
-                <element signature="e#1828#1829#0" expanded="true" />
+                <element signature="e#1829#1830#0" expanded="true" />
                 <element signature="e#1892#1893#0" expanded="true" />
               </folding>
             </state>
@@ -66,8 +69,8 @@
       <file leaf-file-name="ClassifySongListFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classify/ClassifySongListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.9647058">
-              <caret line="82" column="67" selection-start-line="82" selection-start-column="67" selection-end-line="82" selection-end-column="67" />
+            <state vertical-scroll-proportion="0.19604316">
+              <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -75,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SingerFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/localmusicfragment/SingerFragment.java">
+      <file leaf-file-name="FragmentChanger.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/interfaces/FragmentChanger.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="130" column="39" selection-start-line="130" selection-start-column="39" selection-end-line="130" selection-end-column="39" />
+              <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -1546,6 +1549,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/localmusicfragment/SingerFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classify/ClassifySongListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classify/ClassifySongFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/interfaces/ChangeFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/interfaces/FragmentChanger.java" />
       </list>
     </option>
   </component>
@@ -1708,6 +1713,40 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="localmusicfragment" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="djplayer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="djplayer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="djplayer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="interfaces" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2097,7 +2136,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.6598291" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6598291" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2213,6 +2252,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.22482014">
           <caret line="21" column="15" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2238,6 +2278,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2252,6 +2293,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.22482014">
           <caret line="22" column="12" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2302,8 +2344,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/localmusicfragment/SingerFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="1.9802158">
           <caret line="130" column="39" selection-start-line="130" selection-start-column="39" selection-end-line="130" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/interfaces/FragmentChanger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
           <folding />
         </state>
       </provider>
@@ -2311,9 +2361,9 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classify/ClassifySongFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="54" column="29" selection-start-line="54" selection-start-column="29" selection-end-line="54" selection-end-column="29" />
+          <caret line="54" column="30" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
           <folding>
-            <element signature="e#1828#1829#0" expanded="true" />
+            <element signature="e#1829#1830#0" expanded="true" />
             <element signature="e#1892#1893#0" expanded="true" />
           </folding>
         </state>
@@ -2321,8 +2371,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jf/djplayer/classify/ClassifySongListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.9647058">
-          <caret line="82" column="67" selection-start-line="82" selection-start-column="67" selection-end-line="82" selection-end-column="67" />
+        <state vertical-scroll-proportion="0.19604316">
+          <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

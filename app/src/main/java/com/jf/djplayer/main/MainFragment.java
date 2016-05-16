@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.jf.djplayer.base.basefragment.BaseFragment;
 import com.jf.djplayer.customview.FragmentTitleLayout;
 import com.jf.djplayer.myfavorite.MyFavoriteFragment;
-import com.jf.djplayer.interfaces.ChangeFragment;
+import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
@@ -76,17 +76,17 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         switch (v.getId()) {
             case R.id.ll_fragment_mine_local_music://如果点击本地音乐
 //                更替Fragment
-                ((ChangeFragment)getActivity()).replaceFragments(new LocalMusicFragment());
+                ((FragmentChanger)getActivity()).replaceFragments(new LocalMusicFragment());
                 break;
             case R.id.btn_fragment_main_my_favorite://如果点击我的最爱
-                ((ChangeFragment)getActivity()).replaceFragments(new MyFavoriteFragment());
+                ((FragmentChanger)getActivity()).replaceFragments(new MyFavoriteFragment());
                 break;
             case R.id.btn_fragment_main_my_down://如果点击我的下载
                 break;
             case R.id.btn_fragment_mine_song_menu://如果点击我的歌单
                 break;
             case R.id.btn_fragment_mine_recently_play://如果点击最近播放
-                ((ChangeFragment)getActivity()).replaceFragments(new RecentlyPlayFragment());
+                ((FragmentChanger)getActivity()).replaceFragments(new RecentlyPlayFragment());
                 break;
             case R.id.imgBtn_fragment_mine_dice://如果点击随机播放
                 break;

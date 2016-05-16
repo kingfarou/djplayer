@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jf.djplayer.classify.ClassifySongFragment;
-import com.jf.djplayer.interfaces.ChangeFragment;
+import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
@@ -136,7 +136,7 @@ public class SingerFragment extends BaseListFragmentInterface
         ClassifySongFragment fragment = new ClassifySongFragment();
         fragment.setArguments(bundle);
         //启动"Fragment"
-        ((ChangeFragment)getParentFragment().getActivity()).replaceFragments(fragment);
+        ((FragmentChanger)getParentFragment().getActivity()).replaceFragments(fragment);
     }
 
     @Override

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.base.basefragment.BaseGroupFragment;
-import com.jf.djplayer.interfaces.ChangeFragment;
+import com.jf.djplayer.interfaces.FragmentChanger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +53,6 @@ public class RecentlyPlayFragment extends BaseGroupFragment {
     @Override
     public void onTitleClick() {
         super.onTitleClick();
-        ((ChangeFragment)getActivity()).finishFragment();
+        ((FragmentChanger)getActivity()).popFragments();
     }
 }

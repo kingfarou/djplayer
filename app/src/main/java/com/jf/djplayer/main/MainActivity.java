@@ -11,7 +11,7 @@ import android.os.Bundle;
 import com.jf.djplayer.R;
 import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.base.baseactivity.BaseNoTitleActivity;
-import com.jf.djplayer.interfaces.ChangeFragment;
+import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.interfaces.PlayControls;
 import com.jf.djplayer.service.PlayerService;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * 实现几个回调接口
  *
  */
-public class MainActivity extends BaseNoTitleActivity implements ChangeFragment, PlayControls, ServiceConnection{
+public class MainActivity extends BaseNoTitleActivity implements FragmentChanger, PlayControls, ServiceConnection{
 
     private FragmentManager fragmentManager;
     private PlayerService playerService;
@@ -90,7 +90,7 @@ public class MainActivity extends BaseNoTitleActivity implements ChangeFragment,
 //    活动里的Fragment通过他来通知活动
 //    关闭当前Fragment
     @Override
-    public void finishFragment() {
+    public void popFragments() {
         fragmentManager.popBackStack();
     }
 

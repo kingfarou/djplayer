@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
  * Fragment通过这个
  * 通过这个接口控制活动更替Fragment
  */
-public interface ChangeFragment {
+public interface FragmentChanger {
 
     /**
      * 启动新的Fragment更替当前这个
@@ -17,5 +17,5 @@ public interface ChangeFragment {
     /**
      * 关闭当前Fragment
      */
-    public void finishFragment();
+    public void popFragments();
 }

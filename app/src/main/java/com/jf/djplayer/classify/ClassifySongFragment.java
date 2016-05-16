@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.base.basefragment.BaseGroupFragment;
-import com.jf.djplayer.interfaces.ChangeFragment;
+import com.jf.djplayer.interfaces.FragmentChanger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +52,6 @@ public class ClassifySongFragment extends BaseGroupFragment{
 
     @Override
     public void onTitleClick() {
-        ((ChangeFragment)getActivity()).finishFragment();
+        ((FragmentChanger)getActivity()).popFragments();
     }
 }

@@ -8,10 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.base.basefragment.BaseGroupFragment;
-import com.jf.djplayer.interfaces.ChangeFragment;
+import com.jf.djplayer.interfaces.FragmentChanger;
 
 import com.jf.djplayer.customview.FragmentTitleLayout;
 
@@ -25,7 +24,7 @@ import java.util.List;
 public class MyFavoriteFragment extends BaseGroupFragment{
 
     private View layoutView;
-    private ChangeFragment changeFragment;
+    private FragmentChanger fragmentChanger;
     private FragmentTitleLayout FragmentTitleLayout;
 
     @Nullable
@@ -60,12 +59,12 @@ public class MyFavoriteFragment extends BaseGroupFragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        changeFragment = (ChangeFragment)activity;
+        fragmentChanger = (FragmentChanger)activity;
     }
 
     @Override
     public void onTitleClick() {
-        changeFragment.finishFragment();
+        fragmentChanger.popFragments();
     }
 
     @Override

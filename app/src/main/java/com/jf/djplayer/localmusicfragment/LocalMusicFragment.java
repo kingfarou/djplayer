@@ -15,7 +15,7 @@ import com.jf.djplayer.base.basefragment.BaseListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
-import com.jf.djplayer.interfaces.ChangeFragment;
+import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.search.SearchActivity;
 import com.jf.djplayer.search.SearchedDataProvider;
 
@@ -83,7 +83,7 @@ public class LocalMusicFragment extends BaseGroupFragment {
     //如果标题栏的标题按钮被按下了
     @Override
     public void onTitleClick() {
-        ((ChangeFragment) getActivity()).finishFragment();
+        ((FragmentChanger) getActivity()).popFragments();
     }
 
     //如果标题栏的搜索按钮被按下了
