@@ -113,7 +113,9 @@ abstract public class BaseGroupFragment extends Fragment
 
     /**
      * 获取"FragmentViewPagerAdapter"当前正显示的那个"Fragment"实例
+     * @return 正显示的"Fragment"实例，如果适配器是空的，则返回null
      */
+    protected final Fragment getViewPagerCurrentPage(){
         if(mFragmentStatePagerAdapter == null){
             return null;
         }
@@ -121,6 +123,8 @@ abstract public class BaseGroupFragment extends Fragment
     }
 
     /**
+     * 获取"ViewPager"正显示的"Fragment"序号
+     * @return "ViewPager"正显示的"Fragment"序号
      */
     protected final int getViewPagerCurrentItem(){
         return mViewPager.getCurrentItem();
