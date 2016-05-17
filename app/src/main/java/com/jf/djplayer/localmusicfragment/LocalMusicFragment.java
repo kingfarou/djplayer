@@ -10,11 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.base.basefragment.BaseGroupFragment;
 import com.jf.djplayer.base.basefragment.BaseListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
-
-import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.search.SearchActivity;
 import com.jf.djplayer.search.SearchedDataProvider;
@@ -26,7 +25,7 @@ import java.util.List;
 /**
  * Created by JF on 2016/1/19.
  */
-public class LocalMusicFragment extends BaseGroupFragment {
+public class LocalMusicFragment extends BaseGroupFragment{
 
     private int windowWidths;
 
@@ -96,11 +95,11 @@ public class LocalMusicFragment extends BaseGroupFragment {
                 keyHint = "输入歌曲名字搜索";
                 break;
             case 1://获取歌手列表数据
-                keyHint = "搜索歌手";
+                 keyHint = "搜索歌手";
 //                fragmentType = "ListView";
                 break;
             case 2://获取专辑列表数据
-               keyHint = "搜索专辑";
+                keyHint = "搜索专辑";
 //                fragmentType = "ListView";
                 break;
             case 3://获取文件夹列表的数据
@@ -140,5 +139,4 @@ public class LocalMusicFragment extends BaseGroupFragment {
                 break;
         }
     }
-
 }

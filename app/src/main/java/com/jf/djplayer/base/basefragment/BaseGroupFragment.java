@@ -143,7 +143,7 @@ abstract public class BaseGroupFragment extends Fragment
     }
         /*"FragmentTitleListener"方法实现--end*/
 
-        /*"OnPageChangedListener"方法实现--start，子类根据需要进行重写*/
+    /*"OnPageChangedListener"方法实现--start，子类根据需要进行重写*/
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
