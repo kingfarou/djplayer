@@ -28,7 +28,7 @@ abstract public class BaseGroupFragment extends Fragment
 
     protected FragmentTitleLayout mFragmentTitleLayout;//这是"Fragment"容器的统一标题
     private TextViewTabs mTextViewTabs;//自定义栏目指示器
-    protected ViewPager mViewPager;//用来装填多个的"Fragment"
+    private ViewPager mViewPager;//用来装填多个的"Fragment"
     protected FragmentStatePagerAdapter mFragmentStatePagerAdapter;
 
     @Nullable
@@ -41,6 +41,7 @@ abstract public class BaseGroupFragment extends Fragment
         mViewPager = (ViewPager)layoutView.findViewById(R.id.vp_fragment_base_group);
         mTextViewTabs = (TextViewTabs)layoutView.findViewById(R.id.textViewLinearLayout_fragment_base_group);
 
+        //初始化view
         viewInit();
         initBeforeReturnView();
         return layoutView;
@@ -50,7 +51,7 @@ abstract public class BaseGroupFragment extends Fragment
         //"FragmentTitleLayout"初始化
         mFragmentTitleLayout.setTitleClickListener(this);
 
-        //"TextViewLinearLayout"初始化
+        //"TextViewTabs"初始化
         mTextViewTabs.setItemText(getTextViewTabsText());
         mTextViewTabs.setOnItemClickListener(this);
 
@@ -110,6 +111,20 @@ abstract public class BaseGroupFragment extends Fragment
         mFragmentTitleLayout.setMoreIvVisivility(visibility);
     }
 
+    /**
+     * 获取"FragmentViewPagerAdapter"当前正显示的那个"Fragment"实例
+     */
+        if(mFragmentStatePagerAdapter == null){
+            return null;
+        }
+        return (Fragment)mFragmentStatePagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+    }
+
+    /**
+     */
+    protected final int getViewPagerCurrentItem(){
+        return mViewPager.getCurrentItem();
+    }
     /*"FragmentTitleListener"方法实现--start，子类根据需要进行重写*/
     @Override
     public void onTitleClick() {
