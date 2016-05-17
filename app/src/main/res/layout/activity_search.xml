@@ -16,13 +16,12 @@
         android:id="@+id/et_activity_search_key_word"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"        />
+        android:layout_margin="8dp"/>
 
     <!-- 用来装填Fragment-->
     <FrameLayout
         android:id="@+id/fl_activity_search_fragment_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </FrameLayout>
 </LinearLayout>

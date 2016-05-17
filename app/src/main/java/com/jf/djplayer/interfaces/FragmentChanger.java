@@ -15,7 +15,7 @@ public interface FragmentChanger {
     public void replaceFragments(Fragment fragment);
 
     /**
-     * 关闭当前Fragment
+     * 将当前"Fragment"出栈
      */
     public void popFragments();
 }

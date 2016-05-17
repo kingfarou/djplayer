@@ -2,6 +2,7 @@ package com.jf.djplayer.search;
 
 /**
  * Created by JF on 2016/5/11.
+ * 搜索--具备搜索功能的"Fragment"
  * "Fragment"实现该接口而成为具备搜索功能的"Fragment"
  * 接收关键字并刷新自身信息
  */

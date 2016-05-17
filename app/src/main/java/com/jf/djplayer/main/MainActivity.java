@@ -19,6 +19,7 @@ import com.jf.djplayer.service.PlayerService;
 import java.util.List;
 
 /**
+ * 主界面-外层容器
  * MainActivity
  * 做几件事
  * 动态加载MineFragment

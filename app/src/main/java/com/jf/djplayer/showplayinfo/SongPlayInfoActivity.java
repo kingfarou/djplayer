@@ -65,18 +65,6 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE)方法已在超类里调用过，不再重复
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);//先去掉ActionBar
-//        以下代码迁移到相应的工厂方法里面
-//        setContentView(R.layout.activity_song_play_info);
-////        绑定控制播放用的服务
-//        Intent intent = new Intent(this, PlayerService.class);
-//        bindService(intent, this, Context.BIND_AUTO_CREATE);
-////        获取更新播放信息用的主题
-//        playInfoSubject = PlayerOperator.getInstance();
-//        viewInit();//调用方法对视图初始化
-//        handlerInits();//对Handler做初始化
-//        viewPagerInits();//对ViewPager做初始化
     }
 
     @Override
@@ -146,6 +134,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         collectionIv = (ImageView) findViewById(R.id.iv_activity_song_playInfo_collection);//收藏或者取消收藏
         playModeIv = (ImageView)findViewById(R.id.iv_activity_song_playInfo_play_mode);
 //        各个空间设置好监听器
+        FragmentTitleLayout.setMoreIvVisivility(View.GONE);
         FragmentTitleLayout.setTitleClickListener(this);
         playOrPaused.setOnClickListener(this);
         collectionIv.setOnClickListener(this);

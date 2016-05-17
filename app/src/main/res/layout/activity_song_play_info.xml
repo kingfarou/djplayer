@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_transparent"
-        android:padding="8dp"
         customView:fragmentTitleLinearLayout_distance="8dp"
         customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_return"
         customView:fragmentTitleLinearLayout_searchImageVisibility="gone"

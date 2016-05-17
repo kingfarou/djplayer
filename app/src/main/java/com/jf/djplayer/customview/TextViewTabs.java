@@ -40,7 +40,7 @@ public class TextViewTabs extends LinearLayout implements OnClickListener{
         selectedTextColor = typedArray.getColor(R.styleable.TextViewTabs_textViewTabs_selectedTextColor, Color.BLUE);
         unSelectedTextColor = typedArray.getColor(R.styleable.TextViewTabs_textViewTabs_unSelectedTextColor, Color.GRAY);
         itemTextSize = typedArray.getDimension(R.styleable.TextViewTabs_textViewTabs_itemTextSize,16f);
-
+        //默认该控件不显示，如果调用者返回的栏目文字个数不等于零，该控件才能显示
         setVisibility(GONE);
 //        viewInit();
         typedArray.recycle();
@@ -87,6 +87,7 @@ public class TextViewTabs extends LinearLayout implements OnClickListener{
 
         lastItemPosition = 0;
         textViewList.get(lastItemPosition).setTextColor(selectedTextColor);
+        //显示控件
         setVisibility(VISIBLE);
     }
 

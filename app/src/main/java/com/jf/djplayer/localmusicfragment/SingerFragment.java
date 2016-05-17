@@ -26,6 +26,7 @@ import java.util.Map;
 
 /**
  * Created by JF on 2016/1/29.
+ * 本地音乐-歌手列表
  */
 public class SingerFragment extends BaseListFragmentInterface
                 implements SearchedDataProvider{
@@ -45,6 +46,7 @@ public class SingerFragment extends BaseListFragmentInterface
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK){
+            //如果是扫描音乐的返回
             if(requestCode == REQUEST_CODE_SCAN_MUSIC){
                 refreshDataAsync();
             }
@@ -117,12 +119,14 @@ public class SingerFragment extends BaseListFragmentInterface
 
     @Override
     protected void readDataFinish(List dataList) {
-        if(dataList==null){
+//        if(dataList==null){
+//            return;
+//        }
+//        singerList = dataList;
+        if(singerList == null){
             return;
         }
-        singerList = dataList;
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(singerList.size()+"歌手");
-
     }
 
 
@@ -130,8 +134,8 @@ public class SingerFragment extends BaseListFragmentInterface
     protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
         //设置"fragment.setArguments()"参数
         Bundle bundle = new Bundle();
-        bundle.putString(ClassifySongFragment.COLUMN_NAME, SongInfoOpenHelper.artist);
-        bundle.putString(ClassifySongFragment.COLUMN_VALUES, singerList.get(position).get("title"));
+        bundle.putString(ClassifySongFragment.COLUMN_NAME, SongInfoOpenHelper.artist);//读取数据库里面的"歌手"字段
+        bundle.putString(ClassifySongFragment.COLUMN_VALUES, singerList.get(position).get("title"));//读取具体哪个歌手
         //将"Bundle"设置到待启动那个"Fragment"
         ClassifySongFragment fragment = new ClassifySongFragment();
         fragment.setArguments(bundle);

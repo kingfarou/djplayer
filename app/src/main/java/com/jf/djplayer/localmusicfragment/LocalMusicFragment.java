@@ -90,7 +90,8 @@ public class LocalMusicFragment extends BaseGroupFragment {
     @Override
     public void onSearchIvOnclick() {
         //待搜索的数据集合
-        List searchedList = ((SearchedDataProvider)mFragmentStatePagerAdapter.getItem(getCurrentItem())).returnSearchedDataList();
+        Fragment fragment = mFragmentStatePagerAdapter.getItem(getCurrentItem());
+        List searchedList = ((SearchedDataProvider)fragment).returnSearchedDataList();
         String fragmentType = SearchActivity.LIST_VIEW;//表示需要使用哪类"Fragment"展示数据
         String keyHint = null;//用户没有输入搜索关键字时所显示的提示文字
         switch(getCurrentItem()){
