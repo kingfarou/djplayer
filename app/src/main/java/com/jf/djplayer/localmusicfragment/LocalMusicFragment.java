@@ -85,12 +85,12 @@ public class LocalMusicFragment extends BaseGroupFragment {
     @Override
     public void onSearchIvOnclick() {
         //待搜索的数据集合
-//        Fragment fragment = fragmentList.get(getCurrentItem());
-        Fragment fragment = (Fragment) mFragmentStatePagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+        Fragment fragment = getViewPagerCurrentPage();
+//        Fragment fragment = (Fragment) mFragmentStatePagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
         List searchedList = ((SearchedDataProvider)fragment).returnSearchedDataList();
         String fragmentType = SearchActivity.LIST_VIEW;//表示需要使用哪类"Fragment"展示数据
         String keyHint = null;//用户没有输入搜索关键字时所显示的提示文字
-        switch(mViewPager.getCurrentItem()){
+        switch(getViewPagerCurrentItem()){
             case 0://获取歌曲列表数据
                 fragmentType = SearchActivity.EXPANDABLE_LIST_VIEW;
                 keyHint = "输入歌曲名字搜索";
@@ -124,8 +124,8 @@ public class LocalMusicFragment extends BaseGroupFragment {
     @Override
     public void onMoreIvOnclick() {
         ListViewPopupWindows listViewPopupWindows;
-        Fragment fragment = mFragmentStatePagerAdapter.getItem(mViewPager.getCurrentItem());
-        switch (mViewPager.getCurrentItem()) {
+        Fragment fragment = getViewPagerCurrentPage();
+        switch (getViewPagerCurrentItem()) {
             case 0:
                 listViewPopupWindows = ((SongFragment) fragment).getListViewPopupWindow();
                 listViewPopupWindows.showAsDropDown(mFragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);

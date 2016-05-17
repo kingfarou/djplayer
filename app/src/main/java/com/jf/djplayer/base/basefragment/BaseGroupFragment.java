@@ -28,7 +28,7 @@ abstract public class BaseGroupFragment extends Fragment
 
     protected FragmentTitleLayout mFragmentTitleLayout;//这是"Fragment"容器的统一标题
     private TextViewTabs mTextViewTabs;//自定义栏目指示器
-    protected ViewPager mViewPager;//用来装填多个的"Fragment"
+    private ViewPager mViewPager;//用来装填多个的"Fragment"
     protected FragmentStatePagerAdapter mFragmentStatePagerAdapter;
 
     @Nullable
