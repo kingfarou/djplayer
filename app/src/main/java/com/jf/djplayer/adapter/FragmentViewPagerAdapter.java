@@ -21,9 +21,6 @@ public class FragmentViewPagerAdapter extends FragmentStatePagerAdapter{
         super(fm);
         this.fragmentList = fragmentList;
     }
-    public void setFragments(List<Fragment> fragmentList){
-        this.fragmentList = fragmentList;
-    }
 
     public List<Fragment> getFragmentList() {
         return fragmentList;

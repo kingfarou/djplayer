@@ -28,7 +28,7 @@ abstract public class BaseGroupFragment extends Fragment
 
     protected FragmentTitleLayout mFragmentTitleLayout;//这是"Fragment"容器的统一标题
     private TextViewTabs mTextViewTabs;//自定义栏目指示器
-    private ViewPager mViewPager;//用来装填多个的"Fragment"
+    protected ViewPager mViewPager;//用来装填多个的"Fragment"
     protected FragmentStatePagerAdapter mFragmentStatePagerAdapter;
 
     @Nullable
@@ -110,16 +110,7 @@ abstract public class BaseGroupFragment extends Fragment
         mFragmentTitleLayout.setMoreIvVisivility(visibility);
     }
 
-    /**
-     * 获取"ViewPager"当前处于第几个选项卡
-     * @return 当前选项卡的位置
-     */
-    protected final int getCurrentItem(){
-        return mViewPager.getCurrentItem();
-    }
-
-      /*"FragmentTitleListener"方法实现--start，子类根据需要进行重写*/
-
+    /*"FragmentTitleListener"方法实现--start，子类根据需要进行重写*/
     @Override
     public void onTitleClick() {
     }

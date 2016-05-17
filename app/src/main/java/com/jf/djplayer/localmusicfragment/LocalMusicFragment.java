@@ -29,7 +29,6 @@ import java.util.List;
 public class LocalMusicFragment extends BaseGroupFragment {
 
     private int windowWidths;
-    private SearchedDataProvider searchedDataProvider;//搜索按钮被按下时，从搜索数据提供者那里获取待搜索的数据
 
     @Nullable
     @Override
@@ -62,16 +61,12 @@ public class LocalMusicFragment extends BaseGroupFragment {
     @Override
     protected FragmentStatePagerAdapter getViewPagerAdapter() {
         List<Fragment> fragmentList = new ArrayList<>(4);
-//   如果数据库里面有歌曲
 //        fragmentList.add(new SongFragment());
         fragmentList.add(new SongFragment());
         fragmentList.add(new SingerFragment());
         fragmentList.add(new AlbumFragment());
         fragmentList.add(new FolderFragment());
-        FragmentViewPagerAdapter fragmentViewPagerAdapter = new FragmentViewPagerAdapter(getChildFragmentManager());
-
-        fragmentViewPagerAdapter.setFragments(fragmentList);
-        return fragmentViewPagerAdapter;
+        return new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
     }
 
     @Override
@@ -90,11 +85,12 @@ public class LocalMusicFragment extends BaseGroupFragment {
     @Override
     public void onSearchIvOnclick() {
         //待搜索的数据集合
-        Fragment fragment = mFragmentStatePagerAdapter.getItem(getCurrentItem());
+//        Fragment fragment = fragmentList.get(getCurrentItem());
+        Fragment fragment = (Fragment) mFragmentStatePagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
         List searchedList = ((SearchedDataProvider)fragment).returnSearchedDataList();
         String fragmentType = SearchActivity.LIST_VIEW;//表示需要使用哪类"Fragment"展示数据
         String keyHint = null;//用户没有输入搜索关键字时所显示的提示文字
-        switch(getCurrentItem()){
+        switch(mViewPager.getCurrentItem()){
             case 0://获取歌曲列表数据
                 fragmentType = SearchActivity.EXPANDABLE_LIST_VIEW;
                 keyHint = "输入歌曲名字搜索";
@@ -128,8 +124,8 @@ public class LocalMusicFragment extends BaseGroupFragment {
     @Override
     public void onMoreIvOnclick() {
         ListViewPopupWindows listViewPopupWindows;
-        Fragment fragment = mFragmentStatePagerAdapter.getItem(getCurrentItem());
-        switch (getCurrentItem()) {
+        Fragment fragment = mFragmentStatePagerAdapter.getItem(mViewPager.getCurrentItem());
+        switch (mViewPager.getCurrentItem()) {
             case 0:
                 listViewPopupWindows = ((SongFragment) fragment).getListViewPopupWindow();
                 listViewPopupWindows.showAsDropDown(mFragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
