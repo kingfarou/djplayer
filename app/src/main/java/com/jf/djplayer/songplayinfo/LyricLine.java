@@ -1,8 +1,8 @@
-package com.jf.djplayer.showplayinfo;
+package com.jf.djplayer.songplayinfo;
 
 /**
  * Created by JF on 2016/2/13.
- * 该类表示一句歌词数据结构
+ * 播放信息-歌词对应数据结构
  * 每个该类对象代表一句歌词里的属性
  */
 public class LyricLine {

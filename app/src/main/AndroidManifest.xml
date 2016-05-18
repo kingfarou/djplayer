@@ -30,7 +30,7 @@
 
         <!-- 专门用于显示播放信息用的活动-->
         <activity
-            android:name=".showplayinfo.SongPlayInfoActivity"
+            android:name=".songplayinfo.SongPlayInfoActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:launchMode="singleTop">
         </activity>

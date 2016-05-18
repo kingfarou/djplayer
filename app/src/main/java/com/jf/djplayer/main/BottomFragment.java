@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.other.SongInfo;
-import com.jf.djplayer.showplayinfo.SongPlayInfoActivity;
+import com.jf.djplayer.songplayinfo.SongPlayInfoActivity;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.tool.SendSongPlayProgress;
 import com.jf.djplayer.playertool.PlayerOperator;

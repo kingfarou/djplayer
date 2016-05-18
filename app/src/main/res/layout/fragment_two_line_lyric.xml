@@ -5,10 +5,12 @@
     android:paddingLeft="16dp" android:paddingStart="16dp"
     android:paddingRight="16dp" android:paddingEnd="16dp">
 
+    <!-- 歌手名字暂时放到别的地方-->
     <TextView
         android:id="@+id/tv_fragment_two_line_lyric_singerName"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="invisible"
         android:textColor="@color/white"
         android:layout_weight="1"
         android:text="聆听天籁"

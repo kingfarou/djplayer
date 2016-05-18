@@ -1,25 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:customView="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/activity_song_play_info_background"
-    android:id="@+id/ll_activity_song_play_info">
+    android:id="@+id/ll_root_view">
 
-
-    <com.jf.djplayer.customview.FragmentTitleLayout
-        android:id="@+id/fragmentTitleLinearLayout_activity_song_play_info"
+    <!-- 标题栏-->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white_transparent"
-        customView:fragmentTitleLinearLayout_distance="8dp"
-        customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_return"
-        customView:fragmentTitleLinearLayout_searchImageVisibility="gone"
-        customView:fragmentTitleLinearLayout_titleText="@string/app_name"
-        customView:fragmentTitleLinearLayout_titleTextSize="12sp">
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_return"
+            android:padding="8dp"
+            android:layout_centerVertical="true" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal">
+            <TextView
+                android:id="@+id/tv_song_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="歌曲名字"
+                android:paddingTop="4dp"
+                android:textSize="22sp"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/tv_singer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="歌手名字"
+                android:paddingTop="4dp"
+                android:textColor="@color/white_translucent"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </RelativeLayout>
 
-    </com.jf.djplayer.customview.FragmentTitleLayout>
+    <!--<com.jf.djplayer.customview.FragmentTitleLayout-->
+        <!--android:id="@+id/fragmentTitleLinearLayout_activity_song_play_info"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white_transparent"-->
+        <!--customView:fragmentTitleLinearLayout_distance="8dp"-->
+        <!--customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_return"-->
+        <!--customView:fragmentTitleLinearLayout_searchImageVisibility="gone"-->
+        <!--customView:fragmentTitleLinearLayout_titleText="@string/app_name"-->
+        <!--customView:fragmentTitleLinearLayout_titleTextSize="12sp">-->
+
+    <!--</com.jf.djplayer.customview.FragmentTitleLayout>-->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_activity_song_play_info"
@@ -38,7 +72,7 @@
         android:gravity="center_vertical"
         android:background="@color/white_transparent">
         <TextView
-            android:id="@+id/tv_activity_song_playInfo_currenTime"
+            android:id="@+id/tv_current_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -53,7 +87,7 @@
             android:background="@color/white_transparent"/>
 
         <TextView
-            android:id="@+id/tv_activity_song_playInfo_totalTime"
+            android:id="@+id/tv_total_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -63,37 +97,36 @@
             android:textSize="16sp"/>
     </LinearLayout>
 
-    <!-- 这些事底边控制栏-->
+    <!-- 这些是底边控制栏-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical">
-        <!-- 这是播放模式按钮-->
+        <!-- 播放模式-->
         <ImageView
-            android:id="@+id/iv_activity_song_playInfo_play_mode"
+            android:id="@+id/iv_play_mode"
             style="@style/activity_song_play_info_imageView"
             android:src="@drawable/ic_activity_play_song_info_orderplay" />
-
-        <!-- 这是前一曲的按钮-->
+        <!-- 前一曲-->
         <ImageView
-            android:id="@+id/iv_activity_song_playInfo_previousSong"
+            android:id="@+id/iv_previous_song"
             style="@style/activity_song_play_info_imageView"
             android:src="@drawable/activity_song_play_prev"/>
+        <!-- 播放暂停-->
         <ImageView
-            android:id="@+id/activity_song_play_info_playOrPaused"
+            android:id="@+id/iv_play_or_pause"
             style="@style/activity_song_play_info_imageView"
             android:src="@drawable/activity_song_play_info_play" />
-
+        <!--下一曲-->
         <ImageView
-            android:id="@+id/iv_activity_song_playInfo_nextSong"
+            android:id="@+id/iv_next_song"
             style="@style/activity_song_play_info_imageView"
             android:src="@drawable/activity_song_play_info_next" />
-
+        <!-- 收藏或者取消收藏-->
         <ImageView
-            android:id="@+id/iv_activity_song_playInfo_collection"
+            android:id="@+id/iv_collection"
             style="@style/activity_song_play_info_imageView"
             android:src="@drawable/activity_song_play_no_collection" />
-
     </LinearLayout>
 </LinearLayout>

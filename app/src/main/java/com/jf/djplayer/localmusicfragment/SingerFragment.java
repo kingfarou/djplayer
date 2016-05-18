@@ -31,7 +31,7 @@ import java.util.Map;
 public class SingerFragment extends BaseListFragmentInterface
                 implements SearchedDataProvider{
 
-    private List<Map<String,String>> singerList;
+    private List<Map<String,String>> singerList;//"ListView"数据集合
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
     private ListViewPopupWindows mListViewPopupWindows;
     private View footerView;

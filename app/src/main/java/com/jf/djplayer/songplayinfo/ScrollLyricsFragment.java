@@ -1,4 +1,4 @@
-package com.jf.djplayer.showplayinfo;
+package com.jf.djplayer.songplayinfo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

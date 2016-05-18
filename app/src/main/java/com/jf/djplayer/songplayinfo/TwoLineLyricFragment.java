@@ -1,4 +1,4 @@
-package com.jf.djplayer.showplayinfo;
+package com.jf.djplayer.songplayinfo;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,9 +25,7 @@ import java.io.File;
 
 /**
  * Created by JF on 2016/2/6.
- * 该类只有一个功能
- * 提供一个Fragment页面
- * 上下两行显示歌词
+ * 播放信息-两行歌词显示界面
  */
 public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
 
@@ -76,7 +74,7 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
 
 //    view初始化的
     private void viewInit(){
-        singerNameTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_singerName);
+//        singerNameTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_singerName);
         topLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_topLine);
         bottomLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_bottomLine);
 //        初始化时界面所显示的文字
@@ -148,7 +146,7 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
 
     private void setNewSongInfo(SongInfo theNewSongInfo){
         //            这里更新歌手名字
-        singerNameTv.setText(theNewSongInfo.getSingerName());
+//        singerNameTv.setText(theNewSongInfo.getSingerName());
 //            如果外存可读的话读取歌词
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
 //            根据音乐文件读取歌词：文件名字.mp3
