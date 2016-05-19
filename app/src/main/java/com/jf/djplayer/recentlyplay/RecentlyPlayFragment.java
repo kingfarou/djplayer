@@ -30,7 +30,7 @@ public class RecentlyPlayFragment extends BaseGroupFragment {
     @Override
     protected void initBeforeReturnView() {
         setTitleImageResourceId(R.drawable.ic_return);
-        setTitleText("最近播放");
+        setTitleText(getResources().getString(R.string.recently_play));
         setTitleSearchVisibility(View.VISIBLE);
         setTitleMoreVisibility(View.VISIBLE);
     }

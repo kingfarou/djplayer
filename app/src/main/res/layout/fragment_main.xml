@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:customView="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/ll_fragment_main"
-    android:background="@drawable/bg_fragment_mine">
+    xmlns:customView="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/ll_fragment_main" android:background="@drawable/bg_fragment_mine">
 
+    <!--标题栏-->
     <com.jf.djplayer.customview.FragmentTitleLayout
         android:id="@+id/fragmentTitleLinearLayout_fragment_mine"
         android:layout_width="match_parent"
@@ -22,8 +20,7 @@
         android:layout_height="0dp"
         android:layout_weight="10" />
 
-    <!-- 这个RelativeLayout
-  是中间的那个布局-->
+    <!-- 这个"RelativeLayout"是中间的那个布局-->
     <LinearLayout
         android:id="@+id/ll_fragment_mine_local_music"
         android:layout_width="match_parent"
@@ -54,8 +51,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/local_music"
                 android:textSize="20sp"/>
+            <!-- 歌曲数量-->
             <TextView
-                android:id="@+id/tv_mine_fragment_song_num"
+                android:id="@+id/tv_fragment_main_song_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -73,18 +71,9 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/blue_white_press_selector"
             android:src="@drawable/icon_dice"/>
-        <ImageButton
-            android:id="@+id/ib_fragment_mine_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:contentDescription="这是一个选项菜单"
-            android:layout_gravity="bottom"
-            android:background="@drawable/blue_white_press_selector"
-            android:src="@drawable/slh"/>
     </LinearLayout>
 
-    <!-- 中间那一层的布局-->
+    <!-- 我的最爱、我的下载-->
     <LinearLayout
         android:id="@+id/ll_fragment_mine_middle"
         style="@style/fragment_main_linear_layout">
@@ -93,18 +82,18 @@
             android:id="@+id/btn_fragment_main_my_favorite"
             android:drawableLeft="@drawable/ic_fragment_mine_my_favorite"
             android:drawableStart="@drawable/ic_fragment_mine_my_favorite"
-            android:text="@string/fragment_name_my_favorite"
+            android:text="@string/my_favorite"
             style="@style/fragment_main_button"/>
         <Button
             android:id="@+id/btn_fragment_main_my_down"
             android:drawableLeft="@drawable/ic_fragment_mine_my_download"
             android:drawableStart="@drawable/ic_fragment_mine_my_download"
             android:visibility="visible"
-            android:text="@string/fragment_name_my_download"
+            android:text="@string/my_download"
             style="@style/fragment_main_button"/>
 
     </LinearLayout>
-  <!-- 最底层的那栏布局-->
+  <!-- 我的歌单、最近播放-->
     <LinearLayout
         android:id="@+id/ll_fragment_mine_below"
         style="@style/fragment_main_linear_layout"
@@ -113,13 +102,13 @@
             android:id="@+id/btn_fragment_mine_song_menu"
             android:drawableLeft="@drawable/ic_fragment_mine_song_menu"
             android:drawableStart="@drawable/ic_fragment_mine_song_menu"
-            android:text="@string/fragment_name_my_song_menu"
+            android:text="@string/my_song_menu"
             style="@style/fragment_main_button"/>
         <Button
             android:id="@+id/btn_fragment_mine_recently_play"
             android:drawableLeft="@drawable/ic_fragment_mine_recently_play"
             android:drawableStart="@drawable/ic_fragment_mine_recently_play"
-            android:text="@string/fragment_name_recently_play"
+            android:text="@string/recently_play"
             style="@style/fragment_main_button"/>
     </LinearLayout>
 

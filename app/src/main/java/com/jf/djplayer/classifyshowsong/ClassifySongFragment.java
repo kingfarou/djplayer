@@ -1,4 +1,4 @@
-package com.jf.djplayer.classify;
+package com.jf.djplayer.classifyshowsong;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -1,8 +1,9 @@
-package com.jf.djplayer.localmusicfragment;
+package com.jf.djplayer.localmusic;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -108,7 +109,7 @@ public class SongFragment extends BaseExpandFragment
     protected View getExpandListEmptyView() {
         View expandListEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.local_music_no_song,null);
         //一键扫描按钮点击事件
-        expandListEmptyView.findViewById(R.id.btn_localmusic_nosong_keyscan).setOnClickListener(new View.OnClickListener() {
+        expandListEmptyView.findViewById(R.id.btn_local_music_no_song_key_scan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //启动"Activity"一键扫描
@@ -174,7 +175,9 @@ public class SongFragment extends BaseExpandFragment
 
 
     public ListViewPopupWindows getListViewPopupWindow() {
-        String[] dataString = new String[]{"扫描音乐","按歌曲名排序","按歌手名排序","按添加时间排序","按文件名排序","一键获取词图","被删除的歌曲"};
+        Resources resources = getResources();
+        String[] dataString = new String[]{resources.getString(R.string.scan_music),
+                resources.getString(R.string.sort_by_song_name),"按歌手名排序","按添加时间排序","按文件名排序","一键获取词图"};
         final ListViewPopupWindows listPopupWindow = new ListViewPopupWindows(getActivity(),dataString);
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -198,8 +201,6 @@ public class SongFragment extends BaseExpandFragment
                     songInfoListSortable.sort(songInfoList);
                     baseExpandableListAdapter.notifyDataSetChanged();
                 } else if (position == 5) {
-
-                } else if (position == 6) {
 
                 }
                 listPopupWindow.dismiss();

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.base.basefragment.BaseGroupFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
@@ -37,7 +38,7 @@ public class MyFavoriteFragment extends BaseGroupFragment{
     @Override
     protected void initBeforeReturnView() {
 //        setTitleImageResourceId(R.drawable.ic_return);
-        setTitleText("我的最爱");
+        setTitleText(getResources().getString(R.string.my_favorite));
         setTitleSearchVisibility(View.VISIBLE);
         setTitleMoreVisibility(View.VISIBLE);
     }

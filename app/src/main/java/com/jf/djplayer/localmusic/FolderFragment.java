@@ -1,7 +1,8 @@
-package com.jf.djplayer.localmusicfragment;
+package com.jf.djplayer.localmusic;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -63,7 +64,7 @@ public class FolderFragment extends BaseListFragmentInterface
     @Override
     protected View getListViewEmptyView() {
         View noDataView = LayoutInflater.from(getActivity()).inflate(R.layout.local_music_no_song,null);
-        noDataView.findViewById(R.id.btn_localmusic_nosong_keyscan).setOnClickListener(new View.OnClickListener() {
+        noDataView.findViewById(R.id.btn_local_music_no_song_key_scan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
@@ -95,7 +96,11 @@ public class FolderFragment extends BaseListFragmentInterface
     }
 
     public ListViewPopupWindows getListViewPopupWindow(){
-        mListViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{"扫描音乐","按文件夹排序","按歌曲数量排序"});
+        Resources resources = getResources();
+        mListViewPopupWindows =
+                new ListViewPopupWindows(getActivity(),new String[]{resources.getString(R.string.scan_music),
+                        resources.getString(R.string.sort_by_folder_name),
+                        resources.getString(R.string.sort_by_song_num)});
         mListViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

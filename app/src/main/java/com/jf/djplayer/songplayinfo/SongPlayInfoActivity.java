@@ -85,9 +85,9 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
 
     @Override
     protected void viewInit() {
-        layoutViewInit();//调用方法对视图初始化
-        viewPagerInits();//对ViewPager做初始化
-        handlerInits();//对Handler做初始化
+        initView();//调用方法对视图初始化
+        initViewPager();//对ViewPager做初始化
+        initHandler();//对Handler做初始化
     }
 
     @Override
@@ -96,7 +96,6 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         bindService(intent, this, Context.BIND_AUTO_CREATE);
 //        获取更新播放信息用的主题
         mPlayInfoSubject = PlayerOperator.getInstance();
-//        handlerInits();//对Handler做初始化
     }
 
     @Override
@@ -126,17 +125,17 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     }
 
     //这里获取各个控件
-    private void layoutViewInit() {
+    private void initView() {
         //根布局
         ll_root_view = (LinearLayout)findViewById(R.id.ll_root_view);
 
         //标题栏控件初始化
-        tv_song_name = (TextView)findViewById(R.id.tv_song_name);
-        tv_singer_name = (TextView)findViewById(R.id.tv_singer_name);
-        findViewById(R.id.iv_return).setOnClickListener(this);//左上角的返回按钮设置监听
+        tv_song_name = (TextView)findViewById(R.id.tv_activity_song_play_info_song_name);
+        tv_singer_name = (TextView)findViewById(R.id.tv_activity_song_play_info_singer_name);
+        findViewById(R.id.iv_activity_song_play_info_return).setOnClickListener(this);//左上角的返回按钮设置监听
 
         //进度栏控件初始化
-        tv_current_time = (TextView) findViewById(R.id.tv_current_time);//显示当前播放时间
+        tv_current_time = (TextView) findViewById(R.id.tv_activity_song_play_info_current_time);//显示当前播放时间
         seekBar = (SeekBar) findViewById(R.id.sb_activity_song_play_info);//一个可调节进度条
         seekBar.setOnSeekBarChangeListener(this);
         tv_total_time = (TextView) findViewById(R.id.tv_total_time);//显示歌曲总的时长
@@ -144,7 +143,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         //底边控制栏控件初始化
         findViewById(R.id.iv_previous_song).setOnClickListener(this);//播放前一曲的按钮
         findViewById(R.id.iv_next_song).setOnClickListener(this);//播放下一曲的按钮
-        iv_play_mode = (ImageView)findViewById(R.id.iv_play_mode);//这是播放模式按钮
+        iv_play_mode = (ImageView)findViewById(R.id.iv_activity_song_play_info_play_mode);//这是播放模式按钮
         iv_collection = (ImageView) findViewById(R.id.iv_collection);//收藏或者取消收藏
         iv_play_or_pause = (ImageView)findViewById(R.id.iv_play_or_pause);//这是播放以及暂停按钮
         iv_play_mode.setOnClickListener(this);
@@ -153,7 +152,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         iv_play_or_pause.setOnClickListener(this);
     }
 
-    private void handlerInits(){
+    private void initHandler(){
         updateProgressHandler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -164,7 +163,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
                 super.handleMessage(msg);
             }
         };
-    }//handlerInits
+    }
 
 //    根据播放模式返回对应图片ID
     private int getPictureFromPlayMode(){
@@ -180,7 +179,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         }
     }
 
-    private void viewPagerInits(){
+    private void initViewPager(){
         viewPager = (ViewPager)findViewById(R.id.vp_activity_song_play_info);
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new TwoLineLyricFragment());
@@ -236,9 +235,9 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     public void onClick(View v) {
         switch(v.getId()) {
             //左上角的返回按钮
-            case R.id.iv_return:finish();break;
+            case R.id.iv_activity_song_play_info_return:finish();break;
             //点击修改播放模式
-            case R.id.iv_play_mode:setNewPlayMode();break;
+            case R.id.iv_activity_song_play_info_play_mode:setNewPlayMode();break;
             //点击播放前一首歌
             case R.id.iv_previous_song:playerService.previousSong();break;
             //点击播放或者暂停

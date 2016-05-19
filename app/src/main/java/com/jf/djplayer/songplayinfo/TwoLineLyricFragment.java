@@ -30,7 +30,7 @@ import java.io.File;
 public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
 
     private View layoutView;//当前布局的根视图
-    private TextView singerNameTv;//这个表示歌手名字
+//    private TextView singerNameTv;//这个表示歌手名字
     private TextView topLineTv;//这个现实第一行的歌词
     private SongInfo lastSongInfo;
     private LyricTool lyricTool;//只是读取歌词用的工具
@@ -78,9 +78,9 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
         topLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_topLine);
         bottomLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_bottomLine);
 //        初始化时界面所显示的文字
-        topLineTv.setText("好音质!");
+        topLineTv.setText(getResources().getString(R.string.good_tone));
         topLineTv.setGravity(Gravity.CENTER_HORIZONTAL);
-        bottomLineTv.setText("天籁之音");
+        bottomLineTv.setText(getResources().getString(R.string.app_name));
         bottomLineTv.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 

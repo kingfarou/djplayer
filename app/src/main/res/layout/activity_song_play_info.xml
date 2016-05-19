@@ -10,8 +10,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <!-- 返回按钮-->
         <ImageView
-            android:id="@+id/iv_return"
+            android:id="@+id/iv_activity_song_play_info_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_return"
@@ -23,19 +24,19 @@
             android:orientation="vertical"
             android:layout_centerInParent="true"
             android:gravity="center_horizontal">
+            <!-- 歌曲名字-->
             <TextView
-                android:id="@+id/tv_song_name"
+                android:id="@+id/tv_activity_song_play_info_song_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="歌曲名字"
                 android:paddingTop="4dp"
                 android:textSize="22sp"
                 android:textColor="@color/white"/>
+            <!-- 歌手名字-->
             <TextView
-                android:id="@+id/tv_singer_name"
+                android:id="@+id/tv_activity_song_play_info_singer_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="歌手名字"
                 android:paddingTop="4dp"
                 android:textColor="@color/white_translucent"
                 android:textSize="16sp"/>
@@ -71,12 +72,13 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@color/white_transparent">
+        <!-- 歌曲当前播放时间-->
         <TextView
-            android:id="@+id/tv_current_time"
+            android:id="@+id/tv_activity_song_play_info_current_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="00:00"
+            android:layout_marginStart="8dp"
             android:textColor="@color/white"
             android:textSize="16sp"/>
         <SeekBar
@@ -85,19 +87,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white_transparent"/>
-
+        <!-- 歌曲中的播放时长-->
         <TextView
             android:id="@+id/tv_total_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@color/white_transparent"
-            android:text="00:00"
             android:textSize="16sp"/>
     </LinearLayout>
 
-    <!-- 这些是底边控制栏-->
+    <!-- 底边控制栏的布局-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -105,7 +107,7 @@
         android:gravity="center_vertical">
         <!-- 播放模式-->
         <ImageView
-            android:id="@+id/iv_play_mode"
+            android:id="@+id/iv_activity_song_play_info_play_mode"
             style="@style/activity_song_play_info_imageView"
             android:src="@drawable/ic_activity_play_song_info_orderplay" />
         <!-- 前一曲-->

@@ -1,11 +1,9 @@
 package com.jf.djplayer.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -16,18 +14,17 @@ import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
-import com.jf.djplayer.localmusicfragment.LocalMusicFragment;
+import com.jf.djplayer.localmusic.LocalMusicFragment;
 import com.jf.djplayer.recentlyplay.RecentlyPlayFragment;
 
 /**
  * 主界面窗体的“我的”页卡
  * 这个Fragment仅做基本显示以及响应用户操作
- *
  */
 public class MainFragment extends BaseFragment implements View.OnClickListener, FragmentTitleLayout.FragmentTitleListener {
 
-    private View rootView;//这个指向当前fragment布局文件
-    private TextView songNumberTv;//歌词数量
+    private View rootView;//"fragment"布局文件
+    private TextView tv_song_num;//歌词数量
     private FragmentTitleLayout fragmentTitleLayout;//标题
     private PopupWindow menuWindow = null;
 
@@ -55,15 +52,12 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         rootView.findViewById(R.id.btn_fragment_mine_song_menu).setOnClickListener(this);//我的歌单
         rootView.findViewById(R.id.btn_fragment_mine_recently_play).setOnClickListener(this);//最近播放
         rootView.findViewById(R.id.imgBtn_fragment_mine_dice).setOnClickListener(this);//随机播放
-//        rootView.findViewById(R.id.ib_fragment_mine_menu).setOnClickListener(this);//菜单
 
-        //这是显示歌曲数目那个TextView
-        songNumberTv = (TextView) rootView.findViewById(R.id.tv_mine_fragment_song_num);
+        //初始化歌曲数量显示的控件
+        tv_song_num = (TextView) rootView.findViewById(R.id.tv_fragment_main_song_num);
+        tv_song_num.setText(new SongInfoOpenHelper(getActivity()).getLocalMusicNumber() + "首歌曲");
 
         menuWindow = new PopupWindow();
-//      读取当前歌曲数量
-        songNumberTv.setText(new SongInfoOpenHelper(getActivity()).getLocalMusicNumber()+"首歌曲");
-
     }
 
 
@@ -71,29 +65,27 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_fragment_mine_local_music://如果点击本地音乐
+            //如果点击本地音乐
+            case R.id.ll_fragment_mine_local_music:
                 ((FragmentChanger)getActivity()).replaceFragments(new LocalMusicFragment());
                 break;
-            case R.id.btn_fragment_main_my_favorite://如果点击我的最爱
+            //如果点击我的最爱
+            case R.id.btn_fragment_main_my_favorite:
                 ((FragmentChanger)getActivity()).replaceFragments(new MyFavoriteFragment());
                 break;
-            case R.id.btn_fragment_main_my_down://如果点击我的下载
+            //如果点击我的下载
+            case R.id.btn_fragment_main_my_down:
                 break;
-            case R.id.btn_fragment_mine_song_menu://如果点击我的歌单
+            //如果点击我的歌单
+            case R.id.btn_fragment_mine_song_menu:
                 break;
-            case R.id.btn_fragment_mine_recently_play://如果点击最近播放
+            //如果点击最近播放
+            case R.id.btn_fragment_mine_recently_play:
                 ((FragmentChanger)getActivity()).replaceFragments(new RecentlyPlayFragment());
                 break;
-            case R.id.imgBtn_fragment_mine_dice://如果点击随机播放
+            //如果点击随机播放
+            case R.id.imgBtn_fragment_mine_dice:
                 break;
-//            case R.id.ib_fragment_mine_menu://如果点击了菜单键
-//                break;
-//            case R.id.tv_fragment_mine_menu_scan_music://如果点击了菜单布局的扫描音乐
-//                break;
-//            case R.id.tv_fragment_mine_menu_recently_add://如果点击了菜单布局的最近添加
-//                break;
-//            case R.id.tv_fragment_mine_menu_custom_mainActivity://如果点击了定制首页的按钮
-//                break;
         }
     }
 

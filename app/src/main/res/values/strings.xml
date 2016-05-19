@@ -1,17 +1,40 @@
 <resources>
+    <!-- 字符串资源按照模块来分组-->
+    <!-- app-全局资源-->
     <string name="app_name">蛋卷音乐</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_search">搜索</string>
+    <string name="loading">载入中</string>
 
     <!-- Activity标题-->
-    <string name="local_music">本地音乐</string>
-    <string name="action_scan_music">扫描音乐</string>
+    <!--<string name="local_music">本地音乐</string>-->
+    <!--<string name="action_scan_music">扫描音乐</string>-->
 
     <!-- Fragment标题-->
-    <string name="fragment_name_my_favorite">我的最爱</string>
-    <string name="fragment_name_my_download">我的下载</string>
-    <string name="fragment_name_my_song_menu">我的歌单</string>
-    <string name="fragment_name_recently_play">最近播放</string>
+    <!--<string name="fragment_name_my_favorite">我的最爱</string>-->
+    <!--<string name="fragment_name_my_download">我的下载</string>-->
+    <!--<string name="fragment_name_my_song_menu">我的歌单</string>-->
+    <!--<string name="fragment_name_recently_play">最近播放</string>-->
+
+    <!-- main-->
+    <string name="local_music">本地音乐</string>
+    <string name="my_favorite">我的最爱</string>
+    <string name="my_download">我的下载</string>
+    <string name="my_song_menu">我的歌单</string>
+    <string name="recently_play">最近播放</string>
+    <string name="good_tone">好音质!</string>
+
+    <!-- localMusic-->
+    <string name="song">歌曲</string>
+    <string name="singer">歌手</string>
+    <string name="album">专辑</string>
+    <string name="folder">文件夹</string>
+    <string name="scan_music">扫描音乐</string>
+    <string name="sort_by_song_name">按歌曲名排序</string>
+    <string name="sort_by_singer_name">按歌手名排序</string>
+    <string name="sort_by_add_time">按添加时间排序</string>
+    <string name="sort_by_song_num">按歌曲数量排序</string>
+    <string name="sort_by_album">按专辑排序</string>
+    <string name="sort_by_folder_name">按文件夹排序</string>
 
     <!--其他-->
     <!-- TODO: Remove or change this placeholder text -->

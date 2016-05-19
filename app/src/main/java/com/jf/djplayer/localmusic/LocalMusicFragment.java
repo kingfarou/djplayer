@@ -1,4 +1,4 @@
-package com.jf.djplayer.localmusicfragment;
+package com.jf.djplayer.localmusic;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,7 +52,7 @@ public class LocalMusicFragment extends BaseGroupFragment{
     protected void initBeforeReturnView() {
         //进行子类对View初始化
         setTitleImageResourceId(R.drawable.ic_return);
-        setTitleText("本地音乐");
+        setTitleText(getResources().getString(R.string.local_music));
         setTitleSearchVisibility(View.VISIBLE);
         setTitleMoreVisibility(View.VISIBLE);
     }
@@ -70,7 +70,10 @@ public class LocalMusicFragment extends BaseGroupFragment{
 
     @Override
     protected String[] getTextViewTabsText() {
-        return new String[]{"歌曲", "歌手", "专辑", "文件夹"};
+        return new String[]{getResources().getString(R.string.song),
+                getResources().getString(R.string.singer),
+                getResources().getString(R.string.album),
+                getResources().getString(R.string.folder)};
     }
 
 
