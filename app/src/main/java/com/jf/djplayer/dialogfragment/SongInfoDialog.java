@@ -58,13 +58,13 @@ public class SongInfoDialog extends DialogFragment {
     private void initView(){
         int minutes = songInfo.getSongDuration()/1000/60;
         int second = songInfo.getSongDuration()/1000%60;
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_songName)).setText("歌曲："+songInfo.getSongName());
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_singer)).setText("歌手："+songInfo.getSingerName());
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_albumn)).setText("专辑："+songInfo.getSongAlbum());
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_style)).setText("风格；未知");
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_duration)).setText("时长："+minutes/10+minutes%10+":"+second);
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_size)).setText("大小："+songInfo.getSongSize());
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_absolutePath)).setText("存储位置："+songInfo.getSongAbsolutePath());
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_song_name)).setText(songInfo.getSongName());
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_singer)).setText(songInfo.getSingerName());
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_album)).setText(songInfo.getSongAlbum());
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_style)).setText("未知");
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_duration)).setText(minutes/10+minutes%10+":"+second);
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_size)).setText(songInfo.getSongSize()+"");
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_absolutePath)).setText(songInfo.getSongAbsolutePath());
 
     }
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--应用里面所有的"DialogFragment"所用到的style都在此-->
+<resources>
+
+    <!-- "dialog_song_info"所用样式_start-->
+    <!-- 分隔线-->
+    <style name="dialog_song_info_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">#87ceeb</item>
+        <item name="android:padding">8dp</item>
+    </style>
+    <!-- 线性布局-->
+    <style name="dialog_song_info_linear_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <!-- "里面静态"TextView"-->
+    <style name="dialog_song_info_static_text_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- 动态"TextView"-->
+    <style name="dialog_song_info_dynamic_text_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- "dialog_song_info"所用样式_end-->
+
+
+    <!-- "dialog_edit_song__start"样式_start-->
+    <!-- 线性布局-->
+    <style name="dialog_edit_song_info_linear_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+    <!-- TextView-->
+    <style name="dialog_edit_song_info_text_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- EditText-->
+    <style name="dialog_edit_song_info_edit_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+    <!-- "dialog_edit_song_info"样式__end-->
+</resources>

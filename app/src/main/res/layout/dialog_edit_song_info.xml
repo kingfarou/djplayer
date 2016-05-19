@@ -16,87 +16,54 @@
         android:padding="8dp"
         android:src="#87ceeb"/>
 
+    <!-- 歌曲名字-->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        style="@style/dialog_edit_song_info_linear_layout">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="歌曲："
-            android:padding="8dp"
-            android:textSize="16sp"/>
+            style="@style/dialog_edit_song_info_text_view"
+            android:text="歌曲：" />
         <EditText
             android:id="@+id/et_dialog_edit_songInfo_songName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="歌曲名字"
-            android:textSize="16sp"
-            android:padding="8dp"
-            android:layout_marginRight="8dp"/>
+            style="@style/dialog_edit_song_info_edit_text"
+            android:hint="歌曲名字"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
 
+    <!-- 歌手名字-->
+    <LinearLayout
+        style="@style/dialog_edit_song_info_linear_layout">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="歌手："
-            android:padding="8dp"
-            android:textSize="16sp"/>
+            style="@style/dialog_edit_song_info_text_view"
+            android:text="歌手：" />
         <EditText
             android:id="@+id/et_dialog_edit_songInfo_artistName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="歌曲名字"
-            android:textSize="16sp"
-            android:padding="8dp"
-            android:layout_marginRight="8dp"/>
+            style="@style/dialog_edit_song_info_edit_text"
+            android:hint="@string/singer_name"/>
     </LinearLayout>
+
+    <!-- 专辑名字-->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        style="@style/dialog_edit_song_info_linear_layout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="专辑："
-            android:padding="8dp"
-            android:textSize="16sp"/>
+            style="@style/dialog_edit_song_info_text_view"
+            android:text="专辑：" />
         <EditText
             android:id="@+id/et_dialog_edit_songInfo_album"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="歌曲名字"
-            android:textSize="16sp"
-            android:padding="8dp"
-            android:layout_marginRight="8dp"/>
+            style="@style/dialog_edit_song_info_edit_text"
+            android:hint="@string/album_name"/>
     </LinearLayout>
+
+    <!-- 歌曲风格-->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        style="@style/dialog_edit_song_info_linear_layout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="风格："
-            android:padding="8dp"
-            android:textSize="16sp"/>
+            style="@style/dialog_edit_song_info_text_view"
+            android:text="风格：" />
         <EditText
             android:id="@+id/et_dialog_edit_songInfo_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="歌曲名字"
-            android:textSize="16sp"
-            android:padding="8dp"
-            android:layout_marginRight="8dp"/>
+            style="@style/dialog_edit_song_info_edit_text"
+            android:hint="@string/song_style"/>
     </LinearLayout>
+
 </LinearLayout>

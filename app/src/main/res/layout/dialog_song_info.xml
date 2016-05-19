@@ -3,75 +3,101 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- 标题-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="歌曲信息"
+        android:text="@string/song_info"
         android:textSize="24sp"/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:src="#87ceeb"/>
-    <TextView
-        android:id="@+id/tv_dialog_song_info_songName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="歌曲："
-        android:padding="8dp"/>
-    <TextView
-        android:id="@+id/tv_dialog_song_info_singer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="歌手："
-        android:padding="8dp"/>
-    <TextView
-        android:id="@+id/tv_dialog_song_info_albumn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="专辑："
-        android:padding="8dp"/>
-    <TextView
-        android:id="@+id/tv_dialog_song_info_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="风格："
-        android:padding="8dp"/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="#87ceeb"
-        android:padding="8dp"/>
-    <TextView
-        android:id="@+id/tv_dialog_song_info_duration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="时长："
-        android:padding="8dp"/>
-    <TextView
-        android:id="@+id/tv_dialog_song_info_size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="大小："
-        android:padding="8dp"/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="#87ceeb"
-        android:padding="8dp"/>
-    <TextView
-        android:id="@+id/tv_dialog_song_info_absolutePath"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
 
-        android:text="文件位置:"
-        android:padding="8dp"/>
+    <!-- 分隔-->
+    <ImageView
+        style="@style/dialog_song_info_line"/>
+
+    <!-- 歌曲-->
+    <LinearLayout
+        style="@style/dialog_song_info_linear_layout">
+        <TextView
+            style="@style/dialog_song_info_static_text_view"
+            android:text="歌曲："/>
+        <TextView
+            android:id="@+id/tv_dialog_song_info_song_name"
+            style="@style/dialog_song_info_dynamic_text_view"/>
+    </LinearLayout>
+
+    <!-- 歌手-->
+    <LinearLayout
+        style="@style/dialog_song_info_linear_layout">
+        <TextView
+            style="@style/dialog_song_info_static_text_view"
+            android:text="歌手："/>
+        <TextView
+            android:id="@+id/tv_dialog_song_info_singer"
+            style="@style/dialog_song_info_dynamic_text_view"/>
+    </LinearLayout>
+
+    <!-- 专辑-->
+    <LinearLayout
+        style="@style/dialog_song_info_linear_layout">
+        <TextView
+            style="@style/dialog_song_info_static_text_view"
+            android:text="专辑："/>
+        <TextView
+            android:id="@+id/tv_dialog_song_info_album"
+            style="@style/dialog_song_info_dynamic_text_view"/>
+    </LinearLayout>
+
+    <!-- 风格-->
+    <LinearLayout
+        style="@style/dialog_song_info_linear_layout">
+        <TextView
+            style="@style/dialog_song_info_static_text_view"
+            android:text="风格："/>
+        <TextView
+            android:id="@+id/tv_dialog_song_info_style"
+            style="@style/dialog_song_info_dynamic_text_view"/>
+    </LinearLayout>
+
+    <!-- 分隔线-->
+    <ImageView
+        style="@style/dialog_song_info_line"/>
+
+    <!-- 时长-->
+    <LinearLayout
+        style="@style/dialog_song_info_linear_layout">
+        <TextView
+            style="@style/dialog_song_info_static_text_view"
+            android:text="时长："/>
+        <TextView
+            android:id="@+id/tv_dialog_song_info_duration"
+            style="@style/dialog_song_info_dynamic_text_view"/>
+    </LinearLayout>
+
+    <!-- 大小-->
+    <LinearLayout
+        style="@style/dialog_song_info_linear_layout">
+        <TextView
+            style="@style/dialog_song_info_static_text_view"
+            android:text="大小："/>
+        <TextView
+            android:id="@+id/tv_dialog_song_info_size"
+            style="@style/dialog_song_info_dynamic_text_view"/>
+    </LinearLayout>
+
+    <!-- 分隔线-->
+    <ImageView
+        style="@style/dialog_song_info_line"/>
+
+    <!-- 存储位置-->
+    <LinearLayout
+        style="@style/dialog_song_info_linear_layout">
+        <TextView
+            style="@style/dialog_song_info_static_text_view"
+            android:text="文件位置:"/>
+        <TextView
+            android:id="@+id/tv_dialog_song_info_absolutePath"
+            style="@style/dialog_song_info_dynamic_text_view"/>
+    </LinearLayout>
+
 </LinearLayout>

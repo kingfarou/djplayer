@@ -22,14 +22,14 @@ import com.jf.djplayer.database.SongInfoOpenHelper;
  */
 public class EditSongInfoDialog extends DialogFragment {
 
-    private SongInfo songInfo = null;
-    private EditText songNameEditText = null;
+    private SongInfo songInfo;
+    private EditText et_song_name;//歌名
+    private EditText et_artist_name;//歌手
+    private EditText et_album;//专辑
+    private EditText et_style;//风格
     private int position;
-    private EditText artistNameEditText = null;
-    private EditText albumEditText = null;
-    private EditText styleEditText = null;
 
-    private View view = null;
+    private View view;
 
 
     public EditSongInfoDialog(SongInfo songInfo,int position){
@@ -39,15 +39,16 @@ public class EditSongInfoDialog extends DialogFragment {
 
 //    布局文件里的View做初始化
     private void initView(){
-        songNameEditText = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_songName);
-        artistNameEditText = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_artistName);
-        albumEditText = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_album);
-        styleEditText = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_style);
-        songNameEditText.setText(songInfo.getSongName());
-        artistNameEditText.setText(songInfo.getSingerName());
-        albumEditText.setText(songInfo.getSongAlbum());
-        styleEditText.setText("<未知>");
+        et_song_name = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_songName);
+        et_artist_name = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_artistName);
+        et_album = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_album);
+        et_style = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_style);
+        et_song_name.setText(songInfo.getSongName());
+        et_artist_name.setText(songInfo.getSingerName());
+        et_album.setText(songInfo.getSongAlbum());
+        et_style.setText("<未知>");
     }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         this.view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_edit_song_info,null);
@@ -58,9 +59,9 @@ public class EditSongInfoDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        将新数据给设置好
-                        songInfo.setSongName(songNameEditText.getText().toString());
-                        songInfo.setSingerName(artistNameEditText.getText().toString());
-                        songInfo.setSongAlbum(albumEditText.getText().toString());
+                        songInfo.setSongName(et_song_name.getText().toString());
+                        songInfo.setSingerName(et_artist_name.getText().toString());
+                        songInfo.setSongAlbum(et_album.getText().toString());
 //                        调用工具类来更新数据库的歌曲信息
                         SongInfoOpenHelper updateOpenHelper = new SongInfoOpenHelper(getActivity());
                         updateOpenHelper.updateLocalMusicTables(songInfo);
