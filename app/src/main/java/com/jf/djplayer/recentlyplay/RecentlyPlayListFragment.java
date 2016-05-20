@@ -83,7 +83,7 @@ public class RecentlyPlayListFragment extends BaseExpandFragment {
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-        return new BaseExpandFragmentAdapter(getActivity(),recentlyPlaySongInfo);
+        return new BaseExpandFragmentAdapter(this, recentlyPlaySongInfo);
     }
 
     @Override

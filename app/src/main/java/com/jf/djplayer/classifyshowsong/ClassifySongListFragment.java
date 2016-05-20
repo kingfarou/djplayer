@@ -56,7 +56,7 @@ public class ClassifySongListFragment extends BaseExpandFragment {
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-        return new BaseExpandFragmentAdapter(getParentFragment().getActivity(), songInfoList);
+        return new BaseExpandFragmentAdapter(this, songInfoList);
     }
 
     @Override

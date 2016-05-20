@@ -101,7 +101,7 @@ public class MyFavoriteListFragment extends BaseExpandFragment
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
 //        return new ExpandableFragmentAdapter(getActivity(), expandableListView, favoriteList);
-        return new BaseExpandFragmentAdapter(getActivity(), favoriteList);
+        return new BaseExpandFragmentAdapter(this, favoriteList);
     }
 
     public ListViewPopupWindows getListViewPopupWindow() {

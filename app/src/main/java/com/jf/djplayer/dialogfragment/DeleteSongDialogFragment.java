@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +40,8 @@ public class DeleteSongDialogFragment extends DialogFragment implements Compound
     private boolean isDeleteSoundFile = true;//是否删除音效文件
     private boolean[] selected = new boolean[]{false,false,true,true};//数组保存用户做的选择
     private int groupPosition;
-    private View view = null;
+    private View view;
 
-    public DeleteSongDialogFragment(){}
     public DeleteSongDialogFragment(Context context,SongInfo songInfo,int groupPosition) {
         this.songInfo = songInfo;
         this.groupPosition = groupPosition;

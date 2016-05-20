@@ -50,7 +50,6 @@ public class SongFragment extends BaseExpandFragment
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
     private View footerView;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -142,7 +141,7 @@ public class SongFragment extends BaseExpandFragment
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
 //        return new ExpandableFragmentAdapter(getActivity(), expandableListView, songInfoList);
-        return new BaseExpandFragmentAdapter(getActivity(), songInfoList);
+        return new BaseExpandFragmentAdapter(this, songInfoList);
     }
 
     //    "expandableListView"的groupItem被按下时所回调的方法

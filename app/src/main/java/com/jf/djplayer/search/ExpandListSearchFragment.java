@@ -70,7 +70,8 @@ public class ExpandListSearchFragment extends BaseExpandFragment
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-        baseExpandableListAdapter = new BaseExpandFragmentAdapter((BaseActivity)searchedDataProvider, searchedList);
+//        baseExpandableListAdapter = new BaseExpandFragmentAdapter((BaseActivity)searchedDataProvider, searchedList);
+        baseExpandableListAdapter = new BaseExpandFragmentAdapter(this, searchedList);
         return baseExpandableListAdapter;
     }
 
