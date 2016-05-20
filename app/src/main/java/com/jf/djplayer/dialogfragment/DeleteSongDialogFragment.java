@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +17,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.tool.FileTool;
@@ -94,10 +92,14 @@ public class DeleteSongDialogFragment extends DialogFragment implements Compound
 //                清除数据库里面的歌曲记录
                 SongInfoOpenHelper deleteOpenHelper = new SongInfoOpenHelper(getActivity());
                 deleteOpenHelper.deleteFromLocalMusicTable(songInfo);
-//                发送广播通知界面更新UI
-                Intent deleteSongInfo = new Intent(UpdateUiSongInfoReceiver.ACTION_DELETE_SONG_FILE);
-                deleteSongInfo.putExtra(UpdateUiSongInfoReceiver.position,groupPosition);
-                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(deleteSongInfo);
+////                发送广播通知界面更新UI
+//                Intent deleteSongInfo = new Intent(UpdateUiSongInfoReceiver.ACTION_DELETE_SONG_FILE);
+//                deleteSongInfo.putExtra(UpdateUiSongInfoReceiver.position,groupPosition);
+//                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(deleteSongInfo);
+                //设置返回，告诉外层"Fragment"删除歌曲
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("position", groupPosition);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), FragmentActivity.RESULT_OK, resultIntent);
             }
         })//setPositionButton()
         .setNegativeButton("取消", new DialogInterface.OnClickListener() {

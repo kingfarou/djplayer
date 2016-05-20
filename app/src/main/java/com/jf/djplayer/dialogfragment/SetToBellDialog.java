@@ -1,11 +1,13 @@
 package com.jf.djplayer.dialogfragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,10 +24,17 @@ public class SetToBellDialog extends DialogFragment {
     private Context context;
     private SongInfo songInfo;
     private ListView setToBellListView;
+    private Fragment fragment;
     private View view;
     public SetToBellDialog(){}
+
     public SetToBellDialog(Context context, SongInfo songInfo){
         this.context = context;
+        this.songInfo = songInfo;
+    }
+
+    public SetToBellDialog(Fragment containerFragment, SongInfo songInfo){
+        this.fragment = containerFragment;
         this.songInfo = songInfo;
     }
 
@@ -56,7 +65,8 @@ public class SetToBellDialog extends DialogFragment {
         setToBellListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                //这里进行铃声设置
+                dismiss();
             }
         });
     }

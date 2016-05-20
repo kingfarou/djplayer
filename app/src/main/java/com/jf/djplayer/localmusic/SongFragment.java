@@ -6,6 +6,7 @@ import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,6 @@ import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.R;
 import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
-import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.customview.ListViewPopupWindows;
@@ -37,8 +37,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2015/9/14.
- * 如果用户有收藏有歌曲
- * 这个Fragment将被加载
+ * 本地音乐-歌曲列表
  */
 public class SongFragment extends BaseExpandFragment
         implements SongInfoObserver, SearchedDataProvider{
@@ -47,8 +46,11 @@ public class SongFragment extends BaseExpandFragment
     private SongInfoListSortable songInfoListSortable;//对列表歌曲进行排序的工具
     private UpdateUiSongInfoReceiver updateUiSongInfoReceiver;//接受歌曲信息被修改的通知
     private List<SongInfo> songInfoList;//保存要显示的歌曲信息集合
-    private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
     private View footerView;
+
+    //当前类所用请求码
+    private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
+    public static final int REQUEST_CODE_DELETE_SONG = 1<<1;//删除歌曲的请求码
 
     @Nullable
     @Override
@@ -59,7 +61,7 @@ public class SongFragment extends BaseExpandFragment
     @Override
     public void onStart() {
         super.onStart();
-//        动态注册广播接收
+        //动态注册广播接收
         IntentFilter updateUiFilter = new IntentFilter();
         updateUiFilter.addAction(UpdateUiSongInfoReceiver.ACTION_COLLECTION_SONG);//监听用户收藏歌曲操作
         updateUiFilter.addAction(UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG);//监听用户取消收藏歌曲操作
@@ -84,10 +86,17 @@ public class SongFragment extends BaseExpandFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==Activity.RESULT_OK){
-            //如果是扫描音乐的返回
-            if(requestCode==REQUEST_CODE_SCAN_MUSIC){
-                refreshDataAsync();//异步任务刷新数据
+        if(resultCode == FragmentActivity.RESULT_OK) {
+            if(requestCode == REQUEST_CODE_SCAN_MUSIC){//如果是扫描音乐的返回
+                refreshDataAsync();
+            }else if(requestCode == REQUEST_CODE_DELETE_SONG){
+                if(data.getIntExtra("position", -1) == -1){
+                    return;
+                }
+                songInfoList.remove(data.getIntExtra("position", -1));//将歌曲从集合里面移除
+                //更新底部所显示的歌曲数量
+                ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
+                baseExpandableListAdapter.notifyDataSetChanged();//让"ExpandableListView"刷新数据
             }
         }
     }
@@ -141,7 +150,7 @@ public class SongFragment extends BaseExpandFragment
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
 //        return new ExpandableFragmentAdapter(getActivity(), expandableListView, songInfoList);
-        return new BaseExpandFragmentAdapter(this, songInfoList);
+        return new SongFragmentAdapter(this, songInfoList);
     }
 
     //    "expandableListView"的groupItem被按下时所回调的方法

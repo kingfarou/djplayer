@@ -1,4 +1,4 @@
-package com.jf.djplayer.adapter;
+package com.jf.djplayer.base.baseadapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -14,9 +14,8 @@ import com.jf.djplayer.R;
  * Created by JF on 2015/11/1.
  * ExpandableListView
  * 里的子栏目的GridView的适配器
- *
  */
-public class ExpandableChildItemAdapter extends BaseAdapter {
+public class ExpandListChildItemAdapter extends BaseAdapter {
 
     private String[] text;//GridView每个Item文字
     private int[] icon;//GridView每个Item图片
@@ -27,7 +26,7 @@ public class ExpandableChildItemAdapter extends BaseAdapter {
      * @param text the text for all item's title
      * @param icon the icon for all item's icon
      */
-    public ExpandableChildItemAdapter(Context context,String[] text,int[] icon){
+    public ExpandListChildItemAdapter(Context context, String[] text, int[] icon){
         this.context = context;
         this.text = text;
         this.icon = icon;
@@ -51,6 +50,7 @@ public class ExpandableChildItemAdapter extends BaseAdapter {
     private class ViewHolder{
         Button itemButton = null;//喜欢
     }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;

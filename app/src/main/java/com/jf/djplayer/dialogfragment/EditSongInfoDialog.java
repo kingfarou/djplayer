@@ -2,10 +2,10 @@ package com.jf.djplayer.dialogfragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +31,7 @@ public class EditSongInfoDialog extends DialogFragment {
 
     private View view;
 
+    public EditSongInfoDialog(){}
 
     public EditSongInfoDialog(SongInfo songInfo,int position){
         this.songInfo = songInfo;

@@ -10,14 +10,12 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import com.jf.djplayer.base.baseactivity.BaseActivity;
-import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
-import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
+import com.jf.djplayer.base.baseadapter.SongInfoExpandAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.other.SongInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by JF on 2016/5/8.
@@ -70,8 +68,9 @@ public class ExpandListSearchFragment extends BaseExpandFragment
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-//        baseExpandableListAdapter = new BaseExpandFragmentAdapter((BaseActivity)searchedDataProvider, searchedList);
-        baseExpandableListAdapter = new BaseExpandFragmentAdapter(this, searchedList);
+//        baseExpandableListAdapter = new SongInfoExpandAdapter((BaseActivity)searchedDataProvider, searchedList);
+//        baseExpandableListAdapter = new SongInfoExpandAdapter(this, searchedList);
+        baseExpandableListAdapter = new ExpandListSearchAdapter(this, searchedList);
         return baseExpandableListAdapter;
     }
 
@@ -104,7 +103,7 @@ public class ExpandListSearchFragment extends BaseExpandFragment
                 showList.add(songInfo);
             }
         }
-        ((BaseExpandFragmentAdapter)baseExpandableListAdapter).setData(showList);
+        ((SongInfoExpandAdapter)baseExpandableListAdapter).setData(showList);
         baseExpandableListAdapter.notifyDataSetChanged();
     }
 }

@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 
 import com.jf.djplayer.other.SongInfo;
-import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayControls;
@@ -100,8 +99,7 @@ public class MyFavoriteListFragment extends BaseExpandFragment
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-//        return new ExpandableFragmentAdapter(getActivity(), expandableListView, favoriteList);
-        return new BaseExpandFragmentAdapter(this, favoriteList);
+        return new MyFavoriteListAdapter(this, favoriteList);
     }
 
     public ListViewPopupWindows getListViewPopupWindow() {
@@ -133,9 +131,9 @@ public class MyFavoriteListFragment extends BaseExpandFragment
         collapseGroup(position);//现将所操作的栏目收起
         switch(updateIntent.getAction()){
             case UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG:
-                favoriteList.remove(position);//从集合里移除数据
+//                favoriteList.remove(position);//从集合里移除数据
                 ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(favoriteList.size() + "首歌");
-                baseExpandableListAdapter.notifyDataSetChanged();//通知界面刷新数据
+//                baseExpandableListAdapter.notifyDataSetChanged();//通知界面刷新数据
                 break;
             case UpdateUiSongInfoReceiver.ACTION_DELETE_SONG_FILE:
                 break;

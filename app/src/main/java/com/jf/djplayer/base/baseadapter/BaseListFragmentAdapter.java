@@ -13,6 +13,8 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2015/9/15.
+ * 适配器基类-当前应用"ListView"通用适配器
+ * 所有继承"BaseListFragment"的类所用"ListView"适配器基类
  */
 public class BaseListFragmentAdapter extends BaseAdapter {
 

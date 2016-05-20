@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2015/9/14.
+ * "Fragment"基类，一个配置"ExpandableListView"的"Fragment"
  * 该类定义所有使用"ExpandableListView"显示歌曲信息的"Fragment"的显示样式
  * 该抽象类已经实现的功能有
  * 异步读取Expandable需显示的数据（在“_readData()”方法里面）

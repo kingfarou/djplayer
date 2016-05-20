@@ -1,5 +1,5 @@
-package com.jf.djplayer.recentlyplay;
-
+package com.jf.djplayer.myfavorite;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,13 +13,20 @@ import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.base.basefragment.BaseGroupFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 
+import com.jf.djplayer.customview.FragmentTitleLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by JF on 2016/4/25.
+ * Created by JF on 2016/2/21.
+ * 我的最爱-外层容器
  */
-public class RecentlyPlayFragment extends BaseGroupFragment {
+public class MyFavoriteGroupFragment extends BaseGroupFragment{
+
+    private View layoutView;
+    private FragmentChanger fragmentChanger;
+    private FragmentTitleLayout FragmentTitleLayout;
 
     @Nullable
     @Override
@@ -27,24 +34,19 @@ public class RecentlyPlayFragment extends BaseGroupFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
     @Override
     protected void initBeforeReturnView() {
-        setTitleImageResourceId(R.drawable.ic_return);
-        setTitleText(getResources().getString(R.string.recently_play));
+//        setTitleImageResourceId(R.drawable.ic_return);
+        setTitleText(getResources().getString(R.string.my_favorite));
         setTitleSearchVisibility(View.VISIBLE);
         setTitleMoreVisibility(View.VISIBLE);
     }
 
-    //返回空表示该容器只有一个页卡，所以就不需要显示页卡
-    @Override
-    protected String[] getTextViewTabsText() {
-        return null;
-    }
-
     @Override
     protected FragmentStatePagerAdapter getViewPagerAdapter() {
-        List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new RecentlyPlayListFragment());
+        List<Fragment> fragmentList = new ArrayList<>(1);
+        fragmentList.add(new MyFavoriteListFragment());
         FragmentViewPagerAdapter fragmentViewPagerAdapter =
                 new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
 //        fragmentViewPagerAdapter.setFragments(fragmentList);
@@ -52,8 +54,28 @@ public class RecentlyPlayFragment extends BaseGroupFragment {
     }
 
     @Override
+    protected String[] getTextViewTabsText() {
+        return null;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        fragmentChanger = (FragmentChanger)activity;
+    }
+
+    @Override
     public void onTitleClick() {
-        super.onTitleClick();
-        ((FragmentChanger)getActivity()).popFragments();
+        fragmentChanger.popFragments();
+    }
+
+    @Override
+    public void onSearchIvOnclick() {
+
+    }
+
+    @Override
+    public void onMoreIvOnclick() {
+
     }
 }

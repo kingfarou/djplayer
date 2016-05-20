@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import com.jf.djplayer.base.basefragment.BaseFragment;
 import com.jf.djplayer.customview.FragmentTitleLayout;
-import com.jf.djplayer.myfavorite.MyFavoriteFragment;
+import com.jf.djplayer.myfavorite.MyFavoriteGroupFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
 import com.jf.djplayer.localmusic.LocalMusicFragment;
-import com.jf.djplayer.recentlyplay.RecentlyPlayFragment;
+import com.jf.djplayer.recentlyplay.RecentlyPlayGroupFragment;
 
 /**
  * 主界面窗体的“我的”页卡
@@ -71,7 +71,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             //如果点击我的最爱
             case R.id.btn_fragment_main_my_favorite:
-                ((FragmentChanger)getActivity()).replaceFragments(new MyFavoriteFragment());
+                ((FragmentChanger)getActivity()).replaceFragments(new MyFavoriteGroupFragment());
                 break;
             //如果点击我的下载
             case R.id.btn_fragment_main_my_down:
@@ -81,7 +81,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             //如果点击最近播放
             case R.id.btn_fragment_mine_recently_play:
-                ((FragmentChanger)getActivity()).replaceFragments(new RecentlyPlayFragment());
+                ((FragmentChanger)getActivity()).replaceFragments(new RecentlyPlayGroupFragment());
                 break;
             //如果点击随机播放
             case R.id.imgBtn_fragment_mine_dice:

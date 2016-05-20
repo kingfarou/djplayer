@@ -3,10 +3,11 @@ package com.jf.djplayer.dialogfragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ public class SongInfoDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
 //                        启动编辑歌曲信息那个Dialog
                         EditSongInfoDialog editSongInfoDialog = new EditSongInfoDialog(songInfo,position);
-                        editSongInfoDialog.show(getActivity().getFragmentManager(),"editSongInfoDialog");
+                        editSongInfoDialog.show( ((FragmentActivity)getActivity()).getSupportFragmentManager(),"editSongInfoDialog");
                         dialog.dismiss();
                     }
                 })

@@ -8,7 +8,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
+import com.jf.djplayer.base.baseadapter.SongInfoExpandAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.other.SongInfo;
@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by JF on 2016/5/1.
+ * 分类显示-歌曲列表
  */
 public class ClassifySongListFragment extends BaseExpandFragment {
 
@@ -56,7 +57,8 @@ public class ClassifySongListFragment extends BaseExpandFragment {
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-        return new BaseExpandFragmentAdapter(this, songInfoList);
+//        return new SongInfoExpandAdapter(this, songInfoList);
+        return new ClassifySongListAdapter(this, songInfoList);
     }
 
     @Override

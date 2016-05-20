@@ -6,6 +6,8 @@ import android.widget.GridView;
 
 /**
  * Created by JF on 2015/11/1.
+ * 自定义"GridView"，用来嵌入到"ExpandableListView"里面，
+ * 需要重写"onMeasure"方法
  */
 public class ExpandableChildGridView extends GridView {
 
