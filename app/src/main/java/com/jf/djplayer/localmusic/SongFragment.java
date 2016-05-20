@@ -89,14 +89,14 @@ public class SongFragment extends BaseExpandFragment
         if(resultCode == FragmentActivity.RESULT_OK) {
             if(requestCode == REQUEST_CODE_SCAN_MUSIC){//如果是扫描音乐的返回
                 refreshDataAsync();
-            }else if(requestCode == REQUEST_CODE_DELETE_SONG){
-                if(data.getIntExtra("position", -1) == -1){
-                    return;
-                }
-                songInfoList.remove(data.getIntExtra("position", -1));//将歌曲从集合里面移除
-                //更新底部所显示的歌曲数量
-                ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
-                baseExpandableListAdapter.notifyDataSetChanged();//让"ExpandableListView"刷新数据
+//            }else if(requestCode == REQUEST_CODE_DELETE_SONG){
+//                if(data.getIntExtra("position", -1) == -1){
+//                    return;
+//                }
+//                songInfoList.remove(data.getIntExtra("position", -1));//将歌曲从集合里面移除
+//                //更新底部所显示的歌曲数量
+//                ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
+//                baseExpandableListAdapter.notifyDataSetChanged();//让"ExpandableListView"刷新数据
             }
         }
     }

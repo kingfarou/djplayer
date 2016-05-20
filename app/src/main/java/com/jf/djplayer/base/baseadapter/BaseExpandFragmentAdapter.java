@@ -41,8 +41,8 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
     protected Context context;//环境
     protected Fragment fragment;//创建该"Adapter"的Fragment
     protected List<SongInfo> dataList;//数据
-    protected String[] childItemText;
-    protected int[] childItemImageId;
+    protected String[] childItemText;//"GridView"里的每个栏目文字
+    protected int[] childItemImageId;//"GridView"里的每个栏目图片资源
 
     public BaseExpandFragmentAdapter(Fragment fragment, List<SongInfo> dataList){
         this.context = fragment.getActivity();
@@ -211,12 +211,13 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
     }
 
     /*
-    该类定义"ExpandableListView"里的子列表里面的"GridView"里的item点击事件
+    该类定义"ExpandableListView"里的子列表里面的"GridView"里的item点击事件，
+    这是一个默认实现，子类如果想要自己实现点击事件，需要自己写一个类
     */
     private class ChildItemClickListener implements AdapterView.OnItemClickListener{
 
-        private SongInfo songInfo;
-        private int groupPosition;
+        private SongInfo songInfo;//被操作的那首歌曲
+        private int groupPosition;//被操作的歌曲在列表的位置
 
         ChildItemClickListener(SongInfo songInfo,int groupPosition){
             this.songInfo = songInfo;
@@ -226,25 +227,29 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch(position){
-                //用户取消收藏某一首歌
+                //用户收藏或者取消收藏这首歌曲
                 case 0:
-                    //将数据库里面歌曲收藏状态改为没有收藏
                     SongInfoOpenHelper collectionOpenHelper = new SongInfoOpenHelper(context);
-                    collectionOpenHelper.updateCollection(songInfo, 0);
-                    songInfo.setCollection(0);
-                    //从集合里删掉这首歌曲
-                    dataList.remove(position);
-                    notifyDataSetChanged();
+                    Intent intent = new Intent();
+                    //根据歌曲原来收藏状态，设置新的收藏状态
+                    if(songInfo.getCollection() == 1){
+                        //将数据库里面歌曲收藏状态改为没有收藏
+                        collectionOpenHelper.updateCollection(songInfo, 0);
+                        songInfo.setCollection(0);
+                        intent.setAction(UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG);
+                    }else{
+                        collectionOpenHelper.updateCollection(songInfo, 1);
+                        songInfo.setCollection(1);
+                        intent.setAction(UpdateUiSongInfoReceiver.ACTION_COLLECTION_SONG);
+                    }
                     //发送广播通知界面更新UI
-                    Intent updateCollectionIntent;
-                    updateCollectionIntent = new Intent(UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG);
                     LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
-                    updateCollectionIntent.putExtra(UpdateUiSongInfoReceiver.position, groupPosition);//传递所操作的序号
-                    localBroadcastManager.sendBroadcast(updateCollectionIntent);
+                    intent.putExtra(UpdateUiSongInfoReceiver.position, groupPosition);//传递所操作的序号
+                    localBroadcastManager.sendBroadcast(intent);
                     break;
                 case 1://如果点击删除歌曲，打开删除的提示框
                     DeleteSongDialogFragment deleteSongDialogFragment = new DeleteSongDialogFragment(context,songInfo,groupPosition);
-                    deleteSongDialogFragment.setTargetFragment(fragment, SongFragment.REQUEST_CODE_DELETE_SONG);
+//                    deleteSongDialogFragment.setTargetFragment(fragment, SongFragment.REQUEST_CODE_DELETE_SONG);
                     deleteSongDialogFragment.show( ((FragmentActivity)context).getSupportFragmentManager(),"DeleteSongDialogFragment");
                     break;
                 case 2:

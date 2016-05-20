@@ -28,6 +28,7 @@ import java.util.List;
 
 /**
  * Created by jf on 2016/5/20.
+ * 我的最爱-"MyFavoriteListFragment"列表所用适配器
  */
 public class MyFavoriteListAdapter extends BaseExpandFragmentAdapter {
 
@@ -41,6 +42,7 @@ public class MyFavoriteListAdapter extends BaseExpandFragmentAdapter {
                 R.drawable.expandable_fragment_adapter_childview_share, R.drawable.icon_send, R.drawable.icon_info};
     }
 
+    //该页面的点击事件域默认的基类不符，自行重写
     @Override
     protected AdapterView.OnItemClickListener getChildItemClickListener(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         return  new ChildItemClickListener(dataList.get(groupPosition), groupPosition);
