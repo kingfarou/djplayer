@@ -21,25 +21,14 @@ import java.util.List;
  */
 public class ClassifySongListFragment extends BaseExpandFragment {
 
-    private View footerView;
-    private List<SongInfo> songInfoList;
-    private String columnName;
-    private String columnValues;
-
-
-    @Override
-    protected void initBeforeReturnView() {
-
-    }
+    private View footerView;//"ExpandableListView"的"FooterView"
+    private List<SongInfo> songInfoList;//数据
+    private String columnName;//需要显示的类的字段名
+    private String columnValues;//需要显示的类的字段具体值
 
     @Override
     protected View getLoadingView() {
         return LayoutInflater.from(getParentFragment().getActivity()).inflate(R.layout.loading_layout, null);
-    }
-
-    @Override
-    protected View getExpandListEmptyView() {
-        return null;
     }
 
     @Override
@@ -51,29 +40,9 @@ public class ClassifySongListFragment extends BaseExpandFragment {
     }
 
     @Override
-    protected void asyncReadDataFinished(List dataList) {
-
-    }
-
-    @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
 //        return new SongInfoExpandAdapter(this, songInfoList);
         return new ClassifySongListAdapter(this, songInfoList);
-    }
-
-    @Override
-    protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        return false;
-    }
-
-    @Override
-    protected boolean doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return false;
-    }
-
-    @Override
-    protected View getExpandableHeaderView() {
-        return null;
     }
 
     @Override

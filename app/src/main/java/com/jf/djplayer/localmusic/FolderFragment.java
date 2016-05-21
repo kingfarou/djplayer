@@ -26,6 +26,7 @@ import java.util.Map;
 
 /**
  * Created by JF on 2016/1/29.
+ * 本地音乐-文件夹列表
  */
 public class FolderFragment extends BaseListFragmentInterface
                 implements SearchedDataProvider{
@@ -51,10 +52,6 @@ public class FolderFragment extends BaseListFragmentInterface
         }//if(resultCode == Activity.RESULT_OK)
     }
 
-    @Override
-    protected void initBeforeReturnView() {
-
-    }
 
     @Override
     protected View getLoadingHintView() {
@@ -130,16 +127,7 @@ public class FolderFragment extends BaseListFragmentInterface
     }
 
     @Override
-    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id) {}
-
-    @Override
     public List returnSearchedDataList() {
-
         return folderList;
     }
 }

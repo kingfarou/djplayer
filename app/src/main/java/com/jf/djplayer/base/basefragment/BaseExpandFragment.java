@@ -28,20 +28,19 @@ import java.util.List;
  * 自动收起其他栏目
  * 子类根据需要重写方法即可
  */
-
 abstract public class BaseExpandFragment extends BaseFragment
         implements ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupClickListener,
                 AdapterView.OnItemLongClickListener {
 
     private ExpandableListView expandableListView;//expandableListView
-    protected BaseExpandableListAdapter baseExpandableListAdapter;
+    protected BaseExpandableListAdapter baseExpandableListAdapter;//"ExpandableListView"的适配器
 
     private View loadingHintView;//"ExpandableListView"读到数据前显示的提示视图
     private View expandableListEmptyView;//"ExpandableListView"没有数据显式时的提示视图
 
     private LoadingAsyncTask loadingAsyncTask;//异步读取数据的内部类
     private int lastExpand = -1;//记录上次"expandableListView"所展开的那个位置
-    private View layoutView;//跟布局
+    private View layoutView;//根布局
     protected PopupWindow popupWindows;//点击选项菜单那时弹出的PopupWindow
 
     @Nullable
@@ -80,19 +79,25 @@ abstract public class BaseExpandFragment extends BaseFragment
     /**
      * 在"onCreateView()"返回View之前调用，子类在此作对应初始化
      */
-    protected abstract void initBeforeReturnView();
+    protected void initBeforeReturnView(){
+
+    }
 
     /**
      * 返回"ExpandableListView"读到数据前显示的视图
      * @return 这是要显示的视图
      */
-    protected abstract View getLoadingView();
+    protected View getLoadingView(){
+        return null;
+    }
 
     /**
      * 如果子类想在"ExpandableListView"没数据时显示一些提示，在这设置
      * @return "ExpandableListView"要显示的提示视图
      */
-    protected abstract View getExpandListEmptyView();
+    protected View getExpandListEmptyView(){
+        return null;
+    }
 
     /**
      * 数据的具体来源有子类进行实现
@@ -104,11 +109,12 @@ abstract public class BaseExpandFragment extends BaseFragment
      * 异步任务读取数据完成之后回调这个方法
      * 具体时间：数据读取完成之后，expandableListView.setAdapter();方法被调用之前
      */
-    abstract protected void asyncReadDataFinished(List dataList);
+    protected void asyncReadDataFinished(List dataList){
+
+    }
 
     /**
      * 获取"ExpandableListView"的适配器
-     *
      * @return "ExpandableListView"的适配器
      */
     abstract protected BaseExpandableListAdapter getExpandableAdapter();
@@ -120,7 +126,9 @@ abstract public class BaseExpandFragment extends BaseFragment
      * @param groupPosition 被点位置
      * @param id
      */
-    abstract protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id);
+    protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id){
+        return false;
+    }
 
     /**
      * 当"ExpandableListView"item被长按时执行这个方法
@@ -130,20 +138,25 @@ abstract public class BaseExpandFragment extends BaseFragment
      * @param position 按下位置
      * @param id
      */
-    abstract protected boolean doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id);
+    protected boolean doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id){
+        return false;
+    }
 
     /**
      * 如果要为"ExpandableListView"添加"headerView"在次返回
-     *
      * @return headerView
      */
-    abstract protected View getExpandableHeaderView();
+    protected View getExpandableHeaderView(){
+        return null;
+    }
 
     /**
      * 如果要为"ExpandableListView"添加"footerView"在此返回
      * @return footerView
      */
-    abstract protected View getExpandableFooterView();
+    protected View getExpandableFooterView(){
+        return null;
+    }
 
 
     @Override

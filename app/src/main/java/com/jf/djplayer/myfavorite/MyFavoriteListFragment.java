@@ -73,11 +73,6 @@ public class MyFavoriteListFragment extends BaseExpandFragment
     }
 
     @Override
-    protected void initBeforeReturnView() {
-
-    }
-
-    @Override
     protected List getData() {
         favoriteList = new SongInfoOpenHelper(getActivity()).getCollectionSongInfo();
         return favoriteList;
@@ -91,10 +86,6 @@ public class MyFavoriteListFragment extends BaseExpandFragment
     @Override
     protected View getExpandListEmptyView() {
         return LayoutInflater.from(getActivity()).inflate(R.layout.fragment_no_favourites,null);
-    }
-
-    @Override
-    protected void asyncReadDataFinished(List dataList) {
     }
 
     @Override
@@ -146,17 +137,6 @@ public class MyFavoriteListFragment extends BaseExpandFragment
         //播放被选中的音乐
         playControls.play(favoriteList,groupPosition);
         return true;
-    }
-
-    @Override
-    protected boolean doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return false;
-    }
-
-
-    @Override
-    protected View getExpandableHeaderView() {
-        return null;
     }
 
     @Override

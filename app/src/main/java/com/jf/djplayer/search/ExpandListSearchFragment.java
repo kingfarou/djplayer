@@ -19,13 +19,15 @@ import java.util.List;
 
 /**
  * Created by JF on 2016/5/8.
+ * 查找/搜索歌曲-歌曲列表
  */
 public class ExpandListSearchFragment extends BaseExpandFragment
                 implements SearcherFragment {
 
     private List<SongInfo> searchedList;//这是待搜索的数据列表
     private List<SongInfo> showList;//这是得到关键字后需展示的数据列表
-    private SearchedDataProvider searchedDataProvider;//搜索数据的提供者
+    //搜索数据的提供者，从搜索数据提供者那里获取待搜索的数据集合
+    private SearchedDataProvider searchedDataProvider;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,20 +40,6 @@ public class ExpandListSearchFragment extends BaseExpandFragment
         searchedDataProvider = (SearchedDataProvider)getActivity();
     }
 
-    @Override
-    protected void initBeforeReturnView() {
-
-    }
-
-    @Override
-    protected View getLoadingView() {
-        return null;
-    }
-
-    @Override
-    protected View getExpandListEmptyView() {
-        return null;
-    }
 
     @Override
     protected List getData() {
@@ -62,11 +50,6 @@ public class ExpandListSearchFragment extends BaseExpandFragment
     }
 
     @Override
-    protected void asyncReadDataFinished(List dataList) {
-
-    }
-
-    @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
 //        baseExpandableListAdapter = new SongInfoExpandAdapter((BaseActivity)searchedDataProvider, searchedList);
 //        baseExpandableListAdapter = new SongInfoExpandAdapter(this, searchedList);
@@ -74,35 +57,18 @@ public class ExpandListSearchFragment extends BaseExpandFragment
         return baseExpandableListAdapter;
     }
 
-    @Override
-    protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        return false;
-    }
-
-    @Override
-    protected boolean doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return false;
-    }
-
-    @Override
-    protected View getExpandableHeaderView() {
-        return null;
-    }
-
-    @Override
-    protected View getExpandableFooterView() {
-        return null;
-    }
-
+    //根据输入的关键字搜索数据
     @Override
     public void search(String keyword) {
+        //清空原有展示数据列表
         showList.clear();
-        //遍历待搜索的数据列表
+        //遍历待搜索的数据列表，搜索条件：当歌曲的名字或者歌手名字包含关键字了，即为符合
         for(SongInfo songInfo:searchedList){
             if(songInfo.getSongName().contains(keyword) || songInfo.getSingerName().contains(keyword)){
                 showList.add(songInfo);
             }
         }
+        //遍历完毕更新数据
         ((SongInfoExpandAdapter)baseExpandableListAdapter).setData(showList);
         baseExpandableListAdapter.notifyDataSetChanged();
     }

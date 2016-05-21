@@ -101,11 +101,6 @@ public class SongFragment extends BaseExpandFragment
         }
     }
 
-    @Override
-    protected void initBeforeReturnView() {
-
-    }
-
     //返回"ExpandableListView"数据读取完成前的提示界面
     @Override
     protected View getLoadingView() {
@@ -131,7 +126,6 @@ public class SongFragment extends BaseExpandFragment
     @Override
     protected List getData() {
         songInfoList = new SongInfoOpenHelper(getActivity()).getLocalMusicSongInfo();
-//        return new SongInfoOpenHelper(getActivity(), 1).getLocalMusicSongInfo();
         return songInfoList;
     }//_readData()
 
@@ -158,17 +152,6 @@ public class SongFragment extends BaseExpandFragment
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         playControls.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
         return true;
-    }
-
-//    长安情况下无动作
-    @Override
-    protected boolean doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return false;
-    }
-
-    @Override
-    protected View getExpandableHeaderView() {
-        return null;
     }
 
     @Override
@@ -238,7 +221,8 @@ public class SongFragment extends BaseExpandFragment
                 //更新底部所显示的歌曲数量
                 ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
                 baseExpandableListAdapter.notifyDataSetChanged();//让"ExpandableListView"刷新数据
-            default:break;
+            default:
+                break;
         }
     }
 

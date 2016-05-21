@@ -24,6 +24,7 @@ import java.util.Map;
 
 /**
  * Created by JF on 2016/1/29.
+ * 本地音乐-专辑列表
  */
 public class AlbumFragment extends BaseListFragmentInterface
                 implements SearchedDataProvider{
@@ -39,10 +40,6 @@ public class AlbumFragment extends BaseListFragmentInterface
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @Override
-    protected void initBeforeReturnView() {
-
-    }
 
     @Override
     protected View getLoadingHintView() {
@@ -119,17 +116,6 @@ public class AlbumFragment extends BaseListFragmentInterface
         albumList = dataList;
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(albumList.size()+"专辑");
     }
-
-    @Override
-    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
 
     /**
      * 返回带搜索的数据集合，本对象是专辑集合

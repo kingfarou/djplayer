@@ -81,14 +81,18 @@ public abstract class BaseListFragment extends BaseFragment
      * 在布局文件返回前回调方法
      * 子类可在此进行初始化
      */
-    abstract protected void initBeforeReturnView();
+    protected void initBeforeReturnView(){
+
+    }
 
     /**
      * 如果在"ListView"数据加载前需要相应的视图显示
      * 此类在此返回即可
      * @return "ListView"数据加载前的默认视图
      */
-    abstract protected View getLoadingHintView();
+    protected View getLoadingHintView(){
+        return null;
+    }
 
     /**
      * 如果在数据读取完成后"ListView"没有数据可显示
@@ -96,21 +100,27 @@ public abstract class BaseListFragment extends BaseFragment
      * 子类在此返回视图即可
      * @return "ListVIew"没有数据可显式时用的视图
      */
-    abstract protected View getListViewEmptyView();
+    protected View getListViewEmptyView(){
+        return null;
+    }
 
     /**
      * 如果子类想要为"ListVIew"添加"headerView"
      * 在此返回就可以了
      * @return headerView
      */
-    abstract protected View getListViewHeaderView();
+    protected View getListViewHeaderView(){
+        return null;
+    }
 
     /**
      * 如果子类想要为"ListView"添加footerView
      * 在此返回就可以了
      * @return footerView
      */
-    abstract protected View getListViewFooterView();
+    protected View getListViewFooterView(){
+        return null;
+    }
 
     /**
      * 异步任务调用这个方法获得数据，子类在此返回自己所特有的数据集合
@@ -140,7 +150,9 @@ public abstract class BaseListFragment extends BaseFragment
     /**
      * 当异步任务完成时将会回调这个方法
      */
-    abstract protected void readDataFinish(List dataList);
+    protected void readDataFinish(List dataList){
+
+    }
 
     /**
      * "ListView"item点击事件回调方法
@@ -149,7 +161,9 @@ public abstract class BaseListFragment extends BaseFragment
      * @param position
      * @param id
      */
-    abstract protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id);
+    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id){
+
+    }
 
     /**
      * "ListView"长按时回调的方法
@@ -158,7 +172,9 @@ public abstract class BaseListFragment extends BaseFragment
      * @param position
      * @param id
      */
-    abstract protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id);
+    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id){
+
+    }
 
     protected void sortAccordingTitle(){
         final Collator collator = Collator.getInstance(Locale.CHINA);
@@ -210,7 +226,10 @@ public abstract class BaseListFragment extends BaseFragment
         return true;
     }
 
-    protected void refreshDataAsync(){
+    /**
+     * 异步刷新数据用的方法
+     */
+    protected final void refreshDataAsync(){
         readDataAsyncTask = new ReadDataAsyncTask();
         readDataAsyncTask.execute();
     }

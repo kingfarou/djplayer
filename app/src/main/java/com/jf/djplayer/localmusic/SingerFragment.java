@@ -55,11 +55,6 @@ public class SingerFragment extends BaseListFragmentInterface
     }
 
     @Override
-    protected void initBeforeReturnView() {
-
-    }
-
-    @Override
     protected View getLoadingHintView() {
         return LayoutInflater.from(getActivity()).inflate(R.layout.loading_layout,null);
     }
@@ -143,12 +138,6 @@ public class SingerFragment extends BaseListFragmentInterface
         //启动"Fragment"
         ((FragmentChanger)getParentFragment().getActivity()).replaceFragments(fragment);
     }
-
-    @Override
-    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
 
     @Override
     public List returnSearchedDataList() {

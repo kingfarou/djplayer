@@ -62,7 +62,7 @@ public class RecentlyPlayListFragment extends BaseExpandFragment {
     @Override
     protected List getData() {
         recentlyPlaySongInfo = new SongInfoOpenHelper(getActivity()).getRecentlyPlaySong(8);
-        //只有数据库里没有歌曲那是，才会为空
+        //如果当前没有数据，直接返回
         if(recentlyPlaySongInfo == null){
             return null;
         }
@@ -76,11 +76,6 @@ public class RecentlyPlayListFragment extends BaseExpandFragment {
     }
 
     @Override
-    protected void asyncReadDataFinished(List dataList) {
-
-    }
-
-    @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
 //        return new SongInfoExpandAdapter(this, recentlyPlaySongInfo);
         return new RecentlyPlayListAdapter(this, recentlyPlaySongInfo);
@@ -90,16 +85,6 @@ public class RecentlyPlayListFragment extends BaseExpandFragment {
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         playControls.play(recentlyPlaySongInfo, groupPosition);
         return true;
-    }
-
-    @Override
-    protected boolean doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return false;
-    }
-
-    @Override
-    protected View getExpandableHeaderView() {
-        return null;
     }
 
     @Override
