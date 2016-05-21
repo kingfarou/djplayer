@@ -10,7 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import com.jf.djplayer.base.baseactivity.BaseActivity;
-import com.jf.djplayer.base.baseadapter.SongInfoExpandAdapter;
+import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.other.SongInfo;
 
@@ -69,7 +69,7 @@ public class ExpandListSearchFragment extends BaseExpandFragment
             }
         }
         //遍历完毕更新数据
-        ((SongInfoExpandAdapter)baseExpandableListAdapter).setData(showList);
+        ((BaseExpandFragmentAdapter)baseExpandableListAdapter).setDataList(showList);
         baseExpandableListAdapter.notifyDataSetChanged();
     }
 }

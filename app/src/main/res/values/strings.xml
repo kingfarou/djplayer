@@ -5,17 +5,7 @@
     <string name="action_search">搜索</string>
     <string name="loading">载入中</string>
 
-    <!-- Activity标题-->
-    <!--<string name="local_music">本地音乐</string>-->
-    <!--<string name="action_scan_music">扫描音乐</string>-->
-
-    <!-- Fragment标题-->
-    <!--<string name="fragment_name_my_favorite">我的最爱</string>-->
-    <!--<string name="fragment_name_my_download">我的下载</string>-->
-    <!--<string name="fragment_name_my_song_menu">我的歌单</string>-->
-    <!--<string name="fragment_name_recently_play">最近播放</string>-->
-
-    <!-- main-->
+    <!-- main__主页-->
     <string name="local_music">本地音乐</string>
     <string name="my_favorite">我的最爱</string>
     <string name="my_download">我的下载</string>
@@ -23,7 +13,7 @@
     <string name="recently_play">最近播放</string>
     <string name="good_tone">好音质!</string>
 
-    <!-- localMusic-->
+    <!-- localMusic__本地音乐-->
     <string name="song">歌曲</string>
     <string name="singer">歌手</string>
     <string name="album">专辑</string>
@@ -44,6 +34,15 @@
     <string name="edit">编辑</string>
     <string name="cancel">取消</string>
     <string name="song_info">歌曲信息</string>
+
+    <!--BaseExpandFragmentAdapter__基类适配器-->
+    <string name="collection">收藏</string>
+    <string name="delete">删除</string>
+    <string name="add">添加</string>
+    <string name="set_to_bell">设为铃声</string>
+    <string name="share">分享</string>
+    <string name="send">发送</string>
+    <string name="detailed_information">详细信息</string>
     <!--其他-->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -9,10 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
@@ -42,7 +38,7 @@ public class MyFavoriteListAdapter extends BaseExpandFragmentAdapter {
                 R.drawable.expandable_fragment_adapter_childview_share, R.drawable.icon_send, R.drawable.icon_info};
     }
 
-    //该页面的点击事件域默认的基类不符，自行重写
+    //该页面的点击事件与默认的基类不完全相符，自行重写
     @Override
     protected AdapterView.OnItemClickListener getChildItemClickListener(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         return  new ChildItemClickListener(dataList.get(groupPosition), groupPosition);
@@ -53,8 +49,8 @@ public class MyFavoriteListAdapter extends BaseExpandFragmentAdapter {
      */
     private class ChildItemClickListener implements AdapterView.OnItemClickListener{
 
-        private SongInfo songInfo;
-        private int groupPosition;
+        private SongInfo songInfo;//被点击的歌曲信息对象
+        private int groupPosition;//被点击得歌曲在列表里位置
 
         ChildItemClickListener(SongInfo songInfo,int groupPosition){
             this.songInfo = songInfo;
@@ -82,7 +78,7 @@ public class MyFavoriteListAdapter extends BaseExpandFragmentAdapter {
                     break;
                 case 1://如果点击删除歌曲，打开删除的提示框
                     DeleteSongDialogFragment deleteSongDialogFragment = new DeleteSongDialogFragment(context,songInfo,groupPosition);
-                    deleteSongDialogFragment.setTargetFragment(fragment, SongFragment.REQUEST_CODE_DELETE_SONG);
+//                    deleteSongDialogFragment.setTargetFragment(fragment, SongFragment.REQUEST_CODE_DELETE_SONG);
                     deleteSongDialogFragment.show( ((FragmentActivity)context).getSupportFragmentManager(),"DeleteSongDialogFragment");
                     break;
                 case 2:

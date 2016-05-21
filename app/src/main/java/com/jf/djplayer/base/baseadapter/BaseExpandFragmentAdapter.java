@@ -2,6 +2,7 @@ package com.jf.djplayer.base.baseadapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
@@ -24,6 +25,7 @@ import com.jf.djplayer.dialogfragment.DeleteSongDialogFragment;
 import com.jf.djplayer.dialogfragment.SetToBellDialog;
 import com.jf.djplayer.dialogfragment.SongInfoDialog;
 import com.jf.djplayer.localmusic.SongFragment;
+import com.jf.djplayer.other.MyApplication;
 import com.jf.djplayer.other.SongInfo;
 
 import java.util.List;
@@ -44,8 +46,14 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
     protected String[] childItemText;//"GridView"里的每个栏目文字
     protected int[] childItemImageId;//"GridView"里的每个栏目图片资源
 
+    /**
+     * 构造方法
+     * @param fragment 使用该适配器的"Fragment"
+     * @param dataList 要显示的数据集合
+     */
     public BaseExpandFragmentAdapter(Fragment fragment, List<SongInfo> dataList){
-        this.context = fragment.getActivity();
+//        this.context = fragment.getActivity();
+        this.context = MyApplication.getContext();
         this.fragment = fragment;
         this.dataList = dataList;
     }
@@ -135,8 +143,8 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
     }
 
     /**
-     * expandableListView的子列表，
-     * 使用自定义的那个GridView填充
+     * expandableListView的子列表，每个"GroupView"只有一个子"Item"
+     * 子"item"使用自定义的那个"GridView"填充
      * @param groupPosition
      * @param childPosition
      * @param isLastChild
@@ -177,6 +185,13 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
         return false;
     }
 
+    /**
+     * 设置适配器里面的数据
+     * @param dataList 新的数据
+     */
+    public void setDataList(List<SongInfo> dataList){
+        this.dataList = dataList;
+    }
 
     /**
      * "ExpandableListView"的子"View"是个"GridView"，该方法获取"GridView"每个"item"所显示的文字内容
@@ -184,7 +199,11 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
      * @return "GridView"每个"item"上的文字
      */
     protected String[] getChildItemText(){
-        return new String[]{"收藏", "删除", "添加", "设为铃声", "分享", "发送", "歌曲信息"};
+        Resources resources = context.getResources();
+        return new String[]{resources.getString(R.string.collection), resources.getString(R.string.delete),
+                resources.getString(R.string.add), resources.getString(R.string.set_to_bell),
+                resources.getString(R.string.share), resources.getString(R.string.send),
+                resources.getString(R.string.detailed_information)};
     }
 
     /**
