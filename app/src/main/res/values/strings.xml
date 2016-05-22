@@ -1,6 +1,6 @@
 <resources>
     <!-- 字符串资源按照模块来分组，如果某字符串资源出现在多个模块里，则放在他第一次出现的模块-->
-    <!-- app-全局资源-->
+    <!-- app__全局资源-->
     <string name="app_name">蛋卷音乐</string>
     <string name="action_search">搜索</string>
     <string name="loading">载入中</string>
@@ -12,6 +12,7 @@
     <string name="my_song_menu">我的歌单</string>
     <string name="recently_play">最近播放</string>
     <string name="good_tone">好音质!</string>
+    <string name="exit">退出</string>
 
     <!-- localMusic__本地音乐-->
     <string name="song">歌曲</string>

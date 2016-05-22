@@ -43,19 +43,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!--<com.jf.djplayer.customview.FragmentTitleLayout-->
-        <!--android:id="@+id/fragmentTitleLinearLayout_activity_song_play_info"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/white_transparent"-->
-        <!--customView:fragmentTitleLinearLayout_distance="8dp"-->
-        <!--customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_return"-->
-        <!--customView:fragmentTitleLinearLayout_searchImageVisibility="gone"-->
-        <!--customView:fragmentTitleLinearLayout_titleText="@string/app_name"-->
-        <!--customView:fragmentTitleLinearLayout_titleTextSize="12sp">-->
-
-    <!--</com.jf.djplayer.customview.FragmentTitleLayout>-->
-
+    <!--用来放置"Fragment"-->
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_activity_song_play_info"
         android:layout_width="match_parent"
@@ -129,6 +117,6 @@
         <ImageView
             android:id="@+id/iv_collection"
             style="@style/activity_song_play_info_imageView"
-            android:src="@drawable/activity_song_play_no_collection" />
+            android:src="@drawable/activity_song_play_info_no_collection" />
     </LinearLayout>
 </LinearLayout>

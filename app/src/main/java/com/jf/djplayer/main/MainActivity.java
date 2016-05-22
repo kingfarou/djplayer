@@ -4,9 +4,11 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.other.SongInfo;
@@ -79,8 +81,16 @@ public class MainActivity extends BaseNoTitleActivity implements FragmentChanger
         unbindService(this);//解绑
     }
 
+    //监听手机返回按键
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            //如果现在已经在主页面，显示退出的提示框
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
-//    活动里的Fragment通过他来通知活动
+    //    活动里的Fragment通过他来通知活动
 //      添加新的Fragment
     @Override
     public void replaceFragments(Fragment fragment) {

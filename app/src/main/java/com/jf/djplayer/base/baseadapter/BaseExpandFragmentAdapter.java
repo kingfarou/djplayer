@@ -21,10 +21,9 @@ import android.widget.TextView;
 import com.jf.djplayer.R;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.database.SongInfoOpenHelper;
-import com.jf.djplayer.dialogfragment.DeleteSongDialogFragment;
+import com.jf.djplayer.dialogfragment.DeleteSongDialog;
 import com.jf.djplayer.dialogfragment.SetToBellDialog;
 import com.jf.djplayer.dialogfragment.SongInfoDialog;
-import com.jf.djplayer.localmusic.SongFragment;
 import com.jf.djplayer.other.MyApplication;
 import com.jf.djplayer.other.SongInfo;
 
@@ -212,8 +211,10 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
      * @return "GridView"每个"item"图片资源
      */
     protected int[] getChildItemImageId(){
-        return new int[]{R.drawable.fragment_song_no_collection, R.drawable.icon_del, R.drawable.icon_plus, R.drawable.icon_bell,
-                R.drawable.expandable_fragment_adapter_childview_share, R.drawable.icon_send, R.drawable.icon_info};
+        return new int[]{R.drawable.ic_base_expand_fragment_adapter_no_collection, R.drawable.ic_base_expand_fragment_adapter_delete,
+                R.drawable.ic_base_expand_fragment_adapter_add, R.drawable.ic_base_expand_fragment_adapter_bell,
+                R.drawable.ic_base_expand_fragment_adapter_share, R.drawable.ic_base_expand_fragment_adapter_send,
+                R.drawable.ic_base_expand_fragment_adapter_info};
     }
 
     /**
@@ -267,7 +268,7 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
                     localBroadcastManager.sendBroadcast(intent);
                     break;
                 case 1://如果点击删除歌曲，打开删除的提示框
-                    DeleteSongDialogFragment deleteSongDialogFragment = new DeleteSongDialogFragment(context,songInfo,groupPosition);
+                    DeleteSongDialog deleteSongDialogFragment = new DeleteSongDialog(context,songInfo,groupPosition);
 //                    deleteSongDialogFragment.setTargetFragment(fragment, SongFragment.REQUEST_CODE_DELETE_SONG);
                     deleteSongDialogFragment.show( ((FragmentActivity)context).getSupportFragmentManager(),"DeleteSongDialogFragment");
                     break;

@@ -188,8 +188,8 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     }
 
 
-    //    传入以毫秒表示的时间
-//    返回如下格式时间：00:00(分钟：秒钟)
+    //传入以毫秒表示的时间
+    //返回如下格式时间：00:00(分钟：秒钟)
     private String getTime(int time){
         int minutes = time/1000/60;//获取里面的分钟数
         int second = time/1000%60;//获取里面的秒钟数(除分钟外剩余的秒钟书)
@@ -256,9 +256,11 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
                 if (lastSongInfo.getCollection() == 0) {
                     lastSongInfo.setCollection(1);
                     songInfoOpenHelper.updateCollection(lastSongInfo, 1);
+                    iv_collection.setImageResource(R.drawable.activity_song_play_info_collection);
                 } else {
                     lastSongInfo.setCollection(0);
                     songInfoOpenHelper.updateCollection(lastSongInfo, 0);
+                    iv_collection.setImageResource(R.drawable.activity_song_play_info_no_collection);
                 }
                 break;
             default:break;
@@ -344,6 +346,12 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         else {
             notPlaySettings();
         }//if(isPlaying)
+        //根据收藏与否进行不同设置
+        if(currentPlaySongInfo.getCollection() == 1){
+            iv_collection.setImageResource(R.drawable.activity_song_play_info_collection);
+        }else {
+            iv_collection.setImageResource(R.drawable.activity_song_play_info_no_collection);
+        }
     }//updatePlayInfo
 
 //    用来更换新的歌曲信息
@@ -355,7 +363,10 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
 //            设置当前歌手图片
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             SingerPictureTools singerPictureTools = new SingerPictureTools(currentPlaySongInfo.getSingerName());
-            if(singerPictureTools.hasSingerPicture()) ll_root_view.setBackground(singerPictureTools.getSingerPicture());
+            if(singerPictureTools.hasSingerPicture()) {
+//                ll_root_view.setBackground(singerPictureTools.getSingerPicture());
+                ll_root_view.setBackgroundDrawable(singerPictureTools.getSingerPicture());
+            }
         }
 //            设置进度条最大值
         seekBar.setMax(currentPlaySongInfo.getSongDuration());

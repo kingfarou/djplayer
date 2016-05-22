@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +27,7 @@ import java.io.File;
 /**
  * Created by Administrator on 2015/8/16.
  */
-public class DeleteSongDialogFragment extends DialogFragment implements CompoundButton.OnCheckedChangeListener{
+public class DeleteSongDialog extends DialogFragment implements CompoundButton.OnCheckedChangeListener{
 
 
     private SongInfo songInfo = null;//要操作的歌曲信息
@@ -40,12 +39,12 @@ public class DeleteSongDialogFragment extends DialogFragment implements Compound
     private int groupPosition;
     private View view;
 
-    public DeleteSongDialogFragment(Context context,SongInfo songInfo,int groupPosition) {
+    public DeleteSongDialog(Context context, SongInfo songInfo, int groupPosition) {
         this.songInfo = songInfo;
         this.groupPosition = groupPosition;
     }
 
-    public DeleteSongDialogFragment(SongInfo songInfo,int position){
+    public DeleteSongDialog(SongInfo songInfo, int position){
 
     }
 
@@ -105,7 +104,7 @@ public class DeleteSongDialogFragment extends DialogFragment implements Compound
         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                DeleteSongDialogFragment.this.getDialog().cancel();
+                DeleteSongDialog.this.getDialog().cancel();
             }
         });//setNegativeButton()
 

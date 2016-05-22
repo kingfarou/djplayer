@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:src="@drawable/icon_del"/>
+            android:src="@drawable/ic_base_expand_fragment_adapter_delete"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_plus"
+            android:src="@drawable/ic_base_expand_fragment_adapter_add"
             android:padding="8dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_bell"
+            android:src="@drawable/ic_base_expand_fragment_adapter_bell"
             android:padding="8dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:src="@drawable/icon_send"/>
+            android:src="@drawable/ic_base_expand_fragment_adapter_send"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
             android:paddingStart="8dp"
             android:paddingRight="8dp"
             android:paddingEnd="8dp"
-            android:src="@drawable/icon_info"/>
+            android:src="@drawable/ic_base_expand_fragment_adapter_info"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
