@@ -99,19 +99,21 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
      * @return 返回新插入的行数ID，如果插入发生错误，返回-1
      */
     public long insertInLocalMusicTable(SongInfo songInfo){
+        String notKnow = "未知";
         if(songInfo==null) {
             return -1;//对传入的参数进行检查
         }
         SQLiteDatabase songInfoDatabase = getWritableDatabase();
         ContentValues songInfoValues = new ContentValues();
+        //对字符串类型数据进行保存，判断是不是空对象，如果是就给一个默认值，让自己的数据库不要有空的对象
         songInfoValues.putNull(id);//id由系统去进行自增
-        songInfoValues.put(title, songInfo.getSongName());
-        songInfoValues.put(artist,songInfo.getSingerName());
-        songInfoValues.put(album,songInfo.getSongAlbum());
+        songInfoValues.put(title, songInfo.getSongName() == null ? notKnow:songInfo.getSongName());
+        songInfoValues.put(artist,songInfo.getSingerName() == null? notKnow:songInfo.getSingerName());
+        songInfoValues.put(album,songInfo.getSongAlbum() == null? notKnow:songInfo.getSongAlbum());
         songInfoValues.put(duration,songInfo.getSongDuration());
         songInfoValues.put(size,songInfo.getSongSize());
-        songInfoValues.put(folderPath,new File(songInfo.getSongAbsolutePath()).getParent());
-        songInfoValues.put(absolutionPath, songInfo.getSongAbsolutePath());
+        songInfoValues.put(folderPath, songInfo.getSongAbsolutePath() == null? notKnow: new File(songInfo.getSongAbsolutePath()).getParent());
+        songInfoValues.put(absolutionPath, songInfo.getSongAbsolutePath() == null? notKnow:songInfo.getSongAbsolutePath());
         songInfoValues.put(collection, songInfo.getCollection());
         long id =  songInfoDatabase.insert(LOCAL_MUSIC_TABLE_NAME, null, songInfoValues);
         songInfoDatabase.close();

@@ -51,8 +51,7 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
      * @param dataList 要显示的数据集合
      */
     public BaseExpandFragmentAdapter(Fragment fragment, List<SongInfo> dataList){
-//        this.context = fragment.getActivity();
-        this.context = MyApplication.getContext();
+        this.context = fragment.getActivity();
         this.fragment = fragment;
         this.dataList = dataList;
     }

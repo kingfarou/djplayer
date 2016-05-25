@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class SongInfo implements Serializable {
 
-    private String songName ;//歌名
+    private String songName;//歌名
     private String singerName;//歌手
     private String songAlbum;//专辑
     private int songDuration = -1;//歌曲播放所用时长

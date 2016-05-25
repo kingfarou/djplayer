@@ -2,6 +2,7 @@ package com.jf.djplayer.database;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.jf.djplayer.other.SongInfo;
@@ -20,6 +21,8 @@ import java.util.TreeSet;
 public class SystemMediaDatabaseUtils{
 
     private Context context;
+    private StringBuilder selection;//查询数据库时候的selection
+    private String[] selectionArgs;//查询数据库时候的selectionArgs
     public SystemMediaDatabaseUtils(Context context){
         this.context = context;
     }
@@ -61,8 +64,9 @@ public class SystemMediaDatabaseUtils{
     public List<SongInfo> getSongInfoAccordingPath(String[] pathString) {
         List<SongInfo> songInfoList = null;
         SongInfo songInfo;
-        StringBuilder selection = new StringBuilder();//查询数据库时候的selection
-        String[] selectionArgs = null;//查询数据库时候的selectionArgs
+        //每次调用前都要将两个成员变量重置
+        selection = new StringBuilder();//查询数据库时候的selection
+        selectionArgs = null;//查询数据库时候的selectionArgs
 
 //        如果所传入的路径不是空的
         if (pathString != null) {
@@ -77,33 +81,75 @@ public class SystemMediaDatabaseUtils{
                 selectionArgs[i] = pathString[i] + "%";
             }
         }
-//        条件查询指定路径下的歌曲
-        Cursor songInfoCursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+        //扫描SD卡的歌曲
+        Cursor sdCardCursor = getSystemSongInfo(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+        if(sdCardCursor!=null) {
+            songInfoList = cursorToSongInfo(sdCardCursor);
+            sdCardCursor.close();
+        }
+        //扫描手机内存里的歌曲
+//        Cursor internalCursor = getSystemSongInfo(MediaStore.Audio.Media.INTERNAL_CONTENT_URI);
+//        Cursor internalCursor = context.getContentResolver().query(MediaStore.Audio.Media.INTERNAL_CONTENT_URI,
+//                new String[]{MediaStore.Audio.Media.TITLE,
+//                        MediaStore.Audio.Media.ARTIST,
+//                        MediaStore.Audio.Media.ALBUM,
+//                        MediaStore.Audio.Media.DURATION,
+//                        MediaStore.Audio.Media.SIZE,
+//                        MediaStore.Audio.Media.DATA}, selection.toString(), selectionArgs, null);
+//        如果数据库里没有歌曲则返回空
+//        if(internalCursor!=null) {
+//            songInfoList.addAll(cursorToSongInfo(internalCursor));
+//            internalCursor.close();
+//        }
+
+//        songInfoList = new ArrayList<>(songInfoCursor.getCount());
+////                歌曲信息全部都以SongInfo对象形式存入集合
+//        while (songInfoCursor.moveToNext()) {
+//            songInfo = new SongInfo(
+//                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)),
+//                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)),
+//                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)),
+//                    songInfoCursor.getInt(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)),
+//                    songInfoCursor.getInt(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.SIZE)),
+//                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
+////            Log.i("test",songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
+//            songInfoList.add(songInfo);
+//        }
+        return songInfoList;
+
+    }
+
+    private Cursor getSystemSongInfo(Uri tableName){
+        return context.getContentResolver().query(tableName,
                 new String[]{MediaStore.Audio.Media.TITLE,
                         MediaStore.Audio.Media.ARTIST,
                         MediaStore.Audio.Media.ALBUM,
                         MediaStore.Audio.Media.DURATION,
                         MediaStore.Audio.Media.SIZE,
                         MediaStore.Audio.Media.DATA}, selection.toString(), selectionArgs, null);
-//        如果数据库里没有歌曲则返回空
-        if(songInfoCursor == null||songInfoCursor.getCount()==0) {
-            return null;
-        }
-        songInfoList = new ArrayList<>(songInfoCursor.getCount());
-//                歌曲信息全部都以SongInfo对象形式存入集合
+    }
+
+    //将读到的"Cursor"歌曲信息数据集合转成"List<SongInfo>"集合
+    private List<SongInfo> cursorToSongInfo(Cursor songInfoCursor){
+        int titleIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+        int artistIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+        int albumIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
+        int durationIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
+        int sizeIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.SIZE);
+        int dataIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+        List<SongInfo> songInfoList = new ArrayList<>(songInfoCursor.getCount());
+        SongInfo songInfo;
         while (songInfoCursor.moveToNext()) {
             songInfo = new SongInfo(
-                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)),
-                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)),
-                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)),
-                    songInfoCursor.getInt(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)),
-                    songInfoCursor.getInt(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.SIZE)),
-                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
-//            Log.i("test",songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
+                    songInfoCursor.getString(titleIndex),
+                    songInfoCursor.getString(artistIndex),
+                    songInfoCursor.getString(albumIndex),
+                    songInfoCursor.getInt(durationIndex),
+                    songInfoCursor.getInt(sizeIndex),
+                    songInfoCursor.getString(dataIndex)
+            );
             songInfoList.add(songInfo);
         }
-        songInfoCursor.close();
         return songInfoList;
-
     }
 }
