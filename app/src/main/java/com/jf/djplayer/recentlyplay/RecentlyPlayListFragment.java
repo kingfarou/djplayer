@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -68,7 +67,7 @@ public class RecentlyPlayListFragment extends BaseExpandFragment {
         }
         //遍历集合过滤所有从未播放过的歌曲（即"lastPlayTime==0"的歌）
         for(int i = recentlyPlaySongInfo.size()-1; i>=0; i--){
-            if(recentlyPlaySongInfo.get(i).getLastPlayTime()==0){
+            if(recentlyPlaySongInfo.get(i).getLastPlayTime() == SongInfoOpenHelper.DEFAULT_LAST_PLAY_TIME){
                 recentlyPlaySongInfo.remove(i);
             }
         }

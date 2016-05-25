@@ -64,7 +64,7 @@ public class PlayInfoNotification {
 
         //设置好builder
         builder.setSmallIcon(R.drawable.ic_app)
-                .setOngoing(true)
+//                .setOngoing(true)
                 .setContentIntent(songInfoPendingIntent);
 
     }

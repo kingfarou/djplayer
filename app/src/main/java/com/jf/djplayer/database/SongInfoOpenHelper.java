@@ -40,8 +40,10 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
     public static final String collection = "_collection";//标记用户是否收藏音乐
     private static final String lastPlayTime = "last_play_time";//标记歌曲最后一次播放时间
     public static final String isDownload = "is_download";//标记歌曲是否是从网络下载
+    //用来表示信息的量
     public static final int isCollection = 1;
     public static final int noCollection = 0;
+    public static final int DEFAULT_LAST_PLAY_TIME = 0;
 
     /**
      * 创建本地音乐的数据库操作工具
@@ -115,7 +117,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         songInfoValues.put(folderPath, songInfo.getSongAbsolutePath() == null? notKnow: new File(songInfo.getSongAbsolutePath()).getParent());
         songInfoValues.put(absolutionPath, songInfo.getSongAbsolutePath() == null? notKnow:songInfo.getSongAbsolutePath());
         songInfoValues.put(collection, songInfo.getCollection());
-        songInfoValues.put(lastPlayTime, 0);
+        songInfoValues.put(lastPlayTime, DEFAULT_LAST_PLAY_TIME);
         long id =  songInfoDatabase.insert(LOCAL_MUSIC_TABLE_NAME, null, songInfoValues);
         songInfoDatabase.close();
         return id;
