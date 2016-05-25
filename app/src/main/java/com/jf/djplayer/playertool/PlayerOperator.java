@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class PlayerOperator implements PlayInfoSubject{
 
-    private static PlayerOperator playerOperator;
+    private volatile static PlayerOperator playerOperator;
     private List<SongInfo> songInfoList;//当前所播放的歌曲列表
     private Context mContext;
     private MediaPlayer mMediaPlayer;
