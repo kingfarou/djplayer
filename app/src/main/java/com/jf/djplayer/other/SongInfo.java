@@ -12,8 +12,8 @@ public class SongInfo implements Serializable {
     private String songName;//歌名
     private String singerName;//歌手
     private String songAlbum;//专辑
-    private int songDuration = -1;//歌曲播放所用时长
-    private int songSize = -1;//表示歌曲文件大小
+    private int songDuration;//歌曲播放所用时长
+    private int songSize;//表示歌曲文件大小
     private String songAbsolutePath;//以字符串形式所表示的绝对路径
     private int collection = NOT_COLLECTION;//标志当前歌曲是否已被用户收藏
     private long lastPlayTime;//表示最后一次播放时间

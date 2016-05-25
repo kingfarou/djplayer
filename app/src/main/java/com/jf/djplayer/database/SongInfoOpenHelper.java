@@ -115,6 +115,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         songInfoValues.put(folderPath, songInfo.getSongAbsolutePath() == null? notKnow: new File(songInfo.getSongAbsolutePath()).getParent());
         songInfoValues.put(absolutionPath, songInfo.getSongAbsolutePath() == null? notKnow:songInfo.getSongAbsolutePath());
         songInfoValues.put(collection, songInfo.getCollection());
+        songInfoValues.put(lastPlayTime, 0);
         long id =  songInfoDatabase.insert(LOCAL_MUSIC_TABLE_NAME, null, songInfoValues);
         songInfoDatabase.close();
         return id;
