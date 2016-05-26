@@ -22,7 +22,7 @@ import com.jf.djplayer.songplayinfo.SongPlayInfoActivity;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.tool.SendSongPlayProgress;
 import com.jf.djplayer.playertool.PlayerOperator;
-import com.jf.djplayer.interfaces.PlayControls;
+import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.tool.RemindUiUpdateThread;
 
@@ -47,7 +47,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
     private SongInfo lastSongInfo;//这个保存主题上次传进来的歌曲信息
     private RemindUiUpdateThread remindUiUpdateThread;
     private Handler updateProgressHandler;
-    private PlayControls playControls;//音乐播放的控制者（其实就是当前活动）
+    private PlayController playController;//音乐播放的控制者（其实就是当前活动）
     private PlayInfoSubject playInfoSubject;//所观察的那个主题
 
 
@@ -67,7 +67,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        playControls = (PlayControls)activity;
+        playController = (PlayController)activity;
     }
 
 //    不论Fragment新启动的
@@ -131,11 +131,11 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
                 startActivity(new Intent(getActivity(), SongPlayInfoActivity.class));
                 break;
             case R.id.ib_fragment_bottom_control_play://如果点击播放或者暂停按钮
-                if(playControls.isPlaying()) playControls.pause();
-                else playControls.play();
+                if(playController.isPlaying()) playController.pause();
+                else playController.play();
                 break;
             case R.id.ib_fragment_bottom_control_next://如果点击下一曲的按钮
-                playControls.nextSong();
+                playController.nextSong();
                 break;
             default:break;
         }

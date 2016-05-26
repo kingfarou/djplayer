@@ -10,7 +10,7 @@ import java.util.List;
  * Fragment通过这个接口控制活动从而
  * 控制播放
  */
-public interface PlayControls {
+public interface PlayController {
 
     /**
      * 传入要播放的歌曲列表

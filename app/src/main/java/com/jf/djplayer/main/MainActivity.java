@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -14,7 +13,7 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.base.baseactivity.BaseNoTitleActivity;
 import com.jf.djplayer.interfaces.FragmentChanger;
-import com.jf.djplayer.interfaces.PlayControls;
+import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.service.PlayerService;
 
 
@@ -30,7 +29,7 @@ import java.util.Stack;
  *
  */
 public class MainActivity extends BaseNoTitleActivity
-        implements FragmentChanger, PlayControls, ServiceConnection, ExitDialog.ExitDialogListener{
+        implements FragmentChanger, PlayController, ServiceConnection, ExitDialog.ExitDialogListener{
 
     private FragmentManager fragmentManager;//动态修改"Fragment"的管理器
     private PlayerService playerService;//后台控制播放用的服务
@@ -67,8 +66,8 @@ public class MainActivity extends BaseNoTitleActivity
         //动态加载主页面的"Fragment"
         fragmentManager = getSupportFragmentManager();
         Fragment fragment = new MainFragment();
-        //将加载的"Fragment"名字放进堆栈里面
         fragmentManager.beginTransaction().add(R.id.fl_activity_main_fragment_container,new MainFragment()).commit();
+        //将加载的"Fragment"名字放进堆栈里面
         fragmentStacks.push(fragment.getClass().getSimpleName());
     }
 
@@ -94,27 +93,26 @@ public class MainActivity extends BaseNoTitleActivity
         return super.onKeyDown(keyCode, event);
     }
 
-    //    活动里的Fragment通过他来通知活动
-//      添加新的Fragment
+    /*"FragmentChanger"方法覆盖_start*/
     @Override
     public void replaceFragments(Fragment fragment) {
+        //更改"fragmentManager"里的"fragment"
         fragmentManager.beginTransaction().replace(R.id.fl_activity_main_fragment_container,fragment).addToBackStack(null).commit();
+        //让堆栈理所保存的"fragment"与"FragmentManager"保持同步
         fragmentStacks.push(fragment.getClass().getSimpleName());
     }
-
 
 //    活动里的Fragment通过他来通知活动
 //    关闭当前Fragment
     @Override
     public void popFragments() {
+        //在"fragmentManager"回退一次事务操作，并且让"fragmentStacks"里的记录和"fragmentManager"保持同步
         fragmentManager.popBackStack();
         fragmentStacks.pop();
     }
+    /*"FragmentChanger"方法覆盖_end*/
 
-
-//    覆盖下面这些方法
-//    Fragment通过这些方法控制服务
-//    从而进行播放控制
+    /*"PlayController"方法覆盖_start*/
     @Override
     public void play(List<SongInfo> songInfoList,int position) {
         playerService.play(songInfoList, position);
@@ -149,8 +147,9 @@ public class MainActivity extends BaseNoTitleActivity
     public void stop() {
 
     }
+    /*"PlayController"方法覆盖_end*/
 
-//    两个用于绑定服务用的方法
+    /*"ServiceConnection"方法覆盖_start*/
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
         playerService = ((PlayerService.PlayerServiceBinder)service).getPlayerService();
@@ -160,6 +159,7 @@ public class MainActivity extends BaseNoTitleActivity
     public void onServiceDisconnected(ComponentName name) {
 
     }
+    /*"ServiceConnection"方法覆盖_end*/
 
     //"ExitDialog"里的接口方法重写
     @Override

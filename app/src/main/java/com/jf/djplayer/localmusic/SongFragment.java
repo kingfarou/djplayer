@@ -24,7 +24,7 @@ import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.customview.ListViewPopupWindows;
-import com.jf.djplayer.interfaces.PlayControls;
+import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.SongInfoObserver;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.sortable.SongInfoListSortable;
@@ -42,7 +42,7 @@ import java.util.List;
 public class SongFragment extends BaseExpandFragment
         implements SongInfoObserver, SearchedDataProvider{
 
-    private PlayControls playControls;
+    private PlayController playController;
     private SongInfoListSortable songInfoListSortable;//对列表歌曲进行排序的工具
     private UpdateUiSongInfoReceiver updateUiSongInfoReceiver;//接受歌曲信息被修改的通知
     private List<SongInfo> songInfoList;//保存要显示的歌曲信息集合
@@ -80,7 +80,7 @@ public class SongFragment extends BaseExpandFragment
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        playControls = (PlayControls)activity;//将活动转换成为播放控制者
+        playController = (PlayController)activity;//将活动转换成为播放控制者
     }
 
     @Override
@@ -150,7 +150,7 @@ public class SongFragment extends BaseExpandFragment
     //    "expandableListView"的groupItem被按下时所回调的方法
     @Override
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        playControls.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
+        playController.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
         return true;
     }
 

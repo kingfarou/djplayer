@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.recentlyplay.RecentlyPlayListFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,7 +29,11 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
     private static final String SONG_INFO_DATABASE_NAME = "SONG_INFO_DATABASE";//这是数据库的名字
     private static final String LOCAL_MUSIC_TABLE_NAME = "LOCAL_MUSIC_TABLE";//本地音乐歌曲信息表名
 
-//    这是“SONG_INFO_TABLE”表的所有列的名字
+    //用来表示信息的量
+    public static final int isCollection = 1;
+    public static final int noCollection = 0;
+
+    //这是“SONG_INFO_TABLE”表的所有列的名字
     public static final String id = "_ID";//主键
     public static final String title = "_title";//歌名
     public static final String artist = "_artist";//歌手
@@ -40,11 +45,6 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
     public static final String collection = "_collection";//标记用户是否收藏音乐
     private static final String lastPlayTime = "last_play_time";//标记歌曲最后一次播放时间
     public static final String isDownload = "is_download";//标记歌曲是否是从网络下载
-    //用来表示信息的量
-    public static final int isCollection = 1;
-    public static final int noCollection = 0;
-    public static final int DEFAULT_LAST_PLAY_TIME = 0;
-
     /**
      * 创建本地音乐的数据库操作工具
      * @param context 环境
@@ -117,7 +117,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         songInfoValues.put(folderPath, songInfo.getSongAbsolutePath() == null? notKnow: new File(songInfo.getSongAbsolutePath()).getParent());
         songInfoValues.put(absolutionPath, songInfo.getSongAbsolutePath() == null? notKnow:songInfo.getSongAbsolutePath());
         songInfoValues.put(collection, songInfo.getCollection());
-        songInfoValues.put(lastPlayTime, DEFAULT_LAST_PLAY_TIME);
+        songInfoValues.put(lastPlayTime, RecentlyPlayListFragment.NEVER_PLAY);
         long id =  songInfoDatabase.insert(LOCAL_MUSIC_TABLE_NAME, null, songInfoValues);
         songInfoDatabase.close();
         return id;

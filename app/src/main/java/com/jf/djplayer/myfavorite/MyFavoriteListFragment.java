@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
-import com.jf.djplayer.interfaces.PlayControls;
+import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.SongInfoObserver;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.sortable.SortBySingerName;
@@ -38,7 +38,7 @@ public class MyFavoriteListFragment extends BaseExpandFragment
 
 //    private Context context = null;
     private SongInfoListSortable SongInfoListSortable;
-    private PlayControls playControls;
+    private PlayController playController;
     private View footerView;
     private UpdateUiSongInfoReceiver updateUiSongInfoReceiver;
     private List<SongInfo> favoriteList;
@@ -52,7 +52,7 @@ public class MyFavoriteListFragment extends BaseExpandFragment
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        playControls = (PlayControls)activity;
+        playController = (PlayController)activity;
     }
 
     @Override
@@ -135,7 +135,7 @@ public class MyFavoriteListFragment extends BaseExpandFragment
     @Override
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         //播放被选中的音乐
-        playControls.play(favoriteList,groupPosition);
+        playController.play(favoriteList,groupPosition);
         return true;
     }
 

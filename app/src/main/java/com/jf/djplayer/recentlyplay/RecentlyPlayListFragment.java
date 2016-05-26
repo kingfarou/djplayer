@@ -11,7 +11,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.interfaces.PlayControls;
+import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
@@ -24,8 +24,11 @@ import java.util.List;
  */
 public class RecentlyPlayListFragment extends BaseExpandFragment {
 
+    /**当一首歌最后一次播放时间等于这个常量，表示这首歌从未播放过*/
+    public static final int NEVER_PLAY = 0;
+
     private List<SongInfo> recentlyPlaySongInfo;//数据
-    private PlayControls playControls;//歌曲播放控制接口对象
+    private PlayController playController;//歌曲播放控制接口对象
     private View footerView;//"ListView"的"footerView"
 
     @Nullable
@@ -37,7 +40,7 @@ public class RecentlyPlayListFragment extends BaseExpandFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        playControls = (PlayControls)getActivity();
+        playController = (PlayController)getActivity();
     }
 
     @Override
@@ -67,7 +70,7 @@ public class RecentlyPlayListFragment extends BaseExpandFragment {
         }
         //遍历集合过滤所有从未播放过的歌曲（即"lastPlayTime==0"的歌）
         for(int i = recentlyPlaySongInfo.size()-1; i>=0; i--){
-            if(recentlyPlaySongInfo.get(i).getLastPlayTime() == SongInfoOpenHelper.DEFAULT_LAST_PLAY_TIME){
+            if(recentlyPlaySongInfo.get(i).getLastPlayTime() == NEVER_PLAY){
                 recentlyPlaySongInfo.remove(i);
             }
         }
@@ -82,7 +85,7 @@ public class RecentlyPlayListFragment extends BaseExpandFragment {
 
     @Override
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        playControls.play(recentlyPlaySongInfo, groupPosition);
+        playController.play(recentlyPlaySongInfo, groupPosition);
         return true;
     }
 
