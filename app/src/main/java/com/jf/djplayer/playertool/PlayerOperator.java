@@ -297,7 +297,8 @@ public class PlayerOperator implements PlayInfoSubject{
 //                        mMediaPlayer.stop();
 //                        mMediaPlayer.release();
 //                    }
-                    over();
+                    //这里绝对不能调用"over()"方法，不然的话整个单例都会出现问题
+                    //over();
                 }catch (IllegalStateException illegalStateException){
                     Log.i("test","异常——"+illegalStateException.toString()+"\n"+"位置——"+this.toString());
                 }
