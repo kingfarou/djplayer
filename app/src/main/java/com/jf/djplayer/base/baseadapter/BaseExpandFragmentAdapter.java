@@ -24,8 +24,8 @@ import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.dialogfragment.DeleteSongDialog;
 import com.jf.djplayer.dialogfragment.SetToBellDialog;
 import com.jf.djplayer.dialogfragment.SongInfoDialog;
+import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.other.MyApplication;
-import com.jf.djplayer.other.SongInfo;
 
 import java.util.List;
 

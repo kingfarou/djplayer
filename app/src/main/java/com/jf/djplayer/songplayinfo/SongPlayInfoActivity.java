@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.base.baseactivity.BaseNoTitleActivity;
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.SongPlayInfoAdapter;

@@ -1,6 +1,6 @@
 package com.jf.djplayer.interfaces;
 
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 
 import java.util.List;
 

@@ -5,14 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 
-import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 
 import java.util.ArrayList;
 import java.util.List;

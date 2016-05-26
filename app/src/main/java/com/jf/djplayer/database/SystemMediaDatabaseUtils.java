@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 
 import java.io.File;
 import java.util.ArrayList;

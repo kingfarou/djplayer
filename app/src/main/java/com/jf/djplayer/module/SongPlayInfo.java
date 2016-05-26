@@ -1,4 +1,6 @@
-package com.jf.djplayer.other;
+package com.jf.djplayer.module;
+
+import com.jf.djplayer.module.SongInfo;
 
 /**
  * Created by JF on 2016/5/25.
@@ -10,9 +12,10 @@ public class SongPlayInfo {
 
     private SongInfo currentPlaySongInfo;//当前正播放的歌曲信息
     private boolean isPlaying;//歌曲是否正在播放（正在唱着）
-    private long progress;//歌曲当前播放进度
+    private int progress;//歌曲当前播放进度
 
-    public SongPlayInfo(SongInfo currentPlaySongInfo, boolean isPlaying, long progress){
+    public SongPlayInfo(){
+    public SongPlayInfo(SongInfo currentPlaySongInfo, boolean isPlaying, int progress){
         this.currentPlaySongInfo = currentPlaySongInfo;
         this.isPlaying = isPlaying;
         this.progress = progress;
@@ -32,10 +35,10 @@ public class SongPlayInfo {
         isPlaying = playing;
     }
 
-    public long getProgress() {
+    public int getProgress() {
         return progress;
     }
-    public void setProgress(long progress) {
+    public void setProgress(int progress) {
         this.progress = progress;
     }
 }

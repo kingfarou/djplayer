@@ -1,6 +1,6 @@
 package com.jf.djplayer.sortable;
 
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 
 import java.text.CollationKey;
 import java.text.Collator;

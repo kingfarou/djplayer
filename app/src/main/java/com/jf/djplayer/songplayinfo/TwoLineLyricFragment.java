@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.tool.RemindUiUpdateThread;

@@ -14,8 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.jf.djplayer.other.SongInfo;
 import com.jf.djplayer.R;
+import com.jf.djplayer.module.SongInfo;
+
 /**
  * Created by JF on 2015/11/28.
  */

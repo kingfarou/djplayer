@@ -1,4 +1,4 @@
-package com.jf.djplayer.other;
+package com.jf.djplayer.module;
 
 import java.io.Serializable;
 

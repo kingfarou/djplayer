@@ -8,8 +8,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
+import com.jf.djplayer.module.SongPlayInfo;
 import com.jf.djplayer.other.MyApplication;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.tool.UserOptionTool;
@@ -36,6 +37,7 @@ public class PlayerOperator implements PlayInfoSubject{
     private MediaPlayer mMediaPlayer;
     private List<PlayInfoObserver> playInfoObserverList;//这个是观察者列表
     private SongInfo lastSongInfo;//记录最后一次播放的歌
+    private SongPlayInfo songPlayInfo;//歌曲播放信息对象
     private int lastPosition = -1;//用来记录最新播放歌曲的位置的
     private boolean canPlay = false;//当音频焦点变化时根据它来判定是否可以播放
 
@@ -83,14 +85,14 @@ public class PlayerOperator implements PlayInfoSubject{
             return;
         }
         this.songInfoList = songInfoList;//保存当前播放列表
+        songPlayInfo = new SongPlayInfo(songInfoList.get(playPosition), false, 0);
 //        如果原来没有播放任何歌曲
-        if (lastSongInfo ==null){
+        if (lastSongInfo == null){
             try{
                 //与播放相关的设置工作
 //                setDataSource(mContext, fileUri);
                 mMediaPlayer.setDataSource(new File(songInfoList.get(playPosition).getSongAbsolutePath()).getAbsolutePath());
                 mMediaPlayer.prepareAsync();
-//
             }catch (IOException e){
                 Log.i("test","异常——"+e.toString()+"\n"+"位置——"+this.toString());
                 Toast.makeText(mContext, "所点击的歌曲文件有误", Toast.LENGTH_SHORT).show();
@@ -98,6 +100,8 @@ public class PlayerOperator implements PlayInfoSubject{
         }//if(lastSongAbsolutePath==null)
 //        如果两次点击不同首歌
         else if ( !songInfoList.get(playPosition).getSongAbsolutePath().equals(lastSongInfo.getSongAbsolutePath())){
+            songPlayInfo.setCurrentPlaySongInfo(songInfoList.get(playPosition));
+            songPlayInfo.setPlaying(false);
             changeSong(songInfoList.get(playPosition).getSongAbsolutePath());//根据歌曲绝对路径更换歌曲
         }
         //如果两次点击同一首歌
@@ -105,10 +109,12 @@ public class PlayerOperator implements PlayInfoSubject{
             //如果歌曲正在播放那就暂停
             if (mMediaPlayer.isPlaying()){
                 this.pause();
+                songPlayInfo.setPlaying(false);
                 canPlay = false;//标记他是手动暂停
 //                isPlaying = false;
             }else{//否则的话继续播放
                 this.play();
+                songPlayInfo.setPlaying(true);
                 this.canPlay = true;
 //                isPlaying = true;
             }
@@ -257,6 +263,7 @@ public class PlayerOperator implements PlayInfoSubject{
         return mMediaPlayer.getCurrentPosition();
     }
 
+
     /**
      * return the information of the song which is playing now
      * @return null if there no song be
@@ -379,6 +386,7 @@ public class PlayerOperator implements PlayInfoSubject{
         @Override
         public void onPrepared(MediaPlayer mp) {
             mp.start();
+            songPlayInfo.setPlaying(true);
             notifyObservers();
         }
     }

@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.base.baseactivity.BaseNoTitleActivity;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.interfaces.PlayController;

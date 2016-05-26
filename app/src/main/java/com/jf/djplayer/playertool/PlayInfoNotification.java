@@ -8,7 +8,7 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import com.jf.djplayer.other.IntentConstant;
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.songplayinfo.SongPlayInfoActivity;
 import com.jf.djplayer.R;
 import com.jf.djplayer.service.PlayerService;

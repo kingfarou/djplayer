@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 
 import java.util.List;
 

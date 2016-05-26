@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.jf.djplayer.other.IntentConstant;
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.playertool.PlayInfoNotification;

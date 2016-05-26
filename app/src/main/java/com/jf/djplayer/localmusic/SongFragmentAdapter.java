@@ -6,8 +6,7 @@ import android.view.ViewGroup;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
-import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
-import com.jf.djplayer.other.SongInfo;
+import com.jf.djplayer.module.SongInfo;
 
 import java.util.List;
 
