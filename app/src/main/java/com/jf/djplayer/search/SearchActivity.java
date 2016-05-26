@@ -38,12 +38,12 @@ public class SearchActivity extends BaseNoTitleActivity
     public static final String SEARCH_LIST = "searchList";//这是待搜索的数据集合
 
     @Override
-    protected void doSetContentView() {
-        setContentView(R.layout.activity_search);
+    protected int getContentViewId() {
+        return R.layout.activity_search;
     }
 
     @Override
-    protected void viewInit() {
+    protected void initView() {
         //对标题栏显示部分做初始化
         fragmentTitleInit();
         editInit();
@@ -52,7 +52,7 @@ public class SearchActivity extends BaseNoTitleActivity
     }
 
     @Override
-    protected void extrasInit() {
+    protected void initExtrasBeforeView() {
 
     }
 

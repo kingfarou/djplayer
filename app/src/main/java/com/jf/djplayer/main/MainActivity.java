@@ -44,18 +44,18 @@ public class MainActivity extends BaseNoTitleActivity implements FragmentChanger
     }
 
     @Override
-    protected void doSetContentView() {
-        setContentView(R.layout.activity_main);
+    protected int getContentViewId() {
+        return R.layout.activity_main;
     }
 
     @Override
-    protected void viewInit() {
+    protected void initView() {
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.fl_activity_main_fragment_container,new MainFragment()).commit();
     }
 
     @Override
-    protected void extrasInit() {
+    protected void initExtrasBeforeView() {
 //        通过两个方式启动服务确保解绑之后服务不会关闭
         Intent startService = new Intent(this,PlayerService.class);
         startService(startService);

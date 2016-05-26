@@ -24,18 +24,18 @@ public class WelcomeActivity extends BaseNoTitleActivity {
     }
 
     @Override
-    protected void doSetContentView() {
-        setContentView(R.layout.activity_welcome);
+    protected int getContentViewId() {
+        return R.layout.activity_welcome;
     }
 
     @Override
-    protected void extrasInit() {
+    protected void initExtrasBeforeView() {
 //        使用异步任务来完成到"MainActivity"跳转
         new StartMainActivityThread().start();
     }
 
     @Override
-    protected void viewInit() {
+    protected void initView() {
 
     }
 

@@ -10,10 +10,9 @@ abstract public class BaseTitleActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        doSetContentView();
-//        viewInit();
-        extrasInit();
-        viewInit();
+        setContentView(getContentViewId());
+        initExtrasBeforeView();
+        initView();
     }
 
 

@@ -79,19 +79,19 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     }
 
     @Override
-    protected void doSetContentView() {
-        setContentView(R.layout.activity_song_play_info);
+    protected int getContentViewId() {
+        return R.layout.activity_song_play_info;
     }
 
     @Override
-    protected void viewInit() {
-        initView();//调用方法对视图初始化
+    protected void initView() {
+        initWidget();//调用方法对视图初始化
         initViewPager();//对ViewPager做初始化
         initHandler();//对Handler做初始化
     }
 
     @Override
-    protected void extrasInit() {
+    protected void initExtrasBeforeView() {
         Intent intent = new Intent(this, PlayerService.class);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
 //        获取更新播放信息用的主题
@@ -125,7 +125,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     }
 
     //这里获取各个控件
-    private void initView() {
+    private void initWidget() {
         //根布局
         ll_root_view = (LinearLayout)findViewById(R.id.ll_root_view);
 

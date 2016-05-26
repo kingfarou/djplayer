@@ -24,15 +24,15 @@ public abstract class BaseActivity extends FragmentActivity{
     /**
      * 子类在此设置Activity布局文件，这是一个工厂方法
      */
-    abstract protected void doSetContentView();
+    abstract protected int getContentViewId();
 
     /**
      * 子类在此对控件进行初始化，这是一个工厂方法
      */
-    abstract protected void viewInit();
+    abstract protected void initView();
 
     /**
      * 子类在此进行其他的初始化，这是一个工厂方法
      */
-    abstract protected void extrasInit();
+    abstract protected void initExtrasBeforeView();
 }

@@ -42,7 +42,6 @@ public class TextViewTabs extends LinearLayout implements OnClickListener{
         itemTextSize = typedArray.getDimension(R.styleable.TextViewTabs_textViewTabs_itemTextSize,16f);
         //默认该控件不显示，如果调用者返回的栏目文字个数不等于零，该控件才能显示
         setVisibility(GONE);
-//        viewInit();
         typedArray.recycle();
     }
 

@@ -15,8 +15,8 @@ abstract public class BaseNoTitleActivity extends BaseActivity {
 //        去掉系统自带的的ActionBar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        调用工厂方法进行子类的初始化
-        doSetContentView();
-        extrasInit();
-        viewInit();
+        setContentView(getContentViewId());
+        initExtrasBeforeView();
+        initView();
     }
 }

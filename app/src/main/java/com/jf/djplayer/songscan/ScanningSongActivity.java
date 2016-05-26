@@ -43,16 +43,16 @@ public class ScanningSongActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void doSetContentView() {
-        setContentView(R.layout.activity_scanning_song);
+    protected int getContentViewId() {
+        return R.layout.activity_scanning_song;
     }
 
     @Override
-    protected void extrasInit() {
+    protected void initExtrasBeforeView() {
     }
 
     @Override
-    protected void viewInit() {
+    protected void initView() {
         scanningIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanning);
         scanFinishIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanFinish);
         scanInfoTv = (TextView) findViewById(R.id.tv_activity_scanning_song_scanInfo);
