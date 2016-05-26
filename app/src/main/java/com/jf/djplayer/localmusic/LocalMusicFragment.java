@@ -68,6 +68,7 @@ public class LocalMusicFragment extends BaseGroupFragment{
         return new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
     }
 
+    //返回"tabs"个个也卡所对应的标题名字
     @Override
     protected String[] getTextViewTabsText() {
         return new String[]{getResources().getString(R.string.song),
@@ -77,6 +78,7 @@ public class LocalMusicFragment extends BaseGroupFragment{
     }
 
 
+    /*"FragmentTitleListener"方法覆盖_start*/
     //如果标题栏的标题按钮被按下了
     @Override
     public void onTitleClick() {
@@ -142,4 +144,5 @@ public class LocalMusicFragment extends BaseGroupFragment{
                 break;
         }
     }
+    /*"FragmentTitleListener"方法覆盖_end*/
 }

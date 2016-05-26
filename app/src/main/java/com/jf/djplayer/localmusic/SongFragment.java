@@ -61,7 +61,7 @@ public class SongFragment extends BaseExpandFragment
     @Override
     public void onStart() {
         super.onStart();
-        //动态注册广播接收
+        //动态注册广播接收，用来监听用户对歌曲信息的修改操作
         IntentFilter updateUiFilter = new IntentFilter();
         updateUiFilter.addAction(UpdateUiSongInfoReceiver.ACTION_COLLECTION_SONG);//监听用户收藏歌曲操作
         updateUiFilter.addAction(UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG);//监听用户取消收藏歌曲操作
@@ -87,16 +87,9 @@ public class SongFragment extends BaseExpandFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == FragmentActivity.RESULT_OK) {
-            if(requestCode == REQUEST_CODE_SCAN_MUSIC){//如果是扫描音乐的返回
+            if(requestCode == REQUEST_CODE_SCAN_MUSIC){
+                //如果是扫描音乐的返回，调用异步任务刷新数据
                 refreshDataAsync();
-//            }else if(requestCode == REQUEST_CODE_DELETE_SONG){
-//                if(data.getIntExtra("position", -1) == -1){
-//                    return;
-//                }
-//                songInfoList.remove(data.getIntExtra("position", -1));//将歌曲从集合里面移除
-//                //更新底部所显示的歌曲数量
-//                ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
-//                baseExpandableListAdapter.notifyDataSetChanged();//让"ExpandableListView"刷新数据
             }
         }
     }
@@ -122,20 +115,16 @@ public class SongFragment extends BaseExpandFragment
         return expandListEmptyView;
     }
 
-    //    提供数据用的方法
     @Override
     protected List getData() {
+        //读取数据库里面的所有歌曲数据
         songInfoList = new SongInfoOpenHelper(getActivity()).getLocalMusicSongInfo();
         return songInfoList;
     }//_readData()
 
-    /*
-    当异步任务执行完，
-    这个方法会被回调，
-    这里实现自己要做的事
-     */
     @Override
     protected void asyncReadDataFinished(List dataList){
+        //异步任务结束之后，刷新列表尾部所显示的歌曲数量
         if(footerView!=null&&songInfoList!=null){
             ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
         }
@@ -143,7 +132,6 @@ public class SongFragment extends BaseExpandFragment
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-//        return new ExpandableFragmentAdapter(getActivity(), expandableListView, songInfoList);
         return new SongFragmentAdapter(this, songInfoList);
     }
 
@@ -163,7 +151,6 @@ public class SongFragment extends BaseExpandFragment
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size() + "首歌");
         return footerView;
     }
-
 
     public ListViewPopupWindows getListViewPopupWindow() {
         Resources resources = getResources();
@@ -200,9 +187,7 @@ public class SongFragment extends BaseExpandFragment
         return listPopupWindow;
     }
 
-
-    //    当界面上歌曲信息被修改时
-//    这个方法会被回调
+    /*"SongInfoObserver"方法实现_start*/
     @Override
     public void updateSongInfo(Intent updateIntent, int position) {
         collapseGroup(position);
@@ -225,13 +210,12 @@ public class SongFragment extends BaseExpandFragment
                 break;
         }
     }
+    /*"SongInfoObserver"方法实现_end*/
 
-    /**
-     * 给外层的容器调用，用来返回当前所显示的内容数据列表
-     * @return 当前歌曲数据列表
-     */
+    /*"SearchedDataProvider"方法实现，给外层的容器调用，用来返回当前所显示的内容数据列表*/
     @Override
     public List returnSearchedDataList() {
         return songInfoList;
     }
+    /*"SearchedDataProvider"方法实现_end*/
 }
