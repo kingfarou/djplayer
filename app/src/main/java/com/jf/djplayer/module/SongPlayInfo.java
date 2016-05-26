@@ -14,7 +14,8 @@ public class SongPlayInfo {
     private boolean isPlaying;//歌曲是否正在播放（正在唱着）
     private int progress;//歌曲当前播放进度
 
-    public SongPlayInfo(){
+    public SongPlayInfo(){}
+    
     public SongPlayInfo(SongInfo currentPlaySongInfo, boolean isPlaying, int progress){
         this.currentPlaySongInfo = currentPlaySongInfo;
         this.isPlaying = isPlaying;
