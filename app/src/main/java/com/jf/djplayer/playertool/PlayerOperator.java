@@ -64,6 +64,7 @@ public class PlayerOperator implements PlayInfoSubject{
             synchronized (PlayerOperator.class){
                 if(playerOperator==null) {
                     playerOperator = new PlayerOperator();
+                    MyApplication.printLog("创建单例");
                 }
             }
         }
@@ -188,6 +189,7 @@ public class PlayerOperator implements PlayInfoSubject{
 //        在释放掉当前对象
         if(playerOperator!=null) {
             playerOperator = null;
+            MyApplication.printLog("销毁单例");
         }
     }
 

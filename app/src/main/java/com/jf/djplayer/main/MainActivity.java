@@ -19,6 +19,7 @@ import com.jf.djplayer.service.PlayerService;
 
 
 import java.util.List;
+import java.util.Stack;
 
 /**
  * 主界面-外层容器
@@ -28,10 +29,12 @@ import java.util.List;
  * 实现几个回调接口
  *
  */
-public class MainActivity extends BaseNoTitleActivity implements FragmentChanger, PlayControls, ServiceConnection{
+public class MainActivity extends BaseNoTitleActivity
+        implements FragmentChanger, PlayControls, ServiceConnection, ExitDialog.ExitDialogListener{
 
-    private FragmentManager fragmentManager;
-    private PlayerService playerService;
+    private FragmentManager fragmentManager;//动态修改"Fragment"的管理器
+    private PlayerService playerService;//后台控制播放用的服务
+    private Stack<String> fragmentStacks;//记录每个添加到"Activity"里的"Fragment"类名
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,31 +52,25 @@ public class MainActivity extends BaseNoTitleActivity implements FragmentChanger
     }
 
     @Override
-    protected void initView() {
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.fl_activity_main_fragment_container,new MainFragment()).commit();
-    }
-
-    @Override
     protected void initExtrasBeforeView() {
 //        通过两个方式启动服务确保解绑之后服务不会关闭
         Intent startService = new Intent(this,PlayerService.class);
         startService(startService);
-        bindService(startService,this,BIND_AUTO_CREATE);
-////        创建应用在外存的相关目录
-//        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-//            appDirInit();
-//        }else{
-//            Toast.makeText(this, "SD卡读取失败，请确定已正确插入", Toast.LENGTH_SHORT).show();
-//        }
+        bindService(startService, this, BIND_AUTO_CREATE);
+
+        //初始化堆栈
+        fragmentStacks = new Stack<>();
     }
 
-//    //创建应用在外存的相关目录
-//    private void appDirInit(){
-//        FileTool fileTool = new FileTool(this);
-//        fileTool.createAppRootDir();//创建应用的根目录
-//        fileTool.appDirInit();//创建应用所需要的各个路径
-//    }
+    @Override
+    protected void initView() {
+        //动态加载主页面的"Fragment"
+        fragmentManager = getSupportFragmentManager();
+        Fragment fragment = new MainFragment();
+        //将加载的"Fragment"名字放进堆栈里面
+        fragmentManager.beginTransaction().add(R.id.fl_activity_main_fragment_container,new MainFragment()).commit();
+        fragmentStacks.push(fragment.getClass().getSimpleName());
+    }
 
     @Override
     protected void onDestroy() {
@@ -86,6 +83,13 @@ public class MainActivity extends BaseNoTitleActivity implements FragmentChanger
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
             //如果现在已经在主页面，显示退出的提示框
+            if(fragmentStacks.peek().equals(MainFragment.class.getSimpleName())){
+                new ExitDialog().show(fragmentManager, "ExitDialog");
+                return true;
+            }else{
+                //否则，将堆栈里"Fragment"类名出栈，让堆栈和"FragmentManager"保持同步
+                fragmentStacks.pop();
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -95,6 +99,7 @@ public class MainActivity extends BaseNoTitleActivity implements FragmentChanger
     @Override
     public void replaceFragments(Fragment fragment) {
         fragmentManager.beginTransaction().replace(R.id.fl_activity_main_fragment_container,fragment).addToBackStack(null).commit();
+        fragmentStacks.push(fragment.getClass().getSimpleName());
     }
 
 
@@ -103,6 +108,7 @@ public class MainActivity extends BaseNoTitleActivity implements FragmentChanger
     @Override
     public void popFragments() {
         fragmentManager.popBackStack();
+        fragmentStacks.pop();
     }
 
 
@@ -153,5 +159,12 @@ public class MainActivity extends BaseNoTitleActivity implements FragmentChanger
     @Override
     public void onServiceDisconnected(ComponentName name) {
 
+    }
+
+    //"ExitDialog"里的接口方法重写
+    @Override
+    public void exitApp() {
+        playerService.stopSelf();
+        finish();
     }
 }

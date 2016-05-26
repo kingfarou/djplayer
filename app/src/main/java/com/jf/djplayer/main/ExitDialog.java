@@ -6,8 +6,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.other.MyApplication;
 
 /**
  * Created by JF on 2016/5/22.
@@ -23,7 +25,12 @@ public class ExitDialog extends DialogFragment{
                 .setPositiveButton("退出", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        FragmentActivity fragmentActivity = getActivity();
+                        if (!(fragmentActivity instanceof ExitDialogListener)) {
+                            MyApplication.printLog("\"ExitDialog\"宿主应实现\"ExitDialogListener\"接口");
+                            return;
+                        }
+                        ((ExitDialogListener)fragmentActivity).exitApp();
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -33,5 +40,15 @@ public class ExitDialog extends DialogFragment{
                     }
                 });
         return builder.create();
+    }
+
+    /**
+     * "ExitDialog"对宿主的回调接口
+     */
+    public interface ExitDialogListener{
+        /**
+         * 退出当前的应用
+         */
+        public void exitApp();
     }
 }
