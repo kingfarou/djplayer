@@ -111,7 +111,7 @@ public class PlayerService extends Service implements PlayInfoObserver{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        MyApplication.printLog("创建服务");
+        MyApplication.printLog("销毁服务");
         playerOperator.over();//结束音频控制所有服务
         playInfoNotification.cancelNotification();//关闭相关歌曲信息通知
     }

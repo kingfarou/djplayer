@@ -29,13 +29,15 @@ import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.tool.RemindUiUpdateThread;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Created by Administrator on 2015/8/22.
  * 播放控制底边栏
  */
 public class BottomFragment extends Fragment implements PlayInfoObserver,View.OnClickListener{
 
-//    view成员变量
+    //view成员变量
     private View viewLayout;//这是当前Fragment布局文件
     private ImageView singerPicture;//这个表示歌手图片
     private TextView songNameTv;//歌名
@@ -46,22 +48,21 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
     private ImageButton menuButton;//菜单
     private ProgressBar progressBar;
 
-//    功能类的成员变量
+    //功能类的成员变量
     private SongInfo lastSongInfo;//这个保存主题上次传进来的歌曲信息
-    private RemindUiUpdateThread remindUiUpdateThread;
-    private Handler updateProgressHandler;
     private PlayController playController;//音乐播放的控制者（其实就是当前活动）
     private PlayInfoSubject playInfoSubject;//所观察的那个主题
+    private final UpdateProgressHandler updateProgressHandler = new UpdateProgressHandler(this);
 
-
+    private final int FLAG_UPDATE_PROGRESS = 0x0004;//"Handler"里更新播放进度标记
+    private final int UPDATE_TIME = 200;//"Handler"更新播放进度间隔时间
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.viewLayout = inflater.inflate(R.layout.fragment_bottom, container, false);
-        viewInit();//界面信息的初始化
-        handlerInits();//处理进度的Handler的初始化
-//        添加观察者到主题里面
+        initView();//界面信息的初始化
+        //添加观察者到主题里面
         playInfoSubject = PlayerOperator.getInstance();
 
         return viewLayout;
@@ -87,15 +88,12 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         super.onStop();
 //        当用户不再看到界面了执行以下操作
         playInfoSubject.removeObserver(this);//将自己从主题里面移除出去
-        if(remindUiUpdateThread !=null) {
-            remindUiUpdateThread.run = false;
-            remindUiUpdateThread = null;
-        }
+        updateProgressHandler.continueSendMessage = false;
     }
 
     //    找到控件以及设置相关的监听器
-    private void viewInit() {
-//        找到布局文件里的控件
+    private void initView() {
+        //找到布局文件里的控件
         linearLayout = (LinearLayout)viewLayout.findViewById(R.id.ll_fragment_bottom);
         singerPicture = (ImageView) viewLayout.findViewById(R.id.iv_fragment_bottom_singer_picture);
         progressBar = (ProgressBar)viewLayout.findViewById(R.id.pb_fragment_bottom_control);
@@ -112,21 +110,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         linearLayout.setOnClickListener(this);
     }
 
-    private void handlerInits(){
-        updateProgressHandler = new Handler(){
-
-            @Override
-            public void handleMessage(Message msg) {
-                if(msg.what == SendSongPlayProgress.updateProgress){
-//                    progressBar.setProgress(playInfoSubject.getCurrentPosition());
-                    progressBar.setProgress(playInfoSubject.getSongPlayInfo().getProgress());
-                }
-                super.handleMessage(msg);
-            }//handleMessage
-        };
-    }//handlerInits
-
-//    点击事件回调方法
+    //点击事件回调方法
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -136,8 +120,6 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         }
         SongPlayInfo songPlayInfo = playInfoSubject.getSongPlayInfo();
         if(id == R.id.ib_fragment_bottom_control_play){
-            //if(playController.isPlaying()) playController.pause();
-            //else playController.play();
             songPlayInfo = playInfoSubject.getSongPlayInfo();
             if(songPlayInfo == null){
                 MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
@@ -187,23 +169,49 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         progressBar.setMax(currentSongInfo.getSongDuration());
     }
 
-//    如果歌曲正在播放调此方法
+    //当收到了观察者的通知，如果歌曲正在播放，调此方法
     private void playSettings(){
+        //设置按钮的图案为暂停图案
         playButton.setImageResource(R.drawable.fragment_bottom_pause);
-        //开启一个新的线程刷新的进度条
-        if(remindUiUpdateThread ==null){
-            remindUiUpdateThread = new RemindUiUpdateThread(updateProgressHandler,100);
-            remindUiUpdateThread.start();
-        }
+        //设置发小消息标记 == true
+        updateProgressHandler.continueSendMessage = true;
+        //发送一个延迟消息
+        updateProgressHandler.sendEmptyMessageDelayed(FLAG_UPDATE_PROGRESS, UPDATE_TIME);
     }
 
-//    如果歌曲没有播放调此方法
+    //当接收到观察者的消息，如果歌曲已经暂停，调此方法
     private void pauseSettings(){
+        //设置图案为播放的图案
         playButton.setImageResource(R.drawable.fragment_bottom_play);
-        if(remindUiUpdateThread !=null){
-            remindUiUpdateThread.run = false;
-            remindUiUpdateThread = null;
+        //修改标记让"Handler"停止继续更新消息
+        updateProgressHandler.continueSendMessage = false;
+    }
+
+    //用来更新进度条用的内部类
+    private static class UpdateProgressHandler extends Handler{
+        private final WeakReference<BottomFragment> fragmentWeakReference;
+        boolean continueSendMessage = false;//这个标记用来让外部类控制是否继续发送延迟消息
+        public UpdateProgressHandler(BottomFragment bottomFragment){
+            fragmentWeakReference = new WeakReference<>(bottomFragment);
         }
+
+        @Override
+        public void handleMessage(Message msg) {
+            BottomFragment bottomFragment = fragmentWeakReference.get();
+            if(bottomFragment == null){
+                super.handleMessage(msg);
+                return;
+            }
+            //更新当前界面进度
+            if(msg.what == 0x0004){
+                bottomFragment.progressBar.setProgress(bottomFragment.playInfoSubject.getSongPlayInfo().getProgress());
+            }
+            //如果需要继续发送延迟消息，重新发送
+            if(continueSendMessage){
+                sendEmptyMessageDelayed(bottomFragment.FLAG_UPDATE_PROGRESS, bottomFragment.UPDATE_TIME);
+            }
+            super.handleMessage(msg);
+        }//handleMessage
     }
 }
 

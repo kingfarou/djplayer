@@ -8,7 +8,10 @@ import android.widget.Toast;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseactivity.BaseNoTitleActivity;
+import com.jf.djplayer.other.MyApplication;
 import com.jf.djplayer.tool.FileTool;
+
+import java.lang.ref.WeakReference;
 
 
 /**
@@ -17,6 +20,7 @@ import com.jf.djplayer.tool.FileTool;
  */
 public class WelcomeActivity extends BaseNoTitleActivity {
 
+    private final StartMainActivityThread startMainActivityThread = new StartMainActivityThread(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,8 @@ public class WelcomeActivity extends BaseNoTitleActivity {
     @Override
     protected void initExtrasBeforeView() {
 //        使用异步任务来完成到"MainActivity"跳转
-        new StartMainActivityThread().start();
+//        new StartMainActivityThread().start();
+        startMainActivityThread.start();
     }
 
     @Override
@@ -51,20 +56,30 @@ public class WelcomeActivity extends BaseNoTitleActivity {
     }
 
 
-    private class StartMainActivityThread extends Thread{
+    private static class StartMainActivityThread extends Thread{
+
+        private final WeakReference<WelcomeActivity> activityWeakReference;
+
+        public StartMainActivityThread(WelcomeActivity welcomeActivity){
+            activityWeakReference = new WeakReference<>(welcomeActivity);
+        }
+
         @Override
         public void run() {
-            super.run();
-            //创建应用在外存的相关目录
-            appDirInit();
-//            两秒钟后启动主活动
+            WelcomeActivity welcomeActivity = activityWeakReference.get();
+            if(welcomeActivity == null){
+                return;
+            }
+            //创建应用所需要的路径
+            welcomeActivity.appDirInit();
+            //两秒钟后启动主活动
             try{
                 Thread.sleep(2000L);
             }catch (InterruptedException e){
-                Log.i("test","报错位置----"+WelcomeActivity.class);
+                MyApplication.printLog("异常--位置--"+WelcomeActivity.class.getSimpleName());
             }
-            startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
-            finish();//启动完成关闭当前活动
+            welcomeActivity.startActivity(new Intent(welcomeActivity,MainActivity.class));
+            welcomeActivity.finish();//启动完成关闭当前活动
         }
     }//StartMainActivityThread
 }
