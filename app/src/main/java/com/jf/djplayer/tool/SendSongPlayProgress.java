@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.jf.djplayer.interfaces.PlayInfoSubject;
+import com.jf.djplayer.module.SongPlayInfo;
 
 /**
  * Created by JF on 2016/2/9.
@@ -38,7 +39,7 @@ public class SendSongPlayProgress implements Runnable {
 //        Log.i("test","线程开始");
         Message playProgressMessage = new Message();
         playProgressMessage.what = updateProgress;//这是要更新的事件信息
-        lastPosition = playInfoSubject.getCurrentPosition();
+        lastPosition = playInfoSubject.getSongPlayInfo().getProgress();
         playProgressMessage.arg1 = lastPosition;//这是要更新的进度
         sendTheProgressHandler.sendMessage(playProgressMessage);
         playProgressMessage = null;//消息发送出去之后变量置空
@@ -50,9 +51,9 @@ public class SendSongPlayProgress implements Runnable {
             }
 //            如果间隔时长大于客户端的指定时长
 //            发送
-            if(lastPosition+intervalTime<=playInfoSubject.getCurrentPosition()){
-                lastPosition = playInfoSubject.getCurrentPosition();//刷新最后一次进度
-                playProgressMessage.arg1 = playInfoSubject.getCurrentPosition();
+            if(lastPosition+intervalTime<=playInfoSubject.getSongPlayInfo().getProgress()){
+                lastPosition = playInfoSubject.getSongPlayInfo().getProgress();//刷新最后一次进度
+                playProgressMessage.arg1 = playInfoSubject.getSongPlayInfo().getProgress();
                 sendTheProgressHandler.sendMessage(playProgressMessage);
                 playProgressMessage = null;
             }

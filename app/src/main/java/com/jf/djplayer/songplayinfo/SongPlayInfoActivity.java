@@ -22,6 +22,7 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.SongPlayInfoAdapter;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
+import com.jf.djplayer.module.SongPlayInfo;
 import com.jf.djplayer.service.PlayerService;
 import com.jf.djplayer.tool.RemindUiUpdateThread;
 import com.jf.djplayer.tool.SendSongPlayProgress;
@@ -83,12 +84,6 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         return R.layout.activity_song_play_info;
     }
 
-    @Override
-    protected void initView() {
-        initWidget();//调用方法对视图初始化
-        initViewPager();//对ViewPager做初始化
-        initHandler();//对Handler做初始化
-    }
 
     @Override
     protected void initExtrasBeforeView() {
@@ -96,6 +91,13 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         bindService(intent, this, Context.BIND_AUTO_CREATE);
 //        获取更新播放信息用的主题
         mPlayInfoSubject = PlayerOperator.getInstance();
+    }
+
+    @Override
+    protected void initView() {
+        initWidget();//调用方法对视图初始化
+        initViewPager();//对ViewPager做初始化
+        initHandler();//对Handler做初始化
     }
 
     @Override
@@ -110,7 +112,6 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     protected void onStop() {
         super.onStop();
         mPlayInfoSubject.removeObserver(this);//从主题里移除当前活动
-
         // 如果更新进度的子线程还在工作将其关闭
         if(remindUiUpdateThread !=null){
             remindUiUpdateThread.run = false;
@@ -157,8 +158,10 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == SendSongPlayProgress.updateProgress) {
-                    seekBar.setProgress(mPlayInfoSubject.getCurrentPosition());
-                    tv_current_time.setText(getTime(mPlayInfoSubject.getCurrentPosition()));
+//                    seekBar.setProgress(mPlayInfoSubject.getCurrentPosition());
+//                    tv_current_time.setText(getTime(mPlayInfoSubject.getCurrentPosition()));
+                    seekBar.setProgress(mPlayInfoSubject.getSongPlayInfo().getProgress());
+                    tv_current_time.setText(getTime(mPlayInfoSubject.getSongPlayInfo().getProgress()));
                 }
                 super.handleMessage(msg);
             }
@@ -201,7 +204,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     }
 
 
-//    覆盖与服务相关的方法
+    /*"ServiceConnection"方法实现_开始*/
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
 //        Log.i("test","绑定服务");
@@ -212,8 +215,9 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     public void onServiceDisconnected(ComponentName name) {
 
     }
+    /*"ServiceConnection"方法实现_结束*/
 
-//    FragmentTitleListener
+    /*"FragmentTitleListener"方法实现_开始*/
 //    里面几个监听方法覆盖
     @Override
     public void onTitleClick() {
@@ -229,43 +233,64 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     public void onMoreIvOnclick() {
 
     }
+    /*"FragmentTitleListener"方法实现_结束*/
 
 //    点击事件监听方法
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
-            //左上角的返回按钮
-            case R.id.iv_activity_song_play_info_return:finish();break;
-            //点击修改播放模式
-            case R.id.iv_activity_song_play_info_play_mode:setNewPlayMode();break;
-            //点击播放前一首歌
-            case R.id.iv_previous_song:playerService.previousSong();break;
-            //点击播放或者暂停
-            case R.id.iv_play_or_pause:
-                if (playerService.isPlaying()) {
-                    playerService.pause();
-                } else {
-                    playerService.play();
-                }
-                break;
-            //点击播放下一首歌
-            case R.id.iv_next_song:playerService.nextSong();break;
-            //收藏或者取消收藏
-            case R.id.iv_collection:
-                SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(SongPlayInfoActivity.this);
-                if (lastSongInfo.getCollection() == 0) {
-                    lastSongInfo.setCollection(1);
-                    songInfoOpenHelper.updateCollection(lastSongInfo, 1);
-                    iv_collection.setImageResource(R.drawable.activity_song_play_info_collection);
-                } else {
-                    lastSongInfo.setCollection(0);
-                    songInfoOpenHelper.updateCollection(lastSongInfo, 0);
-                    iv_collection.setImageResource(R.drawable.activity_song_play_info_no_collection);
-                }
-                break;
-            default:break;
+        int id = v.getId();
+        //如果点击左上角的返回按钮
+        if(id == R.id.iv_activity_song_play_info_return){
+            finish();
+            return;
         }
-
+        //如果点击修改播放模式那个按钮
+        if(id == R.id.iv_activity_song_play_info_play_mode){
+            setNewPlayMode();
+            return;
+        }
+        //如果点击收藏按钮
+        if(id == R.id.iv_collection){
+            SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(SongPlayInfoActivity.this);
+            if(lastSongInfo == null){
+                return;
+            }
+            if (lastSongInfo.getCollection() == 0) {
+                lastSongInfo.setCollection(1);
+                songInfoOpenHelper.updateCollection(lastSongInfo, 1);
+                iv_collection.setImageResource(R.drawable.activity_song_play_info_collection);
+            } else {
+                lastSongInfo.setCollection(0);
+                songInfoOpenHelper.updateCollection(lastSongInfo, 0);
+                iv_collection.setImageResource(R.drawable.activity_song_play_info_no_collection);
+            }
+            return;
+        }
+        //获取当前播放信息
+        SongPlayInfo songPlayInfo = mPlayInfoSubject.getSongPlayInfo();
+        //如果当前没有播放信息，直接返回，后面前一曲、播放暂停、下一曲的操作都不用做
+        if(songPlayInfo == null){
+            return;
+        }
+        //如果点击播放前一曲的按钮
+        if(id == R.id.iv_previous_song){
+            playerService.previousSong();
+            return;
+        }
+        //如果点击播放或者暂停按钮
+        if(id == R.id.iv_play_or_pause){
+            if(songPlayInfo.isPlaying()){
+                playerService.pause();
+            }else{
+                playerService.play();
+            }
+            return;
+        }
+        //如果点击播放下一曲的按钮
+        if(id == R.id.iv_next_song){
+            playerService.nextSong();
+            return;
+        }
     }//onClick
 
 //    根据当前播放模式设置新的播放模式以及图片
@@ -324,54 +349,53 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
 
     }
 
-
-    //这个是对观察者接口的方法实现
     @Override
-    public void updatePlayInfo(final SongInfo currentPlaySongInfo, final boolean isPlaying, int progress) {
-//        如果没有任何歌曲被选中的直接返回
-        if(currentPlaySongInfo == null) {
+    public void updatePlayInfo(SongPlayInfo songPlayInfo) {
+        //如果没有任何歌曲被选中的直接返回
+        if(songPlayInfo == null || songPlayInfo.getSongInfo() == null) {
             return;
         }
-        tv_current_time.setText(getTime(progress));//设置当前播放时长
-        seekBar.setProgress(progress);//设置当前播放进度
+        SongInfo songInfo = songPlayInfo.getSongInfo();//获取当前歌曲信息
+        tv_current_time.setText(getTime(songPlayInfo.getProgress()));//设置当前播放时长
+        seekBar.setProgress(songPlayInfo.getProgress());//设置当前播放进度
 //        如果原来没有播放任何歌曲，或者原来所播放的歌曲和现在的不同
-        if(lastSongInfo==null||!lastSongInfo.getSongAbsolutePath().equals(currentPlaySongInfo.getSongAbsolutePath())){
-            setNewPlayInfo(currentPlaySongInfo);//设置新的歌曲信息
-            lastSongInfo = currentPlaySongInfo;//更新当前播放的那首歌
+        if(lastSongInfo==null||!lastSongInfo.getSongAbsolutePath().equals(songInfo.getSongAbsolutePath())){
+            setNewPlayInfo(songInfo);//设置新的歌曲信息
+            lastSongInfo = songInfo;//更新当前播放的那首歌
         }
 //        根据播放与否进行不同设置
-        if(isPlaying) {
+        if(songPlayInfo.isPlaying()) {
             playSettings();
         }
         else {
             notPlaySettings();
         }//if(isPlaying)
         //根据收藏与否进行不同设置
-        if(currentPlaySongInfo.getCollection() == 1){
+        if(songInfo.getCollection() == SongInfo.IS_COLLECTION){
             iv_collection.setImageResource(R.drawable.activity_song_play_info_collection);
         }else {
             iv_collection.setImageResource(R.drawable.activity_song_play_info_no_collection);
         }
-    }//updatePlayInfo
+    }
 
-//    用来更换新的歌曲信息
-    private void setNewPlayInfo(SongInfo currentPlaySongInfo){
+    //    用来更换新的歌曲信息
+    private void setNewPlayInfo(SongInfo songInfo){
 //        设置所播放的歌曲名字
 //        FragmentTitleLayout.setTitleText(currentPlaySongInfo.getSongName());
-        tv_song_name.setText(currentPlaySongInfo.getSongName());
-        tv_singer_name.setText(currentPlaySongInfo.getSingerName());
+        tv_song_name.setText(songInfo.getSongName());
+        tv_singer_name.setText(songInfo.getSingerName());
 //            设置当前歌手图片
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            SingerPictureTools singerPictureTools = new SingerPictureTools(currentPlaySongInfo.getSingerName());
+            SingerPictureTools singerPictureTools = new SingerPictureTools(songInfo.getSingerName());
             if(singerPictureTools.hasSingerPicture()) {
 //                ll_root_view.setBackground(singerPictureTools.getSingerPicture());
                 ll_root_view.setBackgroundDrawable(singerPictureTools.getSingerPicture());
             }
         }
 //            设置进度条最大值
-        seekBar.setMax(currentPlaySongInfo.getSongDuration());
+        seekBar.setMax(songInfo.getSongDuration());
 //            设置当前播放时长何总时长
-        tv_total_time.setText(getTime(currentPlaySongInfo.getSongDuration()));
+        tv_total_time.setText(getTime(songInfo.getSongDuration()));
     }
 
     //如果歌曲正在播放要进行的相关设置

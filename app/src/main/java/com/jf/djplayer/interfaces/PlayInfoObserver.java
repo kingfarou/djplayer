@@ -1,6 +1,7 @@
 package com.jf.djplayer.interfaces;
 
-import com.jf.djplayer.module.SongInfo;;
+import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.SongPlayInfo;;
 
 /**
  * Created by JF on 2016/1/28.
@@ -9,11 +10,10 @@ import com.jf.djplayer.module.SongInfo;;
  * 就要实现这个接口
  */
 public interface PlayInfoObserver {
+
     /**
-     * 观察者被通知用的方法
-     * @param currentPlaySongInfo 当前正播放的歌曲
-     * @param isPlaying 是否还在播放当中
-     * @param progress 进度（注意进度的单位是毫秒）
+     * 用来通知观察者的方法
+     * @param songPlayInfo 该对象包含正播放歌曲的歌曲信息、以及歌曲播放信息
      */
-    public void updatePlayInfo(SongInfo currentPlaySongInfo, boolean isPlaying, int progress);
+    public void updatePlayInfo(SongPlayInfo songPlayInfo);
 }

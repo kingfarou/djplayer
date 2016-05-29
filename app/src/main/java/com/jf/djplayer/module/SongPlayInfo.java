@@ -1,7 +1,5 @@
 package com.jf.djplayer.module;
 
-import com.jf.djplayer.module.SongInfo;
-
 /**
  * Created by JF on 2016/5/25.
  * 歌曲播放信息对象，
@@ -10,23 +8,23 @@ import com.jf.djplayer.module.SongInfo;
  */
 public class SongPlayInfo {
 
-    private SongInfo currentPlaySongInfo;//当前正播放的歌曲信息
+    private SongInfo songInfo;//当前正播放的歌曲信息
     private boolean isPlaying;//歌曲是否正在播放（正在唱着）
     private int progress;//歌曲当前播放进度
 
     public SongPlayInfo(){}
     
-    public SongPlayInfo(SongInfo currentPlaySongInfo, boolean isPlaying, int progress){
-        this.currentPlaySongInfo = currentPlaySongInfo;
+    public SongPlayInfo(SongInfo songInfo, boolean isPlaying, int progress){
+        this.songInfo = songInfo;
         this.isPlaying = isPlaying;
         this.progress = progress;
     }
 
-    public SongInfo getCurrentPlaySongInfo() {
-        return currentPlaySongInfo;
+    public SongInfo getSongInfo() {
+        return songInfo;
     }
-    public void setCurrentPlaySongInfo(SongInfo currentPlaySongInfo) {
-        this.currentPlaySongInfo = currentPlaySongInfo;
+    public void setSongInfo(SongInfo songInfo) {
+        this.songInfo = songInfo;
     }
 
     public boolean isPlaying() {

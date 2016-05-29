@@ -17,7 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.SongPlayInfo;
+import com.jf.djplayer.other.MyApplication;
 import com.jf.djplayer.songplayinfo.SongPlayInfoActivity;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.tool.SendSongPlayProgress;
@@ -88,7 +91,6 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
             remindUiUpdateThread.run = false;
             remindUiUpdateThread = null;
         }
-//        Log.i("test", "stop");
     }
 
     //    找到控件以及设置相关的监听器
@@ -116,7 +118,8 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
             @Override
             public void handleMessage(Message msg) {
                 if(msg.what == SendSongPlayProgress.updateProgress){
-                    progressBar.setProgress(playInfoSubject.getCurrentPosition());
+//                    progressBar.setProgress(playInfoSubject.getCurrentPosition());
+                    progressBar.setProgress(playInfoSubject.getSongPlayInfo().getProgress());
                 }
                 super.handleMessage(msg);
             }//handleMessage
@@ -126,44 +129,58 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
 //    点击事件回调方法
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.ll_fragment_bottom://如果点击整个底边的控制栏
-                startActivity(new Intent(getActivity(), SongPlayInfoActivity.class));
-                break;
-            case R.id.ib_fragment_bottom_control_play://如果点击播放或者暂停按钮
-                if(playController.isPlaying()) playController.pause();
-                else playController.play();
-                break;
-            case R.id.ib_fragment_bottom_control_next://如果点击下一曲的按钮
-                playController.nextSong();
-                break;
-            default:break;
+        int id = v.getId();
+        if(id == R.id.ll_fragment_bottom) {
+            startActivity(new Intent(getActivity(), SongPlayInfoActivity.class));
+            return;
+        }
+        SongPlayInfo songPlayInfo = playInfoSubject.getSongPlayInfo();
+        if(id == R.id.ib_fragment_bottom_control_play){
+            //if(playController.isPlaying()) playController.pause();
+            //else playController.play();
+            songPlayInfo = playInfoSubject.getSongPlayInfo();
+            if(songPlayInfo == null){
+                MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
+                return;
+            }
+            if(songPlayInfo.isPlaying()){
+                playController.pause();
+            }else {
+                playController.play();
+            }
+            return;
+        }
+        if(id == R.id.ib_fragment_bottom_control_next){
+            if(songPlayInfo == null){
+                MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
+                return;
+            }
+            playController.nextSong();
         }
     }
 
-    //    覆盖作为观察者的方法
+    /*覆盖作为观察者的方法__开始*/
     @Override
-    public void updatePlayInfo(final SongInfo currentPlaySongInfo, final boolean isPlaying, final int progress) {
-//        如果没有任何歌曲选中直接返回
-        if (currentPlaySongInfo==null) {
+    public void updatePlayInfo(SongPlayInfo songPlayInfo) {
+        // 如果没有任何歌曲选中直接返回
+        if (songPlayInfo == null || songPlayInfo.getSongInfo() == null) {
             return;
         }
-//        如果原来没有播放任何歌曲
-//        或者原来所播放的歌曲和现在的不同
-        if(lastSongInfo==null||!lastSongInfo.getSongAbsolutePath().equals(currentPlaySongInfo.getSongAbsolutePath())){
-            setNewPlayInfo(currentPlaySongInfo);
+        //如果原来没有播放任何歌曲，或者原来所播放的歌曲和现在的不同
+        if(lastSongInfo ==null || !songPlayInfo.getSongInfo().getSongAbsolutePath().equals(lastSongInfo.getSongAbsolutePath())){
+            setNewPlayInfo(songPlayInfo.getSongInfo());
         }
-        if(isPlaying) {
+        if(songPlayInfo.isPlaying()) {
             playSettings();
         }
         else {
             pauseSettings();
         }//if(isPlaying)
-        progressBar.setProgress(progress);//设置当前播放进度
-        lastSongInfo = currentPlaySongInfo;//更新当前播放的那首歌
+        progressBar.setProgress(songPlayInfo.getProgress());//设置当前播放进度
+        lastSongInfo = songPlayInfo.getSongInfo();//更新当前播放的那首歌
     }
 
-//    更新歌曲名字歌手名字和进度条的最大值
+    //    更新歌曲名字歌手名字和进度条的最大值
     private void setNewPlayInfo(SongInfo currentSongInfo){
         songNameTv.setText(currentSongInfo.getSongName());
         songArtistTv.setText(currentSongInfo.getSingerName());
@@ -173,7 +190,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
 //    如果歌曲正在播放调此方法
     private void playSettings(){
         playButton.setImageResource(R.drawable.fragment_bottom_pause);
-//                开启一个新的线程刷新的进度条
+        //开启一个新的线程刷新的进度条
         if(remindUiUpdateThread ==null){
             remindUiUpdateThread = new RemindUiUpdateThread(updateProgressHandler,100);
             remindUiUpdateThread.start();

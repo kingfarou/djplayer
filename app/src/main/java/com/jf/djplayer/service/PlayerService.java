@@ -7,10 +7,12 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.jf.djplayer.module.SongPlayInfo;
 import com.jf.djplayer.other.IntentConstant;
 import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
+import com.jf.djplayer.other.MyApplication;
 import com.jf.djplayer.playertool.PlayInfoNotification;
 import com.jf.djplayer.playertool.PlayerOperator;
 
@@ -23,7 +25,7 @@ import java.util.List;
  */
 public class PlayerService extends Service implements PlayInfoObserver{
 
-    private List<SongInfo> songInfoList;//保存当前正播放的歌曲列表
+//    private List<SongInfo> songInfoList;//保存当前正播放的歌曲列表
     private PlayerOperator playerOperator;//用这个类控制音乐播放
     private PlayInfoNotification playInfoNotification;
     private SongInfoOpenHelper songInfoOpenHelper;//用来更新歌曲最后一次播放时间
@@ -35,6 +37,7 @@ public class PlayerService extends Service implements PlayInfoObserver{
     @Override
     public void onCreate() {
         super.onCreate();
+        MyApplication.printLog("创建服务");
 //        Log.i("test","--PlayerService--onCreate");
         //音乐播放工具类初始化
         playerOperator = PlayerOperator.getInstance();
@@ -48,19 +51,20 @@ public class PlayerService extends Service implements PlayInfoObserver{
 //        registerReceivers();
     }
 
+    /*"PlayInfoObserver"方法实现_开始*/
     @Override
-    public void updatePlayInfo(SongInfo currentPlaySongInfo, boolean isPlaying, int progress) {
-        if(currentPlaySongInfo == null) {
+    public void updatePlayInfo(SongPlayInfo songPlayInfo) {
+        if(songPlayInfo == null || songPlayInfo.getSongInfo() == null) {
             return;
         }
-
         //只有歌曲播放了才需要更新最后一次播放时间
-        if(isPlaying){
-            songInfoOpenHelper.setLastPlayTime(currentPlaySongInfo, System.currentTimeMillis());
+        if(songPlayInfo.isPlaying()){
+            songInfoOpenHelper.setLastPlayTime(songPlayInfo.getSongInfo(), System.currentTimeMillis());
         }
         //不论歌曲是否播放，都要更新通知栏的信息
-        playInfoNotification.updateNotification(currentPlaySongInfo, isPlaying);
+        playInfoNotification.updateNotification(songPlayInfo.getSongInfo(), songPlayInfo.isPlaying());
     }
+    /*"PlayInfoObserver"方法实现_结束*/
 
     /**
      * 该类用于返回当前服务对象实例
@@ -107,7 +111,7 @@ public class PlayerService extends Service implements PlayInfoObserver{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("test", "服务销毁");
+        MyApplication.printLog("创建服务");
         playerOperator.over();//结束音频控制所有服务
         playInfoNotification.cancelNotification();//关闭相关歌曲信息通知
     }
@@ -122,16 +126,11 @@ public class PlayerService extends Service implements PlayInfoObserver{
         if(songInfoList == null || playPosition<0 || playPosition>=songInfoList.size()){
             return;
         }
-//        Log.i("test","服务开始播放歌曲");
-        this.songInfoList = songInfoList;//服务保存当前播放列表
+//        this.songInfoList = songInfoList;//服务保存当前播放列表
         playerOperator.play(songInfoList, playPosition);//播放
     }
 
-
-    /*
-    以下方法都是用来供给绑定该服务的活动用的
-     */
-
+    /*供给绑定服务的"Activity"用的方法_开始*/
     /**
      * 播放歌曲，播放那些被暂停的歌曲
      */
@@ -139,7 +138,6 @@ public class PlayerService extends Service implements PlayInfoObserver{
         playerOperator.setCanPlay(true);
         playerOperator.play();
     }
-
 
     /**
      * 暂停播放
@@ -154,7 +152,6 @@ public class PlayerService extends Service implements PlayInfoObserver{
      */
     public void nextSong(){
         playerOperator.nextSong();
-//        playInfoNotification.updateNotification(playerOperator.getCurrentSongInfo());
     }
 
     public int getCurrentPosition(){
@@ -177,21 +174,13 @@ public class PlayerService extends Service implements PlayInfoObserver{
     }
 
     /**
-     * 获取当前正播放的歌曲信息
-     * @return 歌曲信息
-     */
-    public SongInfo getSongInformation(){
-//        Log.i("test","getSongInformation");
-        return playerOperator.getCurrentSongInfo();
-    }
-
-    /**
      * 获取当前正播放的音乐列表
      * @return 歌曲列表
      */
     public List getSongList(){
-        return songInfoList;
+        return playerOperator.getSongInfoList();
     }
 
+    /*供给邦迪服务的"Activity"用的方法_结束*/
 
 }

@@ -5,7 +5,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.jf.djplayer.module.SongInfo;
@@ -22,22 +21,22 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2015/8/23.
- * 该类是一个强化版MediaPlayer
- * 在MediaPlayer功能之上，添加作为观察者的功能
- * 同时覆盖了MediaPlayer部分功能
+ * 歌曲播放的控制类
+ * 该类以装饰的方式，在"MediaPlayer"类的基础上，添加App需要的功能
+ * 同时该类是"PlayInfoSubject"接口实现类
+ * 同时，该类使用单例模式
  * 可以传入一个列表歌曲信息，以及当前所选中的歌曲位置
  * 能够进行各种播放模式
  * 只有后台播放的服务类能与该类进行通信
  */
 public class PlayerOperator implements PlayInfoSubject{
 
-    private volatile static PlayerOperator playerOperator;
+    private volatile static PlayerOperator playerOperator;//单例引用
     private List<SongInfo> songInfoList;//当前所播放的歌曲列表
-    private Context mContext;
-    private MediaPlayer mMediaPlayer;
+    private Context mContext;//上下文
+    private MediaPlayer mMediaPlayer;//系统媒体的播放类
     private List<PlayInfoObserver> playInfoObserverList;//这个是观察者列表
-    private SongInfo lastSongInfo;//记录最后一次播放的歌
-    private SongPlayInfo songPlayInfo;//歌曲播放信息对象
+    private SongPlayInfo songPlayInfo;//该对象封装当前正播放的歌曲的信息
     private int lastPosition = -1;//用来记录最新播放歌曲的位置的
     private boolean canPlay = false;//当音频焦点变化时根据它来判定是否可以播放
 
@@ -75,54 +74,50 @@ public class PlayerOperator implements PlayInfoSubject{
 
 
     /**
-     * 一旦用户点击列表上的歌曲
-     * 就会调用这个方法
-     * @param songInfoList 被管理的歌曲信息
-     * @param playPosition 用户所点击的歌曲位置
+     * 播放指定列表里的指定位置歌曲
+     * @param songInfoList 要播放的歌曲列表
+     * @param playPosition 要播放的歌曲在列表的位置
      */
     public void play(List<SongInfo> songInfoList, int playPosition){
         if(songInfoList == null || playPosition<0 || playPosition>=songInfoList.size()){
             return;
         }
-        this.songInfoList = songInfoList;//保存当前播放列表
-        songPlayInfo = new SongPlayInfo(songInfoList.get(playPosition), false, 0);
-//        如果原来没有播放任何歌曲
-        if (lastSongInfo == null){
+        //如果原来没有播放任何歌曲
+        if(songPlayInfo == null){
+            //构建新的歌曲播放信息对象
+            songPlayInfo = new SongPlayInfo(songInfoList.get(playPosition), false, 0);
             try{
-                //与播放相关的设置工作
-//                setDataSource(mContext, fileUri);
-                mMediaPlayer.setDataSource(new File(songInfoList.get(playPosition).getSongAbsolutePath()).getAbsolutePath());
+                File playFile = new File(songInfoList.get(playPosition).getSongAbsolutePath());
+                mMediaPlayer.setDataSource(playFile.getAbsolutePath());
                 mMediaPlayer.prepareAsync();
             }catch (IOException e){
-                Log.i("test","异常——"+e.toString()+"\n"+"位置——"+this.toString());
+                MyApplication.printLog("异常--"+e.toString()+"-位置-"+"playerOperator.play(List, int)方法");
                 Toast.makeText(mContext, "所点击的歌曲文件有误", Toast.LENGTH_SHORT).show();
             }
-        }//if(lastSongAbsolutePath==null)
-//        如果两次点击不同首歌
-        else if ( !songInfoList.get(playPosition).getSongAbsolutePath().equals(lastSongInfo.getSongAbsolutePath())){
-            songPlayInfo.setCurrentPlaySongInfo(songInfoList.get(playPosition));
-            songPlayInfo.setPlaying(false);
-            changeSong(songInfoList.get(playPosition).getSongAbsolutePath());//根据歌曲绝对路径更换歌曲
-        }
-        //如果两次点击同一首歌
-        else {
+        }else if( !songPlayInfo.getSongInfo().getSongAbsolutePath().equals(songInfoList.get(playPosition).getSongAbsolutePath()) ){
+            //如果两次点击播放不同歌曲
+            songPlayInfo.setSongInfo( songInfoList.get(playPosition) );//更新新的歌曲信息
+//            songPlayInfo.setPlaying(false);//重置当前播放状态
+//            songPlayInfo.setProgress(0);//重置当前播放进度
+            changeSong( songInfoList.get(playPosition).getSongAbsolutePath());//根据歌曲绝对路径更换歌曲
+        }else{
+            //如果两次点击同一首歌
             //如果歌曲正在播放那就暂停
             if (mMediaPlayer.isPlaying()){
                 this.pause();
-                songPlayInfo.setPlaying(false);
                 canPlay = false;//标记他是手动暂停
 //                isPlaying = false;
             }else{//否则的话继续播放
                 this.play();
-                songPlayInfo.setPlaying(true);
                 this.canPlay = true;
 //                isPlaying = true;
             }
         }
         this.canPlay = true;//修改允许播放标志
         //更新所选择的歌曲文件
-        lastSongInfo = songInfoList.get(playPosition);
-        lastPosition = playPosition;
+//        lastSongInfo = songInfoList.get(playPosition);
+        this.songInfoList = songInfoList;//保存当前播放列表
+        lastPosition = playPosition;//保存新选中的播放位置
     }
 
     public void setCanPlay(boolean canPlay){
@@ -157,9 +152,11 @@ public class PlayerOperator implements PlayInfoSubject{
      * 播放列表里面的下一首歌曲
      */
     public void nextSong() {
+        //记录新的歌曲信息
         lastPosition = (lastPosition + 1) % (songInfoList.size());
-        lastSongInfo = songInfoList.get(lastPosition);
-        changeSong(lastSongInfo.getSongAbsolutePath());
+        songPlayInfo.setSongInfo(songInfoList.get(lastPosition));
+        //变更要播放的歌曲
+        changeSong(songPlayInfo.getSongInfo().getSongAbsolutePath());
     }
 
     /**
@@ -173,10 +170,9 @@ public class PlayerOperator implements PlayInfoSubject{
         else {
             lastPosition = (lastPosition - 1) % songInfoList.size();
         }
-        //更换要播放的歌曲
-        lastSongInfo = songInfoList.get(lastPosition);
-        changeSong(lastSongInfo.getSongAbsolutePath());
-
+        //变更要播放的歌曲
+        songPlayInfo.setSongInfo(songInfoList.get(lastPosition));
+        changeSong(songPlayInfo.getSongInfo().getSongAbsolutePath());
     }
 
     /**
@@ -224,9 +220,8 @@ public class PlayerOperator implements PlayInfoSubject{
         }
     }
 
-//    作为观察者模式的主题所实现的几个方法
-
-    /**
+    /*"PlayInfoSubject"方法实现_开始*/
+     /**
      * 添加新的观察者来
      * @param playInfoObserver 实现了观察者接口的类
      */
@@ -234,51 +229,65 @@ public class PlayerOperator implements PlayInfoSubject{
     public void registerObserver(PlayInfoObserver playInfoObserver) {
         playInfoObserverList.add(playInfoObserver);
 //        对每一个新添加进的观察者单独发送一次通知
-        playInfoObserver.updatePlayInfo(lastSongInfo, mMediaPlayer.isPlaying(), getCurrentPosition());
+        playInfoObserver.updatePlayInfo(songPlayInfo);
     }
 
     /**
-     * 移除制定的观察着
-     * @param playInfoObserver
+     * 移除指定的观察者
+     * @param playInfoObserver 需要移除的观察者
      */
     @Override
     public void removeObserver(PlayInfoObserver playInfoObserver) {
         playInfoObserverList.remove(playInfoObserver);
     }
 
-//    开始播放或者暂停或者停止那时才会发送更新
+    //发送最新消息给观察者
     @Override
     public void notifyObservers() {
+        songPlayInfo.setPlaying(mMediaPlayer.isPlaying());
+        songPlayInfo.setProgress(mMediaPlayer.getCurrentPosition());
         for(PlayInfoObserver playInfoObserver:playInfoObserverList){
-            playInfoObserver.updatePlayInfo(lastSongInfo, mMediaPlayer.isPlaying(), getCurrentPosition());
+            playInfoObserver.updatePlayInfo(songPlayInfo);
         }
     }
+
+    /**
+     * 返回当前正播放的歌曲信息
+     * @return 如果当前没有播放任何歌曲，或者歌曲播放状态不可访问，将返回null。
+     * 否则，返回当前正播放的歌曲信息
+     */
+    @Override
+    public SongPlayInfo getSongPlayInfo() {
+        if(songPlayInfo == null){
+            return null;
+        }
+        boolean isPlaying;
+        try{
+            isPlaying = mMediaPlayer.isPlaying();
+        }catch (IllegalStateException e){
+            return null;
+        }
+        songPlayInfo.setProgress(mMediaPlayer.getCurrentPosition());
+        songPlayInfo.setPlaying(isPlaying);
+        return songPlayInfo;
+    }
+    /*"PlayInfoSubject"方法实现_结束*/
 
     /**
      * 获取当前歌曲播放进度
      * @return 当前歌曲播放进度（毫秒）
      */
-    @Override
     public int getCurrentPosition() {
         return mMediaPlayer.getCurrentPosition();
     }
 
-
-    /**
-     * return the information of the song which is playing now
-     * @return null if there no song be
-     *
-     */
-    @Override
-    public SongInfo getCurrentSongInfo() {
-        return lastSongInfo;
+    public List<SongInfo> getSongInfoList(){
+        return this.songInfoList;
     }
-
     /**
      * 返回歌曲是否正在播放
      * @return true:当前歌曲正在播放，false:歌曲暂停或者压根没有选择任何歌曲
      */
-    @Override
     public boolean isPlaying() {
         return mMediaPlayer.isPlaying();
     }
@@ -295,30 +304,24 @@ public class PlayerOperator implements PlayInfoSubject{
                 return;
             }
             if(focusChange==AudioManager.AUDIOFOCUS_GAIN){
-                Log.i("test", "重新获取音频焦点--"+PlayerAudioFocusChange.class);
+                MyApplication.printLog("重新获取音频焦点");
                 if (!mMediaPlayer.isPlaying() && PlayerOperator.this.canPlay) {
                     play();
                 }
             }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS){
-                Log.i("test","长期失去音频焦点--"+PlayerAudioFocusChange.class);
-                try{
-//                    if (mMediaPlayer.isPlaying()) {
-//                        mMediaPlayer.stop();
-//                        mMediaPlayer.release();
-//                    }
-                    //这里绝对不能调用"over()"方法，不然的话整个单例都会出现问题
-                    //over();
-                }catch (IllegalStateException illegalStateException){
-                    Log.i("test","异常——"+illegalStateException.toString()+"\n"+"位置——"+this.toString());
-                }
+                MyApplication.printLog("长期失去音频焦点");
+                //这里绝对不能调用"over()"方法，不然的话整个单例都会出现问题
+                //over();
             }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT){
                 //暂时失去音频焦点
                 //很可能在短时间内获得
 //                比如接听一个打进来的电话
-                Log.i("test", "暂时失去音频焦点");
-                if (mMediaPlayer.isPlaying()) PlayerOperator.this.pause();
+                MyApplication.printLog("暂时失去音频焦点");
+                if (mMediaPlayer.isPlaying()) {
+                    PlayerOperator.this.pause();
+                }
             }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK){
-                Log.i("test","暂时失去音频焦点允许小声播放");
+                MyApplication.printLog("暂时失去音频焦点允许小声播放");
                 if (mMediaPlayer.isPlaying()) {
                     mMediaPlayer.setVolume(0.1f, 0.1f);//降低当前音量大小
 //                    一秒钟后设置回去

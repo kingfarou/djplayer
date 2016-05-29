@@ -3,6 +3,9 @@ package com.jf.djplayer.other;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.jf.djplayer.base.baseactivity.BaseActivity;
 
 /**
  * Created by Administrator on 2015/7/20.
@@ -28,5 +31,9 @@ public class MyApplication extends Application {
      */
     public static void printLog(String info){
         Log.i("com.jf.djplayer.test", info);
+    }
+
+    public static void showToast(BaseActivity baseActivity, String content){
+        Toast.makeText(baseActivity, content, Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,6 +1,7 @@
 package com.jf.djplayer.interfaces;
 
 import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.SongPlayInfo;
 
 /**
  * Created by JF on 2016/1/28.
@@ -11,38 +12,25 @@ import com.jf.djplayer.module.SongInfo;
 public interface PlayInfoSubject {
 
     /**
-     * 向主题里面添加观察者
-     * @param playInfoObserver 实现了观察者接口的对象类
+     * 向"PlayInfoSubject"主题里添加观察者
+     * @param playInfoObserver 要添加的观察者对象
      */
     void registerObserver(PlayInfoObserver playInfoObserver);
 
     /**
-     * 将观察者从主题里移除
-     * @param playInfoObserver 实现了观察者接口的实现类
+     * 将观察者从"PlayInfoSubject"主题里移除
+     * @param playInfoObserver 要移除的观察者对象
      */
     void removeObserver(PlayInfoObserver playInfoObserver);
 
     /**
-     *
+     * 发送新消息给观察者
      */
     void notifyObservers();
-//    以下三个方法是方便于观察者主动拉去状态的
 
     /**
-     * 从主题里得到当前所播放的歌曲信息
-     * @return 返回当前所播放的歌曲信息对象，如果用户没有选择任何歌曲，则返回空
+     * PlayInfoObserver"对象主动拉取当前正播放的歌曲的信息和播放信息
+     * @return 返回当前正播放的歌曲的信息和播放信息
      */
-    SongInfo getCurrentSongInfo();
-
-    /**
-     * 返回当前是否有歌曲在播放
-     * @return true:如果有歌曲在播放,false:歌曲暂停或者没有选择任何歌曲
-     */
-    boolean isPlaying();
-
-    /**
-     * 获取当前播放进度
-     * @return 当前歌曲播放进度（毫秒）
-     */
-    int getCurrentPosition();
+    SongPlayInfo getSongPlayInfo();
 }
