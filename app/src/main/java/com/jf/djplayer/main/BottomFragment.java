@@ -23,11 +23,9 @@ import com.jf.djplayer.module.SongPlayInfo;
 import com.jf.djplayer.other.MyApplication;
 import com.jf.djplayer.songplayinfo.SongPlayInfoActivity;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
-import com.jf.djplayer.tool.SendSongPlayProgress;
 import com.jf.djplayer.playertool.PlayerOperator;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
-import com.jf.djplayer.tool.RemindUiUpdateThread;
 
 import java.lang.ref.WeakReference;
 
@@ -88,7 +86,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         super.onStop();
 //        当用户不再看到界面了执行以下操作
         playInfoSubject.removeObserver(this);//将自己从主题里面移除出去
-        updateProgressHandler.continueSendMessage = false;
+        updateProgressHandler.continueUpdateUI = false;
     }
 
     //    找到控件以及设置相关的监听器
@@ -174,7 +172,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         //设置按钮的图案为暂停图案
         playButton.setImageResource(R.drawable.fragment_bottom_pause);
         //设置发小消息标记 == true
-        updateProgressHandler.continueSendMessage = true;
+        updateProgressHandler.continueUpdateUI = true;
         //发送一个延迟消息
         updateProgressHandler.sendEmptyMessageDelayed(FLAG_UPDATE_PROGRESS, UPDATE_TIME);
     }
@@ -184,13 +182,13 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         //设置图案为播放的图案
         playButton.setImageResource(R.drawable.fragment_bottom_play);
         //修改标记让"Handler"停止继续更新消息
-        updateProgressHandler.continueSendMessage = false;
+        updateProgressHandler.continueUpdateUI = false;
     }
 
     //用来更新进度条用的内部类
     private static class UpdateProgressHandler extends Handler{
         private final WeakReference<BottomFragment> fragmentWeakReference;
-        boolean continueSendMessage = false;//这个标记用来让外部类控制是否继续发送延迟消息
+        boolean continueUpdateUI = false;//这个标记用来让外部类控制是否继续发送延迟消息
         public UpdateProgressHandler(BottomFragment bottomFragment){
             fragmentWeakReference = new WeakReference<>(bottomFragment);
         }
@@ -198,16 +196,18 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         @Override
         public void handleMessage(Message msg) {
             BottomFragment bottomFragment = fragmentWeakReference.get();
-            if(bottomFragment == null){
+            //如果界面为空指针，或者界面不需要去更新UI
+            if(bottomFragment == null || !continueUpdateUI){
                 super.handleMessage(msg);
                 return;
             }
             //更新当前界面进度
             if(msg.what == 0x0004){
+                if(bottomFragment.playInfoSubject == null){
+                    super.handleMessage(msg);
+                    return;
+                }
                 bottomFragment.progressBar.setProgress(bottomFragment.playInfoSubject.getSongPlayInfo().getProgress());
-            }
-            //如果需要继续发送延迟消息，重新发送
-            if(continueSendMessage){
                 sendEmptyMessageDelayed(bottomFragment.FLAG_UPDATE_PROGRESS, bottomFragment.UPDATE_TIME);
             }
             super.handleMessage(msg);
