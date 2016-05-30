@@ -17,12 +17,12 @@ import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.module.SongPlayInfo;
-import com.jf.djplayer.tool.RemindUiUpdateThread;
-import com.jf.djplayer.tool.SendSongPlayProgress;
+import com.jf.djplayer.other.MyApplication;
 import com.jf.djplayer.playertool.LyricTool;
 import com.jf.djplayer.playertool.PlayerOperator;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 
 /**
  * Created by JF on 2016/2/6.
@@ -31,13 +31,17 @@ import java.io.File;
 public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
 
     private View layoutView;//当前布局的根视图
-    private SongInfo lastSongInfo;
+    private SongInfo lastSongInfo;//保存最新歌曲信息
+
     private TextView topLineTv;//这是第一行的歌词
     private LyricTool lyricTool;//只是读取歌词用的工具
     private TextView bottomLineTv;//这个显示第二行的歌词
+
     private PlayInfoSubject playInfoSubject;//这是歌曲信息主题
-    private RemindUiUpdateThread remindUiUpdateThread;
-    private Handler updateUIHandler;
+    private Handler updateUIHandler;//更新UI的"Handler"
+    private boolean continueUpdateLyric;//"Handler"通过他来识别是否继续更新歌词
+    private final int WHAT_UPDATE_LYRIC = 0x0004;//"Handler"事件标记，表示需要更新歌词
+    private final int LYRIC_UPDATE_TIME = 100;//"Handler"间隔多久更新一次歌词
 
     @Nullable
     @Override
@@ -62,17 +66,12 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
     public void onStop(){
         super.onStop();
         playInfoSubject.removeObserver(this);
-//        由于不需要再跟新UI关子线程
-        if(remindUiUpdateThread !=null){
-            remindUiUpdateThread.run = false;
-            remindUiUpdateThread = null;
-        }
+        continueUpdateLyric = false;
     }
 
 
 //    view初始化的
     private void viewInit(){
-//        singerNameTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_singerName);
         topLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_topLine);
         bottomLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_bottomLine);
 //        初始化时界面所显示的文字
@@ -83,18 +82,7 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
     }
 
     private void initHandler(){
-        updateUIHandler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-//                如果这是子线程发来的更新进度提示
-                if(msg.what == SendSongPlayProgress.updateProgress){
-//                    更新当前进度所对应的歌词
-                    showTwoLyricLine(playInfoSubject.getSongPlayInfo().getProgress());
-                }
-//
-                super.handleMessage(msg);
-            }
-        };
+        updateUIHandler = new UpdateUiHandler(this);
     }
 
 //    根据时间在界面上显示两行歌词
@@ -116,24 +104,21 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
             return;
         }
         SongInfo songInfo = songPlayInfo.getSongInfo();
-        //        满足以下条件表示需要更新歌曲信息
+        //满足以下条件表示需要更新歌曲信息
         if (lastSongInfo == null || !lastSongInfo.getSongAbsolutePath().equals(songInfo.getSongAbsolutePath())) {
             setNewSongInfo(songInfo);
             lastSongInfo = songInfo;//保存新播放的歌曲信息
         }//if
-        //        根据播放状态不同设置不同
+        //根据播放状态不同设置不同
         if (songPlayInfo.isPlaying()) {
-            //            如果歌词读取工具已初始化且有歌词，而且异步任务还未启动
-            if (lyricTool != null && lyricTool.hasSongLyric() && remindUiUpdateThread == null) {
-                remindUiUpdateThread = new RemindUiUpdateThread(updateUIHandler, 100);
-                remindUiUpdateThread.start();
+            //如果歌词读取工具已经读到歌词
+            if (lyricTool != null && lyricTool.hasSongLyric()) {
+                continueUpdateLyric = true;
+                updateUIHandler.sendEmptyMessageDelayed(WHAT_UPDATE_LYRIC, LYRIC_UPDATE_TIME);
             }
         } else {
-            //如果线程曾启动过设置标志让其停止
-            if (remindUiUpdateThread != null) {
-                remindUiUpdateThread.run = false;
-                remindUiUpdateThread = null;
-            }
+            //让"Handler"停止继续更新歌词
+            continueUpdateLyric = true;
         }//if(isPlaying)
         showTwoLyricLine(songPlayInfo.getProgress());
 
@@ -145,14 +130,39 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
 //            根据音乐文件读取歌词：文件名字.mp3
             String songFileName = new File(theNewSongInfo.getSongAbsolutePath()).getName();
             lyricTool = new LyricTool(songFileName);
-//                如果当前应用没有存有歌词直接返回
-            if(!lyricTool.hasSongLyric()) {
-//                Log.i("test","没有歌词");
+            //如果当前应用没有存有歌词直接返回
+            if(!lyricTool.hasSongLyric()){
+                MyApplication.printLog("没有对应歌词文件");
                 return;
             }
             lyricTool.loadLyric();//调用方法载入歌词
             topLineTv.setGravity(Gravity.LEFT);//一行歌词将显示在左边
             bottomLineTv.setGravity(Gravity.RIGHT);//一行歌词将显示在右边
         }//如果外存可读的话读取歌词
+    }
+
+    private static class UpdateUiHandler extends Handler{
+
+        private final WeakReference<TwoLineLyricFragment> weakReference;
+
+        public UpdateUiHandler(TwoLineLyricFragment twoLineLyricFragment){
+            weakReference = new WeakReference<>(twoLineLyricFragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            TwoLineLyricFragment twoLineLyricFragment = weakReference.get();
+            if( twoLineLyricFragment == null || !twoLineLyricFragment.continueUpdateLyric){
+                super.handleMessage(msg);
+                return;
+            }
+            if(msg.what == twoLineLyricFragment.WHAT_UPDATE_LYRIC){
+                //更新当前进度所对应的歌词
+                twoLineLyricFragment.showTwoLyricLine(twoLineLyricFragment.playInfoSubject.getSongPlayInfo().getProgress());
+                //继续发送延迟消息
+                sendEmptyMessageDelayed(twoLineLyricFragment.WHAT_UPDATE_LYRIC, twoLineLyricFragment.LYRIC_UPDATE_TIME);
+            }
+            super.handleMessage(msg);
+        }
     }
 }
