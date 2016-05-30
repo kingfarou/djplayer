@@ -24,8 +24,6 @@ import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.module.SongPlayInfo;
 import com.jf.djplayer.service.PlayerService;
-import com.jf.djplayer.tool.RemindUiUpdateThread;
-import com.jf.djplayer.tool.SendSongPlayProgress;
 import com.jf.djplayer.tool.UserOptionTool;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.playertool.PlayerOperator;
@@ -35,6 +33,7 @@ import com.jf.djplayer.playertool.SingerPictureTools;
 
 import android.support.v4.app.Fragment;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,15 +45,14 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         ServiceConnection ,SeekBar.OnSeekBarChangeListener,PlayInfoObserver,
         FragmentTitleLayout.FragmentTitleListener,View.OnClickListener{
 
-    //根布局
-    private LinearLayout ll_root_view;//这是当前活动布局文件的根容器
+    //布局文件的根布局，用来显示歌手图片
+    private LinearLayout ll_root_view;
 
     //标题栏的相关控件
     private TextView tv_song_name;//歌手名字
     private TextView tv_singer_name;//歌手名字
 
-//    private FragmentTitleLayout FragmentTitleLayout;//标题
-    //进度栏的相关控件
+    //进度显示相关控件
     private TextView tv_current_time;//显示当前播放时间
     private SeekBar seekBar;//音乐播放的滚动条
     private TextView tv_total_time;//显示当前歌曲的总时长
@@ -68,11 +66,14 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     private ViewPager viewPager;
     private SongInfo lastSongInfo;//记录最后一次播放的歌
 
-    private PlayInfoSubject mPlayInfoSubject;//持有所播放歌曲信息的主题
-    private PlayerService playerService;//指向被绑定的服务用的
-    private Handler updateProgressHandler;
-    private RemindUiUpdateThread remindUiUpdateThread;
-//    private SendSongPlayProgress sendSongPlayProgress;
+    private PlayInfoSubject playInfoSubject;//持有所播放歌曲信息的主题
+    private PlayerService playerService;//后台歌曲播放服务
+    private UpdatePlayInfoHandler updatePlayInfoHandler;
+
+    //这个是"message.what"标记。用来标记UI更新事件
+    private final int WHAT_UPDATE_UI = 0x0004;
+    private boolean continueUpdateUI;//'Handler"通过这个变量识别是否可以更UI
+    private final int updateUiTime = 200;//"Handler"更新UI间隔时间
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +85,12 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         return R.layout.activity_song_play_info;
     }
 
-
     @Override
     protected void initExtrasBeforeView() {
         Intent intent = new Intent(this, PlayerService.class);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
-//        获取更新播放信息用的主题
-        mPlayInfoSubject = PlayerOperator.getInstance();
+        //获取更新播放信息用的主题
+        playInfoSubject = PlayerOperator.getInstance();
     }
 
     @Override
@@ -104,19 +104,15 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     protected void onStart() {
         super.onStart();
         //将自己注册成为观察者
-        mPlayInfoSubject.registerObserver(this);
+        playInfoSubject.registerObserver(this);
+        continueUpdateUI = true;
     }
-
 
     @Override
     protected void onStop() {
         super.onStop();
-        mPlayInfoSubject.removeObserver(this);//从主题里移除当前活动
-        // 如果更新进度的子线程还在工作将其关闭
-        if(remindUiUpdateThread !=null){
-            remindUiUpdateThread.run = false;
-            remindUiUpdateThread = null;
-        }
+        playInfoSubject.removeObserver(this);//从主题里移除当前活动
+        continueUpdateUI = false;
     }
 
     @Override
@@ -153,22 +149,12 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         iv_play_or_pause.setOnClickListener(this);
     }
 
-    private void initHandler(){
-        updateProgressHandler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == SendSongPlayProgress.updateProgress) {
-//                    seekBar.setProgress(mPlayInfoSubject.getCurrentPosition());
-//                    tv_current_time.setText(getTime(mPlayInfoSubject.getCurrentPosition()));
-                    seekBar.setProgress(mPlayInfoSubject.getSongPlayInfo().getProgress());
-                    tv_current_time.setText(getTime(mPlayInfoSubject.getSongPlayInfo().getProgress()));
-                }
-                super.handleMessage(msg);
-            }
-        };
+    private void initHandler() {
+        updatePlayInfoHandler = new UpdatePlayInfoHandler(this);
+        continueUpdateUI = true;
     }
 
-//    根据播放模式返回对应图片ID
+    //根据播放模式返回对应图片ID
     private int getPictureFromPlayMode(){
         int playMode = new UserOptionTool(this).getPlayModes();
         if(playMode == UserOptionTool.PLAY_MODE_ORDER){//如果需要顺序播放
@@ -181,6 +167,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
             return R.drawable.ic_activity_play_song_info_singlecirculate;
         }
     }
+
 
     private void initViewPager(){
         viewPager = (ViewPager)findViewById(R.id.vp_activity_song_play_info);
@@ -202,7 +189,6 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
         int secondUnitsDigit = second%10;//秒钟的个位数表示
         return minutesTensDigit+""+minuteUnitsDigit+":"+secondTensDigit+""+secondUnitsDigit;
     }
-
 
     /*"ServiceConnection"方法实现_开始*/
     @Override
@@ -226,12 +212,10 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
 
     @Override
     public void onSearchIvOnclick() {
-
     }
 
     @Override
     public void onMoreIvOnclick() {
-
     }
     /*"FragmentTitleListener"方法实现_结束*/
 
@@ -267,7 +251,7 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
             return;
         }
         //获取当前播放信息
-        SongPlayInfo songPlayInfo = mPlayInfoSubject.getSongPlayInfo();
+        SongPlayInfo songPlayInfo = playInfoSubject.getSongPlayInfo();
         //如果当前没有播放信息，直接返回，后面前一曲、播放暂停、下一曲的操作都不用做
         if(songPlayInfo == null){
             return;
@@ -329,22 +313,15 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
 //    用户接触进度条的那一瞬间
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        if(remindUiUpdateThread !=null) {
-            remindUiUpdateThread.run = false;//滑块滑动过程当中子线程应停止他的工作
-            remindUiUpdateThread = null;
-        }
+        continueUpdateUI = false;
     }
 
 //    当用户停止拖动进度条
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-//        重新启动子线程的更新工作
-        if(remindUiUpdateThread == null){
-            remindUiUpdateThread = new RemindUiUpdateThread(updateProgressHandler,100);
-            remindUiUpdateThread.start();
-        }
 //        设置当前播放进度
         playerService.seekTo(seekBar.getProgress());
+        continueUpdateUI = true;
 //        circulations = true;
 
     }
@@ -381,7 +358,6 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
     //    用来更换新的歌曲信息
     private void setNewPlayInfo(SongInfo songInfo){
 //        设置所播放的歌曲名字
-//        FragmentTitleLayout.setTitleText(currentPlaySongInfo.getSongName());
         tv_song_name.setText(songInfo.getSongName());
         tv_singer_name.setText(songInfo.getSingerName());
 //            设置当前歌手图片
@@ -392,29 +368,49 @@ public class SongPlayInfoActivity extends BaseNoTitleActivity implements
                 ll_root_view.setBackgroundDrawable(singerPictureTools.getSingerPicture());
             }
         }
-//            设置进度条最大值
+        //设置进度条最大值
         seekBar.setMax(songInfo.getSongDuration());
-//            设置当前播放时长何总时长
+        //设置当前播放时长何总时长
         tv_total_time.setText(getTime(songInfo.getSongDuration()));
     }
 
     //如果歌曲正在播放要进行的相关设置
     private void playSettings(){
         iv_play_or_pause.setImageResource(R.drawable.activity_song_play_info_pause);
-//                开启一个新的线程刷新的进度条
-        if(remindUiUpdateThread == null){
-            remindUiUpdateThread = new RemindUiUpdateThread(updateProgressHandler,100);
-            remindUiUpdateThread.start();
-        }
+        continueUpdateUI = true;//修改允许更新UI标志
+        updatePlayInfoHandler.sendEmptyMessageDelayed(WHAT_UPDATE_UI, 200);
     }
 
 //    如果歌曲没在播放要进行的相关设置
     private void notPlaySettings(){
         iv_play_or_pause.setImageResource(R.drawable.activity_song_play_info_play);
-//        如果更新播放进度用的县城还在运行，将其关闭
-        if(remindUiUpdateThread !=null){
-            remindUiUpdateThread.run = false;
-            remindUiUpdateThread = null;
+        continueUpdateUI = false;//修改允许更新UI标志
+    }
+
+    private static class UpdatePlayInfoHandler extends Handler{
+
+        private WeakReference<SongPlayInfoActivity> activityWeakReference;
+
+        public UpdatePlayInfoHandler(SongPlayInfoActivity songPlayInfoActivity){
+            activityWeakReference = new WeakReference<>(songPlayInfoActivity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            SongPlayInfoActivity songPlayInfoActivity = activityWeakReference.get();
+            //MyApplication.printLog("收到消息");
+            //如果界面已经为空或者界面不需更新UI
+            if( songPlayInfoActivity == null || !songPlayInfoActivity.continueUpdateUI){
+                super.handleMessage(msg);
+                return;
+            }
+            if (msg.what == songPlayInfoActivity.WHAT_UPDATE_UI) {
+                SongPlayInfo songPlayInfo = songPlayInfoActivity.playInfoSubject.getSongPlayInfo();
+                songPlayInfoActivity.seekBar.setProgress(songPlayInfo.getProgress());
+                songPlayInfoActivity.tv_current_time.setText(songPlayInfoActivity.getTime(songPlayInfo.getProgress()));
+                sendEmptyMessageDelayed(songPlayInfoActivity.WHAT_UPDATE_UI, songPlayInfoActivity.updateUiTime);
+            }
+            super.handleMessage(msg);
         }
     }
 }

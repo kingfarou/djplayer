@@ -54,6 +54,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
 
     private final int FLAG_UPDATE_PROGRESS = 0x0004;//"Handler"里更新播放进度标记
     private final int UPDATE_TIME = 200;//"Handler"更新播放进度间隔时间
+    private boolean continueUpdateUI;//"Handler"通过这个标记识别是否更新UI
 
     @Nullable
     @Override
@@ -79,6 +80,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
     public void onStart() {
         super.onStart();
         playInfoSubject.registerObserver(this);
+        continueUpdateUI = true;
     }
 
     @Override
@@ -86,7 +88,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         super.onStop();
 //        当用户不再看到界面了执行以下操作
         playInfoSubject.removeObserver(this);//将自己从主题里面移除出去
-        updateProgressHandler.continueUpdateUI = false;
+        continueUpdateUI = false;
     }
 
     //    找到控件以及设置相关的监听器
@@ -112,11 +114,14 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        //如果点击整个底边的栏
         if(id == R.id.ll_fragment_bottom) {
             startActivity(new Intent(getActivity(), SongPlayInfoActivity.class));
             return;
         }
+        //获取当前歌曲信息
         SongPlayInfo songPlayInfo = playInfoSubject.getSongPlayInfo();
+        //如果点击播放或者暂停按钮
         if(id == R.id.ib_fragment_bottom_control_play){
             songPlayInfo = playInfoSubject.getSongPlayInfo();
             if(songPlayInfo == null){
@@ -130,6 +135,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
             }
             return;
         }
+        //如果点击下一曲的按钮
         if(id == R.id.ib_fragment_bottom_control_next){
             if(songPlayInfo == null){
                 MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
@@ -171,8 +177,8 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
     private void playSettings(){
         //设置按钮的图案为暂停图案
         playButton.setImageResource(R.drawable.fragment_bottom_pause);
-        //设置发小消息标记 == true
-        updateProgressHandler.continueUpdateUI = true;
+        //设置发送消息标记 == true
+        continueUpdateUI = true;
         //发送一个延迟消息
         updateProgressHandler.sendEmptyMessageDelayed(FLAG_UPDATE_PROGRESS, UPDATE_TIME);
     }
@@ -182,13 +188,13 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         //设置图案为播放的图案
         playButton.setImageResource(R.drawable.fragment_bottom_play);
         //修改标记让"Handler"停止继续更新消息
-        updateProgressHandler.continueUpdateUI = false;
+        continueUpdateUI = false;
     }
 
     //用来更新进度条用的内部类
     private static class UpdateProgressHandler extends Handler{
         private final WeakReference<BottomFragment> fragmentWeakReference;
-        boolean continueUpdateUI = false;//这个标记用来让外部类控制是否继续发送延迟消息
+
         public UpdateProgressHandler(BottomFragment bottomFragment){
             fragmentWeakReference = new WeakReference<>(bottomFragment);
         }
@@ -197,16 +203,12 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         public void handleMessage(Message msg) {
             BottomFragment bottomFragment = fragmentWeakReference.get();
             //如果界面为空指针，或者界面不需要去更新UI
-            if(bottomFragment == null || !continueUpdateUI){
+            if( bottomFragment == null || !bottomFragment.continueUpdateUI ){
                 super.handleMessage(msg);
                 return;
             }
             //更新当前界面进度
             if(msg.what == 0x0004){
-                if(bottomFragment.playInfoSubject == null){
-                    super.handleMessage(msg);
-                    return;
-                }
                 bottomFragment.progressBar.setProgress(bottomFragment.playInfoSubject.getSongPlayInfo().getProgress());
                 sendEmptyMessageDelayed(bottomFragment.FLAG_UPDATE_PROGRESS, bottomFragment.UPDATE_TIME);
             }

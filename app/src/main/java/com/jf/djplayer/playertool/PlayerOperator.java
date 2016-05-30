@@ -29,7 +29,10 @@ import java.util.List;
  * 能够进行各种播放模式
  * 只有后台播放的服务类能与该类进行通信
  */
-public class PlayerOperator implements PlayInfoSubject{
+public class PlayerOperator implements
+        PlayInfoSubject, MediaPlayer.OnPreparedListener,
+        MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener,
+        AudioManager.OnAudioFocusChangeListener{
 
     private volatile static PlayerOperator playerOperator;//单例引用
     private List<SongInfo> songInfoList;//当前所播放的歌曲列表
@@ -45,14 +48,13 @@ public class PlayerOperator implements PlayInfoSubject{
         mContext = MyApplication.getContext();
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);//设置所用的音频流
-//        配置各类所用的监听器
-//        这些监听器都是自己的内部的类
-        mMediaPlayer.setOnPreparedListener(new PlayerOnPreparedListener());
-        mMediaPlayer.setOnCompletionListener(new PlayerOnCompletion());
-        mMediaPlayer.setOnErrorListener(new PlayerOnErrorListener());
+        //配置各类所用的监听器，这些监听器全部由当前类来实现
+        mMediaPlayer.setOnPreparedListener(this);
+        mMediaPlayer.setOnCompletionListener(this);
+        mMediaPlayer.setOnErrorListener(this);
 //        请求音频焦点同时设置对焦点的监听
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        audioManager.requestAudioFocus(new PlayerAudioFocusChange(), audioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        audioManager.requestAudioFocus(this, audioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         playInfoObserverList = new ArrayList<>();
     }
 
@@ -291,125 +293,106 @@ public class PlayerOperator implements PlayInfoSubject{
     public boolean isPlaying() {
         return mMediaPlayer.isPlaying();
     }
-    /*
-    负责外部类焦点监听的内部类
-    */
-    private class PlayerAudioFocusChange implements AudioManager.OnAudioFocusChangeListener{
 
-        @Override
-        public void onAudioFocusChange(int focusChange) {
-//            如果外部类还没有被实例化
-//            直接返回就可以了
-            if(playerOperator==null){
-                return;
+    /*"OnPreparedListener"方法实现_开始*/
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        mp.start();
+        songPlayInfo.setPlaying(true);
+        notifyObservers();
+    }
+    /*"OnPreparedListener"方法实现_结束*/
+
+    /*"OnCompletionListener"方法实现_开始*/
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        //读取用户当前播放模式
+        if(mp == null || songInfoList == null){
+            return;
+        }
+        UserOptionTool playOption = new UserOptionTool(MyApplication.getContext());
+        int playMode = playOption.getPlayModes();
+        //根据播放模式进行控制判断
+        if(playMode==UserOptionTool.PLAY_MODE_SINGLE_CIRCLUATE){//如果处于单曲循环模式
+            if (!mp.isLooping()){
+                mp.setLooping(true);
+                mp.start();
+                notifyObservers();
             }
-            if(focusChange==AudioManager.AUDIOFOCUS_GAIN){
-                MyApplication.printLog("重新获取音频焦点");
-                if (!mMediaPlayer.isPlaying() && PlayerOperator.this.canPlay) {
-                    play();
-                }
-            }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS){
-                MyApplication.printLog("长期失去音频焦点");
-                //这里绝对不能调用"over()"方法，不然的话整个单例都会出现问题
-                //over();
-            }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT){
-                //暂时失去音频焦点
-                //很可能在短时间内获得
-//                比如接听一个打进来的电话
-                MyApplication.printLog("暂时失去音频焦点");
-                if (mMediaPlayer.isPlaying()) {
-                    PlayerOperator.this.pause();
-                }
-            }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK){
-                MyApplication.printLog("暂时失去音频焦点允许小声播放");
-                if (mMediaPlayer.isPlaying()) {
-                    mMediaPlayer.setVolume(0.1f, 0.1f);//降低当前音量大小
-//                    一秒钟后设置回去
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mMediaPlayer.setVolume(1f, 1f);
-                        }
-                    }, 1000);
-
-                }//if
+        }else if(playMode==UserOptionTool.PLAY_MODE_ORDER){//如果处于顺序播放模式
+            if (mp.isLooping()) {
+                mp.setLooping(false);
             }
-
-        }//onAudioFocusChange
-    }//PlayerAudioFocusChange
-
-    /*
-    负责外部类播放完成监听的内部类
-     */
-    private class PlayerOnCompletion implements MediaPlayer.OnCompletionListener {
-
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-    //        读取用户当前播放模式
-            if(mp==null||songInfoList==null){
-                return;
+            if (lastPosition==songInfoList.size()-1) {//如果已到最后一首应该停止播放
+                mp.stop();
+            }else{
+                nextSong();//进行下一首歌曲的播放
             }
-            UserOptionTool playOption = new UserOptionTool(MyApplication.getContext());
-            int playMode = playOption.getPlayModes();
-    //        根据播放模式进行控制判断
-            if(playMode==UserOptionTool.PLAY_MODE_SINGLE_CIRCLUATE){//如果处于单曲循环模式
-                if (!mp.isLooping()){
-                    mp.setLooping(true);
-                    mp.start();
-                    notifyObservers();
-                }
-            }else if(playMode==UserOptionTool.PLAY_MODE_ORDER){//如果处于顺序播放模式
-                if (mp.isLooping()) {
-                    mp.setLooping(false);
-                }
-                if (lastPosition==songInfoList.size()-1) {//如果已到最后一首应该停止播放
-                    mp.stop();
-                }else{
-                    nextSong();//进行下一首歌曲的播放
-                }
-            }else if(playMode==UserOptionTool.PLAY_MODE_RANDOM){//如果处于随机播放模式
+        }else if(playMode==UserOptionTool.PLAY_MODE_RANDOM){//如果处于随机播放模式
 //                如果处于随机播放模式
 //                暂时没想到些什么
-            }else if(playMode==UserOptionTool.PLAY_MODE_CIRCULATE){//如果处于列表循环模式
+        }else if(playMode==UserOptionTool.PLAY_MODE_CIRCULATE){//如果处于列表循环模式
 //                如果处于列表循环模式
-                if (mp.isLooping()) {
-                    mp.setLooping(false);
-                }
-                nextSong();
+            if (mp.isLooping()) {
+                mp.setLooping(false);
             }
-        }
-
-    }//PlayerOnCompletion
-
-    /*
-    负责外部类准备完成监听的内部类
-     */
-    private class PlayerOnPreparedListener implements MediaPlayer.OnPreparedListener {
-        @Override
-        public void onPrepared(MediaPlayer mp) {
-            mp.start();
-            songPlayInfo.setPlaying(true);
-            notifyObservers();
+            nextSong();
         }
     }
+    /*"OnCompletionListener"方法实现_结束*/
 
-    /*
-    负责外部类错误监听的内部的类
-     */
-    private class PlayerOnErrorListener implements MediaPlayer.OnErrorListener {
-
-       @Override
-       public boolean onError(MediaPlayer mp, int what, int extra) {
-           if (what== MediaPlayer.MEDIA_ERROR_UNKNOWN){
-               Toast.makeText(mContext, "未知错误"+"--"+this.toString(), Toast.LENGTH_SHORT).show();
-           }
-           if (extra== MediaPlayer.MEDIA_ERROR_UNSUPPORTED){
-               Toast.makeText(mContext,"不支持的音频文件类型--"+this.toString(),Toast.LENGTH_SHORT).show();
-           }
+    /*"OnErrorListener"方法实现_开始*/
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        if (what== MediaPlayer.MEDIA_ERROR_UNKNOWN){
+            Toast.makeText(mContext, "未知错误"+"--"+this.toString(), Toast.LENGTH_SHORT).show();
+        }
+        if (extra== MediaPlayer.MEDIA_ERROR_UNSUPPORTED){
+            Toast.makeText(mContext,"不支持的音频文件类型--"+this.toString(),Toast.LENGTH_SHORT).show();
+        }
 //           Log.i("test","what:"+what+"--extra:"+extra);
-           return false;
-       }
+        return false;
     }
+    /*"OnErrorListener"方法实现_结束*/
+
+    @Override
+    public void onAudioFocusChange(int focusChange) {
+        //如果外部类还没有被实例化，直接返回就可以了
+        if(playerOperator==null){
+            return;
+        }
+        if(focusChange==AudioManager.AUDIOFOCUS_GAIN){
+            MyApplication.printLog("重新获取音频焦点");
+            if (!mMediaPlayer.isPlaying() && PlayerOperator.this.canPlay) {
+                play();
+            }
+        }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS){
+            MyApplication.printLog("长期失去音频焦点");
+            //这里绝对不能调用"over()"方法，不然的话整个单例都会出现问题
+            //over();
+        }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT){
+            //暂时失去音频焦点
+            //很可能在短时间内获得
+//                比如接听一个打进来的电话
+            MyApplication.printLog("暂时失去音频焦点");
+            if (mMediaPlayer.isPlaying()) {
+                PlayerOperator.this.pause();
+            }
+        }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK){
+            MyApplication.printLog("暂时失去音频焦点允许小声播放");
+            if (mMediaPlayer.isPlaying()) {
+                mMediaPlayer.setVolume(0.1f, 0.1f);//降低当前音量大小
+//                    一秒钟后设置回去
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMediaPlayer.setVolume(1f, 1f);
+                    }
+                }, 1000);
+
+            }//if
+        }
+    }//onAudioFocusChange()
 
 }
