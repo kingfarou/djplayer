@@ -135,13 +135,14 @@ public class SongFragment extends BaseExpandFragment
         return new SongFragmentAdapter(this, songInfoList);
     }
 
-    //    "expandableListView"的groupItem被按下时所回调的方法
+    //点击"ExpandableListView"栏目，播放所对应的歌曲
     @Override
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         playController.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
         return true;
     }
 
+    //返回歌曲列表下面的"FooterView"
     @Override
     protected View getExpandableFooterView() {
         if(songInfoList==null){
@@ -160,12 +161,11 @@ public class SongFragment extends BaseExpandFragment
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                如果用户想要扫描音乐
+                //如果用户想要扫描音乐
                 if (position == 0) {
                     getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
                 } else if (position == 1 || position == 2 || position == 3 || position == 4) {
-//                    如果用户选择任意一类排序方式
-//                    根据选项创建不同排序方式
+                    //如果用户选择任意一类排序方式，根据选项创建不同排序方式对象
                     if (position == 1) {
                         songInfoListSortable = new SortBySongName();//按歌曲的名字排序
                     }
