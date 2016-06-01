@@ -136,12 +136,6 @@ public abstract class BaseListFragment extends BaseFragment
     abstract protected BaseAdapter getListViewAdapter(List dataList);
 
     /**
-     * 获取页卡所对应的"ListViewPopupWindow"
-     * @return 子类说特有"ListViewPopupWindow"
-     */
-    abstract public ListViewPopupWindows getListViewPopupWindow();
-
-    /**
      * 返回当前"Fragment"里的"ListView"所显示的数据集合
      * @return
      */

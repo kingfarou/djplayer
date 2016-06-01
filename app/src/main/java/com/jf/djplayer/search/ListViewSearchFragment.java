@@ -58,10 +58,11 @@ public class ListViewSearchFragment extends BaseListFragmentInterface
         ((BaseListFragmentAdapter)listViewAdapter).setData(showList);
         listViewAdapter.notifyDataSetChanged();
     }
-    @Override
-    public ListViewPopupWindows getListViewPopupWindow() {
-        return null;
-    }
+
+//    @Override
+//    public ListViewPopupWindows getListViewPopupWindow() {
+//        return null;
+//    }
 
     @Override
     protected void readDataFinish(List dataList) {

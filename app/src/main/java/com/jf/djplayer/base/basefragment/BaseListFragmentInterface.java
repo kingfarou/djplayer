@@ -58,11 +58,6 @@ public class BaseListFragmentInterface extends BaseListFragment {
     }
 
     @Override
-    public ListViewPopupWindows getListViewPopupWindow() {
-        return null;
-    }
-
-    @Override
     protected void readDataFinish(List dataList) {
 
     }

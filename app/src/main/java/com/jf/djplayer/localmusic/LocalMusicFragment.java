@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * Created by JF on 2016/1/19.
+ * 本地音乐-外层容器
  */
 public class LocalMusicFragment extends BaseGroupFragment{
 
@@ -68,7 +69,7 @@ public class LocalMusicFragment extends BaseGroupFragment{
         return new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
     }
 
-    //返回"tabs"个个也卡所对应的标题名字
+    //返回"tabs"个个页卡所对应的标题名字
     @Override
     protected String[] getTextViewTabsText() {
         return new String[]{getResources().getString(R.string.song),
@@ -76,7 +77,6 @@ public class LocalMusicFragment extends BaseGroupFragment{
                 getResources().getString(R.string.album),
                 getResources().getString(R.string.folder)};
     }
-
 
     /*"FragmentTitleListener"方法覆盖_start*/
     //如果标题栏的标题按钮被按下了
@@ -131,13 +131,19 @@ public class LocalMusicFragment extends BaseGroupFragment{
         Fragment fragment = getViewPagerCurrentPage();
         switch (getViewPagerCurrentItem()) {
             case 0:
-                listViewPopupWindows = ((SongFragment) fragment).getListViewPopupWindow();
+                listViewPopupWindows = ((SongFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
                 listViewPopupWindows.showAsDropDown(mFragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
                 break;
             case 1:
+                listViewPopupWindows = ((SingerFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
+                listViewPopupWindows.showAsDropDown(mFragmentTitleLayout, windowWidths-listViewPopupWindows.getWidth(), 0);
+                break;
             case 2:
+                listViewPopupWindows = ((AlbumFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
+                listViewPopupWindows.showAsDropDown(mFragmentTitleLayout, windowWidths-listViewPopupWindows.getWidth(), 0);
+                break;
             case 3:
-                listViewPopupWindows = ((BaseListFragment) fragment).getListViewPopupWindow();
+                listViewPopupWindows = ((FolderFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
                 listViewPopupWindows.showAsDropDown(mFragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
                 break;
             default:
