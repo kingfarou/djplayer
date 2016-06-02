@@ -165,6 +165,7 @@ abstract public class BaseExpandFragment extends BaseFragment
 //        以下共有三类情况
 //        1，如果这次所展开的栏目和上次的同个位置，什么操作都不用做
 //        2，如果两次所展开的不是同个栏目，(1)那么有可能当前是首次展开，(2)也有可能当前不是首次展开
+//        实现该方法是为了当展开了某个栏目，自动收起其他栏目
         if (lastExpand==groupPosition) {//如果当前所展开的和上次是一个栏目
             return;
         }
