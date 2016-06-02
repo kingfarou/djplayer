@@ -17,6 +17,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jf.djplayer.base.baseadapter.DefExpandFragmentAdapter;
 import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.R;
 import com.jf.djplayer.search.SearchedDataProvider;
@@ -132,7 +133,7 @@ public class SongFragment extends BaseExpandFragment
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-        return new SongFragmentAdapter(this, songInfoList);
+        return new DefExpandFragmentAdapter(this, songInfoList);
     }
 
     //点击"ExpandableListView"栏目，播放所对应的歌曲

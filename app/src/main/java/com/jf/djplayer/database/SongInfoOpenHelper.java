@@ -305,7 +305,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         Cursor songNumberCursor;
         List<Map<String,String>> mapList = new ArrayList<Map<String,String>>(dataList.size());
         Map<String,String> itemMap;
-//        读取“dataList”里面每个数据所对应的歌曲树木
+//        读取“_dataList”里面每个数据所对应的歌曲数目
         for (String columnValues:dataList) {
             songNumberCursor = songNumberDatabase.query(LOCAL_MUSIC_TABLE_NAME, new String[]{collection}, columnName+"=?", new String[]{columnValues}, null, null, null);
             itemMap = new HashMap<>(2);

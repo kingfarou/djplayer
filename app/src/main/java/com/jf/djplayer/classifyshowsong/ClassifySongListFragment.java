@@ -7,6 +7,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.base.baseadapter.DefExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.module.SongInfo;
@@ -40,7 +41,7 @@ public class ClassifySongListFragment extends BaseExpandFragment {
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
 //        return new SongInfoExpandAdapter(this, songInfoList);
-        return new ClassifySongListAdapter(this, songInfoList);
+        return new DefExpandFragmentAdapter(this, songInfoList);
     }
 
     @Override

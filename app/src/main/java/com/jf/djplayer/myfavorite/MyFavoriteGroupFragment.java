@@ -46,7 +46,7 @@ public class MyFavoriteGroupFragment extends BaseGroupFragment{
     @Override
     protected FragmentStatePagerAdapter getViewPagerAdapter() {
         List<Fragment> fragmentList = new ArrayList<>(1);
-        fragmentList.add(new MyFavoriteListFragment());
+        fragmentList.add(new MyFavoriteExpandFragment());
         FragmentViewPagerAdapter fragmentViewPagerAdapter =
                 new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
 //        fragmentViewPagerAdapter.setFragments(fragmentList);

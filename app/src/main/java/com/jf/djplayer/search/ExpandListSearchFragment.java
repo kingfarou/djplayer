@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
 import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
+import com.jf.djplayer.base.baseadapter.DefExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.module.SongInfo;
 
@@ -50,7 +51,7 @@ public class ExpandListSearchFragment extends BaseExpandFragment
     protected BaseExpandableListAdapter getExpandableAdapter() {
 //        baseExpandableListAdapter = new SongInfoExpandAdapter((BaseActivity)searchedDataProvider, searchedList);
 //        baseExpandableListAdapter = new SongInfoExpandAdapter(this, searchedList);
-        baseExpandableListAdapter = new ExpandListSearchAdapter(this, searchedList);
+        baseExpandableListAdapter = new DefExpandFragmentAdapter(this, searchedList);
         return baseExpandableListAdapter;
     }
 
@@ -66,7 +67,7 @@ public class ExpandListSearchFragment extends BaseExpandFragment
             }
         }
         //遍历完毕更新数据
-        ((BaseExpandFragmentAdapter)baseExpandableListAdapter).setDataList(showList);
+        ((BaseExpandFragmentAdapter)baseExpandableListAdapter).setSongInfoList(showList);
         baseExpandableListAdapter.notifyDataSetChanged();
     }
 }

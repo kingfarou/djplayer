@@ -33,7 +33,7 @@ import java.util.List;
  * Created by Administrator on 2015/8/28.
  * 我的最爱-收藏列表
  */
-public class MyFavoriteListFragment extends BaseExpandFragment
+public class MyFavoriteExpandFragment extends BaseExpandFragment
         implements ExpandableListView.OnGroupClickListener, SongInfoObserver{
 
 //    private Context context = null;
@@ -90,7 +90,7 @@ public class MyFavoriteListFragment extends BaseExpandFragment
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-        return new MyFavoriteListAdapter(this, favoriteList);
+        return new MyFavoriteFragmentAdapter(this, favoriteList);
     }
 
     public ListViewPopupWindows getListViewPopupWindow() {

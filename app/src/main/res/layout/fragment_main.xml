@@ -41,8 +41,8 @@
         <!--我的最爱-->
         <Button
             android:id="@+id/btn_fragment_main_my_favorite"
-            android:drawableLeft="@drawable/ic_fragment_mine_my_favorite"
-            android:drawableStart="@drawable/ic_fragment_mine_my_favorite"
+            android:drawableLeft="@drawable/ic_base_expand_fragment_adapter_collection"
+            android:drawableStart="@drawable/ic_base_expand_fragment_adapter_collection"
             android:text="@string/my_favorite"
             style="@style/fragment_main_button"/>
         <Button

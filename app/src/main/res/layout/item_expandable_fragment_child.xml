@@ -1,60 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:padding="8dp"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:padding="8dp"
     android:background="@color/black">
+    <com.jf.djplayer.customview.ExpandableChildGridView
+        android:id="@+id/gv_item_expandable_fragment_child"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numColumns="5">
 
-    <Button
-        android:id="@+id/bt_item_expandable_fragment_child_collection"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/expandable_listview_child"
-        android:drawableTop="@drawable/ic_base_expand_fragment_adapter_no_collection"
-        android:text="收藏"
-        android:textSize="16dp"
-        android:textColor="#ffffff"/>
-
-    <Button
-        android:id="@+id/bt_item_expandable_fragment_child_del"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/expandable_listview_child"
-        android:layout_weight="1"
-        android:drawableTop="@drawable/ic_base_expand_fragment_adapter_delete"
-        android:text="删除"
-        android:textSize="16dp"
-        android:textColor="#ffffff"/>
-
-    <Button
-        android:id="@+id/bt_item_expandable_fragment_child_add"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/expandable_listview_child"
-        android:layout_weight="1"
-        android:drawableTop="@drawable/ic_base_expand_fragment_adapter_add"
-        android:text="添加"
-        android:textSize="16dp"
-        android:textColor="#ffffff"/>
-    <Button
-        android:id="@+id/bt_item_expandable_fragment_child_bell"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/expandable_listview_child"
-        android:layout_weight="1"
-        android:text="设为铃声"
-        android:textSize="16dp"
-        android:textColor="#ffffff"
-        android:drawableTop="@drawable/ic_base_expand_fragment_adapter_bell"/>
-    <Button
-        android:id="@+id/bt_item_expandable_fragment_child_more"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/expandable_listview_child"
-        android:layout_weight="1"
-        android:drawableTop="@drawable/icon_more2"
-        android:text="更多"
-        android:textSize="16dp"
-        android:textColor="#ffffff"/>
-
+    </com.jf.djplayer.customview.ExpandableChildGridView>
 </LinearLayout>

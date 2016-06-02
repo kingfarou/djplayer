@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--我的最爱页面里的"ExpandableListView"的"GroupView"-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:gravity="center_vertical"
+    android:background="@drawable/blue_white_press_selector">
+
+    <ImageView
+        android:id="@+id/iv_item_my_favorite_expandable_list_view_group_collection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_my_favorite_expandable_list_view_group_collection"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/tv_item_my_favorite_expandable_list_view_group_song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:text="歌曲名字"/>
+        <TextView
+            android:id="@+id/tv_item_my_favorite_expandable_list_view_group_singer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textColor="#464646"
+            android:text="歌手名字"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_item_my_favorite_expandable_list_view_group_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/icon_down"/>
+</LinearLayout>
