@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'djplayer'
+            keyPassword '65391168'
+            storeFile file('E:/AndroidApp/djplayer.jks')
+            storePassword '65391168'
+        }
+    }
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
-
     defaultConfig {
         applicationId "com.jf.djplayer"
         minSdkVersion 15
