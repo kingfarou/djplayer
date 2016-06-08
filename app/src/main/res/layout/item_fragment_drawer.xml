@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--主界面-侧滑菜单-各选项-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 睡眠设置-->
+    <TextView
+        android:id="@+id/tv_item_fragment_drawer_sleep_setting"
+        style="@style/item_fragment_drawer_text_view"
+        android:drawableLeft="@drawable/ic_item_fragment_drawer_sleep_setting"
+        android:drawableStart="@drawable/ic_item_fragment_drawer_sleep_setting"
+        android:text="@string/sleep_setting"/>
+
+    <!-- 划线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#70aaaaaa"/>
+
+    <!-- 设置-->
+    <TextView
+        android:id="@+id/tv_item_fragment_drawer_setting"
+        style="@style/item_fragment_drawer_text_view"
+        android:drawableLeft="@drawable/ic_item_fragment_drawer_setting"
+        android:drawableStart="@drawable/ic_item_fragment_drawer_setting"
+        android:text="@string/setting"/>
+
+    <!-- 划线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#70aaaaaa"/>
+
+    <!-- 扫描音乐-->
+    <TextView
+        android:id="@+id/tv_item_fragment_drawer_scan_music"
+        style="@style/item_fragment_drawer_text_view"
+        android:drawableLeft="@drawable/ic_item_fragment_drawer_scan_music"
+        android:drawableStart="@drawable/ic_item_fragment_drawer_scan_music"
+        android:text="@string/scan_music"/>
+
+</LinearLayout>

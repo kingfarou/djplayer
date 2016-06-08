@@ -14,6 +14,10 @@
     <string name="good_tone">好音质!</string>
     <string name="exit">退出</string>
 
+    <!-- DrawerFragment__主界面侧滑菜单-->
+    <string name="sleep_setting">睡眠设置</string>
+    <string name="setting">设置</string>
+
     <!-- localMusic__本地音乐-->
     <string name="song">歌曲</string>
     <string name="singer">歌手</string>

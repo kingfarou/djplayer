@@ -20,4 +20,15 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
     </style>
+
+    <!-- 主界面侧滑菜单，各选项的"TextView"样式-->
+    <style name="item_fragment_drawer_text_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/white_blue_selector</item>
+    </style>
 </resources>
