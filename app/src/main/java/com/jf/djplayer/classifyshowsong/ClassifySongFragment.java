@@ -25,8 +25,8 @@ public class ClassifySongFragment extends BaseViewPagerFragment {
     @Override
     protected void initBeforeReturnView() {
         //搜索按钮菜单按钮设置可见
-        mFragmentTitleLayout.setSearchIvVisibility(View.VISIBLE);
-        mFragmentTitleLayout.setMoreIvVisivility(View.VISIBLE);
+        mFragmentTitleLayout.setSearchVisibility(View.VISIBLE);
+        mFragmentTitleLayout.setMenuVisibility(View.VISIBLE);
         mFragmentTitleLayout.setTitleText(getArguments().getString((COLUMN_VALUES), "分类显示"));
     }
 

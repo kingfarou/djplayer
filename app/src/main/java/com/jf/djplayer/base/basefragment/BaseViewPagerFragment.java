@@ -82,7 +82,7 @@ abstract public class BaseViewPagerFragment extends Fragment
      * @param resourceId 标题的图片资源:R.drawable.xxxx
      */
     protected final void setTitleImageResourceId(int resourceId){
-        mFragmentTitleLayout.setTitleImageResource(resourceId);
+        mFragmentTitleLayout.setTitleIcon(resourceId);
     }
 
     /**
@@ -98,7 +98,7 @@ abstract public class BaseViewPagerFragment extends Fragment
      * @param visibility 他只能是如下几个值的一个：View.VISIBLE、View.INVISIBLE、View.GONE
      */
     protected final void setTitleSearchVisibility(int visibility){
-        mFragmentTitleLayout.setSearchIvVisibility(visibility);
+        mFragmentTitleLayout.setSearchVisibility(visibility);
     }
 
     /**
@@ -106,7 +106,7 @@ abstract public class BaseViewPagerFragment extends Fragment
      * @param visibility 他只能是如下几个值的一个：View.VISIBLE、View.INVISIBLE、View.GONE
      */
     protected final void setTitleMoreVisibility(int visibility){
-        mFragmentTitleLayout.setMoreIvVisivility(visibility);
+        mFragmentTitleLayout.setMenuVisibility(visibility);
     }
 
     /**

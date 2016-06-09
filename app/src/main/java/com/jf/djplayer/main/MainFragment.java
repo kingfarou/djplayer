@@ -18,8 +18,7 @@ import com.jf.djplayer.localmusic.LocalMusicFragment;
 import com.jf.djplayer.recentlyplay.RecentlyPlayViewPagerFragment;
 
 /**
- * 主界面窗体的“我的”页卡
- * 这个Fragment仅做基本显示以及响应用户操作
+ * 主界面-MainFragment
  */
 public class MainFragment extends BaseFragment implements View.OnClickListener, FragmentTitleLayout.FragmentTitleListener {
 
@@ -32,17 +31,17 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        viewInit();
+        initView();
         //initSongDatabase();
         return rootView;
     }
 
 //    view的初始化
-    private void viewInit() {
+    private void initView() {
         //对标题栏的初始化
         fragmentTitleLayout = (FragmentTitleLayout) rootView.findViewById(R.id.fragmentTitleLinearLayout_fragment_mine);
-        fragmentTitleLayout.setSearchIvVisibility(View.GONE);
-        fragmentTitleLayout.setMoreIvVisivility(View.GONE);
+        fragmentTitleLayout.setSearchVisibility(View.GONE);
+        fragmentTitleLayout.setMenuVisibility(View.GONE);
         fragmentTitleLayout.setTitleClickListener(this);
 
         //各个按钮点击事件

@@ -59,9 +59,9 @@ public class SearchActivity extends BaseNoActionBarActivity
     //对标题栏做初始化
     private void fragmentTitleInit(){
         fragmentTitleLayout = (FragmentTitleLayout)findViewById(R.id.fragment_title_layout_activity_search);
-        fragmentTitleLayout.setTitleImageResource(R.drawable.ic_return);
-        fragmentTitleLayout.setSearchIvVisibility(View.GONE);//设置标题栏“搜索”按钮不可见
-        fragmentTitleLayout.setMoreIvVisivility(View.GONE);//设置标题栏“菜单”按钮不可见
+        fragmentTitleLayout.setTitleIcon(R.drawable.ic_return);
+        fragmentTitleLayout.setSearchVisibility(View.GONE);//设置标题栏“搜索”按钮不可见
+        fragmentTitleLayout.setMenuVisibility(View.GONE);//设置标题栏“菜单”按钮不可见
         fragmentTitleLayout.setTitleText("查找");
         //给标题栏里的按钮设置监听
         fragmentTitleLayout.setTitleClickListener(this);
