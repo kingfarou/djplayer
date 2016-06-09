@@ -7,7 +7,7 @@ import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.support.v4.app.FragmentTransaction;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.module.SongInfo;
@@ -18,7 +18,6 @@ import com.jf.djplayer.service.PlayerService;
 
 
 import java.util.List;
-import java.util.Stack;
 
 /**
  * 主界面-外层容器
@@ -65,7 +64,7 @@ public class MainActivity extends BaseNoActionBarActivity
     protected void initView() {
         //动态加载主页面的"Fragment"
         fragmentManager = getSupportFragmentManager();
-        Fragment fragment = new MainFragment();
+//        Fragment fragment = new MainFragment();
         fragmentManager.beginTransaction().add(R.id.fl_activity_main_fragment_container,new MainFragment()).commit();
         //将加载的"Fragment"名字放进堆栈里面
 //        fragmentStacks.push(fragment.getClass().getSimpleName());
@@ -97,7 +96,10 @@ public class MainActivity extends BaseNoActionBarActivity
     @Override
     public void replaceFragments(Fragment fragment) {
         //更改"fragmentManager"里的"fragment"
-        fragmentManager.beginTransaction().replace(R.id.fl_activity_main_fragment_container,fragment).addToBackStack(null).commit();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.local_music_fragment_translate_enter, R.anim.local_music_fragment_translate_exit,
+                R.anim.local_music_fragment_translate_pop_enter, R.anim.local_music_fragment_translate_pop_exit);
+        fragmentTransaction.replace(R.id.fl_activity_main_fragment_container,fragment).addToBackStack(null).commit();
         //让堆栈理所保存的"fragment"与"FragmentManager"保持同步
 //        fragmentStacks.push(fragment.getClass().getSimpleName());
     }
