@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
-import com.jf.djplayer.base.basefragment.BaseGroupFragment;
+import com.jf.djplayer.base.basefragment.BaseViewPagerFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
  * 分类显示--外层容器
  * 在“歌手”、“文件夹”、“专辑”页面里面点击栏目，将会跳到这个页面
  */
-public class ClassifySongFragment extends BaseGroupFragment{
+public class ClassifySongFragment extends BaseViewPagerFragment {
 
     public static final String COLUMN_NAME = "columnName";
     public static final String COLUMN_VALUES = "columnValues";

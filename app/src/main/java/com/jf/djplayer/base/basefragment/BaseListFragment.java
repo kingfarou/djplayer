@@ -24,6 +24,12 @@ import java.util.Map;
 /**
  * Created by JF on 2016/1/23.
  * 所有使用"ListView"的"Fragment"的基类
+ * 该类定义所有使用"ListView"显示歌曲信息的"Fragment"的显示样式
+ * 该抽象类已经实现的功能有
+ * 异步读取"ListView"显示所需要的数据（在“_getData()”方法里面）
+ * 读取之前有进度条提示用户读取之后正常显示数据
+ * 读取完成将数据设置到"ListView"里面
+ * 子类根据需要重写方法即可
  */
 public abstract class BaseListFragment extends BaseFragment
         implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
@@ -48,7 +54,6 @@ public abstract class BaseListFragment extends BaseFragment
 //        获取"ListView"
         rootView = inflater.inflate(R.layout.fragment_list_view, container, false);
         listView = (ListView) rootView.findViewById(R.id.lv_fragment_list_view);
-
 
         //数据载入时的提示界面、没有数据可显示的提示界面的初始化
         loadingHintView = getLoadingHintView();
@@ -139,7 +144,9 @@ public abstract class BaseListFragment extends BaseFragment
      * 返回当前"Fragment"里的"ListView"所显示的数据集合
      * @return
      */
-    abstract public List getDatasList();
+    public List getDatasList(){
+        return null;
+    }
 
     /**
      * 当异步任务完成时将会回调这个方法

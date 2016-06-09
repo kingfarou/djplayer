@@ -22,7 +22,7 @@ public abstract class BaseActivity extends FragmentActivity{
     }
 
     /**
-     * 子类在此设置Activity布局文件，这是一个工厂方法
+     * 子类需要在此返回"Activity"布局文件的ID，这是一个工厂方法
      */
     abstract protected int getContentViewId();
 

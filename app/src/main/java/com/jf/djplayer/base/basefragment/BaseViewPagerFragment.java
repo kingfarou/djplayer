@@ -16,13 +16,12 @@ import com.jf.djplayer.customview.TextViewTabs;
 
 /**
  * Created by JF on 2016/4/25.
- * 项目里面大量使用到了"Fragment"嵌套"Fragment"，
- * 这是作为容器（外层"Fragment"）的"Fragment"的基类，基类实现：
+ * 带有自定义标题栏以及"ViewPager"的"Fragment"基类，基类实现：
  * >带有一个自定义的"FragmentTitleLayout"
  * >带有一个自定义的"TextViewTabs"
  * >定义好了"ViewPager"，子类将适配器做好就可以了
  */
-abstract public class BaseGroupFragment extends Fragment
+abstract public class BaseViewPagerFragment extends Fragment
         implements FragmentTitleLayout.FragmentTitleListener, ViewPager.OnPageChangeListener,
         AdapterView.OnItemClickListener{
 
@@ -41,12 +40,12 @@ abstract public class BaseGroupFragment extends Fragment
         mViewPager = (ViewPager)layoutView.findViewById(R.id.vp_fragment_base_group);
         mTextViewTabs = (TextViewTabs)layoutView.findViewById(R.id.textViewLinearLayout_fragment_base_group);
 
-        viewInit();
+        initView();
         initBeforeReturnView();
         return layoutView;
     }
 
-    private void viewInit(){
+    private void initView(){
         //"FragmentTitleLayout"初始化
         mFragmentTitleLayout.setTitleClickListener(this);
 

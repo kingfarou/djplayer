@@ -12,12 +12,12 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.jf.djplayer.base.basefragment.BaseListFragment;
 import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.R;
 
 import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
-import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
@@ -28,7 +28,7 @@ import java.util.Map;
  * Created by JF on 2016/1/29.
  * 本地音乐-文件夹列表
  */
-public class FolderFragment extends BaseListFragmentInterface
+public class FolderFragment extends BaseListFragment
                 implements SearchedDataProvider{
 
     private View footerView;//"ListView"的"footerView"

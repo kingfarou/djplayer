@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
-import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
+import com.jf.djplayer.base.basefragment.BaseListFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.Map;
  * Created by JF on 2016/5/8.
  * 以"ListView"方式显示数据的搜索的列表
  */
-public class ListViewSearchFragment extends BaseListFragmentInterface
+public class ListViewSearchFragment extends BaseListFragment
                 implements SearcherFragment {
 
     private List<Map<String,String>> searchedList;//这是待搜索的数据

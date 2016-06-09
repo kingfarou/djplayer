@@ -12,12 +12,11 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_app"
         android:label="@string/app_name"
-        android:theme="@style/MyTheme" >
+        android:theme="@style/AppTheme" >
 
         <!-- main模块所用"Activity"__start-->
         <!-- 欢迎界面Activity-->
-        <activity android:name=".main.WelcomeActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+        <activity android:name=".main.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -31,16 +30,12 @@
         <!-- 专门用于显示播放信息用的活动-->
         <activity
             android:name=".songplayinfo.SongPlayInfoActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:launchMode="singleTop">
         </activity>
 
 
         <!-- 显示扫描过程用的活动-->
-        <activity
-            android:name=".songscan.ScanningSongActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
-        </activity>
+        <activity android:name=".songscan.ScanningSongActivity"/>
 
         <!-- 搜索模块"Activity"__start-->
         <activity android:name=".search.SearchActivity"/>
@@ -51,7 +46,6 @@
             android:name=".service.PlayerService"
             android:exported="false" >
         </service>
-
 
     </application>
 

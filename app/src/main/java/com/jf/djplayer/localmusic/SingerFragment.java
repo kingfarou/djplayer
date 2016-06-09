@@ -12,12 +12,12 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.jf.djplayer.base.basefragment.BaseListFragment;
 import com.jf.djplayer.classifyshowsong.ClassifySongFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
-import com.jf.djplayer.base.basefragment.BaseListFragmentInterface;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
@@ -29,7 +29,7 @@ import java.util.Map;
  * Created by JF on 2016/1/29.
  * 本地音乐-歌手列表
  */
-public class SingerFragment extends BaseListFragmentInterface
+public class SingerFragment extends BaseListFragment
                 implements SearchedDataProvider{
 
     private List<Map<String,String>> singerList;//"ListView"数据集合

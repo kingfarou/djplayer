@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
-import com.jf.djplayer.base.basefragment.BaseGroupFragment;
-import com.jf.djplayer.base.basefragment.BaseListFragment;
+import com.jf.djplayer.base.basefragment.BaseViewPagerFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.search.SearchActivity;
@@ -26,7 +25,7 @@ import java.util.List;
  * Created by JF on 2016/1/19.
  * 本地音乐-外层容器
  */
-public class LocalMusicFragment extends BaseGroupFragment{
+public class LocalMusicFragment extends BaseViewPagerFragment {
 
     private int windowWidths;
 

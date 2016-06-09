@@ -11,7 +11,7 @@ import android.view.KeyEvent;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.module.SongInfo;
-import com.jf.djplayer.base.baseactivity.BaseNoTitleActivity;
+import com.jf.djplayer.base.baseactivity.BaseNoActionBarActivity;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.service.PlayerService;
@@ -28,7 +28,7 @@ import java.util.Stack;
  * 实现几个回调接口
  *
  */
-public class MainActivity extends BaseNoTitleActivity
+public class MainActivity extends BaseNoActionBarActivity
         implements FragmentChanger, PlayController, ServiceConnection, ExitDialog.ExitDialogListener{
 
     private FragmentManager fragmentManager;//动态修改"Fragment"的管理器

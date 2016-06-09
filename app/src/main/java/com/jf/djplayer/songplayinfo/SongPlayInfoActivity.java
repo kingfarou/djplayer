@@ -17,7 +17,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.jf.djplayer.module.SongInfo;
-import com.jf.djplayer.base.baseactivity.BaseNoTitleActivity;
+import com.jf.djplayer.base.baseactivity.BaseNoActionBarActivity;
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.SongPlayInfoAdapter;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
@@ -41,7 +41,7 @@ import java.util.List;
  * Created by Administrator on 2015/8/4.
  * 播放信息"Activity"
  */
-public class SongPlayInfoActivity extends BaseNoTitleActivity implements
+public class SongPlayInfoActivity extends BaseNoActionBarActivity implements
         ServiceConnection ,SeekBar.OnSeekBarChangeListener,PlayInfoObserver,
         FragmentTitleLayout.FragmentTitleListener,View.OnClickListener{
 
