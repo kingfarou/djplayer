@@ -33,7 +33,7 @@ public class MainActivity extends BaseNoActionBarActivity
 
     private FragmentManager fragmentManager;//动态修改"Fragment"的管理器
     private PlayerService playerService;//后台控制播放用的服务
-    private Stack<String> fragmentStacks;//记录每个添加到"Activity"里的"Fragment"类名
+//    private Stack<String> fragmentStacks;//记录每个添加到"Activity"里的"Fragment"类名
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class MainActivity extends BaseNoActionBarActivity
         bindService(startService, this, BIND_AUTO_CREATE);
 
         //初始化堆栈
-        fragmentStacks = new Stack<>();
+//        fragmentStacks = new Stack<>();
     }
 
     @Override
@@ -68,7 +68,7 @@ public class MainActivity extends BaseNoActionBarActivity
         Fragment fragment = new MainFragment();
         fragmentManager.beginTransaction().add(R.id.fl_activity_main_fragment_container,new MainFragment()).commit();
         //将加载的"Fragment"名字放进堆栈里面
-        fragmentStacks.push(fragment.getClass().getSimpleName());
+//        fragmentStacks.push(fragment.getClass().getSimpleName());
     }
 
     @Override
@@ -78,20 +78,20 @@ public class MainActivity extends BaseNoActionBarActivity
     }
 
     //监听手机返回按键
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            //如果现在已经在主页面，显示退出的提示框
-            if(fragmentStacks.peek().equals(MainFragment.class.getSimpleName())){
-                new ExitDialog().show(fragmentManager, "ExitDialog");
-                return true;
-            }else{
-                //否则，将堆栈里"Fragment"类名出栈，让堆栈和"FragmentManager"保持同步
-                fragmentStacks.pop();
-            }
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if(keyCode == KeyEvent.KEYCODE_BACK){
+//            //如果现在已经在主页面，显示退出的提示框
+//            if(fragmentStacks.peek().equals(MainFragment.class.getSimpleName())){
+//                new ExitDialog().show(fragmentManager, "ExitDialog");
+//                return true;
+//            }else{
+//                //否则，将堆栈里"Fragment"类名出栈，让堆栈和"FragmentManager"保持同步
+//                fragmentStacks.pop();
+//            }
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     /*"FragmentChanger"方法覆盖_start*/
     @Override
@@ -99,7 +99,7 @@ public class MainActivity extends BaseNoActionBarActivity
         //更改"fragmentManager"里的"fragment"
         fragmentManager.beginTransaction().replace(R.id.fl_activity_main_fragment_container,fragment).addToBackStack(null).commit();
         //让堆栈理所保存的"fragment"与"FragmentManager"保持同步
-        fragmentStacks.push(fragment.getClass().getSimpleName());
+//        fragmentStacks.push(fragment.getClass().getSimpleName());
     }
 
 //    活动里的Fragment通过他来通知活动
@@ -108,7 +108,7 @@ public class MainActivity extends BaseNoActionBarActivity
     public void popFragments() {
         //在"fragmentManager"回退一次事务操作，并且让"fragmentStacks"里的记录和"fragmentManager"保持同步
         fragmentManager.popBackStack();
-        fragmentStacks.pop();
+//        fragmentStacks.pop();
     }
     /*"FragmentChanger"方法覆盖_end*/
 

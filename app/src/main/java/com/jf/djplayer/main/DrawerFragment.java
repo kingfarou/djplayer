@@ -50,6 +50,7 @@ public class DrawerFragment extends BaseFragment implements View.OnClickListener
                 break;
             //如果按下退出按钮
             case R.id.tv_fragment_drawer_exit:
+                ((MainActivity)getActivity()).exitApp();
                 break;
             default:break;
         }
