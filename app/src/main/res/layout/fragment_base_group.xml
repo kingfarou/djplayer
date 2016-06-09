@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.jf.djplayer.customview.FragmentTitleLayout
+    <com.jf.djplayer.customview.CustomTitles
         android:id="@+id/fragmentTitleLayout_fragment_base_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.jf.djplayer.customview.FragmentTitleLayout>
+    </com.jf.djplayer.customview.CustomTitles>
 
     <com.jf.djplayer.customview.TextViewTabs
         android:id="@+id/textViewLinearLayout_fragment_base_group"

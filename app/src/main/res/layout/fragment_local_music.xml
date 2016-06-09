@@ -6,16 +6,15 @@
     android:layout_height="match_parent">
 
     <!-- 这个是标题栏布局-->
-    <com.jf.djplayer.customview.FragmentTitleLayout
+    <com.jf.djplayer.customview.CustomTitles
         android:id="@+id/fragmentTitleLinearLayout_fragment_local_music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        customView:fragmentTitleLinearLayout_distance="8dp"
-        customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_return"
-        customView:fragmentTitleLinearLayout_titleText="本地音乐"
+        customView:custom_titles_title_distance="8dp"
+        customView:custom_titles_title_text="本地音乐"
         android:background="@color/sky_blue">
 
-    </com.jf.djplayer.customview.FragmentTitleLayout>
+    </com.jf.djplayer.customview.CustomTitles>
 
     <!--这是中间栏目标题布局-->
     <com.jf.djplayer.customview.TextViewTabs

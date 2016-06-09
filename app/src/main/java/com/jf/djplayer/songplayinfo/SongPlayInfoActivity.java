@@ -28,7 +28,7 @@ import com.jf.djplayer.tool.UserOptionTool;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.playertool.PlayerOperator;
 
-import com.jf.djplayer.customview.FragmentTitleLayout;
+import com.jf.djplayer.customview.CustomTitles;
 import com.jf.djplayer.playertool.SingerPictureTools;
 
 import android.support.v4.app.Fragment;
@@ -43,7 +43,7 @@ import java.util.List;
  */
 public class SongPlayInfoActivity extends BaseNoActionBarActivity implements
         ServiceConnection ,SeekBar.OnSeekBarChangeListener,PlayInfoObserver,
-        FragmentTitleLayout.FragmentTitleListener,View.OnClickListener{
+        CustomTitles.FragmentTitleListener,View.OnClickListener{
 
     //布局文件的根布局，用来显示歌手图片
     private LinearLayout ll_root_view;

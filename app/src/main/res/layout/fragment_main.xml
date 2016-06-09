@@ -5,14 +5,14 @@
     android:id="@+id/ll_fragment_main" android:background="@drawable/bg_fragment_mine">
 
     <!--标题栏-->
-    <com.jf.djplayer.customview.FragmentTitleLayout
+    <com.jf.djplayer.customview.CustomTitles
         android:id="@+id/fragmentTitleLinearLayout_fragment_mine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        customView:fragmentTitleLinearLayout_titleIcon="@drawable/ic_app"
-        customView:fragmentTitleLinearLayout_distance="8dp"
-        customView:fragmentTitleLinearLayout_titleText="@string/app_name">
-    </com.jf.djplayer.customview.FragmentTitleLayout>
+        customView:custom_titles_title_icon="@drawable/ic_app"
+        customView:custom_titles_title_distance="8dp"
+        customView:custom_titles_title_text="@string/app_name">
+    </com.jf.djplayer.customview.CustomTitles>
 
     <!-- 我的歌单、最近播放-->
     <LinearLayout

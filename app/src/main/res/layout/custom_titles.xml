@@ -4,7 +4,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content" android:gravity="center_vertical"
     android:background="@color/sky_blue"
-    android:paddingRight="16dp" android:paddingEnd="16dp">
+    android:paddingRight="8dp" android:paddingEnd="8dp">
 
     <!--<LinearLayout-->
         <!--android:id="@+id/ll_fragment_title_linear_layout"-->
@@ -23,6 +23,7 @@
             android:id="@+id/tv_custom_titles_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_custom_titles_item"
             android:padding="8dp"
             android:textSize="24sp"
             android:text="titleContent"
@@ -32,7 +33,7 @@
     <!-- 这个用来占空用的-->
     <TextView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:visibility="invisible"
         android:layout_weight="1"/>
 
@@ -41,6 +42,8 @@
         android:id="@+id/iv_custom_titles_search"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_custom_titles_item"
+        android:padding="8dp"
         android:src="@drawable/ic_search"/>
 
     <!--菜单按钮-->
@@ -48,7 +51,7 @@
         android:id="@+id/iv_custom_titles_menu"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_custom_titles_item"
+        android:padding="8dp"
         android:src="@drawable/icon_more"/>
 </LinearLayout>

@@ -13,7 +13,7 @@ import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
 import com.jf.djplayer.base.basefragment.BaseViewPagerFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 
-import com.jf.djplayer.customview.FragmentTitleLayout;
+import com.jf.djplayer.customview.CustomTitles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class MyFavoriteViewPagerFragment extends BaseViewPagerFragment {
 
     private View layoutView;
     private FragmentChanger fragmentChanger;
-    private FragmentTitleLayout FragmentTitleLayout;
+    private CustomTitles CustomTitles;
 
     @Nullable
     @Override

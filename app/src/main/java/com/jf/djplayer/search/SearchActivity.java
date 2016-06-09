@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseactivity.BaseNoActionBarActivity;
-import com.jf.djplayer.customview.FragmentTitleLayout;
+import com.jf.djplayer.customview.CustomTitles;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ import java.util.List;
  * 搜索列表样式只有两类，分别对应"ExpandableListView"列表以及"ListView"列表
  */
 public class SearchActivity extends BaseNoActionBarActivity
-        implements FragmentTitleLayout.FragmentTitleListener, TextWatcher,
+        implements CustomTitles.FragmentTitleListener, TextWatcher,
         SearchedDataProvider {
 
-    private FragmentTitleLayout fragmentTitleLayout;//标题
+    private CustomTitles customTitles;//标题
     private EditText searchKeywordEt;//用户输入搜索内容
     private SearcherFragment searcherFragment;//搜索用的"Fragment"
 
@@ -58,13 +58,13 @@ public class SearchActivity extends BaseNoActionBarActivity
 
     //对标题栏做初始化
     private void fragmentTitleInit(){
-        fragmentTitleLayout = (FragmentTitleLayout)findViewById(R.id.fragment_title_layout_activity_search);
-        fragmentTitleLayout.setTitleIcon(R.drawable.ic_return);
-        fragmentTitleLayout.setSearchVisibility(View.GONE);//设置标题栏“搜索”按钮不可见
-        fragmentTitleLayout.setMenuVisibility(View.GONE);//设置标题栏“菜单”按钮不可见
-        fragmentTitleLayout.setTitleText("查找");
+        customTitles = (CustomTitles)findViewById(R.id.fragment_title_layout_activity_search);
+        customTitles.setTitleIcon(R.drawable.ic_return);
+        customTitles.setSearchVisibility(View.GONE);//设置标题栏“搜索”按钮不可见
+        customTitles.setMenuVisibility(View.GONE);//设置标题栏“菜单”按钮不可见
+        customTitles.setTitleText("查找");
         //给标题栏里的按钮设置监听
-        fragmentTitleLayout.setTitleClickListener(this);
+        customTitles.setTitleClickListener(this);
     }
 
     //用户输入框初始化

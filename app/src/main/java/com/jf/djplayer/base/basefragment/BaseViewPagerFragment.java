@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.customview.FragmentTitleLayout;
+import com.jf.djplayer.customview.CustomTitles;
 import com.jf.djplayer.customview.TextViewTabs;
 
 /**
@@ -22,10 +22,10 @@ import com.jf.djplayer.customview.TextViewTabs;
  * >定义好了"ViewPager"，子类将适配器做好就可以了
  */
 abstract public class BaseViewPagerFragment extends Fragment
-        implements FragmentTitleLayout.FragmentTitleListener, ViewPager.OnPageChangeListener,
+        implements CustomTitles.FragmentTitleListener, ViewPager.OnPageChangeListener,
         AdapterView.OnItemClickListener{
 
-    protected FragmentTitleLayout mFragmentTitleLayout;//这是"Fragment"容器的统一标题
+    protected CustomTitles mCustomTitles;//这是"Fragment"容器的统一标题
     private TextViewTabs mTextViewTabs;//自定义栏目指示器
     private ViewPager mViewPager;//用来装填多个的"Fragment"
     protected FragmentStatePagerAdapter mFragmentStatePagerAdapter;
@@ -36,7 +36,7 @@ abstract public class BaseViewPagerFragment extends Fragment
         View layoutView = inflater.inflate(R.layout.fragment_base_group,container,false);
 
         //findViewById()
-        mFragmentTitleLayout = (FragmentTitleLayout)layoutView.findViewById(R.id.fragmentTitleLayout_fragment_base_group);
+        mCustomTitles = (CustomTitles)layoutView.findViewById(R.id.fragmentTitleLayout_fragment_base_group);
         mViewPager = (ViewPager)layoutView.findViewById(R.id.vp_fragment_base_group);
         mTextViewTabs = (TextViewTabs)layoutView.findViewById(R.id.textViewLinearLayout_fragment_base_group);
 
@@ -47,7 +47,7 @@ abstract public class BaseViewPagerFragment extends Fragment
 
     private void initView(){
         //"FragmentTitleLayout"初始化
-        mFragmentTitleLayout.setTitleClickListener(this);
+        mCustomTitles.setTitleClickListener(this);
 
         //"TextViewLinearLayout"初始化
         mTextViewTabs.setItemText(getTextViewTabsText());
@@ -82,7 +82,7 @@ abstract public class BaseViewPagerFragment extends Fragment
      * @param resourceId 标题的图片资源:R.drawable.xxxx
      */
     protected final void setTitleImageResourceId(int resourceId){
-        mFragmentTitleLayout.setTitleIcon(resourceId);
+        mCustomTitles.setTitleIcon(resourceId);
     }
 
     /**
@@ -90,7 +90,7 @@ abstract public class BaseViewPagerFragment extends Fragment
      * @param titleText 标题文字
      */
     protected final void setTitleText(String titleText){
-        mFragmentTitleLayout.setTitleText(titleText);
+        mCustomTitles.setTitleText(titleText);
     }
 
     /**
@@ -98,7 +98,7 @@ abstract public class BaseViewPagerFragment extends Fragment
      * @param visibility 他只能是如下几个值的一个：View.VISIBLE、View.INVISIBLE、View.GONE
      */
     protected final void setTitleSearchVisibility(int visibility){
-        mFragmentTitleLayout.setSearchVisibility(visibility);
+        mCustomTitles.setSearchVisibility(visibility);
     }
 
     /**
@@ -106,7 +106,7 @@ abstract public class BaseViewPagerFragment extends Fragment
      * @param visibility 他只能是如下几个值的一个：View.VISIBLE、View.INVISIBLE、View.GONE
      */
     protected final void setTitleMoreVisibility(int visibility){
-        mFragmentTitleLayout.setMenuVisibility(visibility);
+        mCustomTitles.setMenuVisibility(visibility);
     }
 
     /**

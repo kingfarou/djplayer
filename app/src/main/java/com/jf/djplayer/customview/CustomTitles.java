@@ -15,13 +15,13 @@ import com.jf.djplayer.R;
 
 /**
  * Created by JF on 2016/1/19.
- * 用来统一Fragment的标题的
+ * 自定义的当前应用所用标题
  * 左边一个返回箭头
  * 然后一个Fragment标题
  * 最右边有一个搜索图标
  * 还有一个指示更多图标
  */
-public class FragmentTitleLayout extends FrameLayout implements OnClickListener{
+public class CustomTitles extends FrameLayout implements OnClickListener{
 
     private TextView tv_title_text;
     private ImageView iv_search;//搜索
@@ -31,8 +31,10 @@ public class FragmentTitleLayout extends FrameLayout implements OnClickListener{
 //    private TextView titleTextView;//这个就是标题文字
     private FragmentTitleListener fragmentTitleListener;
 
-    public FragmentTitleLayout(Context context, AttributeSet attrs) {
+    public CustomTitles(Context context, AttributeSet attrs) {
         super(context, attrs);
+        //设置标题背景颜色
+        setBackgroundColor(context.getResources().getColor(R.color.sky_blue));
         View rootView = LayoutInflater.from(context).inflate(R.layout.custom_titles,this);
 //        从布局文件里找到各个控件
 //        titleLinearLayout = (LinearLayout)rootView.findViewById(R.id.ll_fragment_title_linear_layout);
@@ -45,19 +47,19 @@ public class FragmentTitleLayout extends FrameLayout implements OnClickListener{
         iv_menu = (ImageView)rootView.findViewById(R.id.iv_custom_titles_menu);
 
 //        读取XML文件的属性，并加各个属性设置到控件上
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FragmentTitleLinearLayout);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomTitles);
 //        titleImageView.setImageResource(typedArray.getResourceId(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleIcon, R.drawable.ic_return));
         //标题"TextView"属性设置
-        Drawable drawable = context.getResources().getDrawable(typedArray.getResourceId(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleIcon, R.drawable.ic_return));
+        Drawable drawable = context.getResources().getDrawable(typedArray.getResourceId(R.styleable.CustomTitles_custom_titles_title_icon, R.drawable.ic_return));
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         tv_title_text.setCompoundDrawables(drawable, null, null, null);
-        tv_title_text.setText(typedArray.getString(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_titleText));
+        tv_title_text.setText(typedArray.getString(R.styleable.CustomTitles_custom_titles_title_text));
 
         //搜索按钮属性设置
-        iv_search.setVisibility(typedArray.getInteger(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_searchImageVisibility, View.VISIBLE));
+        iv_search.setVisibility(typedArray.getInteger(R.styleable.CustomTitles_custom_titles_search_visibility, View.VISIBLE));
 
         //菜单按钮属性设置
-        iv_menu.setVisibility(typedArray.getInteger(R.styleable.FragmentTitleLinearLayout_fragmentTitleLinearLayout_moreImageVisibility, View.VISIBLE));
+        iv_menu.setVisibility(typedArray.getInteger(R.styleable.CustomTitles_custom_titles_menu_visibility, View.VISIBLE));
         typedArray.recycle();
     }
 

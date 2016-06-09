@@ -8,7 +8,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.jf.djplayer.base.basefragment.BaseFragment;
-import com.jf.djplayer.customview.FragmentTitleLayout;
+import com.jf.djplayer.customview.CustomTitles;
 import com.jf.djplayer.myfavorite.MyFavoriteViewPagerFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.database.SongInfoOpenHelper;
@@ -20,11 +20,11 @@ import com.jf.djplayer.recentlyplay.RecentlyPlayViewPagerFragment;
 /**
  * 主界面-MainFragment
  */
-public class MainFragment extends BaseFragment implements View.OnClickListener, FragmentTitleLayout.FragmentTitleListener {
+public class MainFragment extends BaseFragment implements View.OnClickListener, CustomTitles.FragmentTitleListener {
 
     private View rootView;//"fragment"布局文件
     private TextView tv_song_num;//歌词数量
-    private FragmentTitleLayout fragmentTitleLayout;//标题
+    private CustomTitles customTitles;//标题
     private PopupWindow menuWindow = null;
 
     @Override
@@ -39,10 +39,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 //    view的初始化
     private void initView() {
         //对标题栏的初始化
-        fragmentTitleLayout = (FragmentTitleLayout) rootView.findViewById(R.id.fragmentTitleLinearLayout_fragment_mine);
-        fragmentTitleLayout.setSearchVisibility(View.GONE);
-        fragmentTitleLayout.setMenuVisibility(View.GONE);
-        fragmentTitleLayout.setTitleClickListener(this);
+        customTitles = (CustomTitles) rootView.findViewById(R.id.fragmentTitleLinearLayout_fragment_mine);
+        customTitles.setSearchVisibility(View.GONE);
+        customTitles.setMenuVisibility(View.GONE);
+        customTitles.setTitleClickListener(this);
 
         //各个按钮点击事件
         rootView.findViewById(R.id.ll_fragment_mine_local_music).setOnClickListener(this);//本地音乐

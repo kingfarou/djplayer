@@ -19,6 +19,7 @@
     <color name="white_translucent">#80ffffff</color>
     <color name="blue_translucent">#8033b5e5</color>
     <color name="sky_blue_translucent">#800080ff</color>
+
     <!-- 各种颜色的全透明-->
     <color name="white_transparent">#00ffffff</color>
 

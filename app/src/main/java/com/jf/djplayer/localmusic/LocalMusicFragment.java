@@ -131,19 +131,19 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
         switch (getViewPagerCurrentItem()) {
             case 0:
                 listViewPopupWindows = ((SongFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
-                listViewPopupWindows.showAsDropDown(mFragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
+                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths - listViewPopupWindows.getWidth(), 0);
                 break;
             case 1:
                 listViewPopupWindows = ((SingerFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
-                listViewPopupWindows.showAsDropDown(mFragmentTitleLayout, windowWidths-listViewPopupWindows.getWidth(), 0);
+                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths-listViewPopupWindows.getWidth(), 0);
                 break;
             case 2:
                 listViewPopupWindows = ((AlbumFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
-                listViewPopupWindows.showAsDropDown(mFragmentTitleLayout, windowWidths-listViewPopupWindows.getWidth(), 0);
+                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths-listViewPopupWindows.getWidth(), 0);
                 break;
             case 3:
                 listViewPopupWindows = ((FolderFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
-                listViewPopupWindows.showAsDropDown(mFragmentTitleLayout, windowWidths - listViewPopupWindows.getWidth(), 0);
+                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths - listViewPopupWindows.getWidth(), 0);
                 break;
             default:
                 break;
