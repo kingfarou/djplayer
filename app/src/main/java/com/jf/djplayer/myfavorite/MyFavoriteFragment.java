@@ -22,7 +22,7 @@ import java.util.List;
  * Created by JF on 2016/2/21.
  * 我的最爱-外层容器
  */
-public class MyFavoriteViewPagerFragment extends BaseViewPagerFragment {
+public class MyFavoriteFragment extends BaseViewPagerFragment {
 
     private View layoutView;
     private FragmentChanger fragmentChanger;

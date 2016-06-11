@@ -23,7 +23,7 @@ import java.util.List;
  * Created by JF on 2016/4/27.
  * 最近播放数据列表，显示最近所播放的歌曲
  */
-public class RecentlyPlayListFragment extends BaseExpandFragment {
+public class RecentlyPlayExpandFragment extends BaseExpandFragment {
 
     /**当一首歌最后一次播放时间等于这个常量，表示这首歌从未播放过*/
     public static final int NEVER_PLAY = 0;

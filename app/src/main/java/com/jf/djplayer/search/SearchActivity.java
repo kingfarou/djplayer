@@ -88,7 +88,7 @@ public class SearchActivity extends BaseNoActionBarActivity
         //根据标记判断加载哪类"Fragment"
         switch(fragmentType){
             case EXPANDABLE_LIST_VIEW:
-                searcherFragment = new ExpandListSearchFragment();
+                searcherFragment = new ExpandSearchFragment();
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fl_activity_search_fragment_group, (Fragment) searcherFragment).commit();
                 break;

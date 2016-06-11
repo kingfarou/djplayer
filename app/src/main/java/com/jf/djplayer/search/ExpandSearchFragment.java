@@ -19,7 +19,7 @@ import java.util.List;
  * Created by JF on 2016/5/8.
  * 查找/搜索歌曲-歌曲列表
  */
-public class ExpandListSearchFragment extends BaseExpandFragment
+public class ExpandSearchFragment extends BaseExpandFragment
                 implements SearcherFragment {
 
     private List<SongInfo> searchedList;//这是待搜索的数据列表

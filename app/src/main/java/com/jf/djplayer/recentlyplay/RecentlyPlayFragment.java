@@ -20,7 +20,7 @@ import java.util.List;
  * Created by JF on 2016/4/25.
  * 最近播放-外层容器
  */
-public class RecentlyPlayViewPagerFragment extends BaseViewPagerFragment {
+public class RecentlyPlayFragment extends BaseViewPagerFragment {
 
     @Nullable
     @Override
@@ -45,7 +45,7 @@ public class RecentlyPlayViewPagerFragment extends BaseViewPagerFragment {
     @Override
     protected FragmentStatePagerAdapter getViewPagerAdapter() {
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new RecentlyPlayListFragment());
+        fragmentList.add(new RecentlyPlayExpandFragment());
         FragmentViewPagerAdapter fragmentViewPagerAdapter =
                 new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
 //        fragmentViewPagerAdapter.setFragments(fragmentList);
