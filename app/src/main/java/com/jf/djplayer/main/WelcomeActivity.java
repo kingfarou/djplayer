@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseactivity.BaseActivity;
-import com.jf.djplayer.tool.FileTool;
+import com.jf.djplayer.util.FileUtil;
 
 
 /**
@@ -69,7 +69,7 @@ public class WelcomeActivity extends BaseActivity {
     //创建应用在外存的相关目录
     private void appDirInit(){
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            FileTool fileTool = new FileTool(this);
+            FileUtil fileTool = new FileUtil(this);
             fileTool.createAppRootDir();//创建应用的根目录
             fileTool.appDirInit();//创建应用所需要的各个路径
         }else{

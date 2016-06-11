@@ -1,4 +1,4 @@
-package com.jf.djplayer.tool;
+package com.jf.djplayer.util;
 
 import android.app.Activity;
 

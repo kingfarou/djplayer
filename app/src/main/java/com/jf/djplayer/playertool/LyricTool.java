@@ -4,7 +4,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.jf.djplayer.songplayinfo.LyricLine;
-import com.jf.djplayer.tool.FileTool;
+import com.jf.djplayer.util.FileUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -46,7 +46,7 @@ public class LyricTool {
 //        链接对应歌词文件
 //        标记是否存在歌词文件
         if(lyricFile==null){
-            lyricFile = new File(Environment.getExternalStorageDirectory(), FileTool.LYRIC_DIR +"/"+ lyricFileNames);
+            lyricFile = new File(Environment.getExternalStorageDirectory(), FileUtil.LYRIC_DIR +"/"+ lyricFileNames);
 //            Log.i("test",lyricFile.getAbsolutePath());
         }
         return lyricFile.exists();

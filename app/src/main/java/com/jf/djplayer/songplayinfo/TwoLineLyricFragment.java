@@ -17,7 +17,7 @@ import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.module.SongPlayInfo;
-import com.jf.djplayer.other.MyApplication;
+import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.playertool.LyricTool;
 import com.jf.djplayer.playertool.PlayerOperator;
 
@@ -132,7 +132,7 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
             lyricTool = new LyricTool(songFileName);
             //如果当前应用没有存有歌词直接返回
             if(!lyricTool.hasSongLyric()){
-                MyApplication.printLog("没有对应歌词文件");
+                MyApplication.showLog("没有对应歌词文件");
                 return;
             }
             lyricTool.loadLyric();//调用方法载入歌词

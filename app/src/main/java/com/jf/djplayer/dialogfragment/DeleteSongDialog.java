@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.module.SongInfo;
-import com.jf.djplayer.tool.FileTool;
+import com.jf.djplayer.util.FileUtil;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
@@ -80,7 +80,7 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
                 if (isDeleteSoundFile) {
                 }
                 if (isDeleteLyricFile) {
-                    File lyricDir = new File(sdCardFile, FileTool.LYRIC_DIR);//连接歌词文件路径
+                    File lyricDir = new File(sdCardFile, FileUtil.LYRIC_DIR);//连接歌词文件路径
                     File songFile = new File(songInfo.getSongAbsolutePath());//连接歌曲那个文件
 //                    截取歌曲文件名字（去拓展名）
                     String songFileName = songFile.getName().substring(0,songFile.getName().length()-4);

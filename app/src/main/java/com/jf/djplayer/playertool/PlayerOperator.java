@@ -10,9 +10,9 @@ import android.widget.Toast;
 import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.module.SongPlayInfo;
-import com.jf.djplayer.other.MyApplication;
+import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
-import com.jf.djplayer.tool.UserOptionTool;
+import com.jf.djplayer.util.UserOptionPreferences;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class PlayerOperator implements
             synchronized (PlayerOperator.class){
                 if(playerOperator==null) {
                     playerOperator = new PlayerOperator();
-                    MyApplication.printLog("创建单例");
+                    MyApplication.showLog("创建单例");
                 }
             }
         }
@@ -93,7 +93,7 @@ public class PlayerOperator implements
                 mMediaPlayer.setDataSource(playFile.getAbsolutePath());
                 mMediaPlayer.prepareAsync();
             }catch (IOException e){
-                MyApplication.printLog("异常--"+e.toString()+"-位置-"+"playerOperator.play(List, int)方法");
+                MyApplication.showLog("异常--"+e.toString()+"-位置-"+"playerOperator.play(List, int)方法");
                 Toast.makeText(mContext, "所点击的歌曲文件有误", Toast.LENGTH_SHORT).show();
             }
         }else if( !songPlayInfo.getSongInfo().getSongAbsolutePath().equals(songInfoList.get(playPosition).getSongAbsolutePath()) ){
@@ -193,7 +193,7 @@ public class PlayerOperator implements
 //        在释放掉当前对象
         if(playerOperator!=null) {
             playerOperator = null;
-            MyApplication.printLog("销毁单例");
+            MyApplication.showLog("销毁单例");
         }
     }
 
@@ -310,16 +310,16 @@ public class PlayerOperator implements
         if(mp == null || songInfoList == null){
             return;
         }
-        UserOptionTool playOption = new UserOptionTool(MyApplication.getContext());
+        UserOptionPreferences playOption = new UserOptionPreferences(MyApplication.getContext());
         int playMode = playOption.getPlayModes();
         //根据播放模式进行控制判断
-        if(playMode==UserOptionTool.PLAY_MODE_SINGLE_CIRCLUATE){//如果处于单曲循环模式
+        if(playMode== UserOptionPreferences.PLAY_MODE_SINGLE_CIRCLUATE){//如果处于单曲循环模式
             if (!mp.isLooping()){
                 mp.setLooping(true);
                 mp.start();
                 notifyObservers();
             }
-        }else if(playMode==UserOptionTool.PLAY_MODE_ORDER){//如果处于顺序播放模式
+        }else if(playMode== UserOptionPreferences.PLAY_MODE_ORDER){//如果处于顺序播放模式
             if (mp.isLooping()) {
                 mp.setLooping(false);
             }
@@ -328,10 +328,10 @@ public class PlayerOperator implements
             }else{
                 nextSong();//进行下一首歌曲的播放
             }
-        }else if(playMode==UserOptionTool.PLAY_MODE_RANDOM){//如果处于随机播放模式
+        }else if(playMode== UserOptionPreferences.PLAY_MODE_RANDOM){//如果处于随机播放模式
 //                如果处于随机播放模式
 //                暂时没想到些什么
-        }else if(playMode==UserOptionTool.PLAY_MODE_CIRCULATE){//如果处于列表循环模式
+        }else if(playMode== UserOptionPreferences.PLAY_MODE_CIRCULATE){//如果处于列表循环模式
 //                如果处于列表循环模式
             if (mp.isLooping()) {
                 mp.setLooping(false);
@@ -362,24 +362,24 @@ public class PlayerOperator implements
             return;
         }
         if(focusChange==AudioManager.AUDIOFOCUS_GAIN){
-            MyApplication.printLog("重新获取音频焦点");
+            MyApplication.showLog("重新获取音频焦点");
             if (!mMediaPlayer.isPlaying() && PlayerOperator.this.canPlay) {
                 play();
             }
         }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS){
-            MyApplication.printLog("长期失去音频焦点");
+            MyApplication.showLog("长期失去音频焦点");
             //这里绝对不能调用"over()"方法，不然的话整个单例都会出现问题
             //over();
         }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT){
             //暂时失去音频焦点
             //很可能在短时间内获得
 //                比如接听一个打进来的电话
-            MyApplication.printLog("暂时失去音频焦点");
+            MyApplication.showLog("暂时失去音频焦点");
             if (mMediaPlayer.isPlaying()) {
                 PlayerOperator.this.pause();
             }
         }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK){
-            MyApplication.printLog("暂时失去音频焦点允许小声播放");
+            MyApplication.showLog("暂时失去音频焦点允许小声播放");
             if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.setVolume(0.1f, 0.1f);//降低当前音量大小
 //                    一秒钟后设置回去

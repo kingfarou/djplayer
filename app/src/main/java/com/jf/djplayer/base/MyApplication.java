@@ -1,4 +1,4 @@
-package com.jf.djplayer.other;
+package com.jf.djplayer.base;
 
 import android.app.Application;
 import android.content.Context;
@@ -29,10 +29,15 @@ public class MyApplication extends Application {
      * 只要注释这个方法里的代码即可，就能关闭所有打印
      * @param info 要打印的调试信息
      */
-    public static void printLog(String info){
+    public static void showLog(String info){
         Log.i("com.jf.djplayer.test", info);
     }
 
+    /**
+     * 弹出"Toast"
+     * @param baseActivity 当前环境
+     * @param content "Toast"里的内容
+     */
     public static void showToast(BaseActivity baseActivity, String content){
         Toast.makeText(baseActivity, content, Toast.LENGTH_SHORT).show();
     }

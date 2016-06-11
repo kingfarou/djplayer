@@ -9,7 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.other.MyApplication;
+import com.jf.djplayer.base.MyApplication;
 
 /**
  * Created by JF on 2016/5/22.
@@ -27,7 +27,7 @@ public class ExitDialog extends DialogFragment{
                     public void onClick(DialogInterface dialog, int which) {
                         FragmentActivity fragmentActivity = getActivity();
                         if (!(fragmentActivity instanceof ExitDialogListener)) {
-                            MyApplication.printLog("\"ExitDialog\"宿主应实现\"ExitDialogListener\"接口");
+                            MyApplication.showLog("\"ExitDialog\"宿主应实现\"ExitDialogListener\"接口");
                             return;
                         }
                         ((ExitDialogListener)fragmentActivity).exitApp();

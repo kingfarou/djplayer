@@ -1,4 +1,4 @@
-package com.jf.djplayer.tool;
+package com.jf.djplayer.util;
 
 import android.content.Context;
 import android.os.Environment;
@@ -10,7 +10,7 @@ import java.io.File;
  * 该类专门用于管理应用里的
  * 各个文件和文件夹
  */
-public class FileTool {
+public class FileUtil {
 
     /**
      * 在应用的根目录前加上SD卡的路径，方可使用
@@ -24,7 +24,7 @@ public class FileTool {
 
     private File sdDirFile;
 
-    public FileTool(Context context){
+    public FileUtil(Context context){
         this.sdDirFile = Environment.getExternalStorageDirectory();
     }
 

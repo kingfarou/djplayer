@@ -24,7 +24,7 @@ import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.module.SongPlayInfo;
 import com.jf.djplayer.service.PlayerService;
-import com.jf.djplayer.tool.UserOptionTool;
+import com.jf.djplayer.util.UserOptionPreferences;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.playertool.PlayerOperator;
 
@@ -156,12 +156,12 @@ public class SongPlayInfoActivity extends BaseNoActionBarActivity implements
 
     //根据播放模式返回对应图片ID
     private int getPictureFromPlayMode(){
-        int playMode = new UserOptionTool(this).getPlayModes();
-        if(playMode == UserOptionTool.PLAY_MODE_ORDER){//如果需要顺序播放
+        int playMode = new UserOptionPreferences(this).getPlayModes();
+        if(playMode == UserOptionPreferences.PLAY_MODE_ORDER){//如果需要顺序播放
             return R.drawable.ic_activity_play_song_info_orderplay;
-        }else if(playMode == UserOptionTool.PLAY_MODE_RANDOM){//如果需要随机播放
+        }else if(playMode == UserOptionPreferences.PLAY_MODE_RANDOM){//如果需要随机播放
             return R.drawable.ic_activity_play_song_info_random;
-        }else if(playMode == UserOptionTool.PLAY_MODE_CIRCULATE){//如果需要列表循环
+        }else if(playMode == UserOptionPreferences.PLAY_MODE_CIRCULATE){//如果需要列表循环
             return R.drawable.ic_activity_play_song_info_listcirculate;
         }else{//如果需要单曲循环
             return R.drawable.ic_activity_play_song_info_singlecirculate;
@@ -279,21 +279,21 @@ public class SongPlayInfoActivity extends BaseNoActionBarActivity implements
 
 //    根据当前播放模式设置新的播放模式以及图片
     private void setNewPlayMode(){
-        UserOptionTool userOptionTool = new UserOptionTool(SongPlayInfoActivity.this);
+        UserOptionPreferences userOptionTool = new UserOptionPreferences(SongPlayInfoActivity.this);
         int playMode = userOptionTool.getPlayModes();
 //            根据当前播放模式写入新的播放模式
         switch(playMode){
-            case UserOptionTool.PLAY_MODE_ORDER:
-                userOptionTool.setPlayModes(UserOptionTool.PLAY_MODE_RANDOM);
+            case UserOptionPreferences.PLAY_MODE_ORDER:
+                userOptionTool.setPlayModes(UserOptionPreferences.PLAY_MODE_RANDOM);
                 break;
-            case UserOptionTool.PLAY_MODE_RANDOM:
-                userOptionTool.setPlayModes(UserOptionTool.PLAY_MODE_CIRCULATE);
+            case UserOptionPreferences.PLAY_MODE_RANDOM:
+                userOptionTool.setPlayModes(UserOptionPreferences.PLAY_MODE_CIRCULATE);
                 break;
-            case UserOptionTool.PLAY_MODE_CIRCULATE:
-                userOptionTool.setPlayModes(UserOptionTool.PLAY_MODE_SINGLE_CIRCLUATE);
+            case UserOptionPreferences.PLAY_MODE_CIRCULATE:
+                userOptionTool.setPlayModes(UserOptionPreferences.PLAY_MODE_SINGLE_CIRCLUATE);
                 break;
-            case UserOptionTool.PLAY_MODE_SINGLE_CIRCLUATE:
-                userOptionTool.setPlayModes(UserOptionTool.PLAY_MODE_ORDER);
+            case UserOptionPreferences.PLAY_MODE_SINGLE_CIRCLUATE:
+                userOptionTool.setPlayModes(UserOptionPreferences.PLAY_MODE_ORDER);
                 break;
             default:break;
 
@@ -398,7 +398,6 @@ public class SongPlayInfoActivity extends BaseNoActionBarActivity implements
         @Override
         public void handleMessage(Message msg) {
             SongPlayInfoActivity songPlayInfoActivity = activityWeakReference.get();
-            //MyApplication.printLog("收到消息");
             //如果界面已经为空或者界面不需更新UI
             if( songPlayInfoActivity == null || !songPlayInfoActivity.continueUpdateUI){
                 super.handleMessage(msg);

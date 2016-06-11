@@ -20,7 +20,7 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.module.SongPlayInfo;
-import com.jf.djplayer.other.MyApplication;
+import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.songplayinfo.SongPlayInfoActivity;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.playertool.PlayerOperator;

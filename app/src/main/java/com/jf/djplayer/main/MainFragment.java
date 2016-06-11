@@ -25,7 +25,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     private View rootView;//"fragment"布局文件
     private TextView tv_song_num;//歌词数量
     private CustomTitles customTitles;//标题
-    private PopupWindow menuWindow = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,8 +54,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         //初始化歌曲数量显示的控件
         tv_song_num = (TextView) rootView.findViewById(R.id.tv_fragment_main_song_num);
         tv_song_num.setText(new SongInfoOpenHelper(getActivity()).getLocalMusicNumber() + "首歌曲");
-
-        menuWindow = new PopupWindow();
     }
 
 
