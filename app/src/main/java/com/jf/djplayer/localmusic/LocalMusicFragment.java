@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,11 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
         setTitleText(getResources().getString(R.string.local_music));
         setTitleSearchVisibility(View.VISIBLE);
         setTitleMoreVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected ViewPager.PageTransformer getViewPagerTransformer() {
+        return new LocalMusicPageTransformer();
     }
 
     @Override

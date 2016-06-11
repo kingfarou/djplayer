@@ -97,8 +97,8 @@ public class MainActivity extends BaseNoActionBarActivity
     public void replaceFragments(Fragment fragment) {
         //更改"fragmentManager"里的"fragment"
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.local_music_fragment_translate_enter, R.anim.local_music_fragment_translate_exit,
-                R.anim.local_music_fragment_translate_pop_enter, R.anim.local_music_fragment_translate_pop_exit);
+        fragmentTransaction.setCustomAnimations(R.anim.main_fragment_translate_enter, R.anim.main_fragment_translate_exit,
+                R.anim.main_fragment_translate_pop_enter, R.anim.main_fragment_translate_pop_exit);
         fragmentTransaction.replace(R.id.fl_activity_main_fragment_container,fragment).addToBackStack(null).commit();
         //让堆栈理所保存的"fragment"与"FragmentManager"保持同步
 //        fragmentStacks.push(fragment.getClass().getSimpleName());

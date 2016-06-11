@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--本地音乐"Fragment"进入动画-->
+<!--主界面"Fragment"由于pop而退出时的动画-->
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <translate
-        android:fromXDelta="100%"
-        android:toXDelta="0%"
+        android:fromXDelta="0%"
+        android:toXDelta="100%"
         android:duration="400">
     </translate>
 </set>

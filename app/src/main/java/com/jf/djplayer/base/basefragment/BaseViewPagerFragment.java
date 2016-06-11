@@ -1,5 +1,6 @@
 package com.jf.djplayer.base.basefragment;
 
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -55,6 +56,10 @@ abstract public class BaseViewPagerFragment extends Fragment
 
         //"ViewPager"初始化
         mViewPager.setOnPageChangeListener(this);
+        ViewPager.PageTransformer pageTransformer = getViewPagerTransformer();
+        if(pageTransformer != null){
+            mViewPager.setPageTransformer(true, getViewPagerTransformer());
+        }
         mFragmentStatePagerAdapter = getViewPagerAdapter();
         mViewPager.setAdapter(mFragmentStatePagerAdapter);
     }
@@ -76,6 +81,10 @@ abstract public class BaseViewPagerFragment extends Fragment
      * @return "FragmentStatePagerAdapter"或其子类
      */
     abstract protected FragmentStatePagerAdapter getViewPagerAdapter();
+
+    protected ViewPager.PageTransformer getViewPagerTransformer(){
+        return null;
+    }
 
     /**
      * 设置标题图片资源
