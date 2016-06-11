@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--主界面"Fragment"转变动画__进入-->
+<!--主界面-"Fragment"由于"pop"而被还原时的进入动画-->
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <translate

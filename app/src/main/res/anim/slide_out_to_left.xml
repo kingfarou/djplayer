@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--主界面-"Fragment"退出动画-->
+<!--主界面-"Fragment"由于被"replace"而退出时的动画-->
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <translate
