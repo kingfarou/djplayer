@@ -3,8 +3,7 @@ package com.jf.djplayer.interfaces;
 import android.support.v4.app.Fragment;
 /**
  * Created by JF on 2016/1/29.
- * Fragment通过这个
- * 通过这个接口控制活动更替Fragment
+ * "Fragment"通过这个接口控制活动更替Fragment
  */
 public interface FragmentChanger {
 

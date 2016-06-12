@@ -21,27 +21,17 @@ import java.util.List;
 
 /**
  * 主界面-外层容器
- * MainActivity
- * 做几件事
- * 动态加载MineFragment
- * 实现几个回调接口
- *
  */
 public class MainActivity extends BaseActivity
-        implements FragmentChanger, PlayController, ServiceConnection, ExitDialog.ExitDialogListener{
+        implements FragmentChanger, PlayController, ServiceConnection{
 
-    private FragmentManager fragmentManager;//动态修改"Fragment"的管理器
-    private PlayerService playerService;//后台控制播放用的服务
-//    private Stack<String> fragmentStacks;//记录每个添加到"Activity"里的"Fragment"类名
+    private FragmentManager fragmentManager;
+    //后台控制播放用的服务
+    private PlayerService playerService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -51,46 +41,30 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void initBeforeView() {
-//        通过两个方式启动服务确保解绑之后服务不会关闭
+        //通过两个方式启动服务确保解绑之后服务不会关闭
         Intent startService = new Intent(this,PlayerService.class);
         startService(startService);
         bindService(startService, this, BIND_AUTO_CREATE);
-
-        //初始化堆栈
-//        fragmentStacks = new Stack<>();
     }
 
     @Override
     protected void initView() {
-        //动态加载主页面的"Fragment"
+        //"fl_activity_main_fragment_container"里的"Fragment"必须是动态添加的，由于这些"Fragment"都会被动态的变更
         fragmentManager = getSupportFragmentManager();
-//        Fragment fragment = new MainFragment();
         fragmentManager.beginTransaction().add(R.id.fl_activity_main_fragment_container,new MainFragment()).commit();
-        //将加载的"Fragment"名字放进堆栈里面
-//        fragmentStacks.push(fragment.getClass().getSimpleName());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(this);//解绑
+        unbindService(this);
     }
 
-    //监听手机返回按键
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if(keyCode == KeyEvent.KEYCODE_BACK){
-//            //如果现在已经在主页面，显示退出的提示框
-//            if(fragmentStacks.peek().equals(MainFragment.class.getSimpleName())){
-//                new ExitDialog().show(fragmentManager, "ExitDialog");
-//                return true;
-//            }else{
-//                //否则，将堆栈里"Fragment"类名出栈，让堆栈和"FragmentManager"保持同步
-//                fragmentStacks.pop();
-//            }
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
+    //重写该方法是为了"MainActivity"里的"Fragment"的"onActivityResult()"方法能够得到回调
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     /*"FragmentChanger"方法覆盖_start*/
     @Override
@@ -100,17 +74,11 @@ public class MainActivity extends BaseActivity
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left,
                 R.anim.slide_in_from_left, R.anim.slide_out_to_right);
         fragmentTransaction.replace(R.id.fl_activity_main_fragment_container,fragment).addToBackStack(null).commit();
-        //让堆栈理所保存的"fragment"与"FragmentManager"保持同步
-//        fragmentStacks.push(fragment.getClass().getSimpleName());
     }
 
-//    活动里的Fragment通过他来通知活动
-//    关闭当前Fragment
     @Override
     public void popFragments() {
-        //在"fragmentManager"回退一次事务操作，并且让"fragmentStacks"里的记录和"fragmentManager"保持同步
         fragmentManager.popBackStack();
-//        fragmentStacks.pop();
     }
     /*"FragmentChanger"方法覆盖_end*/
 
@@ -163,8 +131,6 @@ public class MainActivity extends BaseActivity
     }
     /*"ServiceConnection"方法覆盖_end*/
 
-    //"ExitDialog"里的接口方法重写
-    @Override
     public void exitApp() {
         playerService.stopSelf();
         finish();
