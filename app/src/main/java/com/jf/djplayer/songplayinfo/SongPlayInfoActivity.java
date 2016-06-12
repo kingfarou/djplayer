@@ -16,8 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.module.SongInfo;
-import com.jf.djplayer.base.baseactivity.BaseNoActionBarActivity;
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.SongPlayInfoAdapter;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
@@ -41,7 +41,7 @@ import java.util.List;
  * Created by Administrator on 2015/8/4.
  * 播放信息"Activity"
  */
-public class SongPlayInfoActivity extends BaseNoActionBarActivity implements
+public class SongPlayInfoActivity extends BaseActivity implements
         ServiceConnection ,SeekBar.OnSeekBarChangeListener,PlayInfoObserver,
         CustomTitles.FragmentTitleListener,View.OnClickListener{
 
@@ -86,7 +86,7 @@ public class SongPlayInfoActivity extends BaseNoActionBarActivity implements
     }
 
     @Override
-    protected void initExtrasBeforeView() {
+    protected void initBeforeView() {
         Intent intent = new Intent(this, PlayerService.class);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
         //获取更新播放信息用的主题

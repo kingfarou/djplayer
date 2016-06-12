@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.baseactivity.BaseNoActionBarActivity;
+import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.customview.CustomTitles;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  * 搜索结果的显示由其包含的"Fragment"显示
  * 搜索列表样式只有两类，分别对应"ExpandableListView"列表以及"ListView"列表
  */
-public class SearchActivity extends BaseNoActionBarActivity
+public class SearchActivity extends BaseActivity
         implements CustomTitles.FragmentTitleListener, TextWatcher,
         SearchedDataProvider {
 
@@ -52,7 +52,7 @@ public class SearchActivity extends BaseNoActionBarActivity
     }
 
     @Override
-    protected void initExtrasBeforeView() {
+    protected void initBeforeView() {
 
     }
 

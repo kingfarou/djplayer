@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.module.SongInfo;
-import com.jf.djplayer.base.baseactivity.BaseNoActionBarActivity;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.service.PlayerService;
@@ -27,7 +27,7 @@ import java.util.List;
  * 实现几个回调接口
  *
  */
-public class MainActivity extends BaseNoActionBarActivity
+public class MainActivity extends BaseActivity
         implements FragmentChanger, PlayController, ServiceConnection, ExitDialog.ExitDialogListener{
 
     private FragmentManager fragmentManager;//动态修改"Fragment"的管理器
@@ -50,7 +50,7 @@ public class MainActivity extends BaseNoActionBarActivity
     }
 
     @Override
-    protected void initExtrasBeforeView() {
+    protected void initBeforeView() {
 //        通过两个方式启动服务确保解绑之后服务不会关闭
         Intent startService = new Intent(this,PlayerService.class);
         startService(startService);

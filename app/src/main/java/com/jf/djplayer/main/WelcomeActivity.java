@@ -28,8 +28,16 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = View.inflate(this, R.layout.activity_welcome, null);
-        setContentView(view);
+    }
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_welcome;
+    }
+
+    @Override
+    protected void initView() {
+        View view = findViewById(R.id.fl_activity_welcome);
         //窗口界面的出现添加动画的效果
         AlphaAnimation alphaAnimation = new AlphaAnimation(FROM_ALPHA, TO_ALPHA);
         alphaAnimation.setFillAfter(true);
@@ -51,19 +59,6 @@ public class WelcomeActivity extends BaseActivity {
         });
         view.startAnimation(alphaAnimation);
         appDirInit();
-    }
-
-    @Override
-    protected int getContentViewId() {
-        return -1;
-    }
-
-    @Override
-    protected void initExtrasBeforeView() {
-    }
-
-    @Override
-    protected void initView() {
     }
 
     //创建应用在外存的相关目录

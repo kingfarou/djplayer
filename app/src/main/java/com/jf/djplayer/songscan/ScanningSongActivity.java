@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-import com.jf.djplayer.base.baseactivity.BaseNoActionBarActivity;
+import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.module.SongInfo;
 import com.jf.djplayer.R;
 import com.jf.djplayer.database.SongInfoOpenHelper;
@@ -26,7 +26,7 @@ import java.util.List;
  * 逻辑方面制作一件事情：根据所获得的路径扫描音乐，如果得到路径为空，扫描所有路径下的音乐
  * 显示方面也做一件事情：将所扫描到的歌曲路径不断更新，最后显示所扫描到的歌曲数
  */
-public class ScanningSongActivity extends BaseNoActionBarActivity {
+public class ScanningSongActivity extends BaseActivity {
 
     private List<File> fileList;
     private ImageView scanFinishIv = null;//这是扫描完成图标
@@ -48,7 +48,7 @@ public class ScanningSongActivity extends BaseNoActionBarActivity {
     }
 
     @Override
-    protected void initExtrasBeforeView() {
+    protected void initBeforeView() {
     }
 
     @Override
