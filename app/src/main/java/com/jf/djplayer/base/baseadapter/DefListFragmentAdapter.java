@@ -13,16 +13,16 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2015/9/15.
- * 适配器基类-当前应用"ListView"通用适配器
- * 所有继承"BaseListFragment"的类所用"ListView"适配器基类
+ * "BaseListFragment"里的"ListView"适配器的默认实现
+ * 由于应用里很多使用到"BaseListFragment"的地方，对适配器所显示的样式大体一样
+ * 所以定义出默认的实现，对于不一样的地方，可以重新定义适配器
  */
-public class BaseListFragmentAdapter extends BaseAdapter {
-
+public class DefListFragmentAdapter extends BaseAdapter {
 
     private List<Map<String,String>> mapList;
     private Context context;
 
-    public BaseListFragmentAdapter(Context context, List<Map<String, String>> mapList){
+    public DefListFragmentAdapter(Context context, List<Map<String, String>> mapList){
         this.context = context;
         this.mapList = mapList;
     }
@@ -43,31 +43,29 @@ public class BaseListFragmentAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
-        TextView position;
         TextView title;
         TextView content;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (convertView==null){
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_list_view_fragment,null);
-//            viewHolder.position = (TextView)convertView.findViewById(R.id.tv_item_list_view_fragment_position);
-            viewHolder.title = (TextView)convertView.findViewById(R.id.tv_item_list_view_fragment_title);
-            viewHolder.content = (TextView)convertView.findViewById(R.id.tv_item_list_view_fragment_content);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_def_list_fragment_adapter,null);
+            viewHolder.title = (TextView)convertView.findViewById(R.id.item_def_list_fragment_adapter_title);
+            viewHolder.content = (TextView)convertView.findViewById(R.id.item_def_list_fragment_adapter_content);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
         }
-//        viewHolder.position.setText(position+1+"");
         viewHolder.title.setText(mapList.get(position).get("title"));
         viewHolder.content.setText(mapList.get(position).get("content")+"首歌曲");
         return convertView;
     }
 
     /**
-     * 设置数据，该方法会调用刷新数据那个方法
+     * 设置新数据给列表
      * @param mapList 需显示的新的数据
      */
     public void setData(List mapList){

@@ -20,6 +20,7 @@ public interface PlayController {
      */
     public void play(List<SongInfo> songInfoList,int position);
 
+    public void play(String playListName, List<SongInfo> songList, int playPosition);
     /**
      * 暂停之后继续播放用的
      */

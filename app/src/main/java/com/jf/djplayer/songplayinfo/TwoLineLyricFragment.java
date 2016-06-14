@@ -158,7 +158,7 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
             }
             if(msg.what == twoLineLyricFragment.WHAT_UPDATE_LYRIC){
                 //更新当前进度所对应的歌词
-                twoLineLyricFragment.showTwoLyricLine(twoLineLyricFragment.playInfoSubject.getSongPlayInfo().getProgress());
+                twoLineLyricFragment.showTwoLyricLine(twoLineLyricFragment.playInfoSubject.getPlayInfo().getProgress());
                 //继续发送延迟消息
                 sendEmptyMessageDelayed(twoLineLyricFragment.WHAT_UPDATE_LYRIC, twoLineLyricFragment.LYRIC_UPDATE_TIME);
             }

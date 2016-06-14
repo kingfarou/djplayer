@@ -31,7 +31,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2015/8/28.
- * 我的最爱-收藏列表
+ * 我的最爱-歌曲列表
  */
 public class MyFavoriteExpandFragment extends BaseExpandFragment
         implements ExpandableListView.OnGroupClickListener, SongInfoObserver{
@@ -135,7 +135,8 @@ public class MyFavoriteExpandFragment extends BaseExpandFragment
     @Override
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         //播放被选中的音乐
-        playController.play(favoriteList,groupPosition);
+//        playController.play(favoriteList,groupPosition);
+        playController.play(MyFavoriteExpandFragment.this.getClass().getSimpleName(), favoriteList, groupPosition);
         return true;
     }
 

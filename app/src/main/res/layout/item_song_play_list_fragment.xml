@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--播放信息-当前播放列表所用"Item"-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:gravity="center_vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_item_song_play_list_fragment_song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标题"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/tv_item_song_play_list_fragment_singerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:text="内容"
+            android:textSize="12sp"
+            android:textColor="#a0ffffff"/>
+    </LinearLayout>
+
+    <!-- 动画音频条形图-->
+    <ImageView
+        android:id="@+id/iv_item_song_play_list_fragment_play_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_speaker"
+        android:visibility="invisible"/>
+</LinearLayout>

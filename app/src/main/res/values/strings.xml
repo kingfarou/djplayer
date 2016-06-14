@@ -1,24 +1,38 @@
 <resources>
-    <!-- 字符串资源按照模块来分组，如果某字符串资源出现在多个模块里，则放在他第一次出现的模块-->
-    <!-- app__全局资源-->
+
+    <!-- app_全局资源-->
     <string name="app_name">蛋卷音乐</string>
     <string name="action_search">搜索</string>
     <string name="loading">载入中</string>
 
-    <!-- main__主页-->
+
+    <!-- 主界面_MainFragment-->
     <string name="local_music">本地音乐</string>
     <string name="my_favorite">我的最爱</string>
     <string name="my_download">我的下载</string>
     <string name="my_song_menu">我的歌单</string>
     <string name="recently_play">最近播放</string>
     <string name="good_tone">好音质!</string>
-    <string name="exit">退出</string>
 
-    <!-- DrawerFragment__主界面侧滑菜单-->
+
+    <!-- 侧滑菜单_DrawerFragment-->
     <string name="sleep_setting">睡眠设置</string>
     <string name="setting">设置</string>
+    <string name="exit">退出</string>
 
-    <!-- localMusic__本地音乐-->
+
+    <!-- 睡眠设置_SleepSettingsDialog-->
+    <string name="stop_after_time">多长时间之后停止播放</string>
+    <string name="never">不开启</string>
+    <string name="after_ten_minutes">10分钟后</string>
+    <string name="after_twenty_minutes">20分钟后</string>
+    <string name="after_thirty_minutes">30分钟后</string>
+    <string name="after_forty_five_minutes">40分钟后</string>
+    <string name="after_sixty_minutes">60分钟后</string>
+    <string name="after_ninety_minutes">90分钟后</string>
+
+
+    <!-- 本地音乐_LocalMusic-->
     <string name="song">歌曲</string>
     <string name="singer">歌手</string>
     <string name="album">专辑</string>
@@ -30,8 +44,10 @@
     <string name="sort_by_song_num">按歌曲数量排序</string>
     <string name="sort_by_album">按专辑排序</string>
     <string name="sort_by_folder_name">按文件夹排序</string>
+    <!-- 本地音乐_LocalMusic-->
 
-    <!-- dialogFragment-->
+
+    <!-- 歌曲信息_SongInfoDialog-->
     <string name="song_name">歌曲名字</string>
     <string name="singer_name">歌手名字</string>
     <string name="album_name">专辑名字</string>
@@ -48,6 +64,10 @@
     <string name="share">分享</string>
     <string name="send">发送</string>
     <string name="detailed_information">详细信息</string>
+
+    <!-- 播放列表_SongPlayListFragment-->
+    <string name="no_song_in_play_list">播放列表木有歌曲哦</string>
+
     <!--其他-->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

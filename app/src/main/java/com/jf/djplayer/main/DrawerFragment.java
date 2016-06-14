@@ -41,6 +41,7 @@ public class DrawerFragment extends BaseFragment implements View.OnClickListener
         switch(view.getId()){
             //如果按下睡眠设置
             case R.id.tv_item_fragment_drawer_sleep_setting:
+                new SleepSettingsDialog().show(getChildFragmentManager(), "SleepSettingsDialog");
                 break;
             //如果按下设置按钮
             case R.id.tv_item_fragment_drawer_setting:

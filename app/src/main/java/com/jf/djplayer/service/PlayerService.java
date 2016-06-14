@@ -116,17 +116,30 @@ public class PlayerService extends Service implements PlayInfoObserver{
     }
 
 
+//    /**
+//     * 播放指定列表里面指定位置的歌
+//     * @param songInfoList 要播放的歌曲列表
+//     * @param playPosition 要播放的那首歌曲位置
+//     */
+//    public void play(List<SongInfo> songInfoList,int playPosition){
+//        if(songInfoList == null || playPosition<0 || playPosition>=songInfoList.size()){
+//            return;
+//        }
+////        this.songInfoList = songInfoList;//服务保存当前播放列表
+//        playerOperator.play(songInfoList, playPosition);//播放
+//    }
+
     /**
-     * 播放指定列表里面指定位置的歌
-     * @param songInfoList 要播放的歌曲列表
-     * @param playPosition 要播放的那首歌曲位置
+     * 播放指定列表里的指定位置歌曲
+     * @param playListName 这是播放列表名字
+     * @param songList 这是待播放的歌曲列表
+     * @param playPosition 被选中的歌曲所在位置
      */
-    public void play(List<SongInfo> songInfoList,int playPosition){
-        if(songInfoList == null || playPosition<0 || playPosition>=songInfoList.size()){
-            return;
-        }
-//        this.songInfoList = songInfoList;//服务保存当前播放列表
-        playerOperator.play(songInfoList, playPosition);//播放
+    public void play(String playListName, List<SongInfo> songList, int playPosition){
+//        if(songList == null || playPosition<0 || playPosition>=songList.size()){
+//            return;
+//        }
+        playerOperator.play(playListName, songList, playPosition);
     }
 
     /*供给绑定服务的"Activity"用的方法_开始*/
@@ -153,9 +166,9 @@ public class PlayerService extends Service implements PlayInfoObserver{
         playerOperator.nextSong();
     }
 
-    public int getCurrentPosition(){
-        return playerOperator.getCurrentPosition();
-    }
+//    public int getCurrentPosition(){
+//        return playerOperator.getCurrentPosition();
+//    }
 
     public void seekTo(int currentPosition){
         playerOperator.seekTo(currentPosition);

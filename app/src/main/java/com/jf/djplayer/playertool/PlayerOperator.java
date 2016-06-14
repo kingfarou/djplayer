@@ -39,7 +39,7 @@ public class PlayerOperator implements
     private Context mContext;//上下文
     private MediaPlayer mMediaPlayer;//系统媒体的播放类
     private List<PlayInfoObserver> playInfoObserverList;//这个是观察者列表
-    private SongPlayInfo songPlayInfo;//该对象封装当前正播放的歌曲的信息
+    private SongPlayInfo playInfo;//该对象封装当前正播放的歌曲的信息
     private int lastPosition = -1;//用来记录最新播放歌曲的位置的
     private boolean canPlay = false;//当音频焦点变化时根据它来判定是否可以播放
 
@@ -74,52 +74,103 @@ public class PlayerOperator implements
         return playerOperator;
     }
 
+//    /**
+//     * 播放指定列表里的指定位置歌曲
+//     * @param songInfoList 要播放的歌曲列表
+//     * @param playPosition 要播放的歌曲在列表的位置
+//     */
+//    public void play(List<SongInfo> songInfoList, int playPosition){
+//        if(songInfoList == null || playPosition<0 || playPosition>=songInfoList.size()){
+//            MyApplication.showLog("所选择的播放列表为空，或者位置不正确");
+//            return;
+//        }
+//        //如果原来没有播放任何歌曲
+//        if(playInfo == null){
+//            //构建新的歌曲播放信息对象
+//            playInfo = new SongPlayInfo(songInfoList, songInfoList.get(playPosition), false, 0);
+//            try{
+//                File playFile = new File(songInfoList.get(playPosition).getSongAbsolutePath());
+//                mMediaPlayer.setDataSource(playFile.getAbsolutePath());
+//                mMediaPlayer.prepareAsync();
+//            }catch (IOException e){
+//                MyApplication.showLog("异常--"+e.toString()+"-位置-"+"playerOperator.play(List, int)方法");
+//                Toast.makeText(mContext, "所点击的歌曲文件有误", Toast.LENGTH_SHORT).show();
+//            }
+//        }else if( !playInfo.getSongInfo().getSongAbsolutePath().equals(songInfoList.get(playPosition).getSongAbsolutePath()) ){
+//            //如果两次点击播放不同歌曲
+//            playInfo.setSongInfo( songInfoList.get(playPosition) );//更新新的歌曲信息
+//            changeSong( songInfoList.get(playPosition).getSongAbsolutePath());//根据歌曲绝对路径更换歌曲
+//        }else{
+//            //如果两次点击同一首歌
+//            //如果歌曲正在播放那就暂停
+//            if (mMediaPlayer.isPlaying()){
+//                this.pause();
+//                canPlay = false;//标记他是手动暂停
+////                isPlaying = false;
+//            }else{//否则的话继续播放
+//                this.play();
+//                this.canPlay = true;
+////                isPlaying = true;
+//            }
+//        }
+//        this.canPlay = true;//修改允许播放标志
+//        //更新所选择的歌曲文件
+////        lastSongInfo = songInfoList.get(playPosition);
+//        this.songInfoList = songInfoList;//保存当前播放列表
+//        lastPosition = playPosition;//保存新选中的播放位置
+//    }
 
     /**
-     * 播放指定列表里的指定位置歌曲
-     * @param songInfoList 要播放的歌曲列表
-     * @param playPosition 要播放的歌曲在列表的位置
+     * 播放指定列表下的指定位置歌曲
+     * @param playListName 列表名字
+     * @param songList 歌曲列表
+     * @param playPosition 被选中的歌曲在列表的位置
      */
-    public void play(List<SongInfo> songInfoList, int playPosition){
-        if(songInfoList == null || playPosition<0 || playPosition>=songInfoList.size()){
+    public void play(String playListName, List<SongInfo> songList, int playPosition){
+        //如果输入参数不对
+        if(songList == null || playPosition<0 || playPosition>=songList.size()){
+            MyApplication.showLog("所选择的播放列表为空，或者位置不正确");
             return;
         }
         //如果原来没有播放任何歌曲
-        if(songPlayInfo == null){
-            //构建新的歌曲播放信息对象
-            songPlayInfo = new SongPlayInfo(songInfoList.get(playPosition), false, 0);
+        if(playInfo == null){
+            //创建新的播放信息对象
+            int progress = 0;//进度值初始化为零
+            playInfo = new SongPlayInfo(playListName, songList, playPosition, progress);
+            //开始播放
             try{
-                File playFile = new File(songInfoList.get(playPosition).getSongAbsolutePath());
+                File playFile = new File(songList.get(playPosition).getSongAbsolutePath());
                 mMediaPlayer.setDataSource(playFile.getAbsolutePath());
                 mMediaPlayer.prepareAsync();
             }catch (IOException e){
                 MyApplication.showLog("异常--"+e.toString()+"-位置-"+"playerOperator.play(List, int)方法");
                 Toast.makeText(mContext, "所点击的歌曲文件有误", Toast.LENGTH_SHORT).show();
             }
-        }else if( !songPlayInfo.getSongInfo().getSongAbsolutePath().equals(songInfoList.get(playPosition).getSongAbsolutePath()) ){
-            //如果两次点击播放不同歌曲
-            songPlayInfo.setSongInfo( songInfoList.get(playPosition) );//更新新的歌曲信息
-//            songPlayInfo.setPlaying(false);//重置当前播放状态
-//            songPlayInfo.setProgress(0);//重置当前播放进度
-            changeSong( songInfoList.get(playPosition).getSongAbsolutePath());//根据歌曲绝对路径更换歌曲
+            return;
+        }
+        /*到这说明原来已有播放歌曲*/
+        String lastPlayListName = playInfo.getPlayListName();
+        String lastSongAbsolutePath = playInfo.getSongInfo().getSongAbsolutePath();
+        String newSongAbsolutePath = songList.get(playPosition).getSongAbsolutePath();
+        //如果两次播放不是同一首歌（判断规则：播放列表名字相同而且歌曲绝对路径相同，这被视为同一首歌）
+        if( !( lastPlayListName.equals(playListName) && newSongAbsolutePath.equals(lastSongAbsolutePath) ) ){
+            //如果两次点击播放不同歌曲，更新新的播放信息
+            playInfo.setPlayListName(playListName);
+            playInfo.setSongList(songList);
+            playInfo.setPlayPosition(playPosition);
+            playInfo.setSongInfo(songList.get(playPosition));
+            playInfo.setProgress(0);//新的歌曲播放进度初始化零
+            changeSong(songList.get(playPosition).getSongAbsolutePath());//根据歌曲绝对路径更换歌曲
         }else{
-            //如果两次点击同一首歌
-            //如果歌曲正在播放那就暂停
+            //以下处理两次点击同一首歌
             if (mMediaPlayer.isPlaying()){
                 this.pause();
                 canPlay = false;//标记他是手动暂停
-//                isPlaying = false;
             }else{//否则的话继续播放
                 this.play();
                 this.canPlay = true;
-//                isPlaying = true;
             }
-        }
-        this.canPlay = true;//修改允许播放标志
-        //更新所选择的歌曲文件
-//        lastSongInfo = songInfoList.get(playPosition);
-        this.songInfoList = songInfoList;//保存当前播放列表
-        lastPosition = playPosition;//保存新选中的播放位置
+        }//如果两次点击的是同一首歌
     }
 
     public void setCanPlay(boolean canPlay){
@@ -134,7 +185,7 @@ public class PlayerOperator implements
      */
     public void play(){
         mMediaPlayer.start();
-//        通知所有的观察着歌曲信息
+        //通知所有的观察着歌曲信息
         notifyObservers();
 
     }
@@ -145,7 +196,7 @@ public class PlayerOperator implements
      */
     public void pause(){
         mMediaPlayer.pause();
-//        通知所有的观察着歌曲信息
+        //通知所有的观察着歌曲信息
         notifyObservers();
     }
 
@@ -156,9 +207,9 @@ public class PlayerOperator implements
     public void nextSong() {
         //记录新的歌曲信息
         lastPosition = (lastPosition + 1) % (songInfoList.size());
-        songPlayInfo.setSongInfo(songInfoList.get(lastPosition));
+        playInfo.setSongInfo(songInfoList.get(lastPosition));
         //变更要播放的歌曲
-        changeSong(songPlayInfo.getSongInfo().getSongAbsolutePath());
+        changeSong(playInfo.getSongInfo().getSongAbsolutePath());
     }
 
     /**
@@ -173,8 +224,8 @@ public class PlayerOperator implements
             lastPosition = (lastPosition - 1) % songInfoList.size();
         }
         //变更要播放的歌曲
-        songPlayInfo.setSongInfo(songInfoList.get(lastPosition));
-        changeSong(songPlayInfo.getSongInfo().getSongAbsolutePath());
+        playInfo.setSongInfo(songInfoList.get(lastPosition));
+        changeSong(playInfo.getSongInfo().getSongAbsolutePath());
     }
 
     /**
@@ -231,7 +282,7 @@ public class PlayerOperator implements
     public void registerObserver(PlayInfoObserver playInfoObserver) {
         playInfoObserverList.add(playInfoObserver);
 //        对每一个新添加进的观察者单独发送一次通知
-        playInfoObserver.updatePlayInfo(songPlayInfo);
+        playInfoObserver.updatePlayInfo(playInfo);
     }
 
     /**
@@ -246,10 +297,10 @@ public class PlayerOperator implements
     //发送最新消息给观察者
     @Override
     public void notifyObservers() {
-        songPlayInfo.setPlaying(mMediaPlayer.isPlaying());
-        songPlayInfo.setProgress(mMediaPlayer.getCurrentPosition());
+        playInfo.setPlaying(mMediaPlayer.isPlaying());
+        playInfo.setProgress(mMediaPlayer.getCurrentPosition());
         for(PlayInfoObserver playInfoObserver:playInfoObserverList){
-            playInfoObserver.updatePlayInfo(songPlayInfo);
+            playInfoObserver.updatePlayInfo(playInfo);
         }
     }
 
@@ -259,8 +310,8 @@ public class PlayerOperator implements
      * 否则，返回当前正播放的歌曲信息
      */
     @Override
-    public SongPlayInfo getSongPlayInfo() {
-        if(songPlayInfo == null){
+    public SongPlayInfo getPlayInfo() {
+        if(playInfo == null){
             return null;
         }
         boolean isPlaying;
@@ -269,19 +320,19 @@ public class PlayerOperator implements
         }catch (IllegalStateException e){
             return null;
         }
-        songPlayInfo.setProgress(mMediaPlayer.getCurrentPosition());
-        songPlayInfo.setPlaying(isPlaying);
-        return songPlayInfo;
+        playInfo.setProgress(mMediaPlayer.getCurrentPosition());
+        playInfo.setPlaying(isPlaying);
+        return playInfo;
     }
     /*"PlayInfoSubject"方法实现_结束*/
 
-    /**
-     * 获取当前歌曲播放进度
-     * @return 当前歌曲播放进度（毫秒）
-     */
-    public int getCurrentPosition() {
-        return mMediaPlayer.getCurrentPosition();
-    }
+//    /**
+//     * 获取当前歌曲播放进度
+//     * @return 当前歌曲播放进度（毫秒）
+//     */
+//    public int getCurrentPosition() {
+//        return mMediaPlayer.getCurrentPosition();
+//    }
 
     public List<SongInfo> getSongInfoList(){
         return this.songInfoList;
@@ -298,7 +349,7 @@ public class PlayerOperator implements
     @Override
     public void onPrepared(MediaPlayer mp) {
         mp.start();
-        songPlayInfo.setPlaying(true);
+        playInfo.setPlaying(true);
         notifyObservers();
     }
     /*"OnPreparedListener"方法实现_结束*/
@@ -310,16 +361,18 @@ public class PlayerOperator implements
         if(mp == null || songInfoList == null){
             return;
         }
-        UserOptionPreferences playOption = new UserOptionPreferences(MyApplication.getContext());
-        int playMode = playOption.getPlayModes();
+//        UserOptionPreferences playOption = new UserOptionPreferences(MyApplication.getContext());
+//        int playMode = playOption.getPlayModes();
+        UserOptionPreferences playOption = new UserOptionPreferences();
+        int playMode = playOption.getIntValues(UserOptionPreferences.KEY_PLAY_MODE, UserOptionPreferences.VALUES_PLAY_MODE_ORDER);
         //根据播放模式进行控制判断
-        if(playMode== UserOptionPreferences.PLAY_MODE_SINGLE_CIRCLUATE){//如果处于单曲循环模式
+        if(playMode== UserOptionPreferences.VALUES_PLAY_MODE_SINGLE_CIRCULATE){//如果处于单曲循环模式
             if (!mp.isLooping()){
                 mp.setLooping(true);
                 mp.start();
                 notifyObservers();
             }
-        }else if(playMode== UserOptionPreferences.PLAY_MODE_ORDER){//如果处于顺序播放模式
+        }else if(playMode== UserOptionPreferences.VALUES_PLAY_MODE_ORDER){//如果处于顺序播放模式
             if (mp.isLooping()) {
                 mp.setLooping(false);
             }
@@ -328,10 +381,10 @@ public class PlayerOperator implements
             }else{
                 nextSong();//进行下一首歌曲的播放
             }
-        }else if(playMode== UserOptionPreferences.PLAY_MODE_RANDOM){//如果处于随机播放模式
+        }else if(playMode== UserOptionPreferences.VALUES_PLAY_MODE_RANDOM){//如果处于随机播放模式
 //                如果处于随机播放模式
 //                暂时没想到些什么
-        }else if(playMode== UserOptionPreferences.PLAY_MODE_CIRCULATE){//如果处于列表循环模式
+        }else if(playMode== UserOptionPreferences.VALUES_PLAY_MODE_LIST_CIRCULATE){//如果处于列表循环模式
 //                如果处于列表循环模式
             if (mp.isLooping()) {
                 mp.setLooping(false);

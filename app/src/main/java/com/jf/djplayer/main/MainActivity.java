@@ -85,7 +85,12 @@ public class MainActivity extends BaseActivity
     /*"PlayController"方法覆盖_start*/
     @Override
     public void play(List<SongInfo> songInfoList,int position) {
-        playerService.play(songInfoList, position);
+//        playerService.play(songInfoList, position);
+    }
+
+    @Override
+    public void play(String playListName, List<SongInfo> songList, int playPosition) {
+        playerService.play(playListName, songList, playPosition);
     }
 
     @Override

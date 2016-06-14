@@ -79,7 +79,7 @@ abstract public class BaseExpandFragmentAdapter extends BaseExpandableListAdapte
      */
     @Override
     public final View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ChildViewHolder childViewHolder = null;
+        ChildViewHolder childViewHolder;
         if (convertView == null) {
             childViewHolder = new ChildViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.item_expandable_fragment_child, null);

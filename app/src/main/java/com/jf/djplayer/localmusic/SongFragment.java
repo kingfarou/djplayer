@@ -139,7 +139,8 @@ public class SongFragment extends BaseExpandFragment
     //点击"ExpandableListView"栏目，播放所对应的歌曲
     @Override
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        playController.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
+//        playController.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
+        playController.play(SongFragment.class.getSimpleName(), songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
         return true;
     }
 
@@ -150,7 +151,7 @@ public class SongFragment extends BaseExpandFragment
             return null;
         }
         footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size() + "首歌");
+        ((TextView) footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size() + "首歌");
         return footerView;
     }
 
@@ -158,7 +159,7 @@ public class SongFragment extends BaseExpandFragment
         Resources resources = getResources();
         String[] dataString = new String[]{resources.getString(R.string.scan_music),
                 resources.getString(R.string.sort_by_song_name),"按歌手名排序","按添加时间排序","按文件名排序","一键获取词图"};
-        final ListViewPopupWindows listPopupWindow = new ListViewPopupWindows(getActivity(),dataString);
+        final ListViewPopupWindows listPopupWindow = new ListViewPopupWindows(getActivity(), dataString);
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -169,8 +170,7 @@ public class SongFragment extends BaseExpandFragment
                     //如果用户选择任意一类排序方式，根据选项创建不同排序方式对象
                     if (position == 1) {
                         songInfoListSortable = new SortBySongName();//按歌曲的名字排序
-                    }
-                    else if (position == 2) {
+                    } else if (position == 2) {
                         songInfoListSortable = new SortBySingerName();//按歌手的名字排序
                     } else if (position == 3) {
                         songInfoListSortable = new SortBySongName();

@@ -32,5 +32,5 @@ public interface PlayInfoSubject {
      * PlayInfoObserver"对象主动拉取当前正播放的歌曲的信息和播放信息
      * @return 返回当前正播放的歌曲的信息和播放信息
      */
-    SongPlayInfo getSongPlayInfo();
+    SongPlayInfo getPlayInfo();
 }

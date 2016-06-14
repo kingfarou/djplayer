@@ -86,7 +86,8 @@ public class RecentlyPlayExpandFragment extends BaseExpandFragment {
 
     @Override
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        playController.play(recentlyPlaySongInfo, groupPosition);
+//        playController.play(recentlyPlaySongInfo, groupPosition);
+        playController.play(RecentlyPlayExpandFragment.class.getSimpleName(), recentlyPlaySongInfo, groupPosition);
         return true;
     }
 

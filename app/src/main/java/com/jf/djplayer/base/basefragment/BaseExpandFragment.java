@@ -19,11 +19,9 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2015/9/14.
- * "Fragment"基类，一个配置"ExpandableListView"的"Fragment"
- * 该类定义所有使用"ExpandableListView"显示歌曲信息的"Fragment"的显示样式
- * 该抽象类已经实现的功能有
- * 异步读取Expandable需显示的数据（在“_readData()”方法里面）
- * 读取之前有进度条提示用户读取之后正常显示数据
+ * 带"ExpandableListView"的"Fragment"基类，该抽象类已经实现的功能有
+ * 异步读取Expandable需显示的数据（在“_getData()”方法里面）
+ * 读取之前有进度条提示用户，读取之后正常显示数据
  * 读取完成将数据设置到"ExpandableListView"里面
  * expandable任何一个栏目展开之后
  * 自动收起其他栏目
@@ -33,7 +31,7 @@ abstract public class BaseExpandFragment extends BaseFragment
         implements ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupClickListener,
                 AdapterView.OnItemLongClickListener {
 
-    private ExpandableListView expandableListView;//expandableListView
+    protected ExpandableListView expandableListView;//expandableListView
     protected BaseExpandableListAdapter baseExpandableListAdapter;//"ExpandableListView"的适配器
 
     private View loadingHintView;//"ExpandableListView"读到数据前显示的提示视图
@@ -47,7 +45,7 @@ abstract public class BaseExpandFragment extends BaseFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        对界面进行初始化
+        //对界面进行初始化
         layoutView = inflater.inflate(R.layout.fragment_base_expandable_list_view, container, false);
         expandableListView = (ExpandableListView) layoutView.findViewById(R.id.el_fragment_expandable_list_view);
 
@@ -65,7 +63,7 @@ abstract public class BaseExpandFragment extends BaseFragment
         //子类在此做View初始化
         initBeforeReturnView();
 
-//        开始执行异步任务工作
+        //开始执行异步任务
         loadingAsyncTask = new LoadingAsyncTask();
         loadingAsyncTask.execute();
         return layoutView;

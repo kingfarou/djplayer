@@ -120,10 +120,10 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
             return;
         }
         //获取当前歌曲信息
-        SongPlayInfo songPlayInfo = playInfoSubject.getSongPlayInfo();
+        SongPlayInfo songPlayInfo = playInfoSubject.getPlayInfo();
         //如果点击播放或者暂停按钮
         if(id == R.id.ib_fragment_bottom_control_play){
-            songPlayInfo = playInfoSubject.getSongPlayInfo();
+            songPlayInfo = playInfoSubject.getPlayInfo();
             if(songPlayInfo == null){
                 MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
                 return;
@@ -209,7 +209,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
             }
             //更新当前界面进度
             if(msg.what == 0x0004){
-                bottomFragment.progressBar.setProgress(bottomFragment.playInfoSubject.getSongPlayInfo().getProgress());
+                bottomFragment.progressBar.setProgress(bottomFragment.playInfoSubject.getPlayInfo().getProgress());
                 sendEmptyMessageDelayed(bottomFragment.FLAG_UPDATE_PROGRESS, bottomFragment.UPDATE_TIME);
             }
             super.handleMessage(msg);
