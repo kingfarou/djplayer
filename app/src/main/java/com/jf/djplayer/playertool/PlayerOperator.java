@@ -73,55 +73,9 @@ public class PlayerOperator implements
         return playerOperator;
     }
 
-//    /**
-//     * 播放指定列表里的指定位置歌曲
-//     * @param songInfoList 要播放的歌曲列表
-//     * @param playPosition 要播放的歌曲在列表的位置
-//     */
-//    public void play(List<SongInfo> songInfoList, int playPosition){
-//        if(songInfoList == null || playPosition<0 || playPosition>=songInfoList.size()){
-//            MyApplication.showLog("所选择的播放列表为空，或者位置不正确");
-//            return;
-//        }
-//        //如果原来没有播放任何歌曲
-//        if(playInfo == null){
-//            //构建新的歌曲播放信息对象
-//            playInfo = new SongPlayInfo(songInfoList, songInfoList.get(playPosition), false, 0);
-//            try{
-//                File playFile = new File(songInfoList.get(playPosition).getSongAbsolutePath());
-//                mMediaPlayer.setDataSource(playFile.getAbsolutePath());
-//                mMediaPlayer.prepareAsync();
-//            }catch (IOException e){
-//                MyApplication.showLog("异常--"+e.toString()+"-位置-"+"playerOperator.play(List, int)方法");
-//                Toast.makeText(mContext, "所点击的歌曲文件有误", Toast.LENGTH_SHORT).show();
-//            }
-//        }else if( !playInfo.getSongInfo().getSongAbsolutePath().equals(songInfoList.get(playPosition).getSongAbsolutePath()) ){
-//            //如果两次点击播放不同歌曲
-//            playInfo.setSongInfo( songInfoList.get(playPosition) );//更新新的歌曲信息
-//            changeSong( songInfoList.get(playPosition).getSongAbsolutePath());//根据歌曲绝对路径更换歌曲
-//        }else{
-//            //如果两次点击同一首歌
-//            //如果歌曲正在播放那就暂停
-//            if (mMediaPlayer.isPlaying()){
-//                this.pause();
-//                canPlay = false;//标记他是手动暂停
-////                isPlaying = false;
-//            }else{//否则的话继续播放
-//                this.play();
-//                this.canPlay = true;
-////                isPlaying = true;
-//            }
-//        }
-//        this.canPlay = true;//修改允许播放标志
-//        //更新所选择的歌曲文件
-////        lastSongInfo = songInfoList.get(playPosition);
-//        this.songInfoList = songInfoList;//保存当前播放列表
-//        lastPosition = playPosition;//保存新选中的播放位置
-//    }
-
     /**
      * 播放指定列表下的指定位置歌曲
-     * @param playListName 列表名字
+     * @param playListName 当前播放列表名字
      * @param songList 歌曲列表
      * @param playPosition 被选中的歌曲在列表的位置
      */
@@ -178,20 +132,16 @@ public class PlayerOperator implements
 
 
     /**
-     * 播放
-     * 某一首歌暂停后又继续播放
-     * 应当调用这个方法
+     * 播放，某一首歌暂停后又继续播放，应当调用这个方法
      */
     public void play(){
         mMediaPlayer.start();
         //通知所有的观察着歌曲信息
         notifyObservers();
-
     }
 
     /**
      * 暂停当前所播放的歌曲
-     * 同时通知所有的关察着
      */
     public void pause(){
         mMediaPlayer.pause();
@@ -201,12 +151,12 @@ public class PlayerOperator implements
 
 
     /**
-     * 播放列表里面的下一首歌曲
+     * 播放歌曲列表里的下一首歌
      */
     public void nextSong() {
         //记录新的歌曲信息
         playInfo.setPlayPosition( (playInfo.getPlayPosition()+1)%playInfo.getSongList().size() );
-        playInfo.setSongInfo( playInfo.getSongList().get(playInfo.getPlayPosition()) );
+        playInfo.setSongInfo(playInfo.getSongList().get(playInfo.getPlayPosition()));
         changeSong(playInfo.getSongInfo().getSongAbsolutePath());
     }
 
@@ -229,7 +179,7 @@ public class PlayerOperator implements
      * 当应用程序退出时调用这个方法彻底放弃音频资源
      */
     public void over(){
-//        先要释放掉MediaPlayer
+        //先要释放掉MediaPlayer
         if (mMediaPlayer!=null){
             if (mMediaPlayer.isPlaying()){
                 mMediaPlayer.stop();
@@ -238,14 +188,17 @@ public class PlayerOperator implements
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
-//        在释放掉当前对象
+        //在释放掉当前对象
         if(playerOperator!=null) {
             playerOperator = null;
             MyApplication.showLog("销毁单例");
         }
     }
 
-
+    /**
+     * 设置当前播放进度（毫秒单位）
+     * @param msec
+     */
     public void seekTo(int msec){
         mMediaPlayer.seekTo(msec);
         notifyObservers();
@@ -278,7 +231,7 @@ public class PlayerOperator implements
     @Override
     public void registerObserver(PlayInfoObserver playInfoObserver) {
         playInfoObserverList.add(playInfoObserver);
-//        对每一个新添加进的观察者单独发送一次通知
+        //对每一个新添加进的观察者单独发送一次通知
         playInfoObserver.updatePlayInfo(playInfo);
     }
 
@@ -294,6 +247,7 @@ public class PlayerOperator implements
     //发送最新消息给观察者
     @Override
     public void notifyObservers() {
+        //先获取到最新数据
         playInfo.setPlaying(mMediaPlayer.isPlaying());
         playInfo.setProgress(mMediaPlayer.getCurrentPosition());
         for(PlayInfoObserver playInfoObserver:playInfoObserverList){
@@ -323,24 +277,23 @@ public class PlayerOperator implements
     }
     /*"PlayInfoSubject"方法实现_结束*/
 
-//    /**
-//     * 获取当前歌曲播放进度
-//     * @return 当前歌曲播放进度（毫秒）
-//     */
-//    public int getCurrentPosition() {
-//        return mMediaPlayer.getCurrentPosition();
-//    }
-
     public List<SongInfo> getSongInfoList(){
 //        return this.songInfoList;
         return this.playInfo.getSongList();
     }
+
     /**
      * 返回歌曲是否正在播放
      * @return true:当前歌曲正在播放，false:歌曲暂停或者压根没有选择任何歌曲
      */
     public boolean isPlaying() {
-        return mMediaPlayer.isPlaying();
+        boolean isPlaying;
+        try{
+            isPlaying = mMediaPlayer.isPlaying();
+        }catch (IllegalStateException e){
+            return false;
+        }
+        return isPlaying;
     }
 
     /*"OnPreparedListener"方法实现_开始*/

@@ -24,14 +24,12 @@ import java.util.List;
  */
 public class PlayerService extends Service implements PlayInfoObserver{
 
-//    private List<SongInfo> songInfoList;//保存当前正播放的歌曲列表
     private PlayerOperator playerOperator;//用这个类控制音乐播放
     private PlayInfoNotification playInfoNotification;
     private SongInfoOpenHelper songInfoOpenHelper;//用来更新歌曲最后一次播放时间
 
     //这个用来给外界绑定服务的
     private PlayerServiceBinder playerServiceBinder = new PlayerServiceBinder();
-
 
     @Override
     public void onCreate() {
