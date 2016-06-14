@@ -185,14 +185,6 @@ public class PlayerService extends Service implements PlayInfoObserver{
         return playerOperator.isPlaying();
     }
 
-    /**
-     * 获取当前正播放的音乐列表
-     * @return 歌曲列表
-     */
-    public List getSongList(){
-        return playerOperator.getSongInfoList();
-    }
-
-    /*供给邦迪服务的"Activity"用的方法_结束*/
+    /*共给绑定服务的"Activity"用的方法_结束*/
 
 }

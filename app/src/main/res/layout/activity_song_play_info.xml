@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/activity_song_play_info_background"
+    android:background="@drawable/bg_activity_song_play_info_default"
     android:id="@+id/ll_root_view">
 
     <!-- 标题栏-->

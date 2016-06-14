@@ -289,19 +289,6 @@ public class SongPlayInfoActivity extends BaseActivity implements
         int playMode = userOptionPreferences.getIntValues(UserOptionPreferences.KEY_PLAY_MODE, UserOptionPreferences.VALUES_PLAY_MODE_ORDER);
 //            根据当前播放模式写入新的播放模式
         switch(playMode){
-//            case UserOptionPreferences.VALUES_PLAY_MODE_ORDER:
-//                userOptionTool.setPlayModes(UserOptionPreferences.VALUES_PLAY_MODE_RANDOM);
-//                break;
-//            case UserOptionPreferences.VALUES_PLAY_MODE_RANDOM:
-//                userOptionTool.setPlayModes(UserOptionPreferences.VALUES_PLAY_MODE_LIST_CIRCULATE);
-//                break;
-//            case UserOptionPreferences.VALUES_PLAY_MODE_LIST_CIRCULATE:
-//                userOptionTool.setPlayModes(UserOptionPreferences.VALUES_PLAY_MODE_SINGLE_CIRCULATE);
-//                break;
-//            case UserOptionPreferences.VALUES_PLAY_MODE_SINGLE_CIRCULATE:
-//                userOptionTool.setPlayModes(UserOptionPreferences.VALUES_PLAY_MODE_ORDER);
-//                break;
-//            default:break;
             case UserOptionPreferences.VALUES_PLAY_MODE_ORDER:
                 userOptionPreferences.putIntValues(UserOptionPreferences.KEY_PLAY_MODE, UserOptionPreferences.VALUES_PLAY_MODE_RANDOM);
                 break;
@@ -357,7 +344,7 @@ public class SongPlayInfoActivity extends BaseActivity implements
         SongInfo songInfo = songPlayInfo.getSongInfo();//获取当前歌曲信息
         tv_current_time.setText(getTime(songPlayInfo.getProgress()));//设置当前播放时长
         seekBar.setProgress(songPlayInfo.getProgress());//设置当前播放进度
-//        如果原来没有播放任何歌曲，或者原来所播放的歌曲和现在的不同
+        // 如果原来没有播放任何歌曲，或者原来所播放的歌曲和现在的不同
         if(lastSongInfo==null||!lastSongInfo.getSongAbsolutePath().equals(songInfo.getSongAbsolutePath())){
             setNewPlayInfo(songInfo);//设置新的歌曲信息
             lastSongInfo = songInfo;//更新当前播放的那首歌
@@ -388,6 +375,8 @@ public class SongPlayInfoActivity extends BaseActivity implements
             if(singerPictureTools.hasSingerPicture()) {
 //                ll_root_view.setBackground(singerPictureTools.getSingerPicture());
                 ll_root_view.setBackgroundDrawable(singerPictureTools.getSingerPicture());
+            }else{
+                ll_root_view.setBackgroundResource(R.drawable.bg_activity_song_play_info_default);
             }
         }
         //设置进度条最大值
