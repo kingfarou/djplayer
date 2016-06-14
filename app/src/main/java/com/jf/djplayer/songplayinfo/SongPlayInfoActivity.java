@@ -405,7 +405,7 @@ public class SongPlayInfoActivity extends BaseActivity implements
 
     @Override
     public void play(String playListName, List<SongInfo> songList, int playPosition) {
-
+        playerService.play(playListName, songList, playPosition);
     }
 
     @Override

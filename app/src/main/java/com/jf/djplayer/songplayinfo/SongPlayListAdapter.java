@@ -21,12 +21,11 @@ public class SongPlayListAdapter extends BaseAdapter {
 
     private List<Map<String, String>> mapList;//数据集合
     private Context context;//环境
-    private int playingPosition;//当前正播放的歌曲位置
+    private int playingPosition = -1;
 
     public SongPlayListAdapter(Context context, List<Map<String, String>> mapList) {
         this.context = context;
         this.mapList = mapList;
-        this.playingPosition = -1;
     }
 
     @Override
@@ -65,8 +64,11 @@ public class SongPlayListAdapter extends BaseAdapter {
         }
         viewHolder.tv_song_name.setText(mapList.get(position).get(SongPlayListFragment.MAP_TITLE));
         viewHolder.tv_singer_name.setText(mapList.get(position).get(SongPlayListFragment.MAP_CONTENT));
-        if(position == this.playingPosition){
+        //如果这个位置是当前正播放的歌曲的位置，将标志的控件显示出来，否则隐藏标志控件
+        if(position == playingPosition){
             viewHolder.iv_play_icon.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.iv_play_icon.setVisibility(View.INVISIBLE);
         }
         return convertView;
     }
@@ -81,6 +83,6 @@ public class SongPlayListAdapter extends BaseAdapter {
     }
 
     public void setPlayingPosition(int playingPosition){
-
+        this.playingPosition = playingPosition;
     }
 }

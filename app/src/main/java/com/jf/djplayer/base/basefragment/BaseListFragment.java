@@ -34,7 +34,7 @@ import java.util.Map;
 public abstract class BaseListFragment extends BaseFragment
         implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
 
-    private ListView listView;
+    protected ListView listView;
     private View loadingHintView;//在"ListVIew"获取到数据之前显示的视图
     private View listViewEmptyView;//读取完数据之后"ListView"没有数据要显示时所显示的View
 
@@ -87,7 +87,6 @@ public abstract class BaseListFragment extends BaseFragment
      * 子类可在此进行初始化
      */
     protected void initBeforeReturnView(){
-
     }
 
     /**
@@ -141,14 +140,6 @@ public abstract class BaseListFragment extends BaseFragment
     abstract protected BaseAdapter getListViewAdapter(List dataList);
 
     /**
-     * 返回当前"Fragment"里的"ListView"所显示的数据集合
-     * @return
-     */
-    public List getDatasList(){
-        return null;
-    }
-
-    /**
      * 当异步任务完成时将会回调这个方法
      */
     protected void readDataFinish(List dataList){
@@ -163,7 +154,6 @@ public abstract class BaseListFragment extends BaseFragment
      * @param id
      */
     protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id){
-
     }
 
     /**
@@ -174,7 +164,6 @@ public abstract class BaseListFragment extends BaseFragment
      * @param id
      */
     protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id){
-
     }
 
     protected void sortAccordingTitle(){
@@ -264,10 +253,11 @@ public abstract class BaseListFragment extends BaseFragment
                 BaseListFragment.this.dataList = dataList;
                 // listView做初始化
                 listViewInit();
-                readDataFinish(dataList);//任务完成之后回调方法
+//                readDataFinish(dataList);//任务完成之后回调方法
                 //            将数据给设置上去
                 listViewAdapter = getListViewAdapter(dataList);
                 listView.setAdapter(listViewAdapter);
+                readDataFinish(dataList);//任务完成之后回调方法
             }
         }
 
