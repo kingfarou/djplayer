@@ -24,12 +24,6 @@ public class UserOptionPreferences {
     public static final int VALUES_PLAY_MODE_LIST_CIRCULATE = 1<<2;//列表循环
     public static final int VALUES_PLAY_MODE_SINGLE_CIRCULATE = 1<<3;//单曲循环
 
-
-//    public UserOptionPreferences(Context context){
-//        this.context = context;
-//        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
-//    }
-
     /**
      * 创建一个"UserOptionPreferences"对象，该对象负责全局用户选项的保存
      */
@@ -57,21 +51,4 @@ public class UserOptionPreferences {
         return sharedPreferences.getInt(key, defaultValue);
     }
 
-//    /**
-//     * 设置用户播放模式
-//     * @param playMode 要设置的播放模式
-//     */
-//    public void setPlayModes(int playMode){
-//        SharedPreferences playModePreferences = context.getSharedPreferences(SHARED_PREFERENCES_FILE_NAME,Context.MODE_PRIVATE);
-//        playModePreferences.edit().putInt(KEY_PLAY_MODE,playMode).commit();
-//    }
-
-//    /**
-//     * 返回所设置的播放模式
-//     * @return 整形所标示的播放模式，如果未曾设置用户播放模式，默认返回顺序播放
-//     */
-//    public int getPlayModes(){
-//        SharedPreferences playModePreferences = context.getSharedPreferences(SHARED_PREFERENCES_FILE_NAME,Context.MODE_PRIVATE);
-//        return playModePreferences.getInt(KEY_PLAY_MODE, VALUES_PLAY_MODE_ORDER);//默认返回顺序播放
-//    }
 }

@@ -43,7 +43,8 @@
     <string name="sort_by_add_time">按添加时间排序</string>
     <string name="sort_by_song_num">按歌曲数量排序</string>
     <string name="sort_by_album">按专辑排序</string>
-    <string name="sort_by_folder_name">按文件夹排序</string>
+    <string name="sort_by_folder_name">按文件名排序</string>
+    <string name="manage_song_batch">批量管理歌曲</string>
     <!-- 本地音乐_LocalMusic-->
 
 
