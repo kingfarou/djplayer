@@ -17,7 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.util.FileUtil;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
@@ -30,7 +30,7 @@ import java.io.File;
 public class DeleteSongDialog extends DialogFragment implements CompoundButton.OnCheckedChangeListener{
 
 
-    private SongInfo songInfo = null;//要操作的歌曲信息
+    private Song songInfo = null;//要操作的歌曲信息
     private boolean isDeleteSongFile = false;//是否删除歌曲文件
     private boolean isDeleteSingerPicture = false;//是否删除歌手图片
     private boolean isDeleteLyricFile = true;//是否删除歌词文件
@@ -39,12 +39,12 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
     private int groupPosition;
     private View view;
 
-    public DeleteSongDialog(Context context, SongInfo songInfo, int groupPosition) {
+    public DeleteSongDialog(Context context, Song songInfo, int groupPosition) {
         this.songInfo = songInfo;
         this.groupPosition = groupPosition;
     }
 
-    public DeleteSongDialog(SongInfo songInfo, int position){
+    public DeleteSongDialog(Song songInfo, int position){
 
     }
 
@@ -66,7 +66,7 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
                 File sdCardFile = Environment.getExternalStorageDirectory();//获取SD卡的路径
 //                如果删除歌曲文件
                 if (isDeleteSongFile) {
-                    File songFile = new File(songInfo.getSongAbsolutePath());
+                    File songFile = new File(songInfo.getFileAbsolutePath());
                     if(!songFile.delete()){
                         Toast.makeText(getActivity(),"原音频文件未删除",Toast.LENGTH_SHORT).show();
                     }
@@ -74,14 +74,14 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
 //                如果删除歌手图片
                 if (isDeleteSingerPicture) {
 //                    File artistPictureDir = new File(Environment.getExternalStorageDirectory(),FileTool.SINGER_PICTURE_DIR);
-//                    File artistPictureFile = new File(artistPictureDir,songInfo.getSingerName()+".jpg");
+//                    File artistPictureFile = new File(artistPictureDir,_songInfo.getSingerName()+".jpg");
 //                    artistPictureFile.delete();
                 }
                 if (isDeleteSoundFile) {
                 }
                 if (isDeleteLyricFile) {
                     File lyricDir = new File(sdCardFile, FileUtil.LYRIC_DIR);//连接歌词文件路径
-                    File songFile = new File(songInfo.getSongAbsolutePath());//连接歌曲那个文件
+                    File songFile = new File(songInfo.getFileAbsolutePath());//连接歌曲那个文件
 //                    截取歌曲文件名字（去拓展名）
                     String songFileName = songFile.getName().substring(0,songFile.getName().length()-4);
 //                    Log.i("test",songFileName);

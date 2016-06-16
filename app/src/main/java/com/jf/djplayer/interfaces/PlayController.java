@@ -1,6 +1,6 @@
 package com.jf.djplayer.interfaces;
 
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ public interface PlayController {
      * @param songInfoList
      * @param position
      */
-    public void play(List<SongInfo> songInfoList,int position);
+    public void play(List<Song> songInfoList,int position);
 
-    public void play(String playListName, List<SongInfo> songList, int playPosition);
+    public void play(String playListName, List<Song> songList, int playPosition);
     /**
      * 暂停之后继续播放用的
      */

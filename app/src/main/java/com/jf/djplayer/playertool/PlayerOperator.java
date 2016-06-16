@@ -7,9 +7,9 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
-import com.jf.djplayer.module.SongPlayInfo;
+import com.jf.djplayer.module.PlayInfo;
 import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.util.UserOptionPreferences;
@@ -38,7 +38,7 @@ public class PlayerOperator implements
     private Context mContext;//上下文
     private MediaPlayer mMediaPlayer;//系统媒体的播放类
     private List<PlayInfoObserver> playInfoObserverList;//这个是观察者列表
-    private SongPlayInfo playInfo;//该对象封装当前正播放的歌曲的信息
+    private PlayInfo playInfo;//该对象封装当前正播放的歌曲的信息
 //    private int lastPosition = -1;//用来记录最新播放歌曲的位置的
     private boolean canPlay = false;//当音频焦点变化时根据它来判定是否可以播放
 
@@ -79,7 +79,7 @@ public class PlayerOperator implements
      * @param songList 歌曲列表
      * @param playPosition 被选中的歌曲在列表的位置
      */
-    public void play(String playListName, List<SongInfo> songList, int playPosition){
+    public void play(String playListName, List<Song> songList, int playPosition){
         //如果输入参数不对
         if(songList == null || playPosition<0 || playPosition>=songList.size()){
             MyApplication.showLog("所选择的播放列表为空，或者位置不正确");
@@ -89,10 +89,10 @@ public class PlayerOperator implements
         if(playInfo == null){
             //创建新的播放信息对象
             int progress = 0;//进度值初始化为零
-            playInfo = new SongPlayInfo(playListName, songList, playPosition, progress);
+            playInfo = new PlayInfo(playListName, songList, playPosition, progress);
             //开始播放
             try{
-                File playFile = new File(playInfo.getSongInfo().getSongAbsolutePath());
+                File playFile = new File(playInfo.getSongInfo().getFileAbsolutePath());
                 mMediaPlayer.setDataSource(playFile.getAbsolutePath());
                 mMediaPlayer.prepareAsync();
             }catch (IOException e){
@@ -103,8 +103,8 @@ public class PlayerOperator implements
         }
         /*到这说明原来已有播放歌曲*/
         String oldPlayListName = playInfo.getPlayListName();
-        String oldSongAbsolutePath = playInfo.getSongInfo().getSongAbsolutePath();
-        String newSongAbsolutePath = songList.get(playPosition).getSongAbsolutePath();
+        String oldSongAbsolutePath = playInfo.getSongInfo().getFileAbsolutePath();
+        String newSongAbsolutePath = songList.get(playPosition).getFileAbsolutePath();
         //如果两次播放不是同一首歌（判断规则：播放列表名字相同而且歌曲绝对路径相同，这被视为同一首歌）
         if( !( oldPlayListName.equals(playListName) && newSongAbsolutePath.equals(oldSongAbsolutePath) ) ){
             //如果两次点击播放不同歌曲，更新新的播放信息
@@ -113,7 +113,7 @@ public class PlayerOperator implements
             playInfo.setPlayPosition(playPosition);
             playInfo.setSongInfo(songList.get(playPosition));
             playInfo.setProgress(0);//新的歌曲播放进度初始化零
-            changeSong(songList.get(playPosition).getSongAbsolutePath());//根据歌曲绝对路径更换歌曲
+            changeSong(songList.get(playPosition).getFileAbsolutePath());//根据歌曲绝对路径更换歌曲
         }else{
             //以下处理两次点击同一首歌
             if (mMediaPlayer.isPlaying()){
@@ -157,7 +157,7 @@ public class PlayerOperator implements
         //记录新的歌曲信息
         playInfo.setPlayPosition( (playInfo.getPlayPosition()+1)%playInfo.getSongList().size() );
         playInfo.setSongInfo(playInfo.getSongList().get(playInfo.getPlayPosition()));
-        changeSong(playInfo.getSongInfo().getSongAbsolutePath());
+        changeSong(playInfo.getSongInfo().getFileAbsolutePath());
     }
 
     /**
@@ -172,7 +172,7 @@ public class PlayerOperator implements
             playInfo.setPlayPosition(playInfo.getPlayPosition()-1);
         }
         playInfo.setSongInfo(playInfo.getSongList().get(playInfo.getPlayPosition()));
-        changeSong(playInfo.getSongInfo().getSongAbsolutePath());
+        changeSong(playInfo.getSongInfo().getFileAbsolutePath());
     }
 
     /**
@@ -261,7 +261,7 @@ public class PlayerOperator implements
      * 否则，返回当前正播放的歌曲信息
      */
     @Override
-    public SongPlayInfo getPlayInfo() {
+    public PlayInfo getPlayInfo() {
         if(playInfo == null){
             return null;
         }
@@ -277,7 +277,7 @@ public class PlayerOperator implements
     }
     /*"PlayInfoSubject"方法实现_结束*/
 
-    public List<SongInfo> getSongInfoList(){
+    public List<Song> getSongInfoList(){
 //        return this.songInfoList;
         return this.playInfo.getSongList();
     }

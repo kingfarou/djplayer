@@ -1,6 +1,6 @@
 package com.jf.djplayer.sortable;
 
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 import java.util.List;
 
@@ -18,5 +18,5 @@ public interface SongInfoListSortable {
      * 实现类按自己想要方式进行排序
      * @param songInfoList 待排序的那个集合
      */
-    public void sort(List<SongInfo> songInfoList);
+    public void sort(List<Song> songInfoList);
 }

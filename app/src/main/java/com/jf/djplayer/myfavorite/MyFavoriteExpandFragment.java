@@ -9,23 +9,19 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
-import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.SongInfoObserver;
 import com.jf.djplayer.database.SongInfoOpenHelper;
-import com.jf.djplayer.sortable.SortBySingerName;
 import com.jf.djplayer.R;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.sortable.SongInfoListSortable;
-import com.jf.djplayer.sortable.SortBySongName;
 
 import java.util.List;
 
@@ -41,7 +37,7 @@ public class MyFavoriteExpandFragment extends BaseExpandFragment
     private PlayController playController;
     private View footerView;
     private UpdateUiSongInfoReceiver updateUiSongInfoReceiver;
-    private List<SongInfo> favoriteList;
+    private List<Song> favoriteList;
 
     @Nullable
     @Override

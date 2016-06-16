@@ -10,7 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.GridView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 import java.util.List;
 
@@ -26,14 +26,14 @@ abstract public class BaseExpandFragmentAdapter extends BaseExpandableListAdapte
 
     protected Context context;//环境
     protected Fragment fragment;//创建该"Adapter"的Fragment
-    protected List<SongInfo> songInfoList;//数据
+    protected List<Song> songInfoList;//数据
 
     /**
      * 构造方法
      * @param fragment 使用该适配器的"Fragment"
      * @param songInfoList 要显示的数据集合
      */
-    public BaseExpandFragmentAdapter(Fragment fragment, List<SongInfo> songInfoList){
+    public BaseExpandFragmentAdapter(Fragment fragment, List<Song> songInfoList){
         this.context = fragment.getActivity();
         this.fragment = fragment;
         this.songInfoList = songInfoList;
@@ -89,7 +89,7 @@ abstract public class BaseExpandFragmentAdapter extends BaseExpandableListAdapte
             childViewHolder = (ChildViewHolder) convertView.getTag();
         }
         //"GridView"的初始化
-        SongInfo songInfo = songInfoList.get(groupPosition);
+        Song songInfo = songInfoList.get(groupPosition);
         childViewHolder.gridView.setOnItemClickListener(new ChildItemClickListener(songInfo, groupPosition));
         ExpandListChildItemAdapter childItemAdapter = new ExpandListChildItemAdapter(context, getChildItemText(songInfo), getChildItemImageId(songInfo));
         childViewHolder.gridView.setAdapter(childItemAdapter);
@@ -110,7 +110,7 @@ abstract public class BaseExpandFragmentAdapter extends BaseExpandableListAdapte
      * 设置适配器里面的数据
      * @param songInfoList 新的数据
      */
-    public void setSongInfoList(List<SongInfo> songInfoList){
+    public void setSongInfoList(List<Song> songInfoList){
         this.songInfoList = songInfoList;
     }
 
@@ -118,13 +118,13 @@ abstract public class BaseExpandFragmentAdapter extends BaseExpandableListAdapte
      * "ExpandableListView"的子"View"是个"GridView"，该方法获取"GridView"每个"item"所显示的文字内容
      * @return "GridView"每个"item"上的文字
      */
-    abstract protected String[] getChildItemText(SongInfo songInfo);
+    abstract protected String[] getChildItemText(Song songInfo);
 
     /**
      * "ExpandableListView"的子"View"是个"GridView"，该方法获取"GridView"每个"item"所显示的图片资源id
      * @return "GridView"每个"item"图片资源
      */
-    abstract protected int[] getChildItemImageId(SongInfo songInfo);
+    abstract protected int[] getChildItemImageId(Song songInfo);
 
     /**
      * "ExpandableListView"子"Item"的"GridView"每个"Item"点击事件响应方法
@@ -132,17 +132,17 @@ abstract public class BaseExpandFragmentAdapter extends BaseExpandableListAdapte
      * @param groupPosition 该"GridView"所在"GroupItem"序号
      * @param clickPosition "GridView"被点击的"item"序号
      */
-    abstract protected void onGridViewItemClick(SongInfo songInfo, int groupPosition, int clickPosition);
+    abstract protected void onGridViewItemClick(Song songInfo, int groupPosition, int clickPosition);
 
     /*
     "ExpandableListView"的子"Item"里的"GridView"的"OnItemClickListener"的实现类
      */
     private class ChildItemClickListener implements AdapterView.OnItemClickListener{
 
-        private SongInfo songInfo;//被操作的那首歌曲
+        private Song songInfo;//被操作的那首歌曲
         private int groupPosition;//被操作的歌曲在列表的位置
 
-        ChildItemClickListener(SongInfo songInfo,int groupPosition){
+        ChildItemClickListener(Song songInfo,int groupPosition){
             this.songInfo = songInfo;
             this.groupPosition = groupPosition;
         }

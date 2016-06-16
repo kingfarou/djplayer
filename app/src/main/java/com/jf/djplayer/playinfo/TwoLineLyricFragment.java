@@ -1,4 +1,4 @@
-package com.jf.djplayer.songplayinfo;
+package com.jf.djplayer.playinfo;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
-import com.jf.djplayer.module.SongPlayInfo;
+import com.jf.djplayer.module.PlayInfo;
 import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.playertool.LyricTool;
 import com.jf.djplayer.playertool.PlayerOperator;
@@ -31,7 +31,7 @@ import java.lang.ref.WeakReference;
 public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
 
     private View layoutView;//当前布局的根视图
-    private SongInfo lastSongInfo;//保存最新歌曲信息
+    private Song lastSongInfo;//保存最新歌曲信息
 
     private TextView topLineTv;//这是第一行的歌词
     private LyricTool lyricTool;//只是读取歌词用的工具
@@ -98,19 +98,19 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
     }
 
     @Override
-    public void updatePlayInfo(SongPlayInfo songPlayInfo) {
+    public void updatePlayInfo(PlayInfo playInfo) {
 //        如果当前没有任何歌曲被选中了
-        if (songPlayInfo == null || songPlayInfo.getSongInfo() == null) {
+        if (playInfo == null || playInfo.getSongInfo() == null) {
             return;
         }
-        SongInfo songInfo = songPlayInfo.getSongInfo();
+        Song songInfo = playInfo.getSongInfo();
         //满足以下条件表示需要更新歌曲信息
-        if (lastSongInfo == null || !lastSongInfo.getSongAbsolutePath().equals(songInfo.getSongAbsolutePath())) {
+        if (lastSongInfo == null || !lastSongInfo.getFileAbsolutePath().equals(songInfo.getFileAbsolutePath())) {
             setNewSongInfo(songInfo);
             lastSongInfo = songInfo;//保存新播放的歌曲信息
         }//if
         //根据播放状态不同设置不同
-        if (songPlayInfo.isPlaying()) {
+        if (playInfo.isPlaying()) {
             //如果歌词读取工具已经读到歌词
             if (lyricTool != null && lyricTool.hasSongLyric()) {
                 continueUpdateLyric = true;
@@ -120,15 +120,15 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
             //让"Handler"停止继续更新歌词
             continueUpdateLyric = true;
         }//if(isPlaying)
-        showTwoLyricLine(songPlayInfo.getProgress());
+        showTwoLyricLine(playInfo.getProgress());
 
     }
 
-    private void setNewSongInfo(SongInfo theNewSongInfo){
+    private void setNewSongInfo(Song theNewSongInfo){
         //如果外存可读的话读取歌词
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
 //            根据音乐文件读取歌词：文件名字.mp3
-            String songFileName = new File(theNewSongInfo.getSongAbsolutePath()).getName();
+            String songFileName = new File(theNewSongInfo.getFileAbsolutePath()).getName();
             lyricTool = new LyricTool(songFileName);
             //如果当前应用没有存有歌词直接返回
             if(!lyricTool.hasSongLyric()){

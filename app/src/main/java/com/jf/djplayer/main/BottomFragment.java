@@ -18,10 +18,10 @@ import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseactivity.BaseActivity;
-import com.jf.djplayer.module.SongInfo;
-import com.jf.djplayer.module.SongPlayInfo;
+import com.jf.djplayer.module.Song;
+import com.jf.djplayer.module.PlayInfo;
 import com.jf.djplayer.base.MyApplication;
-import com.jf.djplayer.songplayinfo.SongPlayInfoActivity;
+import com.jf.djplayer.playinfo.PlayInfoActivity;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.playertool.PlayerOperator;
 import com.jf.djplayer.interfaces.PlayController;
@@ -47,7 +47,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
     private ProgressBar progressBar;
 
     //功能类的成员变量
-    private SongInfo lastSongInfo;//这个保存主题上次传进来的歌曲信息
+    private Song lastSongInfo;//这个保存主题上次传进来的歌曲信息
     private PlayController playController;//音乐播放的控制者（其实就是当前活动）
     private PlayInfoSubject playInfoSubject;//所观察的那个主题
     private final UpdateProgressHandler updateProgressHandler = new UpdateProgressHandler(this);
@@ -116,19 +116,19 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         int id = v.getId();
         //如果点击整个底边的栏
         if(id == R.id.ll_fragment_bottom) {
-            startActivity(new Intent(getActivity(), SongPlayInfoActivity.class));
+            startActivity(new Intent(getActivity(), PlayInfoActivity.class));
             return;
         }
         //获取当前歌曲信息
-        SongPlayInfo songPlayInfo = playInfoSubject.getPlayInfo();
+        PlayInfo playInfo = playInfoSubject.getPlayInfo();
         //如果点击播放或者暂停按钮
         if(id == R.id.ib_fragment_bottom_control_play){
-            songPlayInfo = playInfoSubject.getPlayInfo();
-            if(songPlayInfo == null){
+            playInfo = playInfoSubject.getPlayInfo();
+            if(playInfo == null){
                 MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
                 return;
             }
-            if(songPlayInfo.isPlaying()){
+            if(playInfo.isPlaying()){
                 playController.pause();
             }else {
                 playController.play();
@@ -137,7 +137,7 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         }
         //如果点击下一曲的按钮
         if(id == R.id.ib_fragment_bottom_control_next){
-            if(songPlayInfo == null){
+            if(playInfo == null){
                 MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
                 return;
             }
@@ -147,30 +147,30 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
 
     /*覆盖作为观察者的方法__开始*/
     @Override
-    public void updatePlayInfo(SongPlayInfo songPlayInfo) {
+    public void updatePlayInfo(PlayInfo playInfo) {
         // 如果没有任何歌曲选中直接返回
-        if (songPlayInfo == null || songPlayInfo.getSongInfo() == null) {
+        if (playInfo == null || playInfo.getSongInfo() == null) {
             return;
         }
         //如果原来没有播放任何歌曲，或者原来所播放的歌曲和现在的不同
-        if(lastSongInfo ==null || !songPlayInfo.getSongInfo().getSongAbsolutePath().equals(lastSongInfo.getSongAbsolutePath())){
-            setNewPlayInfo(songPlayInfo.getSongInfo());
+        if(lastSongInfo ==null || !playInfo.getSongInfo().getFileAbsolutePath().equals(lastSongInfo.getFileAbsolutePath())){
+            setNewPlayInfo(playInfo.getSongInfo());
         }
-        if(songPlayInfo.isPlaying()) {
+        if(playInfo.isPlaying()) {
             playSettings();
         }
         else {
             pauseSettings();
         }//if(isPlaying)
-        progressBar.setProgress(songPlayInfo.getProgress());//设置当前播放进度
-        lastSongInfo = songPlayInfo.getSongInfo();//更新当前播放的那首歌
+        progressBar.setProgress(playInfo.getProgress());//设置当前播放进度
+        lastSongInfo = playInfo.getSongInfo();//更新当前播放的那首歌
     }
 
     //    更新歌曲名字歌手名字和进度条的最大值
-    private void setNewPlayInfo(SongInfo currentSongInfo){
+    private void setNewPlayInfo(Song currentSongInfo){
         songNameTv.setText(currentSongInfo.getSongName());
         songArtistTv.setText(currentSongInfo.getSingerName());
-        progressBar.setMax(currentSongInfo.getSongDuration());
+        progressBar.setMax(currentSongInfo.getDuration());
     }
 
     //当收到了观察者的通知，如果歌曲正在播放，调此方法

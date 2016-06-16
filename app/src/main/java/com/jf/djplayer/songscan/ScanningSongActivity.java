@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 
 import com.jf.djplayer.base.baseactivity.BaseActivity;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.R;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.database.SystemMediaDatabaseUtils;
@@ -105,20 +105,20 @@ public class ScanningSongActivity extends BaseActivity {
             //本地数据库帮助类
             SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(ScanningSongActivity.this);
 //            根据所传入的路径读取路径下的所有歌曲
-            List<SongInfo> songInfoList = systemMediaDatabaseUtils.getSongInfoAccordingPath(scanPath);
+            List<Song> songInfoList = systemMediaDatabaseUtils.getSongInfoAccordingPath(scanPath);
 //            如果没有任何歌曲直接返回
             if(songInfoList==null){
                 return 0;
             }
 //            循环遍历读取到的所有歌曲
             int insertSongNumber = 0;
-            for(SongInfo songInfo:songInfoList){
+            for(Song songInfo:songInfoList){
                 songInfo.setLastPlayTime(0);//刚扫描的歌曲最后一次播放时间为零
                 songInfo.setCollection(SongInfoOpenHelper.noCollection);//刚扫描的歌曲默认没有收藏
 //                如果歌曲添加成功则要更新显示信息来的
                 if(songInfoOpenHelper.insertInLocalMusicTable(songInfo)!=-1){
                     insertSongNumber++;//记录一共添加了几首歌
-                    publishProgress(songInfo.getSongAbsolutePath());//显示所扫描的歌曲路径
+                    publishProgress(songInfo.getFileAbsolutePath());//显示所扫描的歌曲路径
 //                    延迟一下才能看到扫描过程
                     try {
                         Thread.sleep(100L);

@@ -10,7 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
 import com.jf.djplayer.base.baseadapter.DefExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ import java.util.List;
 public class ExpandSearchFragment extends BaseExpandFragment
                 implements SearcherFragment {
 
-    private List<SongInfo> searchedList;//这是待搜索的数据列表
-    private List<SongInfo> showList;//这是得到关键字后需展示的数据列表
+    private List<Song> searchedList;//这是待搜索的数据列表
+    private List<Song> showList;//这是得到关键字后需展示的数据列表
     //搜索数据的提供者，从搜索数据提供者那里获取待搜索的数据集合
     private SearchedDataProvider searchedDataProvider;
 
@@ -61,7 +61,7 @@ public class ExpandSearchFragment extends BaseExpandFragment
         //清空原有展示数据列表
         showList.clear();
         //遍历待搜索的数据列表，搜索条件：当歌曲的名字或者歌手名字包含关键字了，即为符合
-        for(SongInfo songInfo:searchedList){
+        for(Song songInfo:searchedList){
             if(songInfo.getSongName().contains(keyword) || songInfo.getSingerName().contains(keyword)){
                 showList.add(songInfo);
             }

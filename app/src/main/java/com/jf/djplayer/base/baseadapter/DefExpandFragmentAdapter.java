@@ -19,7 +19,7 @@ import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.dialogfragment.DeleteSongDialog;
 import com.jf.djplayer.dialogfragment.SetToBellDialog;
 import com.jf.djplayer.dialogfragment.SongInfoDialog;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class DefExpandFragmentAdapter extends BaseExpandFragmentAdapter{
      * @param fragment     使用该适配器的"Fragment"
      * @param songInfoList 要显示的数据集合
      */
-    public DefExpandFragmentAdapter(Fragment fragment, List<SongInfo> songInfoList) {
+    public DefExpandFragmentAdapter(Fragment fragment, List<Song> songInfoList) {
         super(fragment, songInfoList);
     }
 
@@ -90,19 +90,19 @@ public class DefExpandFragmentAdapter extends BaseExpandFragmentAdapter{
     }
 
     @Override
-    protected int[] getChildItemImageId(SongInfo songInfo) {
+    protected int[] getChildItemImageId(Song songInfo) {
         int[] imageId = new int[]{R.drawable.ic_base_expand_fragment_adapter_no_collection, R.drawable.ic_base_expand_fragment_adapter_delete,
                 R.drawable.ic_base_expand_fragment_adapter_add, R.drawable.ic_base_expand_fragment_adapter_bell,
                 R.drawable.ic_base_expand_fragment_adapter_share, R.drawable.ic_base_expand_fragment_adapter_send,
                 R.drawable.ic_base_expand_fragment_adapter_info};
-        if(songInfo.getCollection() == SongInfo.IS_COLLECTION){
+        if(songInfo.getCollection() == Song.IS_COLLECTION){
             imageId[0] = R.drawable.ic_base_expand_fragment_adapter_collection;
         }
         return imageId;
     }
 
     @Override
-    protected String[] getChildItemText(SongInfo songInfo) {
+    protected String[] getChildItemText(Song songInfo) {
         Resources resources = context.getResources();
         return new String[]{resources.getString(R.string.collection), resources.getString(R.string.delete),
                 resources.getString(R.string.add), resources.getString(R.string.set_to_bell),
@@ -111,7 +111,7 @@ public class DefExpandFragmentAdapter extends BaseExpandFragmentAdapter{
     }
 
     @Override
-    protected void onGridViewItemClick(SongInfo songInfo, int groupPosition, int clickPosition) {
+    protected void onGridViewItemClick(Song songInfo, int groupPosition, int clickPosition) {
         switch(clickPosition){
             //用户收藏或者取消收藏这首歌曲
             case 0:

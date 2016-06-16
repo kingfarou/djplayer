@@ -3,7 +3,7 @@ package com.jf.djplayer.playertool;
 import android.os.Environment;
 import android.util.Log;
 
-import com.jf.djplayer.songplayinfo.LyricLine;
+import com.jf.djplayer.playinfo.LyricLine;
 import com.jf.djplayer.util.FileUtil;
 
 import java.io.BufferedReader;

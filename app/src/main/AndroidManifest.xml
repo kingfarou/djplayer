@@ -29,7 +29,7 @@
 
         <!-- 专门用于显示播放信息用的活动-->
         <activity
-            android:name=".songplayinfo.SongPlayInfoActivity"
+            android:name=".playinfo.PlayInfoActivity"
             android:launchMode="singleTop">
         </activity>
 

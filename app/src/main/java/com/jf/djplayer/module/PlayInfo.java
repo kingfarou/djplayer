@@ -8,31 +8,25 @@ import java.util.List;
  * "PlayInfoSubject"类向"PlayInfoObserver"传递该对象，
  * 用来表示当前播放信息
  */
-public class SongPlayInfo {
+public class PlayInfo {
 
     private String playListName;//当前正播放的列表所归属的界面名字
-    private List<SongInfo> songList;//当前正播放的歌曲列表
+    private List<Song> songList;//当前正播放的歌曲列表
     private int playPosition;//正播放的歌曲所在列表里的位置
-    private SongInfo songInfo;//当前正播放的歌曲信息
+    private Song songInfo;//当前正播放的歌曲信息
     private boolean isPlaying;//歌曲是否正在播放（正在唱着）
     private int progress;//歌曲当前播放进度
 
-    public SongPlayInfo(){}
-    
-//    public SongPlayInfo(SongInfo songInfo, boolean isPlaying, int progress){
-//        this.songInfo = songInfo;
-//        this.isPlaying = isPlaying;
-//        this.progress = progress;
-//    }
+    public PlayInfo(){}
 
-    public SongPlayInfo(List<SongInfo> songList, SongInfo songInfo, boolean isPlaying, int progress){
+    public PlayInfo(List<Song> songList, Song songInfo, boolean isPlaying, int progress){
         this.songList = songList;
         this.songInfo = songInfo;
         this.isPlaying = isPlaying;
         this.progress = progress;
     }
 
-    public SongPlayInfo(String playListName, List<SongInfo> songList, int playPosition, int progress){
+    public PlayInfo(String playListName, List<Song> songList, int playPosition, int progress){
         this.playListName = playListName;
         this.songList = songList;
         this.songInfo = songList.get(playPosition);
@@ -54,10 +48,10 @@ public class SongPlayInfo {
         return playPosition;
     }
 
-    public SongInfo getSongInfo() {
+    public Song getSongInfo() {
         return songInfo;
     }
-    public void setSongInfo(SongInfo songInfo) {
+    public void setSongInfo(Song songInfo) {
         this.songInfo = songInfo;
     }
 
@@ -75,10 +69,10 @@ public class SongPlayInfo {
         this.progress = progress;
     }
 
-    public void setSongList(List<SongInfo> songInfoList){
+    public void setSongList(List<Song> songInfoList){
         this.songList = songInfoList;
     }
-    public List<SongInfo> getSongList(){
+    public List<Song> getSongList(){
         return this.songList;
     }
 }

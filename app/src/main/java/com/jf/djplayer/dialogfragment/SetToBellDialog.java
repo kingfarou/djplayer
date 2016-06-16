@@ -1,6 +1,5 @@
 package com.jf.djplayer.dialogfragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -15,7 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 /**
  * Created by JF on 2015/11/28.
@@ -23,18 +22,18 @@ import com.jf.djplayer.module.SongInfo;
 public class SetToBellDialog extends DialogFragment {
 
     private Context context;
-    private SongInfo songInfo;
+    private Song songInfo;
     private ListView setToBellListView;
     private Fragment fragment;
     private View view;
     public SetToBellDialog(){}
 
-    public SetToBellDialog(Context context, SongInfo songInfo){
+    public SetToBellDialog(Context context, Song songInfo){
         this.context = context;
         this.songInfo = songInfo;
     }
 
-    public SetToBellDialog(Fragment containerFragment, SongInfo songInfo){
+    public SetToBellDialog(Fragment containerFragment, Song songInfo){
         this.fragment = containerFragment;
         this.songInfo = songInfo;
     }

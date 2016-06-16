@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseactivity.BaseActivity;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.service.PlayerService;
@@ -84,12 +84,12 @@ public class MainActivity extends BaseActivity
 
     /*"PlayController"方法覆盖_start*/
     @Override
-    public void play(List<SongInfo> songInfoList,int position) {
-//        playerService.play(songInfoList, position);
+    public void play(List<Song> songInfoList,int position) {
+//        playerService.play(_songInfoList, position);
     }
 
     @Override
-    public void play(String playListName, List<SongInfo> songList, int playPosition) {
+    public void play(String playListName, List<Song> songList, int playPosition) {
         playerService.play(playListName, songList, playPosition);
     }
 

@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,9 +61,9 @@ public class SystemMediaDatabaseUtils{
      * @param pathString 通过字符串数组来指定扫描路径，如果为空表示读取所有路径下的歌曲
      * @return 返回装填这歌曲信息的集合
      */
-    public List<SongInfo> getSongInfoAccordingPath(String[] pathString) {
-        List<SongInfo> songInfoList = null;
-        SongInfo songInfo;
+    public List<Song> getSongInfoAccordingPath(String[] pathString) {
+        List<Song> songInfoList = null;
+        Song songInfo;
         //每次调用前都要将两个成员变量重置
         selection = new StringBuilder();//查询数据库时候的selection
         selectionArgs = null;//查询数据库时候的selectionArgs
@@ -87,34 +87,6 @@ public class SystemMediaDatabaseUtils{
             songInfoList = cursorToSongInfo(sdCardCursor);
             sdCardCursor.close();
         }
-        //扫描手机内存里的歌曲
-//        Cursor internalCursor = getSystemSongInfo(MediaStore.Audio.Media.INTERNAL_CONTENT_URI);
-//        Cursor internalCursor = context.getContentResolver().query(MediaStore.Audio.Media.INTERNAL_CONTENT_URI,
-//                new String[]{MediaStore.Audio.Media.TITLE,
-//                        MediaStore.Audio.Media.ARTIST,
-//                        MediaStore.Audio.Media.ALBUM,
-//                        MediaStore.Audio.Media.DURATION,
-//                        MediaStore.Audio.Media.SIZE,
-//                        MediaStore.Audio.Media.DATA}, selection.toString(), selectionArgs, null);
-//        如果数据库里没有歌曲则返回空
-//        if(internalCursor!=null) {
-//            songInfoList.addAll(cursorToSongInfo(internalCursor));
-//            internalCursor.close();
-//        }
-
-//        songInfoList = new ArrayList<>(songInfoCursor.getCount());
-////                歌曲信息全部都以SongInfo对象形式存入集合
-//        while (songInfoCursor.moveToNext()) {
-//            songInfo = new SongInfo(
-//                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)),
-//                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)),
-//                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)),
-//                    songInfoCursor.getInt(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)),
-//                    songInfoCursor.getInt(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.SIZE)),
-//                    songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
-////            Log.i("test",songInfoCursor.getString(songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
-//            songInfoList.add(songInfo);
-//        }
         return songInfoList;
 
     }
@@ -129,18 +101,18 @@ public class SystemMediaDatabaseUtils{
                         MediaStore.Audio.Media.DATA}, selection.toString(), selectionArgs, null);
     }
 
-    //将读到的"Cursor"歌曲信息数据集合转成"List<SongInfo>"集合
-    private List<SongInfo> cursorToSongInfo(Cursor songInfoCursor){
+    //将读到的"Cursor"歌曲信息数据集合转成"List<_SongInfo>"集合
+    private List<Song> cursorToSongInfo(Cursor songInfoCursor){
         int titleIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
         int artistIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
         int albumIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
         int durationIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
         int sizeIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.SIZE);
         int dataIndex = songInfoCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
-        List<SongInfo> songInfoList = new ArrayList<>(songInfoCursor.getCount());
-        SongInfo songInfo;
+        List<Song> songInfoList = new ArrayList<>(songInfoCursor.getCount());
+        Song songInfo;
         while (songInfoCursor.moveToNext()) {
-            songInfo = new SongInfo(
+            songInfo = new Song(
                     songInfoCursor.getString(titleIndex),
                     songInfoCursor.getString(artistIndex),
                     songInfoCursor.getString(albumIndex),

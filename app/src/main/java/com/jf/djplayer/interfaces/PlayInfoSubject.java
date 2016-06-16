@@ -1,7 +1,6 @@
 package com.jf.djplayer.interfaces;
 
-import com.jf.djplayer.module.SongInfo;
-import com.jf.djplayer.module.SongPlayInfo;
+import com.jf.djplayer.module.PlayInfo;
 
 /**
  * Created by JF on 2016/1/28.
@@ -32,5 +31,5 @@ public interface PlayInfoSubject {
      * PlayInfoObserver"对象主动拉取当前正播放的歌曲的信息和播放信息
      * @return 返回当前正播放的歌曲的信息和播放信息
      */
-    SongPlayInfo getPlayInfo();
+    PlayInfo getPlayInfo();
 }

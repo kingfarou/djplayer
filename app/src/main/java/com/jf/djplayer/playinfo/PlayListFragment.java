@@ -1,4 +1,4 @@
-package com.jf.djplayer.songplayinfo;
+package com.jf.djplayer.playinfo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,13 +7,12 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.base.basefragment.BaseListFragment;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
-import com.jf.djplayer.module.SongInfo;
-import com.jf.djplayer.module.SongPlayInfo;
+import com.jf.djplayer.module.Song;
+import com.jf.djplayer.module.PlayInfo;
 import com.jf.djplayer.playertool.PlayerOperator;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ import java.util.Map;
  * Created by jf on 2016/6/12.
  * 播放信息-当前所播放的列表
  */
-public class SongPlayListFragment extends BaseListFragment implements PlayInfoObserver{
+public class PlayListFragment extends BaseListFragment implements PlayInfoObserver{
 
     private PlayInfoSubject playInfoSubject;
     private int lastPlayPosition = -1;//保存上一次播放的位置
@@ -41,14 +40,14 @@ public class SongPlayListFragment extends BaseListFragment implements PlayInfoOb
 
     @Override
     protected List getData() {
-        SongPlayInfo songPlayInfo = playInfoSubject.getPlayInfo();
-        if(songPlayInfo == null){
+        PlayInfo playInfo = playInfoSubject.getPlayInfo();
+        if(playInfo == null){
             return null;
         }
-        List<SongInfo> songInfoList = songPlayInfo.getSongList();
+        List<Song> songInfoList = playInfo.getSongList();
         List<Map<String, String>> mapList = new ArrayList<>(songInfoList.size());
         Map<String, String> songInfoMap;
-        for(SongInfo songInfo:songInfoList){
+        for(Song songInfo:songInfoList){
             songInfoMap = new HashMap<>();
             songInfoMap.put(MAP_TITLE, songInfo.getSongName());
             songInfoMap.put(MAP_CONTENT, songInfo.getSingerName());
@@ -59,7 +58,7 @@ public class SongPlayListFragment extends BaseListFragment implements PlayInfoOb
 
     @Override
     protected BaseAdapter getListViewAdapter(List dataList) {
-        return new SongPlayListAdapter(getActivity(), dataList);
+        return new PlayListAdapter(getActivity(), dataList);
     }
 
     @Override
@@ -90,18 +89,23 @@ public class SongPlayListFragment extends BaseListFragment implements PlayInfoOb
     @Override
     protected void readDataFinish(List dataList) {
         //将最新的播放位置传递给适配器
-        ((SongPlayListAdapter)listViewAdapter).setPlayingPosition(lastPlayPosition);
+        ((PlayListAdapter)listViewAdapter).setPlayingPosition(lastPlayPosition);
+        //当前正播放的位置上面显示特殊图标
+        View visibleView = listView.getChildAt(playInfoSubject.getPlayInfo().getPlayPosition()-listView.getFirstVisiblePosition());
+        if(visibleView!=null){
+            visibleView.findViewById(R.id.iv_item_song_play_list_fragment_play_icon).setVisibility(View.VISIBLE);
+        }
     }
 
     /*"PlayInfoObserver"方法实现_开始*/
     @Override
-    public void updatePlayInfo(SongPlayInfo songPlayInfo) {
+    public void updatePlayInfo(PlayInfo playInfo) {
         //实现该方法是为了在正播放的歌曲位置，提供一些特殊显示
         //如果没有歌曲信息，或者没有播放列表，直接返回
-        if(songPlayInfo == null || songPlayInfo.getSongList() == null || songPlayInfo.getSongList().size() == 0){
+        if(playInfo == null || playInfo.getSongList() == null || playInfo.getSongList().size() == 0){
             return;
         }
-        int newPlayingPosition = songPlayInfo.getPlayPosition();
+        int newPlayingPosition = playInfo.getPlayPosition();
         //如果新旧位置是一样的，直接返回
         if(lastPlayPosition == newPlayingPosition){
             return;
@@ -121,7 +125,7 @@ public class SongPlayListFragment extends BaseListFragment implements PlayInfoOb
         //将新位置传递给适配器，以便用户在滑动时不会显示错乱，
         //注意这里必须判断适配器是不是空的，因为第一次收到消息时适配器未必加载完了
         if(listViewAdapter != null){
-            ((SongPlayListAdapter)listViewAdapter).setPlayingPosition(newPlayingPosition);
+            ((PlayListAdapter)listViewAdapter).setPlayingPosition(newPlayingPosition);
         }
     }
     /*"PlayInfoObserver"方法实现_结束*/

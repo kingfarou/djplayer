@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.PopupWindow;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 import java.util.List;
 
@@ -102,13 +101,13 @@ abstract public class BaseExpandFragment extends BaseFragment
      * 数据的具体来源有子类进行实现
      * @return 返回读取到的歌曲信息集合，如果没有读到信息则返回空
      */
-    abstract protected List<SongInfo> getData();
+    abstract protected List<Song> getData();
 
     /**
      * 异步任务读取数据完成之后回调这个方法
      * 具体时间：数据读取完成之后，expandableListView.setAdapter();方法被调用之前
      */
-    protected void finishGetData(List<SongInfo> dataList){
+    protected void finishGetData(List<Song> dataList){
 
     }
 

@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 /**
  * Created by Administrator on 2015/8/6.
- * 这个类保存与歌曲相关的字段的名称
+ * 该类对象代表一首“歌曲”，包含一首歌曲里的所有信息
  * 每个对象就是一个歌曲所有信息
  */
-public class SongInfo implements Serializable {
+public class Song implements Serializable {
 
     private String songName;//歌名
     private String singerName;//歌手
-    private String songAlbum;//专辑
-    private int songDuration;//歌曲播放所用时长
-    private int songSize;//表示歌曲文件大小
-    private String songAbsolutePath;//以字符串形式所表示的绝对路径
+    private String album;//专辑
+    private int duration;//歌曲播放所用时长
+    private int size;//表示歌曲文件大小
+    private String fileAbsolutePath;//以字符串形式所表示的绝对路径
     private int collection = NOT_COLLECTION;//标志当前歌曲是否已被用户收藏
     private long lastPlayTime;//表示最后一次播放时间
     public static final int IS_COLLECTION = 1;
@@ -23,25 +23,25 @@ public class SongInfo implements Serializable {
     /**
      * 构建一个没有任何信息歌曲文件对象
      */
-    public SongInfo() {}
+    public Song() {}
 
     /**
      * 根据系统媒体库里能读到的信息创建歌曲对象
      * @param songName 歌曲名字
      * @param songArtist 歌手名字
-     * @param songAlbum 专辑名字
-     * @param songDuration 播放时长
-     * @param songSize 文件大小
-     * @param songAbsolutePath 绝对路径
+     * @param album 专辑名字
+     * @param duration 播放时长
+     * @param size 文件大小
+     * @param fileAbsolutePath 绝对路径
      */
-    public SongInfo(String songName, String songArtist, String songAlbum,
-                    int songDuration, int songSize, String songAbsolutePath){
+    public Song(String songName, String songArtist, String album,
+                int duration, int size, String fileAbsolutePath){
         this.songName = songName;
         this.singerName = songArtist;
-        this.songAlbum = songAlbum;
-        this.songDuration = songDuration;
-        this.songSize = songSize;
-        this.songAbsolutePath = songAbsolutePath;
+        this.album = album;
+        this.duration = duration;
+        this.size = size;
+        this.fileAbsolutePath = fileAbsolutePath;
     }
 
     /**
@@ -52,9 +52,9 @@ public class SongInfo implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof SongInfo) {
-            SongInfo info = (SongInfo)o;
-            return this.getSongAbsolutePath().equals(info.getSongAbsolutePath());
+        if (o instanceof Song) {
+            Song info = (Song)o;
+            return this.getFileAbsolutePath().equals(info.getFileAbsolutePath());
         } else {
             return false;
         }
@@ -75,32 +75,32 @@ public class SongInfo implements Serializable {
         return singerName;
     }
 
-    public void setSongAlbum(String songAlbum) {
-        this.songAlbum = songAlbum;
+    public void setAlbum(String album) {
+        this.album = album;
     }
-    public String getSongAlbum() {
-        return songAlbum;
-    }
-
-    public void setSongDuration(int songDuration) {
-        this.songDuration = songDuration;
-    }
-    public int getSongDuration() {
-        return songDuration;
+    public String getAlbum() {
+        return album;
     }
 
-    public void setSongSize(int songSize) {
-        this.songSize = songSize;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
-    public int getSongSize() {
-        return songSize;
+    public int getDuration() {
+        return duration;
     }
 
-    public void setSongAbsolutePath(String songAbsolutePath){
-        this.songAbsolutePath = songAbsolutePath;
+    public void setSize(int size) {
+        this.size = size;
     }
-    public String getSongAbsolutePath() {
-        return songAbsolutePath;
+    public int getSize() {
+        return size;
+    }
+
+    public void setFileAbsolutePath(String fileAbsolutePath){
+        this.fileAbsolutePath = fileAbsolutePath;
+    }
+    public String getFileAbsolutePath() {
+        return fileAbsolutePath;
     }
 
     public void setCollection(int collection){

@@ -8,8 +8,8 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import com.jf.djplayer.other.IntentConstant;
-import com.jf.djplayer.module.SongInfo;
-import com.jf.djplayer.songplayinfo.SongPlayInfoActivity;
+import com.jf.djplayer.module.Song;
+import com.jf.djplayer.playinfo.PlayInfoActivity;
 import com.jf.djplayer.R;
 import com.jf.djplayer.service.PlayerService;
 
@@ -58,7 +58,7 @@ public class PlayInfoNotification {
         remoteViews.setImageViewResource(R.id.iv_notification_custom_song_icon, R.drawable.ic_app);
 
         //设置用于打开窗体用的意图
-        Intent songInfoIntent = new Intent(context, SongPlayInfoActivity.class);
+        Intent songInfoIntent = new Intent(context, PlayInfoActivity.class);
         PendingIntent songInfoPendingIntent =
                 PendingIntent.getActivity(context, REQUEST_CODE_SONG_INFO_ACTIVITY, songInfoIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -75,7 +75,7 @@ public class PlayInfoNotification {
      * 就能更新歌曲信息
      * @param songInfo 要显示的歌曲信息对象
      */
-    public void updateNotification(SongInfo songInfo){
+    public void updateNotification(Song songInfo){
         if(songInfo == null){
             return;
         }
@@ -97,7 +97,7 @@ public class PlayInfoNotification {
      * @param songInfo 待更新的歌曲信息对象
      * @param isPlaying 当前歌曲是否正在播放
      */
-    public void updateNotification(SongInfo songInfo, boolean isPlaying){
+    public void updateNotification(Song songInfo, boolean isPlaying){
         if(songInfo == null){
             return;
         }

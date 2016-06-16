@@ -1,6 +1,6 @@
 package com.jf.djplayer.sortable;
 
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 import java.text.CollationKey;
 import java.text.Collator;
@@ -13,18 +13,18 @@ import java.util.Locale;
  * Created by JF on 2016/1/5.
  *
  */
-public class SortBySingerName implements SongInfoListSortable,Comparator<SongInfo> {
+public class SortBySingerName implements SongInfoListSortable,Comparator<Song> {
 
     Collator collator = Collator.getInstance(Locale.CHINA);
 
 
     @Override
-    public void sort(List<SongInfo> songInfoList) {
+    public void sort(List<Song> songInfoList) {
         Collections.sort(songInfoList, this);
     }
 
     @Override
-    public int compare(SongInfo lhs, SongInfo rhs) {
+    public int compare(Song lhs, Song rhs) {
         CollationKey key1 = collator
                 .getCollationKey(lhs.getSingerName());
         CollationKey key2 = collator

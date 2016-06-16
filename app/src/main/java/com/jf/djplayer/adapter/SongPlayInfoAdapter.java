@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Created by JF on 2016/2/6.
- * SongPlayInfoActivity
+ * _SongPlayInfoActivity
  * 里ViewPager的适配器
  */
 public class SongPlayInfoAdapter extends FragmentStatePagerAdapter {

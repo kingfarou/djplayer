@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-import com.jf.djplayer.module.SongPlayInfo;
+import com.jf.djplayer.module.PlayInfo;
 import com.jf.djplayer.other.IntentConstant;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.base.MyApplication;
@@ -50,16 +50,16 @@ public class PlayerService extends Service implements PlayInfoObserver{
 
     /*"PlayInfoObserver"方法实现_开始*/
     @Override
-    public void updatePlayInfo(SongPlayInfo songPlayInfo) {
-        if(songPlayInfo == null || songPlayInfo.getSongInfo() == null) {
+    public void updatePlayInfo(PlayInfo playInfo) {
+        if(playInfo == null || playInfo.getSongInfo() == null) {
             return;
         }
         //只有歌曲播放了才需要更新最后一次播放时间
-        if(songPlayInfo.isPlaying()){
-            songInfoOpenHelper.setLastPlayTime(songPlayInfo.getSongInfo(), System.currentTimeMillis());
+        if(playInfo.isPlaying()){
+            songInfoOpenHelper.setLastPlayTime(playInfo.getSongInfo(), System.currentTimeMillis());
         }
         //不论歌曲是否播放，都要更新通知栏的信息
-        playInfoNotification.updateNotification(songPlayInfo.getSongInfo(), songPlayInfo.isPlaying());
+        playInfoNotification.updateNotification(playInfo.getSongInfo(), playInfo.isPlaying());
     }
     /*"PlayInfoObserver"方法实现_结束*/
 
@@ -119,7 +119,7 @@ public class PlayerService extends Service implements PlayInfoObserver{
 //     * @param songInfoList 要播放的歌曲列表
 //     * @param playPosition 要播放的那首歌曲位置
 //     */
-//    public void play(List<SongInfo> songInfoList,int playPosition){
+//    public void play(List<_SongInfo> songInfoList,int playPosition){
 //        if(songInfoList == null || playPosition<0 || playPosition>=songInfoList.size()){
 //            return;
 //        }
@@ -133,7 +133,7 @@ public class PlayerService extends Service implements PlayInfoObserver{
      * @param songList 这是待播放的歌曲列表
      * @param playPosition 被选中的歌曲所在位置
      */
-    public void play(String playListName, List<SongInfo> songList, int playPosition){
+    public void play(String playListName, List<Song> songList, int playPosition){
 //        if(songList == null || playPosition<0 || playPosition>=songList.size()){
 //            return;
 //        }

@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.base.baseadapter.DefExpandFragmentAdapter;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.R;
 import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
@@ -32,7 +32,6 @@ import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.SongInfoObserver;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.sortable.SongInfoListSortable;
-import com.jf.djplayer.sortable.SortByFileName;
 import com.jf.djplayer.sortable.SortBySingerName;
 import com.jf.djplayer.sortable.SortBySongName;
 
@@ -49,7 +48,7 @@ public class SongFragment extends BaseExpandFragment
     private PlayController playController;
     private SongInfoListSortable songInfoListSortable;//对列表歌曲进行排序的工具
     private UpdateUiSongInfoReceiver updateUiSongInfoReceiver;//接受歌曲信息被修改的通知
-    private List<SongInfo> songInfoList;//保存要显示的歌曲信息集合
+    private List<Song> songInfoList;//保存要显示的歌曲信息集合
     private View footerView;
 
     //当前类所用请求码
@@ -160,7 +159,7 @@ public class SongFragment extends BaseExpandFragment
     //点击"ExpandableListView"栏目，播放所对应的歌曲
     @Override
     protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//        playController.play(songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
+//        playController.play(_songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
         playController.play(SongFragment.class.getSimpleName(), songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
         return true;
     }

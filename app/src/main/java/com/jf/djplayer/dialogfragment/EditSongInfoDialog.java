@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.R;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 
@@ -22,7 +22,7 @@ import com.jf.djplayer.database.SongInfoOpenHelper;
  */
 public class EditSongInfoDialog extends DialogFragment {
 
-    private SongInfo songInfo;
+    private Song songInfo;
     private EditText et_song_name;//歌名
     private EditText et_artist_name;//歌手
     private EditText et_album;//专辑
@@ -33,7 +33,7 @@ public class EditSongInfoDialog extends DialogFragment {
 
     public EditSongInfoDialog(){}
 
-    public EditSongInfoDialog(SongInfo songInfo,int position){
+    public EditSongInfoDialog(Song songInfo,int position){
         this.songInfo = songInfo;
         this.position = position;
     }
@@ -46,7 +46,7 @@ public class EditSongInfoDialog extends DialogFragment {
         et_style = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_style);
         et_song_name.setText(songInfo.getSongName());
         et_artist_name.setText(songInfo.getSingerName());
-        et_album.setText(songInfo.getSongAlbum());
+        et_album.setText(songInfo.getAlbum());
         et_style.setText("<未知>");
     }
 
@@ -62,7 +62,7 @@ public class EditSongInfoDialog extends DialogFragment {
 //                        将新数据给设置好
                         songInfo.setSongName(et_song_name.getText().toString());
                         songInfo.setSingerName(et_artist_name.getText().toString());
-                        songInfo.setSongAlbum(et_album.getText().toString());
+                        songInfo.setAlbum(et_album.getText().toString());
 //                        调用工具类来更新数据库的歌曲信息
                         SongInfoOpenHelper updateOpenHelper = new SongInfoOpenHelper(getActivity());
                         updateOpenHelper.updateLocalMusicTables(songInfo);

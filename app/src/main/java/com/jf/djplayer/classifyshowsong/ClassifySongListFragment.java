@@ -3,14 +3,13 @@ package com.jf.djplayer.classifyshowsong;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseadapter.DefExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ import java.util.List;
 public class ClassifySongListFragment extends BaseExpandFragment {
 
     private View footerView;//"ExpandableListView"的"FooterView"
-    private List<SongInfo> songInfoList;//数据
+    private List<Song> songInfoList;//数据
     private String columnName;//需要显示的类的字段名
     private String columnValues;//需要显示的类的字段具体值
 
@@ -40,7 +39,6 @@ public class ClassifySongListFragment extends BaseExpandFragment {
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-//        return new SongInfoExpandAdapter(this, songInfoList);
         return new DefExpandFragmentAdapter(this, songInfoList);
     }
 

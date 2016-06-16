@@ -1,4 +1,4 @@
-package com.jf.djplayer.songplayinfo;
+package com.jf.djplayer.playinfo;
 
 /**
  * Created by JF on 2016/2/13.

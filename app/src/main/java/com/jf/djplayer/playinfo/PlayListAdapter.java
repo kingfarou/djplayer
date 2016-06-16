@@ -1,4 +1,4 @@
-package com.jf.djplayer.songplayinfo;
+package com.jf.djplayer.playinfo;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,13 +17,13 @@ import java.util.Map;
  * Created by jf on 2016/6/12.
  * 播放信息-当前播放列表界面的适配器
  */
-public class SongPlayListAdapter extends BaseAdapter {
+public class PlayListAdapter extends BaseAdapter {
 
     private List<Map<String, String>> mapList;//数据集合
     private Context context;//环境
     private int playingPosition = -1;
 
-    public SongPlayListAdapter(Context context, List<Map<String, String>> mapList) {
+    public PlayListAdapter(Context context, List<Map<String, String>> mapList) {
         this.context = context;
         this.mapList = mapList;
     }
@@ -62,8 +62,8 @@ public class SongPlayListAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_song_name.setText(mapList.get(position).get(SongPlayListFragment.MAP_TITLE));
-        viewHolder.tv_singer_name.setText(mapList.get(position).get(SongPlayListFragment.MAP_CONTENT));
+        viewHolder.tv_song_name.setText(mapList.get(position).get(PlayListFragment.MAP_TITLE));
+        viewHolder.tv_singer_name.setText(mapList.get(position).get(PlayListFragment.MAP_CONTENT));
         //如果这个位置是当前正播放的歌曲的位置，将标志的控件显示出来，否则隐藏标志控件
         if(position == playingPosition){
             viewHolder.iv_play_icon.setVisibility(View.VISIBLE);

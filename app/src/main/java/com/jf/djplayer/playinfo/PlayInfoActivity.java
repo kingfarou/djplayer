@@ -1,4 +1,4 @@
-package com.jf.djplayer.songplayinfo;
+package com.jf.djplayer.playinfo;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -18,12 +18,12 @@ import android.widget.TextView;
 
 import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.interfaces.PlayController;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.SongPlayInfoAdapter;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
-import com.jf.djplayer.module.SongPlayInfo;
+import com.jf.djplayer.module.PlayInfo;
 import com.jf.djplayer.service.PlayerService;
 import com.jf.djplayer.util.UserOptionPreferences;
 import com.jf.djplayer.database.SongInfoOpenHelper;
@@ -42,7 +42,7 @@ import java.util.List;
  * Created by Administrator on 2015/8/4.
  * 播放信息"Activity"
  */
-public class SongPlayInfoActivity extends BaseActivity implements
+public class PlayInfoActivity extends BaseActivity implements
         ServiceConnection ,SeekBar.OnSeekBarChangeListener,PlayInfoObserver,
         CustomTitles.FragmentTitleListener,View.OnClickListener,PlayController{
 
@@ -65,7 +65,7 @@ public class SongPlayInfoActivity extends BaseActivity implements
 
     //其他变量
     private ViewPager viewPager;
-    private SongInfo lastSongInfo;//记录最后一次播放的歌
+    private Song lastSongInfo;//记录最后一次播放的歌
 
     private PlayInfoSubject playInfoSubject;//持有所播放歌曲信息的主题
     private PlayerService playerService;//后台歌曲播放服务
@@ -157,7 +157,6 @@ public class SongPlayInfoActivity extends BaseActivity implements
 
     //根据播放模式返回对应图片ID
     private int getPictureFromPlayMode(){
-//        int playMode = new UserOptionPreferences(this).getPlayModes();
         int playMode = new UserOptionPreferences().getIntValues(UserOptionPreferences.KEY_PLAY_MODE, UserOptionPreferences.VALUES_PLAY_MODE_ORDER);
         if(playMode == UserOptionPreferences.VALUES_PLAY_MODE_ORDER){//如果需要顺序播放
             return R.drawable.ic_activity_play_song_info_orderplay;
@@ -174,7 +173,7 @@ public class SongPlayInfoActivity extends BaseActivity implements
     private void initViewPager(){
         viewPager = (ViewPager)findViewById(R.id.vp_activity_song_play_info);
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new SongPlayListFragment());//添加当前播放列表显示界面
+        fragmentList.add(new PlayListFragment());//添加当前播放列表显示界面
         fragmentList.add(new TwoLineLyricFragment());//添加两行歌词显示界面
 //        fragmentList.add(new ScrollLyricsFragment());//添加滚屏歌词显示界面
         viewPager.setAdapter(new SongPlayInfoAdapter(getSupportFragmentManager(), fragmentList));
@@ -240,7 +239,7 @@ public class SongPlayInfoActivity extends BaseActivity implements
         }
         //如果点击收藏按钮
         if(id == R.id.iv_collection){
-            SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(SongPlayInfoActivity.this);
+            SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(PlayInfoActivity.this);
             if(lastSongInfo == null){
                 return;
             }
@@ -256,9 +255,9 @@ public class SongPlayInfoActivity extends BaseActivity implements
             return;
         }
         //获取当前播放信息
-        SongPlayInfo songPlayInfo = playInfoSubject.getPlayInfo();
+        PlayInfo playInfo = playInfoSubject.getPlayInfo();
         //如果当前没有播放信息，直接返回，后面前一曲、播放暂停、下一曲的操作都不用做
-        if(songPlayInfo == null){
+        if(playInfo == null){
             return;
         }
         //如果点击播放前一曲的按钮
@@ -268,7 +267,7 @@ public class SongPlayInfoActivity extends BaseActivity implements
         }
         //如果点击播放或者暂停按钮
         if(id == R.id.iv_play_or_pause){
-            if(songPlayInfo.isPlaying()){
+            if(playInfo.isPlaying()){
                 playerService.pause();
             }else{
                 playerService.play();
@@ -284,7 +283,6 @@ public class SongPlayInfoActivity extends BaseActivity implements
 
 //    根据当前播放模式设置新的播放模式以及图片
     private void setNewPlayMode(){
-//        UserOptionPreferences userOptionTool = new UserOptionPreferences(SongPlayInfoActivity.this);
         UserOptionPreferences userOptionPreferences = new UserOptionPreferences();
         int playMode = userOptionPreferences.getIntValues(UserOptionPreferences.KEY_PLAY_MODE, UserOptionPreferences.VALUES_PLAY_MODE_ORDER);
 //            根据当前播放模式写入新的播放模式
@@ -302,7 +300,6 @@ public class SongPlayInfoActivity extends BaseActivity implements
                 userOptionPreferences.putIntValues(UserOptionPreferences.KEY_PLAY_MODE, UserOptionPreferences.VALUES_PLAY_MODE_ORDER);
                 break;
             default:break;
-
         }
         //根据新的播放模式更换图片
         iv_play_mode.setImageResource(getPictureFromPlayMode());
@@ -333,31 +330,31 @@ public class SongPlayInfoActivity extends BaseActivity implements
 
 
     @Override
-    public void updatePlayInfo(SongPlayInfo songPlayInfo) {
+    public void updatePlayInfo(PlayInfo playInfo) {
         //如果没有任何被选中的歌曲
-        if(songPlayInfo == null || songPlayInfo.getSongInfo() == null) {
+        if(playInfo == null || playInfo.getSongInfo() == null) {
             seekBar.setEnabled(false);
             return;
         }
         //恢复进度条可拖动状态
         seekBar.setEnabled(true);
-        SongInfo songInfo = songPlayInfo.getSongInfo();//获取当前歌曲信息
-        tv_current_time.setText(getTime(songPlayInfo.getProgress()));//设置当前播放时长
-        seekBar.setProgress(songPlayInfo.getProgress());//设置当前播放进度
+        Song songInfo = playInfo.getSongInfo();//获取当前歌曲信息
+        tv_current_time.setText(getTime(playInfo.getProgress()));//设置当前播放时长
+        seekBar.setProgress(playInfo.getProgress());//设置当前播放进度
         // 如果原来没有播放任何歌曲，或者原来所播放的歌曲和现在的不同
-        if(lastSongInfo==null||!lastSongInfo.getSongAbsolutePath().equals(songInfo.getSongAbsolutePath())){
+        if(lastSongInfo==null||!lastSongInfo.getFileAbsolutePath().equals(songInfo.getFileAbsolutePath())){
             setNewPlayInfo(songInfo);//设置新的歌曲信息
             lastSongInfo = songInfo;//更新当前播放的那首歌
         }
 //        根据播放与否进行不同设置
-        if(songPlayInfo.isPlaying()) {
+        if(playInfo.isPlaying()) {
             playSettings();
         }
         else {
             notPlaySettings();
         }//if(isPlaying)
         //根据收藏与否进行不同设置
-        if(songInfo.getCollection() == SongInfo.IS_COLLECTION){
+        if(songInfo.getCollection() == Song.IS_COLLECTION){
             iv_collection.setImageResource(R.drawable.activity_song_play_info_collection);
         }else {
             iv_collection.setImageResource(R.drawable.activity_song_play_info_no_collection);
@@ -365,7 +362,7 @@ public class SongPlayInfoActivity extends BaseActivity implements
     }
 
     //    用来更换新的歌曲信息
-    private void setNewPlayInfo(SongInfo songInfo){
+    private void setNewPlayInfo(Song songInfo){
 //        设置所播放的歌曲名字
         tv_song_name.setText(songInfo.getSongName());
         tv_singer_name.setText(songInfo.getSingerName());
@@ -380,9 +377,9 @@ public class SongPlayInfoActivity extends BaseActivity implements
             }
         }
         //设置进度条最大值
-        seekBar.setMax(songInfo.getSongDuration());
+        seekBar.setMax(songInfo.getDuration());
         //设置当前播放时长何总时长
-        tv_total_time.setText(getTime(songInfo.getSongDuration()));
+        tv_total_time.setText(getTime(songInfo.getDuration()));
     }
 
     //如果歌曲正在播放要进行的相关设置
@@ -400,11 +397,11 @@ public class SongPlayInfoActivity extends BaseActivity implements
 
     /*"PlayController"方法实现_开始*/
     @Override
-    public void play(List<SongInfo> songInfoList, int position) {
+    public void play(List<Song> songInfoList, int position) {
     }
 
     @Override
-    public void play(String playListName, List<SongInfo> songList, int playPosition) {
+    public void play(String playListName, List<Song> songList, int playPosition) {
         playerService.play(playListName, songList, playPosition);
     }
 
@@ -442,25 +439,25 @@ public class SongPlayInfoActivity extends BaseActivity implements
     //定时更新UI用的"Handler"
     private static class UpdatePlayInfoHandler extends Handler{
 
-        private WeakReference<SongPlayInfoActivity> activityWeakReference;
+        private WeakReference<PlayInfoActivity> activityWeakReference;
 
-        public UpdatePlayInfoHandler(SongPlayInfoActivity songPlayInfoActivity){
-            activityWeakReference = new WeakReference<>(songPlayInfoActivity);
+        public UpdatePlayInfoHandler(PlayInfoActivity playInfoActivity){
+            activityWeakReference = new WeakReference<>(playInfoActivity);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            SongPlayInfoActivity songPlayInfoActivity = activityWeakReference.get();
+            PlayInfoActivity playInfoActivity = activityWeakReference.get();
             //如果界面已经为空或者界面不需更新UI
-            if( songPlayInfoActivity == null || !songPlayInfoActivity.continueUpdateUI){
+            if( playInfoActivity == null || !playInfoActivity.continueUpdateUI){
                 super.handleMessage(msg);
                 return;
             }
-            if (msg.what == songPlayInfoActivity.WHAT_UPDATE_UI) {
-                SongPlayInfo songPlayInfo = songPlayInfoActivity.playInfoSubject.getPlayInfo();
-                songPlayInfoActivity.seekBar.setProgress(songPlayInfo.getProgress());
-                songPlayInfoActivity.tv_current_time.setText(songPlayInfoActivity.getTime(songPlayInfo.getProgress()));
-                sendEmptyMessageDelayed(songPlayInfoActivity.WHAT_UPDATE_UI, songPlayInfoActivity.updateUiTime);
+            if (msg.what == playInfoActivity.WHAT_UPDATE_UI) {
+                PlayInfo playInfo = playInfoActivity.playInfoSubject.getPlayInfo();
+                playInfoActivity.seekBar.setProgress(playInfo.getProgress());
+                playInfoActivity.tv_current_time.setText(playInfoActivity.getTime(playInfo.getProgress()));
+                sendEmptyMessageDelayed(playInfoActivity.WHAT_UPDATE_UI, playInfoActivity.updateUiTime);
             }
             super.handleMessage(msg);
         }

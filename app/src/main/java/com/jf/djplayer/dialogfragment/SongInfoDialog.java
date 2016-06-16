@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.R;
 
 /**
@@ -23,11 +23,11 @@ public class SongInfoDialog extends DialogFragment {
 
     private View view = null;
     private int position;
-    private SongInfo songInfo = null;
+    private Song songInfo = null;
     public SongInfoDialog(){}
 
 
-    public SongInfoDialog(SongInfo songInfo,int position){
+    public SongInfoDialog(Song songInfo,int position){
         this.songInfo = songInfo;//获取传递来的歌曲信息
         this.position = position;
     }
@@ -57,15 +57,15 @@ public class SongInfoDialog extends DialogFragment {
     return builder.create();
 }
     private void initView(){
-        int minutes = songInfo.getSongDuration()/1000/60;
-        int second = songInfo.getSongDuration()/1000%60;
+        int minutes = songInfo.getDuration()/1000/60;
+        int second = songInfo.getDuration()/1000%60;
         ((TextView)view.findViewById(R.id.tv_dialog_song_info_song_name)).setText(songInfo.getSongName());
         ((TextView)view.findViewById(R.id.tv_dialog_song_info_singer)).setText(songInfo.getSingerName());
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_album)).setText(songInfo.getSongAlbum());
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_album)).setText(songInfo.getAlbum());
         ((TextView)view.findViewById(R.id.tv_dialog_song_info_style)).setText("未知");
         ((TextView)view.findViewById(R.id.tv_dialog_song_info_duration)).setText(minutes/10+minutes%10+":"+second);
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_size)).setText(songInfo.getSongSize()+"");
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_absolutePath)).setText(songInfo.getSongAbsolutePath());
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_size)).setText(songInfo.getSize()+"");
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_absolutePath)).setText(songInfo.getFileAbsolutePath());
 
     }
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.baseadapter.DefExpandFragmentAdapter;
 import com.jf.djplayer.interfaces.PlayController;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
@@ -28,7 +28,7 @@ public class RecentlyPlayExpandFragment extends BaseExpandFragment {
     /**当一首歌最后一次播放时间等于这个常量，表示这首歌从未播放过*/
     public static final int NEVER_PLAY = 0;
 
-    private List<SongInfo> recentlyPlaySongInfo;//数据
+    private List<Song> recentlyPlaySongInfo;//数据
     private PlayController playController;//歌曲播放控制接口对象
     private View footerView;//"ListView"的"footerView"
 

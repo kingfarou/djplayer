@@ -19,7 +19,7 @@ import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.dialogfragment.DeleteSongDialog;
 import com.jf.djplayer.dialogfragment.SetToBellDialog;
 import com.jf.djplayer.dialogfragment.SongInfoDialog;
-import com.jf.djplayer.module.SongInfo;
+import com.jf.djplayer.module.Song;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class MyFavoriteFragmentAdapter extends BaseExpandFragmentAdapter {
 
-    public MyFavoriteFragmentAdapter(Fragment fragment, List<SongInfo> myFavoriteList) {
+    public MyFavoriteFragmentAdapter(Fragment fragment, List<Song> myFavoriteList) {
         super(fragment, myFavoriteList);
     }
 
@@ -74,13 +74,13 @@ public class MyFavoriteFragmentAdapter extends BaseExpandFragmentAdapter {
     }
 
     @Override
-    protected int[] getChildItemImageId(SongInfo songInfo) {
+    protected int[] getChildItemImageId(Song songInfo) {
         return new int[]{R.drawable.ic_base_expand_fragment_adapter_collection, R.drawable.ic_base_expand_fragment_adapter_delete, R.drawable.ic_base_expand_fragment_adapter_add, R.drawable.ic_base_expand_fragment_adapter_bell,
                 R.drawable.ic_base_expand_fragment_adapter_share, R.drawable.ic_base_expand_fragment_adapter_send, R.drawable.ic_base_expand_fragment_adapter_info};
     }
 
     @Override
-    protected String[] getChildItemText(SongInfo songInfo) {
+    protected String[] getChildItemText(Song songInfo) {
         Resources resources = context.getResources();
         return new String[]{resources.getString(R.string.collection), resources.getString(R.string.delete),
                 resources.getString(R.string.add), resources.getString(R.string.set_to_bell),
@@ -89,7 +89,7 @@ public class MyFavoriteFragmentAdapter extends BaseExpandFragmentAdapter {
     }
 
     @Override
-    protected void onGridViewItemClick(SongInfo songInfo, int groupPosition, int clickPosition) {
+    protected void onGridViewItemClick(Song songInfo, int groupPosition, int clickPosition) {
         switch(clickPosition){
             //用户取消收藏某一首歌（在“我的最爱”列表里，只有取消收藏功能，没有添加收藏功能）
             case 0:
