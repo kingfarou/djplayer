@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
+import com.jf.djplayer.base.basefragment.BaseFragment;
 import com.jf.djplayer.base.basefragment.BaseViewPagerFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.FragmentChanger;
@@ -99,7 +100,8 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
         List searchedList = ((SearchedDataProvider)fragment).returnSearchedDataList();
         String fragmentType = SearchActivity.LIST_VIEW;//表示需要使用哪类"Fragment"展示数据
         String keyHint = null;//用户没有输入搜索关键字时所显示的提示文字
-        switch(getViewPagerCurrentItem()){
+//        switch(getViewPagerCurrentItem()){
+        switch (mViewPager.getCurrentItem()){
             case 0://获取歌曲列表数据
                 fragmentType = SearchActivity.EXPANDABLE_LIST_VIEW;
                 keyHint = "输入歌曲名字搜索";
@@ -132,28 +134,29 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
     //标题栏的"更多按钮"被按下了
     @Override
     public void onMoreIvOnclick() {
-        ListViewPopupWindows listViewPopupWindows;
-        Fragment fragment = getViewPagerCurrentPage();
-        switch (getViewPagerCurrentItem()) {
+        ListViewPopupWindows listViewPopupWindows = null;
+        BaseFragment fragment = (BaseFragment)mFragmentStatePagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+        switch (mViewPager.getCurrentItem()) {
             case 0:
-                listViewPopupWindows = ((SongFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
-                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths - listViewPopupWindows.getWidth(), 0);
+//                listViewPopupWindows = ((SongFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
+//                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths - listViewPopupWindows.getWidth(), 0);
+                listViewPopupWindows = ((SongFragment)fragment).getListViewPopupWindow();
                 break;
             case 1:
-                listViewPopupWindows = ((SingerFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
-                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths-listViewPopupWindows.getWidth(), 0);
+//                listViewPopupWindows = ((SingerFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
+//                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths-listViewPopupWindows.getWidth(), 0);
+                listViewPopupWindows = ((SingerFragment)fragment).getListViewPopupWindow();
                 break;
             case 2:
-                listViewPopupWindows = ((AlbumFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
-                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths-listViewPopupWindows.getWidth(), 0);
+                listViewPopupWindows = ((AlbumFragment)fragment).getListViewPopupWindow();
                 break;
             case 3:
-                listViewPopupWindows = ((FolderFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
-                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths - listViewPopupWindows.getWidth(), 0);
+                listViewPopupWindows = ((FolderFragment)fragment).getListViewPopupWindow();
                 break;
             default:
                 break;
         }
+        listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths - listViewPopupWindows.getWidth(), 0);
     }
     /*"FragmentTitleListener"方法覆盖_end*/
 }

@@ -89,6 +89,7 @@ public class SongPlayListFragment extends BaseListFragment implements PlayInfoOb
 
     @Override
     protected void readDataFinish(List dataList) {
+        //将最新的播放位置传递给适配器
         ((SongPlayListAdapter)listViewAdapter).setPlayingPosition(lastPlayPosition);
     }
 
@@ -117,7 +118,8 @@ public class SongPlayListFragment extends BaseListFragment implements PlayInfoOb
         }
         //更新最新一次位置
         lastPlayPosition = newPlayingPosition;
-        //将新位置传递给适配器，以便用户在滑动时不会显示错乱
+        //将新位置传递给适配器，以便用户在滑动时不会显示错乱，
+        //注意这里必须判断适配器是不是空的，因为第一次收到消息时适配器未必加载完了
         if(listViewAdapter != null){
             ((SongPlayListAdapter)listViewAdapter).setPlayingPosition(newPlayingPosition);
         }

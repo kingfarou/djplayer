@@ -1,6 +1,7 @@
 package com.jf.djplayer.localmusic;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -28,14 +29,18 @@ import java.util.Map;
  * Created by JF on 2016/1/29.
  * 本地音乐-文件夹列表
  */
-public class FolderFragment extends BaseListFragment
+public class FolderFragment extends LocalMusicListFragment
                 implements SearchedDataProvider{
 
     private View footerView;//"ListView"的"footerView"
-    private List<Map<String,String>> folderList;//数据
+//    private List<Map<String,String>> folderList;//数据
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
     private ListViewPopupWindows mListViewPopupWindows;
 
+    private static final String KEY_FOLDER_SORT_ACCORDING = FolderFragment.class.getSimpleName()+"folderSortAccording";
+    private static final int VALUES_FOLDER_SORT_ACCORDING_NO_THING = 1;
+    private static final int VALUES_FOLDER_SORT_ACCORDING_NAME = 1<<1;
+    private static final int VALUES_FOLDER_SORT_ACCORDING_SONG_NUMBER = 1<<2;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,8 +77,14 @@ public class FolderFragment extends BaseListFragment
 
     @Override
     protected List getData() {
-        folderList = new SongInfoOpenHelper(getActivity()).getValueSongNumber(SongInfoOpenHelper.folderPath);
-        return folderList;
+        dataList = new SongInfoOpenHelper(getActivity()).getValueSongNumber(SongInfoOpenHelper.folderPath);
+        int sortBy = getActivity().getPreferences(Context.MODE_PRIVATE).getInt(KEY_FOLDER_SORT_ACCORDING, VALUES_FOLDER_SORT_ACCORDING_NO_THING);
+        if(sortBy == VALUES_FOLDER_SORT_ACCORDING_NAME){
+            sortAccordingTitle();
+        }else if(sortBy == VALUES_FOLDER_SORT_ACCORDING_SONG_NUMBER){
+            sortAccordingContent();
+        }
+        return dataList;
     }
 
     @Override
@@ -84,11 +95,11 @@ public class FolderFragment extends BaseListFragment
 
     @Override
     protected View getListViewFooterView() {
-        if(folderList==null) {
+        if(dataList==null) {
             return null;
         }
         footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(folderList.size()+"文件夹");
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"文件夹");
         return footerView;
     }
 
@@ -101,16 +112,31 @@ public class FolderFragment extends BaseListFragment
         mListViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
-//                    startActivity(new Intent(getActivity(), ScanMusicActivity.class));
-                } else if (position == 1) {
-                    sortAccordingTitle();
-                    listViewAdapter.notifyDataSetChanged();
-                } else if (position == 2) {
-                    sortAccordingContent();
-                    listViewAdapter.notifyDataSetChanged();
+                switch (position){
+                    case 0:
+                        getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+                        break;
+                    case 1:
+                        sortAccordingTitle();
+                        getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_FOLDER_SORT_ACCORDING, VALUES_FOLDER_SORT_ACCORDING_NAME).commit();
+                        listViewAdapter.notifyDataSetChanged();
+                        break;
+                    case 2:
+                        sortAccordingContent();
+                        getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_FOLDER_SORT_ACCORDING, VALUES_FOLDER_SORT_ACCORDING_SONG_NUMBER).commit();
+                        listViewAdapter.notifyDataSetChanged();
+                        break;
+                    default:break;
                 }
+//                if (position == 0) {
+//                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+//                } else if (position == 1) {
+//                    sortAccordingTitle();
+//                    listViewAdapter.notifyDataSetChanged();
+//                } else if (position == 2) {
+//                    sortAccordingContent();
+//                    listViewAdapter.notifyDataSetChanged();
+//                }
                 mListViewPopupWindows.dismiss();
             }
         });
@@ -122,12 +148,12 @@ public class FolderFragment extends BaseListFragment
         if(dataList==null){
             return;
         }
-        folderList = dataList;
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(folderList.size() + "文件夹");
+        dataList = dataList;
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size() + "文件夹");
     }
 
     @Override
     public List returnSearchedDataList() {
-        return folderList;
+        return dataList;
     }
 }

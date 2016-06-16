@@ -22,13 +22,13 @@ import com.jf.djplayer.customview.TextViewTabs;
  * >带有一个自定义的"TextViewTabs"
  * >定义好了"ViewPager"，子类将适配器做好就可以了
  */
-abstract public class BaseViewPagerFragment extends Fragment
+abstract public class BaseViewPagerFragment extends BaseFragment
         implements CustomTitles.FragmentTitleListener, ViewPager.OnPageChangeListener,
         AdapterView.OnItemClickListener{
 
     protected CustomTitles mCustomTitles;//这是"Fragment"容器的统一标题
     private TextViewTabs mTextViewTabs;//自定义栏目指示器
-    private ViewPager mViewPager;//用来装填多个的"Fragment"
+    protected ViewPager mViewPager;//用来装填多个的"Fragment"
     protected FragmentStatePagerAdapter mFragmentStatePagerAdapter;
 
     @Nullable

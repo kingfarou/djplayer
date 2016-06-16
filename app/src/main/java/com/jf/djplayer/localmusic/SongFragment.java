@@ -56,6 +56,7 @@ public class SongFragment extends BaseExpandFragment
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
     public static final int REQUEST_CODE_DELETE_SONG = 1<<1;//删除歌曲的请求码
 
+    //歌曲显示顺序相关变量
     private static final String KEY_SONG_SORT_BY = SongFragment.class.getSimpleName()+"_songSortBy";//存储歌曲排序方式的键
     private static final int VALUES_SONG_SORT_BY_NO = 1;//没有任何排序方式（不需排序）
     private static final int VALUES_SONG_SORT_BY_SONG_NAME = 1<<1;//按照歌曲名称排序
@@ -144,9 +145,9 @@ public class SongFragment extends BaseExpandFragment
     }//_readData()
 
     @Override
-    protected void asyncReadDataFinished(List dataList){
+    protected void finishGetData(List dataList){
         //异步任务结束之后，刷新列表尾部所显示的歌曲数量
-        if(footerView!=null&&songInfoList!=null){
+        if( footerView!=null && songInfoList!=null ){
             ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
         }
     }
@@ -209,27 +210,6 @@ public class SongFragment extends BaseExpandFragment
                     default:break;
                 }
                 listPopupWindow.dismiss();
-
-                //如果用户想要扫描音乐
-//                if (position == 0) {
-//                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
-//                } else if (position == 1 || position == 2 || position == 3 || position == 4) {
-//                    //如果用户选择任意一类排序方式，根据选项创建不同排序方式对象进行排序，并将排序方式存入"SharedPreferences"文件
-//                    if (position == 1) {
-//                        songInfoListSortable = new SortBySongName();
-//                        getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_SONG_SORT_BY, VALUES_SONG_SORT_BY_SONG_NAME);
-//                    } else if (position == 2) {
-//                        songInfoListSortable = new SortBySingerName();
-//                        getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_SONG_SORT_BY, VALUES_SONG_SORT_BY_SINGER_NAME);
-//                    } else if (position == 3) {
-//                        MyApplication.showToast((BaseActivity)getActivity(),"该功能还未实现");
-//                    }
-//                    songInfoListSortable.sort(songInfoList);
-//                    baseExpandableListAdapter.notifyDataSetChanged();
-//                } else if (position == 5) {
-//
-//                }
-//                listPopupWindow.dismiss();
             }
         });
         return listPopupWindow;
@@ -238,7 +218,8 @@ public class SongFragment extends BaseExpandFragment
     /*"SongInfoObserver"方法实现_start*/
     @Override
     public void updateSongInfo(Intent updateIntent, int position) {
-        collapseGroup(position);
+//        collapseGroup(position);
+        expandableListView.collapseGroup(position);
         switch (updateIntent.getAction()){
             //如果用户添加收藏
             case UpdateUiSongInfoReceiver.ACTION_COLLECTION_SONG:

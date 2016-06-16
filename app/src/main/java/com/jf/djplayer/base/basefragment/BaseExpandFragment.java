@@ -34,13 +34,13 @@ abstract public class BaseExpandFragment extends BaseFragment
     protected ExpandableListView expandableListView;//expandableListView
     protected BaseExpandableListAdapter baseExpandableListAdapter;//"ExpandableListView"的适配器
 
-    private View loadingHintView;//"ExpandableListView"读到数据前显示的提示视图
-    private View expandableListEmptyView;//"ExpandableListView"没有数据显式时的提示视图
+    protected View loadingHintView;//"ExpandableListView"读到数据前显示的提示视图
+    protected View expandableListEmptyView;//"ExpandableListView"没有数据显式时的提示视图
 
     private LoadingAsyncTask loadingAsyncTask;//异步读取数据的内部类
     private int lastExpand = -1;//记录上次"expandableListView"所展开的那个位置
     private View layoutView;//根布局
-    protected PopupWindow popupWindows;//点击选项菜单那时弹出的PopupWindow
+//    protected PopupWindow popupWindows;//点击选项菜单那时弹出的PopupWindow
 
     @Nullable
     @Override
@@ -108,7 +108,7 @@ abstract public class BaseExpandFragment extends BaseFragment
      * 异步任务读取数据完成之后回调这个方法
      * 具体时间：数据读取完成之后，expandableListView.setAdapter();方法被调用之前
      */
-    protected void asyncReadDataFinished(List<SongInfo> dataList){
+    protected void finishGetData(List<SongInfo> dataList){
 
     }
 
@@ -187,13 +187,13 @@ abstract public class BaseExpandFragment extends BaseFragment
         return doExpandableItemLongClick(parent, view, position, id);
     }
 
-    protected final void expanGroups(int groupPos){
-        expandableListView.expandGroup(groupPos);
-    }
-
-    protected final void collapseGroup(int groupPos){
-        expandableListView.collapseGroup(groupPos);
-    }
+//    protected final void expanGroups(int groupPos){
+//        expandableListView.expandGroup(groupPos);
+//    }
+//
+//    protected final void collapseGroup(int groupPos){
+//        expandableListView.collapseGroup(groupPos);
+//    }
 
     /**
      * 重新进行一次异步数据读取
@@ -243,9 +243,10 @@ abstract public class BaseExpandFragment extends BaseFragment
             } else {
                 //初始化各点击事件并且设置适配器
                 expandableListViewInit();
-                asyncReadDataFinished(dataList);//通知子类数据已经读取完成
+//                finishGetData(dataList);//通知子类数据已经读取完成
                 //"ExpandableListView"添加数据
                 baseExpandableListAdapter = getExpandableAdapter();
+                finishGetData(dataList);//通知子类数据已经读取完成
                 expandableListView.setAdapter(baseExpandableListAdapter);
             }
         }

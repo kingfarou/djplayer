@@ -1,6 +1,7 @@
 package com.jf.djplayer.localmusic;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.jf.djplayer.base.basefragment.BaseListFragment;
 import com.jf.djplayer.classifyshowsong.ClassifySongFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.search.SearchedDataProvider;
@@ -29,13 +29,19 @@ import java.util.Map;
  * Created by JF on 2016/1/29.
  * 本地音乐-歌手列表
  */
-public class SingerFragment extends BaseListFragment
+public class SingerFragment extends LocalMusicListFragment
                 implements SearchedDataProvider{
 
-    private List<Map<String,String>> singerList;//"ListView"数据集合
+//    private List<Map<String,String>> singerList;//"ListView"数据集合
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
     private ListViewPopupWindows mListViewPopupWindows;
     private View footerView;
+
+    //歌手列表排序相关变量
+    private static final String KEY_SINGER_SORT_BY = SingerFragment.class.getSimpleName()+"_singerSortBy";
+    private static final int VALUES_SINGER_SORT_ACCORDING_NO = 1;//没有任何排序方式（不需排序）
+    private static final int VALUES_SINGER_SORT_ACCORDING_SINGER_NAME = 1<<1;//按照歌手名称排序
+    private static final int VALUES_SINGER_SORT_ACCORDING_SONG_NUMBER = 1<<2;//按照歌曲数量排序
 
     @Nullable
     @Override
@@ -73,8 +79,14 @@ public class SingerFragment extends BaseListFragment
 
     @Override
     protected List getData() {
-        singerList = new SongInfoOpenHelper(getActivity()).getValueSongNumber(SongInfoOpenHelper.artist);
-        return singerList;
+        dataList = new SongInfoOpenHelper(getActivity()).getValueSongNumber(SongInfoOpenHelper.artist);
+        int sortBy = getActivity().getPreferences(Context.MODE_PRIVATE).getInt(KEY_SINGER_SORT_BY, VALUES_SINGER_SORT_ACCORDING_NO);
+        if(sortBy == VALUES_SINGER_SORT_ACCORDING_SINGER_NAME){
+            sortAccordingTitle();
+        }else if(sortBy == VALUES_SINGER_SORT_ACCORDING_SONG_NUMBER){
+            sortAccordingContent();
+        }
+        return dataList;
     }
 
     @Override
@@ -84,11 +96,11 @@ public class SingerFragment extends BaseListFragment
 
     @Override
     protected View getListViewFooterView() {
-        if(singerList==null){
+        if(dataList==null){
             return null;
         }
         footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(singerList.size()+"歌手");
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"歌手");
         return footerView;
     }
 
@@ -101,15 +113,21 @@ public class SingerFragment extends BaseListFragment
         mListViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-//                    startActivity(new Intent(getActivity(), ScanMusicActivity.class));
-                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
-                } else if (position == 1) {
-                    sortAccordingTitle();
-                    listViewAdapter.notifyDataSetChanged();
-                } else if (position == 2) {
-                    sortAccordingContent();
-                    listViewAdapter.notifyDataSetChanged();
+                switch (position){
+                    case 0:
+                        getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+                        break;
+                    case 1:
+                        sortAccordingTitle();
+                        getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_SINGER_SORT_BY, VALUES_SINGER_SORT_ACCORDING_SINGER_NAME).commit();
+                        listViewAdapter.notifyDataSetChanged();
+                        break;
+                    case 2:
+                        sortAccordingContent();
+                        getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_SINGER_SORT_BY, VALUES_SINGER_SORT_ACCORDING_SONG_NUMBER).commit();
+                        listViewAdapter.notifyDataSetChanged();
+                        break;
+                    default:break;
                 }
                 mListViewPopupWindows.dismiss();
             }
@@ -119,10 +137,10 @@ public class SingerFragment extends BaseListFragment
 
     @Override
     protected void readDataFinish(List dataList) {
-        if(singerList == null){
+        if(dataList == null){
             return;
         }
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(singerList.size()+"歌手");
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"歌手");
     }
 
 
@@ -131,7 +149,7 @@ public class SingerFragment extends BaseListFragment
         //设置"fragment.setArguments()"参数
         Bundle bundle = new Bundle();
         bundle.putString(ClassifySongFragment.COLUMN_NAME, SongInfoOpenHelper.artist);//读取数据库里面的"歌手"字段
-        bundle.putString(ClassifySongFragment.COLUMN_VALUES, singerList.get(position).get("title"));//读取具体哪个歌手
+        bundle.putString(ClassifySongFragment.COLUMN_VALUES, ((List<Map<String, String>>) dataList).get(position).get("title"));//读取具体哪个歌手
         //将"Bundle"设置到待启动那个"Fragment"
         ClassifySongFragment fragment = new ClassifySongFragment();
         fragment.setArguments(bundle);
@@ -141,6 +159,6 @@ public class SingerFragment extends BaseListFragment
 
     @Override
     public List returnSearchedDataList() {
-        return singerList;
+        return dataList;
     }
 }

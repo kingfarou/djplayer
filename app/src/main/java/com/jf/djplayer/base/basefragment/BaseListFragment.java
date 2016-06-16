@@ -35,11 +35,8 @@ public abstract class BaseListFragment extends BaseFragment
         implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
 
     protected ListView listView;
-    private View loadingHintView;//在"ListVIew"获取到数据之前显示的视图
-    private View listViewEmptyView;//读取完数据之后"ListView"没有数据要显示时所显示的View
-
-    protected String title = "title";
-    protected String content = "content";
+    protected View loadingHintView;//在"ListVIew"获取到数据之前显示的视图
+    protected View listViewEmptyView;//读取完数据之后"ListView"没有数据要显示时所显示的View
 
     protected BaseAdapter listViewAdapter;
     protected List dataList;//装填所获取的数据用的集合
@@ -66,8 +63,8 @@ public abstract class BaseListFragment extends BaseFragment
             listViewEmptyView.setVisibility(View.INVISIBLE);
         }
 
-//        子类做对应初始化
-        initBeforeReturnView();
+////        子类做对应初始化
+//        initBeforeReturnView();
 //        开始执行读数据的异步任务
         readDataAsyncTask = new ReadDataAsyncTask();
         readDataAsyncTask.execute();
@@ -82,12 +79,12 @@ public abstract class BaseListFragment extends BaseFragment
         readDataAsyncTask.cancel(true);
     }
 
-    /**
-     * 在布局文件返回前回调方法
-     * 子类可在此进行初始化
-     */
-    protected void initBeforeReturnView(){
-    }
+//    /**
+//     * 在布局文件返回前回调方法
+//     * 子类可在此进行初始化
+//     */
+//    protected void initBeforeReturnView(){
+//    }
 
     /**
      * 如果在"ListView"数据加载前需要相应的视图显示
@@ -143,7 +140,6 @@ public abstract class BaseListFragment extends BaseFragment
      * 当异步任务完成时将会回调这个方法
      */
     protected void readDataFinish(List dataList){
-
     }
 
     /**
@@ -165,30 +161,6 @@ public abstract class BaseListFragment extends BaseFragment
      */
     protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id){
     }
-
-    protected void sortAccordingTitle(){
-        final Collator collator = Collator.getInstance(Locale.CHINA);
-        Collections.sort(dataList, new Comparator<Map<String, String>>() {
-            @Override
-            public int compare(Map<String, String> lhs, Map<String, String> rhs) {
-                CollationKey key1 = collator
-                        .getCollationKey(lhs.get(title));
-                CollationKey key2 = collator
-                        .getCollationKey(rhs.get(title));
-                return key1.compareTo(key2);
-            }
-        });
-    }
-
-    protected void sortAccordingContent(){
-        Collections.sort(dataList, new Comparator<Map<String, String>>() {
-            @Override
-            public int compare(Map<String, String> lhs, Map<String, String> rhs) {
-                return lhs.get(content).compareTo(rhs.get(content));
-            }
-        });
-    }
-
 
     /**
      * "LiseView"点击事件响应方法
@@ -256,11 +228,10 @@ public abstract class BaseListFragment extends BaseFragment
 //                readDataFinish(dataList);//任务完成之后回调方法
                 //            将数据给设置上去
                 listViewAdapter = getListViewAdapter(dataList);
-                listView.setAdapter(listViewAdapter);
                 readDataFinish(dataList);//任务完成之后回调方法
+                listView.setAdapter(listViewAdapter);
             }
         }
-
 
         //隐藏"ListView"和其"EmptyView"
         private void hideListView(){

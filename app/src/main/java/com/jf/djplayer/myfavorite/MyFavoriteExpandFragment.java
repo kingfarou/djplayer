@@ -93,33 +93,34 @@ public class MyFavoriteExpandFragment extends BaseExpandFragment
         return new MyFavoriteFragmentAdapter(this, favoriteList);
     }
 
-    public ListViewPopupWindows getListViewPopupWindow() {
-        ListViewPopupWindows listViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{"按歌曲名排序","按歌手名排序","按添加时间排序"});
-        listViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                如果用户想要扫描音乐
-                if (position == 0) {
-                    SongInfoListSortable = new SortBySongName();
-                } else if (position == 1) {
-                    SongInfoListSortable = new SortBySingerName();
-                } else if (position == 2) {
-
-                }
-                SongInfoListSortable.sort(favoriteList);
-                baseExpandableListAdapter.notifyDataSetChanged();
-                popupWindows.dismiss();
-            }
-        });
-        return listViewPopupWindows;
-    }
+//    public ListViewPopupWindows getListViewPopupWindow() {
+//        ListViewPopupWindows listViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{"按歌曲名排序","按歌手名排序","按添加时间排序"});
+//        listViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////                如果用户想要扫描音乐
+//                if (position == 0) {
+//                    SongInfoListSortable = new SortBySongName();
+//                } else if (position == 1) {
+//                    SongInfoListSortable = new SortBySingerName();
+//                } else if (position == 2) {
+//
+//                }
+//                SongInfoListSortable.sort(favoriteList);
+//                baseExpandableListAdapter.notifyDataSetChanged();
+//                popupWindows.dismiss();
+//            }
+//        });
+//        return listViewPopupWindows;
+//    }
 
 
 //    当歌曲的信息被修改了
 //    将在这里受到回调
     @Override
     public void updateSongInfo(Intent updateIntent, int position) {
-        collapseGroup(position);//现将所操作的栏目收起
+//        collapseGroup(position);//现将所操作的栏目收起
+        expandableListView.collapseGroup(position);
         switch(updateIntent.getAction()){
             case UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG:
 //                favoriteList.remove(position);//从集合里移除数据
