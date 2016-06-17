@@ -43,16 +43,21 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!--用来放置"Fragment"-->
+    <!--中间"Fragment"页卡-->
     <android.support.v4.view.ViewPager
-        android:id="@+id/vp_activity_song_play_info"
+        android:id="@+id/vp_activity_play_info"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/white_transparent">
-
     </android.support.v4.view.ViewPager>
 
+    <com.viewpagerindicator.LinePageIndicator
+        android:id="@+id/line_page_indicator_activity_play_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip"/>
+    
     <!--中间进度条和时间-->
     <LinearLayout
         android:layout_width="match_parent"

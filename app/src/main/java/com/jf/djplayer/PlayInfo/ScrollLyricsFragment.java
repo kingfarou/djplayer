@@ -17,7 +17,6 @@ import com.jf.djplayer.R;
 public class ScrollLyricsFragment extends Fragment{
 
     private View layoutView;
-    private ScrollView lyricScrollView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -27,9 +26,6 @@ public class ScrollLyricsFragment extends Fragment{
     }
 
     private void viewInit(){
-        lyricScrollView = (ScrollView)layoutView.findViewById(R.id.sv_fragment_scroll_lyric);
-
-
     }
 }
 

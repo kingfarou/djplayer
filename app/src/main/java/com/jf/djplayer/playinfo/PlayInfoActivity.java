@@ -31,6 +31,7 @@ import com.jf.djplayer.playertool.PlayerOperator;
 
 import com.jf.djplayer.customview.CustomTitles;
 import com.jf.djplayer.playertool.SingerPictureTools;
+import com.viewpagerindicator.LinePageIndicator;
 
 import android.support.v4.app.Fragment;
 
@@ -65,6 +66,7 @@ public class PlayInfoActivity extends BaseActivity implements
 
     //其他变量
     private ViewPager viewPager;
+    private LinePageIndicator linePageIndicator;
     private Song lastSongInfo;//记录最后一次播放的歌
 
     private PlayInfoSubject playInfoSubject;//持有所播放歌曲信息的主题
@@ -83,7 +85,7 @@ public class PlayInfoActivity extends BaseActivity implements
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_song_play_info;
+        return R.layout.activity_play_info;
     }
 
     @Override
@@ -171,13 +173,16 @@ public class PlayInfoActivity extends BaseActivity implements
 
 
     private void initViewPager(){
-        viewPager = (ViewPager)findViewById(R.id.vp_activity_song_play_info);
+        viewPager = (ViewPager)findViewById(R.id.vp_activity_play_info);
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new PlayListFragment());//添加当前播放列表显示界面
         fragmentList.add(new TwoLineLyricFragment());//添加两行歌词显示界面
-//        fragmentList.add(new ScrollLyricsFragment());//添加滚屏歌词显示界面
+        fragmentList.add(new ScrollLyricsFragment());//这是歌词滚屏显示界面
         viewPager.setAdapter(new SongPlayInfoAdapter(getSupportFragmentManager(), fragmentList));
-        viewPager.setCurrentItem(1);//初始化在第二个页面里
+//        viewPager.setCurrentItem(1);//初始化在第二个页面里
+        linePageIndicator = (LinePageIndicator)findViewById(R.id.line_page_indicator_activity_play_info);
+        linePageIndicator.setViewPager(viewPager);
+        linePageIndicator.setCurrentItem(1);//初始化在第二个页面里
     }
 
 
