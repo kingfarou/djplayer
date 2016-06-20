@@ -43,7 +43,11 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!--中间"Fragment"页卡-->
+    <!-- "ViewPager"及其指示器-->
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/circle_page_indicator_activity_play_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_activity_play_info"
         android:layout_width="match_parent"
@@ -52,11 +56,11 @@
         android:background="@color/white_transparent">
     </android.support.v4.view.ViewPager>
 
-    <com.viewpagerindicator.LinePageIndicator
-        android:id="@+id/line_page_indicator_activity_play_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dip"/>
+    <!--<com.viewpagerindicator.LinePageIndicator-->
+        <!--android:id="@+id/line_page_indicator_activity_play_info"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="5dip"/>-->
     
     <!--中间进度条和时间-->
     <LinearLayout
@@ -74,13 +78,14 @@
             android:layout_marginStart="8dp"
             android:textColor="@color/white"
             android:textSize="16sp"/>
+        <!-- 歌曲播放的进度条-->
         <SeekBar
             android:id="@+id/sb_activity_song_play_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white_transparent"/>
-        <!-- 歌曲中的播放时长-->
+        <!-- 歌曲总的播放时长 -->
         <TextView
             android:id="@+id/tv_total_time"
             android:layout_width="wrap_content"
