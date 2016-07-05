@@ -38,34 +38,34 @@ abstract public class BaseExpandFragment extends BaseFragment
 
     private LoadingAsyncTask loadingAsyncTask;//异步读取数据的内部类
     private int lastExpand = -1;//记录上次"expandableListView"所展开的那个位置
-    private View layoutView;//根布局
+    private View rootView;//根布局
 //    protected PopupWindow popupWindows;//点击选项菜单那时弹出的PopupWindow
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //对界面进行初始化
-        layoutView = inflater.inflate(R.layout.fragment_base_expandable_list_view, container, false);
-        expandableListView = (ExpandableListView) layoutView.findViewById(R.id.el_fragment_expandable_list_view);
+        rootView = inflater.inflate(R.layout.fragment_base_expandable_list_view, container, false);
+        expandableListView = (ExpandableListView) rootView.findViewById(R.id.el_fragment_expandable_list_view);
 
         //数据载入时的提示界面、没有数据显示时的提示界面的初始化
         loadingHintView = getLoadingView();
         expandableListEmptyView = getExpandListEmptyView();
         if(loadingHintView!=null){
-            ((ViewGroup)layoutView).addView(loadingHintView);
+            ((ViewGroup) rootView).addView(loadingHintView);
         }
         if(expandableListEmptyView!=null){
-            ((ViewGroup)layoutView).addView(expandableListEmptyView);
+            ((ViewGroup) rootView).addView(expandableListEmptyView);
             expandableListEmptyView.setVisibility(View.INVISIBLE);
         }
 
         //子类在此做View初始化
-        initBeforeReturnView();
+        initView(rootView);
 
         //开始执行异步任务
         loadingAsyncTask = new LoadingAsyncTask();
         loadingAsyncTask.execute();
-        return layoutView;
+        return rootView;
     }
 
     @Override
@@ -77,7 +77,7 @@ abstract public class BaseExpandFragment extends BaseFragment
     /**
      * 在"onCreateView()"返回View之前调用，子类在此作对应初始化
      */
-    protected void initBeforeReturnView(){
+    protected void initView(View rootView){
 
     }
 

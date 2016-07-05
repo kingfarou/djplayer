@@ -11,7 +11,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.baseadapter.DefExpandFragmentAdapter;
+import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
@@ -45,7 +45,7 @@ public class RecentlyPlayExpandFragment extends BaseExpandFragment {
     }
 
     @Override
-    protected void initBeforeReturnView() {
+    protected void initView(View rootView) {
         if(footerView == null){
             return;
         }
@@ -80,8 +80,7 @@ public class RecentlyPlayExpandFragment extends BaseExpandFragment {
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-//        return new SongInfoExpandAdapter(this, recentlyPlaySongInfo);
-        return new DefExpandFragmentAdapter(this, recentlyPlaySongInfo);
+        return new BaseExpandFragmentAdapter(this, recentlyPlaySongInfo);
     }
 
     @Override

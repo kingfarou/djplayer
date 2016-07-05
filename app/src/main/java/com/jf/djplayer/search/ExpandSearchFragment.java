@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
 import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
-import com.jf.djplayer.base.baseadapter.DefExpandFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.module.Song;
 
@@ -49,9 +48,7 @@ public class ExpandSearchFragment extends BaseExpandFragment
 
     @Override
     protected BaseExpandableListAdapter getExpandableAdapter() {
-//        baseExpandableListAdapter = new SongInfoExpandAdapter((BaseActivity)searchedDataProvider, searchedList);
-//        baseExpandableListAdapter = new SongInfoExpandAdapter(this, searchedList);
-        baseExpandableListAdapter = new DefExpandFragmentAdapter(this, searchedList);
+        baseExpandableListAdapter = new BaseExpandFragmentAdapter(this, searchedList);
         return baseExpandableListAdapter;
     }
 

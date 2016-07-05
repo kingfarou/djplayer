@@ -14,6 +14,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 
+import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.base.basefragment.BaseExpandFragment;
 import com.jf.djplayer.interfaces.PlayController;
@@ -88,28 +89,6 @@ public class MyFavoriteExpandFragment extends BaseExpandFragment
     protected BaseExpandableListAdapter getExpandableAdapter() {
         return new MyFavoriteFragmentAdapter(this, favoriteList);
     }
-
-//    public ListViewPopupWindows getListViewPopupWindow() {
-//        ListViewPopupWindows listViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{"按歌曲名排序","按歌手名排序","按添加时间排序"});
-//        listViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////                如果用户想要扫描音乐
-//                if (position == 0) {
-//                    SongInfoListSortable = new SortBySongName();
-//                } else if (position == 1) {
-//                    SongInfoListSortable = new SortBySingerName();
-//                } else if (position == 2) {
-//
-//                }
-//                SongInfoListSortable.sort(favoriteList);
-//                baseExpandableListAdapter.notifyDataSetChanged();
-//                popupWindows.dismiss();
-//            }
-//        });
-//        return listViewPopupWindows;
-//    }
-
 
 //    当歌曲的信息被修改了
 //    将在这里受到回调

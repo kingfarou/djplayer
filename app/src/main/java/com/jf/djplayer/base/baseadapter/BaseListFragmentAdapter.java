@@ -17,12 +17,12 @@ import java.util.Map;
  * 由于应用里很多使用到"BaseListFragment"的地方，对适配器所显示的样式大体一样
  * 所以定义出默认的实现，对于不一样的地方，可以重新定义适配器
  */
-public class DefListFragmentAdapter extends BaseAdapter {
+public class BaseListFragmentAdapter extends BaseAdapter {
 
     private List<Map<String,String>> mapList;
     private Context context;
 
-    public DefListFragmentAdapter(Context context, List<Map<String, String>> mapList){
+    public BaseListFragmentAdapter(Context context, List<Map<String, String>> mapList){
         this.context = context;
         this.mapList = mapList;
     }

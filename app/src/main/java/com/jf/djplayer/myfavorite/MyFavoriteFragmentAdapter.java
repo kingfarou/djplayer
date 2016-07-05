@@ -33,59 +33,10 @@ public class MyFavoriteFragmentAdapter extends BaseExpandFragmentAdapter {
         super(fragment, myFavoriteList);
     }
 
-    private class GroupViewHolder{
-        TextView tv_song_name;//歌曲名字
-        TextView tv_singer_name;//歌手名字
-        ImageView iv_arrow;//箭头
-    }
-
-    @Override
-    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, final ViewGroup parent) {
-        GroupViewHolder groupViewHolder = null;
-        if(convertView == null){
-            groupViewHolder = new GroupViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_my_favorite_expandable_list_view_group, null);
-            groupViewHolder.tv_song_name = (TextView) convertView.findViewById(R.id.tv_item_my_favorite_expandable_list_view_group_song_name);
-            groupViewHolder.tv_singer_name = (TextView) convertView.findViewById(R.id.tv_item_my_favorite_expandable_list_view_group_singer_name);
-            groupViewHolder.iv_arrow = (ImageView) convertView.findViewById(R.id.iv_item_my_favorite_expandable_list_view_group_arrow);
-            convertView.setTag(groupViewHolder);
-        }else{
-            groupViewHolder = (GroupViewHolder) convertView.getTag();
-        }
-        groupViewHolder.tv_song_name.setText(songInfoList.get(groupPosition).getSongName());
-        groupViewHolder.tv_singer_name.setText(songInfoList.get(groupPosition).getSingerName());
-        if(isExpanded){
-            groupViewHolder.iv_arrow.setImageResource(R.drawable.icon_drop);
-        }else{
-            groupViewHolder.iv_arrow.setImageResource(R.drawable.icon_down);
-        }
-        groupViewHolder.iv_arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //箭头控制栏目打开以及收起
-                if (((ExpandableListView) parent).isGroupExpanded(groupPosition)) {
-                    ((ExpandableListView) parent).collapseGroup(groupPosition);
-                } else {
-                    ((ExpandableListView) parent).expandGroup(groupPosition);
-                }
-            }
-        });
-        return convertView;
-    }
-
     @Override
     protected int[] getChildItemImageId(Song songInfo) {
         return new int[]{R.drawable.ic_base_expand_fragment_adapter_collection, R.drawable.ic_base_expand_fragment_adapter_delete, R.drawable.ic_base_expand_fragment_adapter_add, R.drawable.ic_base_expand_fragment_adapter_bell,
                 R.drawable.ic_base_expand_fragment_adapter_share, R.drawable.ic_base_expand_fragment_adapter_send, R.drawable.ic_base_expand_fragment_adapter_info};
-    }
-
-    @Override
-    protected String[] getChildItemText(Song songInfo) {
-        Resources resources = context.getResources();
-        return new String[]{resources.getString(R.string.collection), resources.getString(R.string.delete),
-                resources.getString(R.string.add), resources.getString(R.string.set_to_bell),
-                resources.getString(R.string.share), resources.getString(R.string.send),
-                resources.getString(R.string.detailed_information)};
     }
 
     @Override

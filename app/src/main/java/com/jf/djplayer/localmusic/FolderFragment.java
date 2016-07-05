@@ -13,12 +13,11 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.jf.djplayer.base.basefragment.BaseListFragment;
 import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.R;
 
-import com.jf.djplayer.base.baseadapter.DefListFragmentAdapter;
+import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
@@ -89,7 +88,7 @@ public class FolderFragment extends LocalMusicListFragment
 
     @Override
     protected BaseAdapter getListViewAdapter(List dataList) {
-        return new DefListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+        return new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
 
     }
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.jf.djplayer.base.baseadapter.DefListFragmentAdapter;
+import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
 import com.jf.djplayer.base.basefragment.BaseListFragment;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class ListViewSearchFragment extends BaseListFragment
     @Override
     protected BaseAdapter getListViewAdapter(List dataList) {
         if(listViewAdapter == null){
-            listViewAdapter = new DefListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+            listViewAdapter = new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
         }
         return listViewAdapter;
     }
@@ -54,7 +54,7 @@ public class ListViewSearchFragment extends BaseListFragment
                 showList.add(content);
             }
         }
-        ((DefListFragmentAdapter)listViewAdapter).setData(showList);
+        ((BaseListFragmentAdapter)listViewAdapter).setData(showList);
         listViewAdapter.notifyDataSetChanged();
     }
 

@@ -63,8 +63,6 @@ public abstract class BaseListFragment extends BaseFragment
             listViewEmptyView.setVisibility(View.INVISIBLE);
         }
 
-////        子类做对应初始化
-//        initBeforeReturnView();
 //        开始执行读数据的异步任务
         readDataAsyncTask = new ReadDataAsyncTask();
         readDataAsyncTask.execute();
@@ -79,12 +77,6 @@ public abstract class BaseListFragment extends BaseFragment
         readDataAsyncTask.cancel(true);
     }
 
-//    /**
-//     * 在布局文件返回前回调方法
-//     * 子类可在此进行初始化
-//     */
-//    protected void initBeforeReturnView(){
-//    }
 
     /**
      * 如果在"ListView"数据加载前需要相应的视图显示
