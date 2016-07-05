@@ -16,8 +16,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.base.MyApplication;
+import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.dialogfragment.DeleteSongDialog;
@@ -233,12 +236,15 @@ public class BaseExpandFragmentAdapter extends BaseExpandableListAdapter{
                 deleteSongDialogFragment.show( ((FragmentActivity)context).getSupportFragmentManager(),"DeleteSongDialogFragment");
                 break;
             case 2:
+                MyApplication.showToast((BaseActivity)context, "该功能还未实现");
                 break;
             case 3://歌曲设置为某一个铃声（还未实现）
-                SetToBellDialog setToBellDialog = new SetToBellDialog(context,songInfo);
-                setToBellDialog.show(((FragmentActivity)context).getSupportFragmentManager(),"setToBellDialog");
+//                SetToBellDialog setToBellDialog = new SetToBellDialog(context,songInfo);
+//                setToBellDialog.show(((FragmentActivity)context).getSupportFragmentManager(),"setToBellDialog");
+                MyApplication.showToast((BaseActivity)context, "该功能还未实现");
                 break;
             case 4://这个表示分享功能（还没有申请到对应平台分享权限）
+                MyApplication.showToast((BaseActivity)context, "该功能还未实现");
                 break;
             case 6://这个表示用户编辑歌曲信息
                 SongInfoDialog songInfoDialog = new SongInfoDialog(songInfo,groupPosition);

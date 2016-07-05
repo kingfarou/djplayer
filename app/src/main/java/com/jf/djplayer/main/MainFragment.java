@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jf.djplayer.base.MyApplication;
+import com.jf.djplayer.base.baseactivity.BaseActivity;
 import com.jf.djplayer.base.basefragment.BaseFragment;
 import com.jf.djplayer.customview.CustomTitles;
 import com.jf.djplayer.myfavorite.MyFavoriteFragment;
@@ -30,7 +32,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
         initView();
-        //initSongDatabase();
         return rootView;
     }
 
@@ -70,16 +71,19 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             //如果点击我的下载
             case R.id.btn_fragment_main_my_down:
+                MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
                 break;
             //如果点击我的歌单
             case R.id.btn_fragment_mine_song_menu:
+                MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
                 break;
             //如果点击最近播放
             case R.id.btn_fragment_mine_recently_play:
                 ((FragmentChanger)getActivity()).replaceFragments(new RecentlyPlayFragment());
                 break;
-            //如果点击随机播放
+            //如果点击随机播放(界面上的那个塞子）
             case R.id.imgBtn_fragment_mine_dice:
+                MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
                 break;
         }
     }

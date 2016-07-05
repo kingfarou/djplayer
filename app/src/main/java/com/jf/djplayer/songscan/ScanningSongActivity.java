@@ -48,7 +48,7 @@ public class ScanningSongActivity extends BaseActivity {
     }
 
     @Override
-    protected void initBeforeView() {
+    protected void initExtra() {
     }
 
     @Override

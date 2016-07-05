@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    protected void initBeforeView() {
+    protected void initExtra() {
         //通过两个方式启动服务确保解绑之后服务不会关闭
         Intent startService = new Intent(this,PlayerService.class);
         startService(startService);

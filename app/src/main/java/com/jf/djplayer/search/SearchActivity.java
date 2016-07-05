@@ -52,7 +52,7 @@ public class SearchActivity extends BaseActivity
     }
 
     @Override
-    protected void initBeforeView() {
+    protected void initExtra() {
 
     }
 

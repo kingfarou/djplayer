@@ -1,14 +1,19 @@
 package com.jf.djplayer.playinfo;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +30,7 @@ import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.module.PlayInfo;
 import com.jf.djplayer.service.PlayerService;
+import com.jf.djplayer.util.FileUtil;
 import com.jf.djplayer.util.UserOptionPreferences;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.playertool.PlayerOperator;
@@ -37,8 +43,10 @@ import com.viewpagerindicator.LinePageIndicator;
 import android.support.v4.app.Fragment;
 
 import java.lang.ref.WeakReference;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 /**
  * Created by Administrator on 2015/8/4.
@@ -79,10 +87,12 @@ public class PlayInfoActivity extends BaseActivity implements
     private boolean continueUpdateUI;//'Handler"通过这个变量识别是否可以更UI
     private final int updateUiTime = 200;//"Handler"更新UI间隔时间
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    private static final String KEY_FIRST_START = "keyFirstStart";
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected int getContentViewId() {
@@ -90,7 +100,7 @@ public class PlayInfoActivity extends BaseActivity implements
     }
 
     @Override
-    protected void initBeforeView() {
+    protected void initExtra() {
         Intent intent = new Intent(this, PlayerService.class);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
         //获取更新播放信息用的主题
@@ -99,6 +109,7 @@ public class PlayInfoActivity extends BaseActivity implements
 
     @Override
     protected void initView() {
+        showHint();
         initWidget();//调用方法对视图初始化
         initViewPager();//对ViewPager做初始化
         initHandler();//对Handler做初始化
@@ -123,6 +134,28 @@ public class PlayInfoActivity extends BaseActivity implements
     protected void onDestroy() {
         super.onDestroy();
         unbindService(this);//取消对服务的绑定
+    }
+
+    //根据SD卡可读取状况，以及是否是第一次进入，提示信息
+    private void showHint(){
+        if( !Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ){
+            String noSDHint = "存储卡不可读取，歌手图片及歌词将不能显示。";
+            AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示").setMessage(noSDHint).setPositiveButton("我知道了", null).create();
+            alertDialog.show();
+        }else{
+            //当用户第一次在SD卡可读取的情况下进入该页面
+            boolean isFirstStart = getPreferences(MODE_PRIVATE).getBoolean(KEY_FIRST_START, true);
+            if(isFirstStart){
+                //弹出一个"DialogFragment"显示相关用户提示
+                String message = "当前界面支持歌手图片以及歌词显示。\n" +
+                        "歌手图片：将歌手图片文件（仅支持jpg文件）存放在“"+Environment.getExternalStorageDirectory()+"/"+ FileUtil.SINGER_PICTURE_DIR+"/”路径下面，并以歌手名字作为文件名字即可，如“刘德华.jpg”。\n" +
+                        "歌词文件：将歌词文件（仅支持lrc文件）存放在“"+Environment.getExternalStorageDirectory()+"/"+FileUtil.LYRIC_DIR+"/”路径下面，并将文件名字命名为“歌手名字 - 歌曲名字”即可，比如“王力宏 - 你不知道的事.lrc”";
+                final AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示").setMessage(message).setPositiveButton("我知道了", null).create();
+                alertDialog.show();
+                //修改标记
+                getPreferences(MODE_PRIVATE).edit().putBoolean(KEY_FIRST_START, false).commit();
+            }
+        }
     }
 
     //这里获取各个控件
