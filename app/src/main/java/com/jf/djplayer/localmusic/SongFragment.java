@@ -156,10 +156,17 @@ public class SongFragment extends BaseExpandFragment
         return new BaseExpandFragmentAdapter(this, songInfoList);
     }
 
-    //点击"ExpandableListView"栏目，播放所对应的歌曲
+//    //点击"ExpandableListView"栏目，播放所对应的歌曲
+//    @Override
+//    protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+////        playController.play(_songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
+//        playController.play(SongFragment.class.getSimpleName(), songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
+//        return true;
+//    }
+
+
     @Override
-    protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//        playController.play(_songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
+    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         playController.play(SongFragment.class.getSimpleName(), songInfoList, groupPosition);//传入当前播放列表以及用户所点击的位置
         return true;
     }

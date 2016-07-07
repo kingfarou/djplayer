@@ -22,8 +22,18 @@ public class ClassifySongFragment extends BaseViewPagerFragment {
     public static final String COLUMN_NAME = "columnName";
     public static final String COLUMN_VALUES = "columnValues";
 
+//    @Override
+//    protected void initBeforeReturnView() {
+//        //搜索按钮菜单按钮设置可见
+//        mCustomTitles.setSearchVisibility(View.VISIBLE);
+//        mCustomTitles.setMenuVisibility(View.VISIBLE);
+//        mCustomTitles.setTitleText(getArguments().getString((COLUMN_VALUES), "分类显示"));
+//    }
+
+
     @Override
-    protected void initBeforeReturnView() {
+    protected void initView(View layoutView) {
+        super.initView(layoutView);
         //搜索按钮菜单按钮设置可见
         mCustomTitles.setSearchVisibility(View.VISIBLE);
         mCustomTitles.setMenuVisibility(View.VISIBLE);

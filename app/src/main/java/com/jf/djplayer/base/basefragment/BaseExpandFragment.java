@@ -1,10 +1,7 @@
 package com.jf.djplayer.base.basefragment;
 
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,51 +31,45 @@ abstract public class BaseExpandFragment extends BaseFragment
     protected BaseExpandableListAdapter baseExpandableListAdapter;//"ExpandableListView"的适配器
 
     protected View loadingHintView;//"ExpandableListView"读到数据前显示的提示视图
-    protected View expandableListEmptyView;//"ExpandableListView"没有数据显式时的提示视图
+    protected View emptyView;//"ExpandableListView"没有数据显式时的提示视图
 
     private LoadingAsyncTask loadingAsyncTask;//异步读取数据的内部类
     private int lastExpand = -1;//记录上次"expandableListView"所展开的那个位置
-    private View rootView;//根布局
-//    protected PopupWindow popupWindows;//点击选项菜单那时弹出的PopupWindow
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected int getLayoutId() {
+        return R.layout.fragment_base_expandable_list_view;
+    }
+
+    @Override
+    protected void initExtra() {
+    }
+
+    @Override
+    protected void initView(View layoutView) {
         //对界面进行初始化
-        rootView = inflater.inflate(R.layout.fragment_base_expandable_list_view, container, false);
-        expandableListView = (ExpandableListView) rootView.findViewById(R.id.el_fragment_expandable_list_view);
+        expandableListView = (ExpandableListView) layoutView.findViewById(R.id.el_fragment_expandable_list_view);
 
         //数据载入时的提示界面、没有数据显示时的提示界面的初始化
         loadingHintView = getLoadingView();
-        expandableListEmptyView = getExpandListEmptyView();
+        emptyView = getExpandListEmptyView();
         if(loadingHintView!=null){
-            ((ViewGroup) rootView).addView(loadingHintView);
+            ((ViewGroup) layoutView).addView(loadingHintView);
         }
-        if(expandableListEmptyView!=null){
-            ((ViewGroup) rootView).addView(expandableListEmptyView);
-            expandableListEmptyView.setVisibility(View.INVISIBLE);
+        if(emptyView !=null){
+            ((ViewGroup) layoutView).addView(emptyView);
+            emptyView.setVisibility(View.INVISIBLE);
         }
-
-        //子类在此做View初始化
-        initView(rootView);
 
         //开始执行异步任务
         loadingAsyncTask = new LoadingAsyncTask();
         loadingAsyncTask.execute();
-        return rootView;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         loadingAsyncTask.cancel(true);
-    }
-
-    /**
-     * 在"onCreateView()"返回View之前调用，子类在此作对应初始化
-     */
-    protected void initView(View rootView){
-
     }
 
     /**
@@ -117,28 +108,17 @@ abstract public class BaseExpandFragment extends BaseFragment
      */
     abstract protected BaseExpandableListAdapter getExpandableAdapter();
 
-    /**
-     * 当"ExpandableListView"item被点击时将会执行这个方法
-     * @param parent
-     * @param v
-     * @param groupPosition 被点位置
-     * @param id
-     */
-    protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id){
-        return false;
-    }
-
-    /**
-     * 当"ExpandableListView"item被长按时执行这个方法
-     *
-     * @param parent
-     * @param view
-     * @param position 按下位置
-     * @param id
-     */
-    protected boolean doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id){
-        return false;
-    }
+//    /**
+//     * 当"ExpandableListView"item被长按时执行这个方法
+//     *
+//     * @param parent
+//     * @param view
+//     * @param position 按下位置
+//     * @param id
+//     */
+//    protected boolean doExpandableItemLongClick(AdapterView<?> parent, View view, int position, long id){
+//        return false;
+//    }
 
     /**
      * 如果要为"ExpandableListView"添加"headerView"在次返回
@@ -173,26 +153,19 @@ abstract public class BaseExpandFragment extends BaseFragment
         lastExpand = groupPosition;//不论当前是否首次展开都要保存新的栏目位置
     }
 
-
+    //重写"OnGroupClickListener"监听器方法，这里不作任何事情，具体交给子类去做
     @Override
     public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//        被调用的方法在子类里实现
-        return doOnGroupClick(parent, v, groupPosition, id);
+        return false;
     }
 
+    //重写"OnItemLongClickListener"监听器方法，这里不作任何事情，具体交给子类去做
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//        被调用的方法在子类里实现
-        return doExpandableItemLongClick(parent, view, position, id);
+////        被调用的方法在子类里实现
+//        return doExpandableItemLongClick(parent, view, position, id);
+        return false;
     }
-
-//    protected final void expanGroups(int groupPos){
-//        expandableListView.expandGroup(groupPos);
-//    }
-//
-//    protected final void collapseGroup(int groupPos){
-//        expandableListView.collapseGroup(groupPos);
-//    }
 
     /**
      * 重新进行一次异步数据读取
@@ -254,8 +227,8 @@ abstract public class BaseExpandFragment extends BaseFragment
         private void hideExpandableListView(){
             //断开"ExpandableListView"对"EmptyView"控制
             expandableListView.setEmptyView(null);
-            if (expandableListEmptyView != null) {
-                expandableListEmptyView.setVisibility(View.INVISIBLE);
+            if (emptyView != null) {
+                emptyView.setVisibility(View.INVISIBLE);
             }
             expandableListView.setVisibility(View.INVISIBLE);
         }
@@ -276,7 +249,7 @@ abstract public class BaseExpandFragment extends BaseFragment
 
         private void showExpandableListView() {
             expandableListView.setVisibility(View.VISIBLE);
-            expandableListView.setEmptyView(expandableListEmptyView);
+            expandableListView.setEmptyView(emptyView);
         }
 
         //"ExpandableListView"初始化的相关设置

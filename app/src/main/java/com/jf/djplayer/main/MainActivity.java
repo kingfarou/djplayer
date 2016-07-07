@@ -26,7 +26,6 @@ public class MainActivity extends BaseActivity
         implements FragmentChanger, PlayController, ServiceConnection{
 
     private FragmentManager fragmentManager;
-    //后台控制播放用的服务
     private PlayerService playerService;
 
     @Override

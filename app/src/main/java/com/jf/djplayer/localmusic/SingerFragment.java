@@ -144,8 +144,21 @@ public class SingerFragment extends LocalMusicListFragment
     }
 
 
+//    @Override
+//    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        //设置"fragment.setArguments()"参数
+//        Bundle bundle = new Bundle();
+//        bundle.putString(ClassifySongFragment.COLUMN_NAME, SongInfoOpenHelper.artist);//读取数据库里面的"歌手"字段
+//        bundle.putString(ClassifySongFragment.COLUMN_VALUES, ((List<Map<String, String>>) dataList).get(position).get("title"));//读取具体哪个歌手
+//        //将"Bundle"设置到待启动那个"Fragment"
+//        ClassifySongFragment fragment = new ClassifySongFragment();
+//        fragment.setArguments(bundle);
+//        //启动"Fragment"
+//        ((FragmentChanger)getParentFragment().getActivity()).replaceFragments(fragment);
+//    }
+
     @Override
-    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //设置"fragment.setArguments()"参数
         Bundle bundle = new Bundle();
         bundle.putString(ClassifySongFragment.COLUMN_NAME, SongInfoOpenHelper.artist);//读取数据库里面的"歌手"字段

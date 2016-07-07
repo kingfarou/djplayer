@@ -69,13 +69,12 @@ public class ListViewSearchFragment extends BaseListFragment
     }
 
     @Override
-    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        super.onItemClick(parent, view, position, id);
     }
 
     @Override
-    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return super.onItemLongClick(parent, view, position, id);
     }
-
 }

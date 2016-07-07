@@ -32,12 +32,6 @@ public class RecentlyPlayExpandFragment extends BaseExpandFragment {
     private PlayController playController;//歌曲播放控制接口对象
     private View footerView;//"ListView"的"footerView"
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -45,7 +39,8 @@ public class RecentlyPlayExpandFragment extends BaseExpandFragment {
     }
 
     @Override
-    protected void initView(View rootView) {
+    protected void initView(View layoutView) {
+        super.initView(layoutView);
         if(footerView == null){
             return;
         }
@@ -84,8 +79,7 @@ public class RecentlyPlayExpandFragment extends BaseExpandFragment {
     }
 
     @Override
-    protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//        playController.play(recentlyPlaySongInfo, groupPosition);
+    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         playController.play(RecentlyPlayExpandFragment.class.getSimpleName(), recentlyPlaySongInfo, groupPosition);
         return true;
     }

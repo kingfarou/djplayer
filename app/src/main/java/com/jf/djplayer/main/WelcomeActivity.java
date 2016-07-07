@@ -26,14 +26,14 @@ public class WelcomeActivity extends BaseActivity {
     private static final float TO_ALPHA = 1.0f;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     protected int getContentViewId() {
         return R.layout.activity_welcome;
     }
+
+    @Override
+    protected void initExtra() {
+    }
+
 
     @Override
     protected void initView() {

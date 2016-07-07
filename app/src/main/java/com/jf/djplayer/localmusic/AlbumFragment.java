@@ -39,12 +39,11 @@ public class AlbumFragment extends LocalMusicListFragment
     private static final int VALUES_ALBUM_SORT_ACCORDING_NAME = 1<<1;
     private static final int VALUES_ALBUM_SORT_ACCORDING_SONG_NUMBER = 1<<2;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        return super.onCreateView(inflater, container, savedInstanceState);
+//    }
 
     @Override
     protected View getLoadingHintView() {
@@ -89,8 +88,6 @@ public class AlbumFragment extends LocalMusicListFragment
         }
         footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"专辑");
-//        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view,null);
-//        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(albumList.size()+"专辑");
         return footerView;
     }
 
@@ -118,17 +115,6 @@ public class AlbumFragment extends LocalMusicListFragment
                         break;
                     default:break;
                 }
-//                if (position == 0) {
-////                    startActivity(new Intent(getActivity(), ScanMusicActivity.class));
-////                    原来启动"ScanMusicActivity.class"，直接启动"ScanningSongActivity.class"跳过扫描设置过程
-//                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
-//                } else if (position == 1) {
-//                    sortAccordingTitle();
-//                    listViewAdapter.notifyDataSetChanged();
-//                } else if (position == 2) {
-//                    sortAccordingContent();
-//                    listViewAdapter.notifyDataSetChanged();
-//                }
                 mListViewPopupWindows.dismiss();
             }
         });
@@ -137,10 +123,10 @@ public class AlbumFragment extends LocalMusicListFragment
 
     @Override
     protected void readDataFinish(List dataList){
-        if(dataList==null){
+        if(dataList==null) {
             return;
         }
-        dataList = dataList;
+//        this.dataList = dataList;
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"专辑");
     }
 

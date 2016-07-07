@@ -80,8 +80,14 @@ public class PlayListFragment extends BaseListFragment implements PlayInfoObserv
         playInfoSubject.removeObserver(this);
     }
 
+//    @Override
+//    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        //点击需要播放选中歌曲
+//        ((PlayController)getActivity()).play(playInfoSubject.getPlayInfo().getPlayListName(), playInfoSubject.getPlayInfo().getSongList(), position);
+//    }
+
     @Override
-    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //点击需要播放选中歌曲
         ((PlayController)getActivity()).play(playInfoSubject.getPlayInfo().getPlayListName(), playInfoSubject.getPlayInfo().getSongList(), position);
     }

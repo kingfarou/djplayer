@@ -109,9 +109,7 @@ public class MyFavoriteExpandFragment extends BaseExpandFragment
     }
 
     @Override
-    protected boolean doOnGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        //播放被选中的音乐
-//        playController.play(favoriteList,groupPosition);
+    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         playController.play(MyFavoriteExpandFragment.this.getClass().getSimpleName(), favoriteList, groupPosition);
         return true;
     }

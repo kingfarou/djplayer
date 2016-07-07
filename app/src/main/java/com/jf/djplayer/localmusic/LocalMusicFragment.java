@@ -31,12 +31,12 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
 
     private int windowWidths;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        windowWidths = getActivity().getWindowManager().getDefaultDisplay().getWidth();
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        windowWidths = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+//        return super.onCreateView(inflater, container, savedInstanceState);
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -51,13 +51,24 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
     }
 
     @Override
-    protected void initBeforeReturnView() {
+    protected void initView(View layoutView) {
+        super.initView(layoutView);
+        windowWidths = getActivity().getWindowManager().getDefaultDisplay().getWidth();
         //进行子类对View初始化
         setTitleImageResourceId(R.drawable.ic_return);
         setTitleText(getResources().getString(R.string.local_music));
         setTitleSearchVisibility(View.VISIBLE);
         setTitleMoreVisibility(View.VISIBLE);
     }
+
+//    @Override
+//    protected void initBeforeReturnView() {
+//        //进行子类对View初始化
+//        setTitleImageResourceId(R.drawable.ic_return);
+//        setTitleText(getResources().getString(R.string.local_music));
+//        setTitleSearchVisibility(View.VISIBLE);
+//        setTitleMoreVisibility(View.VISIBLE);
+//    }
 
     @Override
     protected ViewPager.PageTransformer getViewPagerTransformer() {

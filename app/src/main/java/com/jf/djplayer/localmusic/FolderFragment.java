@@ -28,8 +28,7 @@ import java.util.Map;
  * Created by JF on 2016/1/29.
  * 本地音乐-文件夹列表
  */
-public class FolderFragment extends LocalMusicListFragment
-                implements SearchedDataProvider{
+public class FolderFragment extends LocalMusicListFragment implements SearchedDataProvider{
 
     private View footerView;//"ListView"的"footerView"
 //    private List<Map<String,String>> folderList;//数据
@@ -127,15 +126,6 @@ public class FolderFragment extends LocalMusicListFragment
                         break;
                     default:break;
                 }
-//                if (position == 0) {
-//                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
-//                } else if (position == 1) {
-//                    sortAccordingTitle();
-//                    listViewAdapter.notifyDataSetChanged();
-//                } else if (position == 2) {
-//                    sortAccordingContent();
-//                    listViewAdapter.notifyDataSetChanged();
-//                }
                 mListViewPopupWindows.dismiss();
             }
         });
@@ -147,7 +137,7 @@ public class FolderFragment extends LocalMusicListFragment
         if(dataList==null){
             return;
         }
-        dataList = dataList;
+//        dataList = dataList;
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size() + "文件夹");
     }
 

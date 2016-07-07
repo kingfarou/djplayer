@@ -28,16 +28,16 @@ public class MyFavoriteFragment extends BaseViewPagerFragment {
     private FragmentChanger fragmentChanger;
     private CustomTitles CustomTitles;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        return super.onCreateView(inflater, container, savedInstanceState);
+//    }
 
 
     @Override
-    protected void initBeforeReturnView() {
-//        setTitleImageResourceId(R.drawable.ic_return);
+    protected void initView(View layoutView) {
+        super.initView(layoutView);
         setTitleText(getResources().getString(R.string.my_favorite));
         setTitleSearchVisibility(View.VISIBLE);
         setTitleMoreVisibility(View.VISIBLE);

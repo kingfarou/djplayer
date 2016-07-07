@@ -16,7 +16,7 @@ abstract public class BaseActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         //打印当前Activity名字，方便调试
         MyApplication.showLog(this.getClass().getSimpleName());
-        //调用工厂方法进行初始化了
+
         setContentView(getContentViewId());
         initExtra();
         initView();
@@ -31,10 +31,10 @@ abstract public class BaseActivity extends FragmentActivity{
     /**
      * 在控件初始化之前的其他初始化
      */
-    protected void initExtra(){}
+    abstract protected void initExtra();
 
     /**
      * 执行控件相关的初始化
      */
-    protected void initView(){}
+    abstract protected void initView();
 }

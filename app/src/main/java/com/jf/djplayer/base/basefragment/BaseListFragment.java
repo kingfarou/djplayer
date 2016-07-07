@@ -41,32 +41,37 @@ public abstract class BaseListFragment extends BaseFragment
     protected BaseAdapter listViewAdapter;
     protected List dataList;//装填所获取的数据用的集合
 
-    protected View rootView;//这是布局文件的根视图
+//    protected View rootView;//这是布局文件的根视图
 
     private ReadDataAsyncTask readDataAsyncTask;//内部类，用来读取异步任务，给"ListView"加载数据
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        获取"ListView"
-        rootView = inflater.inflate(R.layout.fragment_list_view, container, false);
-        listView = (ListView) rootView.findViewById(R.id.lv_fragment_list_view);
+    protected int getLayoutId() {
+        return R.layout.fragment_list_view;
+    }
+
+    @Override
+    protected void initExtra() {
+    }
+
+    @Override
+    protected void initView(View layoutView) {
+        listView = (ListView) layoutView.findViewById(R.id.lv_fragment_list_view);
 
         //数据载入时的提示界面、没有数据可显示的提示界面的初始化
         loadingHintView = getLoadingHintView();
         listViewEmptyView = getListViewEmptyView();
         if(loadingHintView!=null){
-            ((ViewGroup)rootView).addView(loadingHintView);
+            ((ViewGroup)layoutView).addView(loadingHintView);
         }
         if(listViewEmptyView!=null){
-            ((ViewGroup)rootView).addView(listViewEmptyView);
+            ((ViewGroup)layoutView).addView(listViewEmptyView);
             listViewEmptyView.setVisibility(View.INVISIBLE);
         }
 
 //        开始执行读数据的异步任务
         readDataAsyncTask = new ReadDataAsyncTask();
         readDataAsyncTask.execute();
-        return rootView;
     }
 
     @Override
@@ -76,7 +81,6 @@ public abstract class BaseListFragment extends BaseFragment
 //        则要取消异步任务
         readDataAsyncTask.cancel(true);
     }
-
 
     /**
      * 如果在"ListView"数据加载前需要相应的视图显示
@@ -134,25 +138,25 @@ public abstract class BaseListFragment extends BaseFragment
     protected void readDataFinish(List dataList){
     }
 
-    /**
-     * "ListView"item点击事件回调方法
-     * @param parent
-     * @param view
-     * @param position
-     * @param id
-     */
-    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id){
-    }
+//    /**
+//     * "ListView"item点击事件回调方法
+//     * @param parent
+//     * @param view
+//     * @param position
+//     * @param id
+//     */
+//    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id){
+//    }
 
-    /**
-     * "ListView"长按时回调的方法
-     * @param parent
-     * @param view
-     * @param position
-     * @param id
-     */
-    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id){
-    }
+//    /**
+//     * "ListView"长按时回调的方法
+//     * @param parent
+//     * @param view
+//     * @param position
+//     * @param id
+//     */
+//    protected void doListViewOnItemLongClick(AdapterView<?> parent, View view, int position, long id){
+//    }
 
     /**
      * "LiseView"点击事件响应方法
@@ -163,7 +167,7 @@ public abstract class BaseListFragment extends BaseFragment
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        doListViewOnItemClick(parent, view, position, id);
+//        doListViewOnItemClick(parent, view, position, id);
     }
 
     /**
@@ -176,8 +180,8 @@ public abstract class BaseListFragment extends BaseFragment
      */
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        doListViewOnItemLongClick(parent, view, position, id);
-        return true;
+//        doListViewOnItemLongClick(parent, view, position, id);
+        return false;
     }
 
     /**
@@ -218,7 +222,7 @@ public abstract class BaseListFragment extends BaseFragment
                 // listView做初始化
                 listViewInit();
 //                readDataFinish(dataList);//任务完成之后回调方法
-                //            将数据给设置上去
+                //将数据给设置上去
                 listViewAdapter = getListViewAdapter(dataList);
                 readDataFinish(dataList);//任务完成之后回调方法
                 listView.setAdapter(listViewAdapter);

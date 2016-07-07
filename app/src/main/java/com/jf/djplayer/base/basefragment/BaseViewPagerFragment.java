@@ -31,30 +31,28 @@ abstract public class BaseViewPagerFragment extends BaseFragment
     protected ViewPager mViewPager;//用来装填多个的"Fragment"
     protected FragmentStatePagerAdapter mFragmentStatePagerAdapter;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layoutView = inflater.inflate(R.layout.fragment_base_group,container,false);
-
-        //findViewById()
-        mCustomTitles = (CustomTitles)layoutView.findViewById(R.id.fragmentTitleLayout_fragment_base_group);
-        mViewPager = (ViewPager)layoutView.findViewById(R.id.vp_fragment_base_group);
-        mTextViewTabs = (TextViewTabs)layoutView.findViewById(R.id.textViewLinearLayout_fragment_base_group);
-
-        initView();
-        initBeforeReturnView();
-        return layoutView;
+    protected int getLayoutId() {
+        return R.layout.fragment_base_group;
     }
 
-    private void initView(){
+    @Override
+    protected void initExtra() {
+    }
+
+    @Override
+    protected void initView(View layoutView) {
         //"FragmentTitleLayout"初始化
+        mCustomTitles = (CustomTitles)layoutView.findViewById(R.id.fragmentTitleLayout_fragment_base_group);
         mCustomTitles.setTitleClickListener(this);
 
         //"TextViewLinearLayout"初始化
+        mTextViewTabs = (TextViewTabs)layoutView.findViewById(R.id.textViewLinearLayout_fragment_base_group);
         mTextViewTabs.setItemText(getTextViewTabsText());
         mTextViewTabs.setOnItemClickListener(this);
 
         //"ViewPager"初始化
+        mViewPager = (ViewPager)layoutView.findViewById(R.id.vp_fragment_base_group);
         mViewPager.setOnPageChangeListener(this);
         ViewPager.PageTransformer pageTransformer = getViewPagerTransformer();
         if(pageTransformer != null){
@@ -64,11 +62,44 @@ abstract public class BaseViewPagerFragment extends BaseFragment
         mViewPager.setAdapter(mFragmentStatePagerAdapter);
     }
 
-    /**
-     * 在"onCreateView()"方法返回前回调的方法
-     * 子类可在此做自己的初始化
-     */
-    abstract protected void initBeforeReturnView();
+    //    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        View layoutView = inflater.inflate(R.layout.fragment_base_group,container,false);
+//
+//        //findViewById()
+//        mCustomTitles = (CustomTitles)layoutView.findViewById(R.id.fragmentTitleLayout_fragment_base_group);
+//        mViewPager = (ViewPager)layoutView.findViewById(R.id.vp_fragment_base_group);
+//        mTextViewTabs = (TextViewTabs)layoutView.findViewById(R.id.textViewLinearLayout_fragment_base_group);
+//
+//        initView();
+//        initBeforeReturnView();
+//        return layoutView;
+//    }
+
+//    private void initView(){
+//        //"FragmentTitleLayout"初始化
+//        mCustomTitles.setTitleClickListener(this);
+//
+//        //"TextViewLinearLayout"初始化
+//        mTextViewTabs.setItemText(getTextViewTabsText());
+//        mTextViewTabs.setOnItemClickListener(this);
+//
+//        //"ViewPager"初始化
+//        mViewPager.setOnPageChangeListener(this);
+//        ViewPager.PageTransformer pageTransformer = getViewPagerTransformer();
+//        if(pageTransformer != null){
+//            mViewPager.setPageTransformer(true, getViewPagerTransformer());
+//        }
+//        mFragmentStatePagerAdapter = getViewPagerAdapter();
+//        mViewPager.setAdapter(mFragmentStatePagerAdapter);
+//    }
+
+//    /**
+//     * 在"onCreateView()"方法返回前回调的方法
+//     * 子类可在此做自己的初始化
+//     */
+//    abstract protected void initBeforeReturnView();
 
     /**
      * 子类在该方法里面返回"TextViewTabs"所显示的文字内容

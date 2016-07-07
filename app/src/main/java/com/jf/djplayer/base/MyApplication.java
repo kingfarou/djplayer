@@ -9,6 +9,7 @@ import com.jf.djplayer.base.baseactivity.BaseActivity;
 
 /**
  * Created by Administrator on 2015/7/20.
+ * 自定义"Application"类，用来代替系统原有那个
  */
 public class MyApplication extends Application {
 
