@@ -39,12 +39,6 @@ public class AlbumFragment extends LocalMusicListFragment
     private static final int VALUES_ALBUM_SORT_ACCORDING_NAME = 1<<1;
     private static final int VALUES_ALBUM_SORT_ACCORDING_SONG_NUMBER = 1<<2;
 
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return super.onCreateView(inflater, container, savedInstanceState);
-//    }
-
     @Override
     protected View getLoadingHintView() {
         return LayoutInflater.from(getActivity()).inflate(R.layout.loading_layout,null);
@@ -78,7 +72,6 @@ public class AlbumFragment extends LocalMusicListFragment
     @Override
     protected BaseAdapter getListViewAdapter(List dataList) {
         return new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
-
     }
 
     @Override
@@ -131,7 +124,7 @@ public class AlbumFragment extends LocalMusicListFragment
     }
 
     /**
-     * 返回带搜索的数据集合，本对象是专辑集合
+     * 返回待搜索的数据集合，本对象是专辑集合
      * @return 专辑集合
      */
     @Override

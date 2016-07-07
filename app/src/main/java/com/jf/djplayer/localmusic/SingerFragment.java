@@ -29,10 +29,8 @@ import java.util.Map;
  * Created by JF on 2016/1/29.
  * 本地音乐-歌手列表
  */
-public class SingerFragment extends LocalMusicListFragment
-                implements SearchedDataProvider{
+public class SingerFragment extends LocalMusicListFragment implements SearchedDataProvider{
 
-//    private List<Map<String,String>> singerList;//"ListView"数据集合
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
     private ListViewPopupWindows mListViewPopupWindows;
     private View footerView;
@@ -42,23 +40,6 @@ public class SingerFragment extends LocalMusicListFragment
     private static final int VALUES_SINGER_SORT_ACCORDING_NO = 1;//没有任何排序方式（不需排序）
     private static final int VALUES_SINGER_SORT_ACCORDING_SINGER_NAME = 1<<1;//按照歌手名称排序
     private static final int VALUES_SINGER_SORT_ACCORDING_SONG_NUMBER = 1<<2;//按照歌曲数量排序
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK){
-            //如果是扫描音乐的返回
-            if(requestCode == REQUEST_CODE_SCAN_MUSIC){
-                refreshDataAsync();
-            }
-        }//if(resultCode == Activity.RESULT_OK)
-    }
 
     @Override
     protected View getLoadingHintView() {
@@ -113,7 +94,7 @@ public class SingerFragment extends LocalMusicListFragment
         mListViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 0:
                         getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
                         break;
@@ -127,7 +108,8 @@ public class SingerFragment extends LocalMusicListFragment
                         getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_SINGER_SORT_BY, VALUES_SINGER_SORT_ACCORDING_SONG_NUMBER).commit();
                         listViewAdapter.notifyDataSetChanged();
                         break;
-                    default:break;
+                    default:
+                        break;
                 }
                 mListViewPopupWindows.dismiss();
             }
@@ -140,22 +122,19 @@ public class SingerFragment extends LocalMusicListFragment
         if(dataList == null){
             return;
         }
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"歌手");
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size() + "歌手");
     }
 
-
-//    @Override
-//    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        //设置"fragment.setArguments()"参数
-//        Bundle bundle = new Bundle();
-//        bundle.putString(ClassifySongFragment.COLUMN_NAME, SongInfoOpenHelper.artist);//读取数据库里面的"歌手"字段
-//        bundle.putString(ClassifySongFragment.COLUMN_VALUES, ((List<Map<String, String>>) dataList).get(position).get("title"));//读取具体哪个歌手
-//        //将"Bundle"设置到待启动那个"Fragment"
-//        ClassifySongFragment fragment = new ClassifySongFragment();
-//        fragment.setArguments(bundle);
-//        //启动"Fragment"
-//        ((FragmentChanger)getParentFragment().getActivity()).replaceFragments(fragment);
-//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK){
+            //如果是扫描音乐的返回
+            if(requestCode == REQUEST_CODE_SCAN_MUSIC){
+                refreshDataAsync();
+            }
+        }//if(resultCode == Activity.RESULT_OK)
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

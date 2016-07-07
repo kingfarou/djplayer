@@ -31,25 +31,6 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
 
     private int windowWidths;
 
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        windowWidths = getActivity().getWindowManager().getDefaultDisplay().getWidth();
-//        return super.onCreateView(inflater, container, savedInstanceState);
-//    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        for (Fragment fragment : ((FragmentViewPagerAdapter)mFragmentStatePagerAdapter).getFragmentList()) {
-            //可见的"Fragment"才去调用"onActivityResult()"不可见的调用了会出错
-            if(fragment.isVisible()){
-                fragment.onActivityResult(requestCode, resultCode, data);
-            }
-
-        }
-    }
-
     @Override
     protected void initView(View layoutView) {
         super.initView(layoutView);
@@ -61,14 +42,16 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
         setTitleMoreVisibility(View.VISIBLE);
     }
 
-//    @Override
-//    protected void initBeforeReturnView() {
-//        //进行子类对View初始化
-//        setTitleImageResourceId(R.drawable.ic_return);
-//        setTitleText(getResources().getString(R.string.local_music));
-//        setTitleSearchVisibility(View.VISIBLE);
-//        setTitleMoreVisibility(View.VISIBLE);
-//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for (Fragment fragment : ((FragmentViewPagerAdapter)mFragmentStatePagerAdapter).getFragmentList()) {
+            //可见的"Fragment"才去调用"onActivityResult()"不可见的调用了会出错
+            if(fragment.isVisible()){
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+    }
 
     @Override
     protected ViewPager.PageTransformer getViewPagerTransformer() {
@@ -149,13 +132,9 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
         BaseFragment fragment = (BaseFragment)mFragmentStatePagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
         switch (mViewPager.getCurrentItem()) {
             case 0:
-//                listViewPopupWindows = ((SongFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
-//                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths - listViewPopupWindows.getWidth(), 0);
                 listViewPopupWindows = ((SongFragment)fragment).getListViewPopupWindow();
                 break;
             case 1:
-//                listViewPopupWindows = ((SingerFragment)getViewPagerCurrentPage()).getListViewPopupWindow();
-//                listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths-listViewPopupWindows.getWidth(), 0);
                 listViewPopupWindows = ((SingerFragment)fragment).getListViewPopupWindow();
                 break;
             case 2:

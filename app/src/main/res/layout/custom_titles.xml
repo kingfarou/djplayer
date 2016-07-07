@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--当前应用自定义标题栏布局-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--当前应用自定义标题栏布局，当前界面预览效果不佳，但在合并到了外层容器之后，显示正常-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content" android:gravity="center_vertical"
-    android:background="@color/sky_blue"
-    android:paddingRight="8dp" android:paddingEnd="8dp">
+    android:background="@color/sky_blue">
 
     <!--标题文字-->
         <TextView
@@ -42,4 +41,4 @@
         android:background="@drawable/bg_custom_titles_item"
         android:padding="8dp"
         android:src="@drawable/icon_more"/>
-</LinearLayout>
+</merge>

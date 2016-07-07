@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
@@ -21,7 +22,7 @@ import com.jf.djplayer.R;
  * 最右边有一个搜索图标
  * 还有一个指示更多图标
  */
-public class CustomTitles extends FrameLayout implements OnClickListener{
+public class CustomTitles extends LinearLayout implements OnClickListener{
 
     private TextView tv_title_text;
     private ImageView iv_search;//搜索
@@ -35,16 +36,16 @@ public class CustomTitles extends FrameLayout implements OnClickListener{
         super(context, attrs);
         //设置标题背景颜色
         setBackgroundColor(context.getResources().getColor(R.color.sky_blue));
-        View rootView = LayoutInflater.from(context).inflate(R.layout.custom_titles,this);
+        LayoutInflater.from(context).inflate(R.layout.custom_titles, this);
 //        从布局文件里找到各个控件
 //        titleLinearLayout = (LinearLayout)rootView.findViewById(R.id.ll_fragment_title_linear_layout);
 //        titleImageView = (ImageView)rootView.findViewById(R.id.iv_fragment_title_title_image);
         //标题文字
-        tv_title_text = (TextView)rootView.findViewById(R.id.tv_custom_titles_title_text);
+        tv_title_text = (TextView)findViewById(R.id.tv_custom_titles_title_text);
         //搜索按钮
-        iv_search = (ImageView)rootView.findViewById(R.id.iv_custom_titles_search);
+        iv_search = (ImageView)findViewById(R.id.iv_custom_titles_search);
         //菜单按钮
-        iv_menu = (ImageView)rootView.findViewById(R.id.iv_custom_titles_menu);
+        iv_menu = (ImageView)findViewById(R.id.iv_custom_titles_menu);
 
 //        读取XML文件的属性，并加各个属性设置到控件上
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomTitles);
