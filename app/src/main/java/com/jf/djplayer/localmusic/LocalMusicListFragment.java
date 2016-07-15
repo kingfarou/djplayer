@@ -14,10 +14,9 @@ import java.util.Map;
 
 /**
  * Created by jf on 2016/6/15.
- * 本地音乐_ListView界面
- * 在"BaseListFragment"的基础上，添加根据标题排序方式，以及根据内容排序方式
+ * 本地音乐里面的“歌手”、“专辑”、“文件夹”界面共用的"Fragment"
  */
-abstract public class LocalMusicListFragment extends BaseListFragment{
+abstract public class LocalMusicListFragment extends BaseListFragment<Map<String,String>>{
 
     protected final String title = "title";//"ListView"标题
     protected final String content = "content";//"ListView"内容

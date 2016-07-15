@@ -59,6 +59,7 @@
 
     <!--BaseExpandFragmentAdapter__基类适配器-->
     <string name="collection">收藏</string>
+    <string name="cancle_collection">取消收藏</string>
     <string name="delete">删除</string>
     <string name="add">添加</string>
     <string name="set_to_bell">设为铃声</string>

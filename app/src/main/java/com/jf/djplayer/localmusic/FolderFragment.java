@@ -1,6 +1,5 @@
 package com.jf.djplayer.localmusic;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -17,7 +16,6 @@ import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.R;
 
-import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
@@ -39,22 +37,12 @@ public class FolderFragment extends LocalMusicListFragment implements SearchedDa
     private static final int VALUES_FOLDER_SORT_ACCORDING_NO_THING = 1;
     private static final int VALUES_FOLDER_SORT_ACCORDING_NAME = 1<<1;
     private static final int VALUES_FOLDER_SORT_ACCORDING_SONG_NUMBER = 1<<2;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == REQUEST_CODE_SCAN_MUSIC){
-                refreshDataAsync();
-            }
-        }//if(resultCode == Activity.RESULT_OK)
-    }
-
 
     @Override
     protected View getLoadingHintView() {
@@ -73,8 +61,9 @@ public class FolderFragment extends LocalMusicListFragment implements SearchedDa
         return noDataView;
     }
 
+    /*获取列表数据相关代码__start*/
     @Override
-    protected List getData() {
+    protected List<Map<String, String>> getData() {
         dataList = new SongInfoOpenHelper(getActivity()).getValueSongNumber(SongInfoOpenHelper.folderPath);
         int sortBy = getActivity().getPreferences(Context.MODE_PRIVATE).getInt(KEY_FOLDER_SORT_ACCORDING, VALUES_FOLDER_SORT_ACCORDING_NO_THING);
         if(sortBy == VALUES_FOLDER_SORT_ACCORDING_NAME){
@@ -86,10 +75,10 @@ public class FolderFragment extends LocalMusicListFragment implements SearchedDa
     }
 
     @Override
-    protected BaseAdapter getListViewAdapter(List dataList) {
-        return new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
-
+    protected BaseAdapter getListViewAdapter(List<Map<String, String>> dataList) {
+        return new LocalMusicListAdapter(getActivity(), dataList);
     }
+    /*获取列表数据相关代码__end*/
 
     @Override
     protected View getListViewFooterView() {
@@ -117,12 +106,12 @@ public class FolderFragment extends LocalMusicListFragment implements SearchedDa
                     case 1:
                         sortAccordingTitle();
                         getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_FOLDER_SORT_ACCORDING, VALUES_FOLDER_SORT_ACCORDING_NAME).commit();
-                        listViewAdapter.notifyDataSetChanged();
+                        baseAdapter.notifyDataSetChanged();
                         break;
                     case 2:
                         sortAccordingContent();
                         getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_FOLDER_SORT_ACCORDING, VALUES_FOLDER_SORT_ACCORDING_SONG_NUMBER).commit();
-                        listViewAdapter.notifyDataSetChanged();
+                        baseAdapter.notifyDataSetChanged();
                         break;
                     default:break;
                 }
@@ -133,7 +122,7 @@ public class FolderFragment extends LocalMusicListFragment implements SearchedDa
     }
 
     @Override
-    protected void readDataFinish(List dataList) {
+    protected void readDataFinish(List<Map<String, String>> dataList) {
         if(dataList==null){
             return;
         }

@@ -1,5 +1,6 @@
 package com.jf.djplayer.dialogfragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -28,11 +29,13 @@ public class SetToBellDialog extends DialogFragment {
     private View view;
     public SetToBellDialog(){}
 
+    @SuppressLint("ValidFragment")
     public SetToBellDialog(Context context, Song songInfo){
         this.context = context;
         this.songInfo = songInfo;
     }
 
+    @SuppressLint("ValidFragment")
     public SetToBellDialog(Fragment containerFragment, Song songInfo){
         this.fragment = containerFragment;
         this.songInfo = songInfo;

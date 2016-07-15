@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/white">
 
+    <!-- 歌曲名字-->
     <TextView
         android:id="@+id/tv_dialog_song_operation_songName"
         android:layout_width="wrap_content"
@@ -11,182 +12,71 @@
         android:text="歌曲名字"
         android:padding="8dp"
         android:textSize="16sp"/>
+
     <!-- 分割线-->
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="#87ceeb"
-        android:padding="8dp"/>
-    <LinearLayout
-        android:id="@+id/ll_dialog_song_operation_collect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/white_blue_selector">
-        <ImageView
-            android:id="@+id/iv_dialog_song_operation_collection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/activity_song_play_info_collection"
-            android:padding="8dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="收藏"
-            android:padding="8dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
+        style="@style/dialog_song_operation_image_view"/>
+    <!-- 收藏按钮-->
+    <TextView
+        android:id="@+id/tv_dialog_song_operation_collection"
+        style="@style/dialog_song_operation_text_view"
+        android:text="@string/collection"
+        android:drawableLeft="@drawable/ic_my_favorite_expandable_list_view_group_collection"
+        android:drawableStart="@drawable/ic_my_favorite_expandable_list_view_group_collection"/>
+
     <!-- 分割线-->
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="#87ceeb"
-        android:padding="8dp"/>
-    <LinearLayout
-        android:id="@+id/ll_dialog_song_operation_delete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/white_blue_selector">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@drawable/ic_base_expand_fragment_adapter_delete"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="删除"
-            android:padding="8dp"
-            android:textSize="16sp"/>
+        style="@style/dialog_song_operation_image_view"/>
+    <!-- 删除按钮-->
+    <TextView
+        android:id="@+id/tv_dialog_song_operation_delete"
+        style="@style/dialog_song_operation_text_view"
+        android:drawableLeft="@drawable/ic_base_expand_fragment_adapter_delete"
+        android:drawableStart="@drawable/ic_base_expand_fragment_adapter_delete"
+        android:text="@string/delete"/>
 
-    </LinearLayout>
-
+    <!-- 分隔线-->
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="#87ceeb"
-        android:padding="8dp"/>
-    <LinearLayout
-        android:id="@+id/ll_dialog_song_operation_plus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/white_blue_selector">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_base_expand_fragment_adapter_add"
-            android:padding="8dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="添加"
-            android:padding="8dp"
-            android:textSize="16dp"/>
-    </LinearLayout>
+        style="@style/dialog_song_operation_image_view"/>
+    <!-- 添加按钮-->
+    <TextView
+        android:id="@+id/tv_dialog_song_operation_add"
+        style="@style/dialog_song_operation_text_view"
+        android:text="@string/add"
+        android:drawableLeft="@drawable/ic_base_expand_fragment_adapter_add"
+        android:drawableStart="@drawable/ic_base_expand_fragment_adapter_add" />
 
-
+    <!-- 分隔线-->
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="#87ceeb"
-        android:padding="8dp"/>
+        style="@style/dialog_song_operation_image_view"/>
+    <!-- 设为铃声-->
+    <TextView
+        android:id="@+id/tv_dialog_song_operation_set_to_bell"
+        style="@style/dialog_song_operation_text_view"
+        android:text="@string/set_to_bell"
+        android:drawableLeft="@drawable/ic_base_expand_fragment_adapter_bell"
+        android:drawableStart="@drawable/ic_base_expand_fragment_adapter_bell" />
 
-    <LinearLayout
-        android:id="@+id/ll_dialog_song_operation_bell"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/white_blue_selector">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_base_expand_fragment_adapter_bell"
-            android:padding="8dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="设为铃声"
-            android:padding="8dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
+    <!-- 分隔线-->
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="#87ceeb"
-        android:padding="8dp"/>
-    <LinearLayout
-        android:id="@+id/ll_dialog_song_operation_share"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/white_blue_selector">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@drawable/icon_share"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="分享"
-            android:padding="8dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
+        style="@style/dialog_song_operation_image_view"/>
+    <!-- 发送按钮-->
+    <TextView
+        android:id="@+id/tv_dialog_song_operation_send"
+        style="@style/dialog_song_operation_text_view"
+        android:text="@string/send"
+        android:drawableLeft="@drawable/ic_base_expand_fragment_adapter_send"
+        android:drawableStart="@drawable/ic_base_expand_fragment_adapter_send"/>
 
+    <!-- 分隔线-->
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="#87ceeb"
-        android:padding="8dp"/>
-
-    <LinearLayout
-        android:id="@+id/ll_dialog_song_operation_send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/white_blue_selector">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@drawable/ic_base_expand_fragment_adapter_send"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="发送"
-            android:padding="8dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="#87ceeb"
-        android:padding="8dp"/>
-    <LinearLayout
-        android:id="@+id/ll_dialog_song_operation_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/white_blue_selector">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="16dp"
-            android:paddingLeft="8dp"
-            android:paddingStart="8dp"
-            android:paddingRight="8dp"
-            android:paddingEnd="8dp"
-            android:src="@drawable/ic_base_expand_fragment_adapter_info"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="歌曲信息"
-            android:paddingTop="8dp"
-            android:paddingBottom="16dp"
-            android:paddingLeft="8dp"
-            android:paddingStart="8dp"
-            android:paddingRight="8dp"
-            android:paddingEnd="8dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
-
-
+        style="@style/dialog_song_operation_image_view"/>
+    <!-- 歌曲信息-->
+    <TextView
+        android:id="@+id/tv_dialog_song_operation_information"
+        style="@style/dialog_song_operation_text_view"
+        android:text="@string/song_info"
+        android:drawableLeft="@drawable/ic_base_expand_fragment_adapter_info"
+        android:drawableStart="@drawable/ic_base_expand_fragment_adapter_info"/>
 
 </LinearLayout>

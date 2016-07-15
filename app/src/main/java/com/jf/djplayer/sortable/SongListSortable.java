@@ -11,7 +11,7 @@ import java.util.List;
  * 将输入的那个集合按特定的方法排序
  * 直接在原集合进行排序没有返回
  */
-public interface SongInfoListSortable {
+public interface SongListSortable {
 
     /**
      * 对一个装有SongInfo对像的集合进行排序

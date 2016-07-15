@@ -1,22 +1,22 @@
 package com.jf.djplayer.dialogfragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
+
+import com.jf.djplayer.base.basefragment.SongListFragment;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.util.FileUtil;
 import com.jf.djplayer.database.SongInfoOpenHelper;
@@ -30,22 +30,24 @@ import java.io.File;
 public class DeleteSongDialog extends DialogFragment implements CompoundButton.OnCheckedChangeListener{
 
 
-    private Song songInfo = null;//要操作的歌曲信息
+    private Song song = null;//要操作的歌曲信息
     private boolean isDeleteSongFile = false;//是否删除歌曲文件
     private boolean isDeleteSingerPicture = false;//是否删除歌手图片
     private boolean isDeleteLyricFile = true;//是否删除歌词文件
     private boolean isDeleteSoundFile = true;//是否删除音效文件
     private boolean[] selected = new boolean[]{false,false,true,true};//数组保存用户做的选择
-    private int groupPosition;
+    private int position;
     private View view;
 
-    public DeleteSongDialog(Context context, Song songInfo, int groupPosition) {
-        this.songInfo = songInfo;
-        this.groupPosition = groupPosition;
-    }
-
-    public DeleteSongDialog(Song songInfo, int position){
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        if (arguments == null) {
+            return;
+        }
+        position = arguments.getInt(SongListFragment.KEY_POSITION, SongListFragment.VALUES_DEFAULT_POSITION);
+        song = (Song) arguments.getSerializable(SongListFragment.KEY_SONG);
     }
 
     @NonNull
@@ -66,7 +68,7 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
                 File sdCardFile = Environment.getExternalStorageDirectory();//获取SD卡的路径
 //                如果删除歌曲文件
                 if (isDeleteSongFile) {
-                    File songFile = new File(songInfo.getFileAbsolutePath());
+                    File songFile = new File(song.getFileAbsolutePath());
                     if(!songFile.delete()){
                         Toast.makeText(getActivity(),"原音频文件未删除",Toast.LENGTH_SHORT).show();
                     }
@@ -81,7 +83,7 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
                 }
                 if (isDeleteLyricFile) {
                     File lyricDir = new File(sdCardFile, FileUtil.LYRIC_DIR);//连接歌词文件路径
-                    File songFile = new File(songInfo.getFileAbsolutePath());//连接歌曲那个文件
+                    File songFile = new File(song.getFileAbsolutePath());//连接歌曲那个文件
 //                    截取歌曲文件名字（去拓展名）
                     String songFileName = songFile.getName().substring(0,songFile.getName().length()-4);
 //                    Log.i("test",songFileName);
@@ -90,15 +92,11 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
                 }
 //                清除数据库里面的歌曲记录
                 SongInfoOpenHelper deleteOpenHelper = new SongInfoOpenHelper(getActivity());
-                deleteOpenHelper.deleteFromLocalMusicTable(songInfo);
-//                发送广播通知界面更新UI
-                Intent deleteSongInfo = new Intent(UpdateUiSongInfoReceiver.ACTION_DELETE_SONG_FILE);
-                deleteSongInfo.putExtra(UpdateUiSongInfoReceiver.position,groupPosition);
-                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(deleteSongInfo);
-//                //设置返回，告诉外层"Fragment"删除歌曲
-//                Intent resultIntent = new Intent();
-//                resultIntent.putExtra("position", groupPosition);
-//                getTargetFragment().onActivityResult(getTargetRequestCode(), FragmentActivity.RESULT_OK, resultIntent);
+                deleteOpenHelper.deleteFromLocalMusicTable(song);
+                //设置返回，告诉外层"Fragment"删除歌曲
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(SongListFragment.KEY_POSITION, position);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, resultIntent);
             }
         })//setPositionButton()
         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -114,7 +112,7 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
 
     private void viewInit(){
         view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_delete_song,null);
-        ((TextView)view.findViewById(R.id.tv_dialog_delete_song_songName)).setText("删除"+"\""+songInfo.getSongName()+"\""+"?");
+        ((TextView)view.findViewById(R.id.tv_dialog_delete_song_songName)).setText("删除"+"\""+ song.getSongName()+"\""+"?");
         ((CheckBox)view.findViewById(R.id.cb_dialog_delete_song_songFile)).setOnCheckedChangeListener(this);
         ((CheckBox)view.findViewById(R.id.cb_dialog_delete_song_singerPicture)).setOnCheckedChangeListener(this);
         ((CheckBox)view.findViewById(R.id.cb_dialog_delete_song_soundFile)).setOnCheckedChangeListener(this);

@@ -83,6 +83,7 @@ public class SystemMediaDatabaseUtils{
         }
         //扫描SD卡的歌曲
         Cursor sdCardCursor = getSystemSongInfo(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+//        Cursor sdCardCursor = getSystemSongInfo(MediaStore.Audio.Media.INTERNAL_CONTENT_URI);
         if(sdCardCursor!=null) {
             songInfoList = cursorToSongInfo(sdCardCursor);
             sdCardCursor.close();

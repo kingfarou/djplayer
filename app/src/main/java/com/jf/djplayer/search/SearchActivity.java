@@ -88,7 +88,7 @@ public class SearchActivity extends BaseActivity
         //根据标记判断加载哪类"Fragment"
         switch(fragmentType){
             case EXPANDABLE_LIST_VIEW:
-                searcherFragment = new ExpandSearchFragment();
+                searcherFragment = new SearchSongFragment();
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fl_activity_search_fragment_group, (Fragment) searcherFragment).commit();
                 break;

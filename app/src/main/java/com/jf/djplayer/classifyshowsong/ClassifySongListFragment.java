@@ -2,53 +2,46 @@ package com.jf.djplayer.classifyshowsong;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.baseadapter.BaseExpandFragmentAdapter;
-import com.jf.djplayer.base.basefragment.BaseExpandFragment;
+import com.jf.djplayer.base.baseadapter.SongListFragmentAdapter;
+import com.jf.djplayer.base.basefragment.BaseListFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.module.Song;
 
 import java.util.List;
 
 /**
- * Created by JF on 2016/5/1.
+ * Created by jf on 2016/7/14.
  * 分类显示-歌曲列表
  */
-public class ClassifySongListFragment extends BaseExpandFragment {
+public class ClassifySongListFragment extends BaseListFragment<Song>{
 
     private View footerView;//"ExpandableListView"的"FooterView"
-    private List<Song> songInfoList;//数据
     private String columnName;//需要显示的类的字段名
     private String columnValues;//需要显示的类的字段具体值
 
     @Override
-    protected View getLoadingView() {
-        return LayoutInflater.from(getParentFragment().getActivity()).inflate(R.layout.loading_layout, null);
-    }
-
-    @Override
-    protected List getData() {
+    protected List<Song> getData() {
         columnName = getArguments().getString(ClassifySongFragment.COLUMN_NAME);
         columnValues = getArguments().getString(ClassifySongFragment.COLUMN_VALUES);
-        songInfoList = new SongInfoOpenHelper(getActivity()).getClassifySongInfo(columnName, columnValues);
-        return songInfoList;
+        return new SongInfoOpenHelper(getActivity()).getClassifySongInfo(columnName, columnValues);
     }
 
     @Override
-    protected BaseExpandableListAdapter getExpandableAdapter() {
-        return new BaseExpandFragmentAdapter(this, songInfoList);
+    protected BaseAdapter getListViewAdapter(List<Song> dataList) {
+        return new SongListFragmentAdapter(this, dataList);
     }
 
     @Override
-    protected View getExpandableFooterView() {
+    protected View getListViewFooterView() {
         footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view, null);
-        if(songInfoList == null){
+        if(dataList == null){
             return null;
         }
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songInfoList.size()+"首歌");
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"首歌");
         return footerView;
     }
 }

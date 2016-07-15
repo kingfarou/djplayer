@@ -45,8 +45,7 @@ public class Song implements Serializable {
     }
 
     /**
-     * 我的自定义对象的equals()方法
-     * 仅仅根据绝对路径是否一致判断对象石头相同
+     * 根据绝对路径是否相同判断相同
      * @param o 传入需要被比较的对象
      * @return 返回两者绝对路径是否相同
      */
@@ -55,11 +54,21 @@ public class Song implements Serializable {
         if (o instanceof Song) {
             Song info = (Song)o;
             return this.getFileAbsolutePath().equals(info.getFileAbsolutePath());
-        } else {
-            return false;
         }
+//        else {
+//            return false;
+//        }
+        return false;
     }
 
+    /**
+     * 使用绝对路径的"HashCode"值
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return fileAbsolutePath.hashCode();
+    }
 
     public void setSongName(String songName) {
         this.songName = songName;

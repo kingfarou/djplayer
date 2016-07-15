@@ -87,7 +87,7 @@ public class PlayListFragment extends BaseListFragment implements PlayInfoObserv
 //    }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView parent, View view, int position, long id) {
         //点击需要播放选中歌曲
         ((PlayController)getActivity()).play(playInfoSubject.getPlayInfo().getPlayListName(), playInfoSubject.getPlayInfo().getSongList(), position);
     }
@@ -95,7 +95,7 @@ public class PlayListFragment extends BaseListFragment implements PlayInfoObserv
     @Override
     protected void readDataFinish(List dataList) {
         //将最新的播放位置传递给适配器
-        ((PlayListAdapter)listViewAdapter).setPlayingPosition(lastPlayPosition);
+        ((PlayListAdapter) baseAdapter).setPlayingPosition(lastPlayPosition);
         //当前正播放的位置上面显示特殊图标
         View visibleView = listView.getChildAt(playInfoSubject.getPlayInfo().getPlayPosition()-listView.getFirstVisiblePosition());
         if(visibleView!=null){
@@ -130,8 +130,8 @@ public class PlayListFragment extends BaseListFragment implements PlayInfoObserv
         lastPlayPosition = newPlayingPosition;
         //将新位置传递给适配器，以便用户在滑动时不会显示错乱，
         //注意这里必须判断适配器是不是空的，因为第一次收到消息时适配器未必加载完了
-        if(listViewAdapter != null){
-            ((PlayListAdapter)listViewAdapter).setPlayingPosition(newPlayingPosition);
+        if(baseAdapter != null){
+            ((PlayListAdapter) baseAdapter).setPlayingPosition(newPlayingPosition);
         }
     }
     /*"PlayInfoObserver"方法实现_结束*/

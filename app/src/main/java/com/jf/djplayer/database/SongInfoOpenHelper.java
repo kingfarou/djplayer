@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.jf.djplayer.module.Song;
-import com.jf.djplayer.recentlyplay.RecentlyPlayExpandFragment;
+import com.jf.djplayer.recentlyplay.RecentlyPlayListFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -117,7 +117,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         songInfoValues.put(folderPath, songInfo.getFileAbsolutePath() == null? notKnow: new File(songInfo.getFileAbsolutePath()).getParent());
         songInfoValues.put(fileAbsolutePath, songInfo.getFileAbsolutePath() == null? notKnow:songInfo.getFileAbsolutePath());
         songInfoValues.put(collection, songInfo.getCollection());
-        songInfoValues.put(lastPlayTime, RecentlyPlayExpandFragment.NEVER_PLAY);
+        songInfoValues.put(lastPlayTime, RecentlyPlayListFragment.NEVER_PLAY);
         long id =  songInfoDatabase.insert(LOCAL_MUSIC_TABLE_NAME, null, songInfoValues);
         songInfoDatabase.close();
         return id;

@@ -1,4 +1,4 @@
-package com.jf.djplayer.base.baseadapter;
+package com.jf.djplayer.localmusic;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,16 +13,14 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2015/9/15.
- * "BaseListFragment"里的"ListView"适配器的默认实现
- * 由于应用里很多使用到"BaseListFragment"的地方，对适配器所显示的样式大体一样
- * 所以定义出默认的实现，对于不一样的地方，可以重新定义适配器
+ * 本地音乐“歌手”、“专辑”、“文件夹”列表所用"ListView"的适配器
  */
-public class BaseListFragmentAdapter extends BaseAdapter {
+public class LocalMusicListAdapter extends BaseAdapter {
 
     private List<Map<String,String>> mapList;
     private Context context;
 
-    public BaseListFragmentAdapter(Context context, List<Map<String, String>> mapList){
+    public LocalMusicListAdapter(Context context, List<Map<String, String>> mapList){
         this.context = context;
         this.mapList = mapList;
     }

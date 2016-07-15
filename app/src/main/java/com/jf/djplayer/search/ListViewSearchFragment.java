@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
+import com.jf.djplayer.localmusic.LocalMusicListAdapter;
 import com.jf.djplayer.base.basefragment.BaseListFragment;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.Map;
  * Created by JF on 2016/5/8.
  * 以"ListView"方式显示数据的搜索的列表
  */
-public class ListViewSearchFragment extends BaseListFragment
+public class ListViewSearchFragment extends BaseListFragment<Map<String,String>>
                 implements SearcherFragment {
 
     private List<Map<String,String>> searchedList;//这是待搜索的数据
@@ -31,7 +31,7 @@ public class ListViewSearchFragment extends BaseListFragment
 
 
     @Override
-    protected List getData() {
+    protected List<Map<String, String>> getData() {
         //通过"Activity"获取待搜索的数据列表
         searchedList = ((SearchedDataProvider)getActivity()).returnSearchedDataList();
         //注意这里必须创建新的集合，不可以和"searchedList"共用同样一个集合
@@ -40,11 +40,11 @@ public class ListViewSearchFragment extends BaseListFragment
     }
 
     @Override
-    protected BaseAdapter getListViewAdapter(List dataList) {
-        if(listViewAdapter == null){
-            listViewAdapter = new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+    protected BaseAdapter getListViewAdapter(List<Map<String, String>> dataList) {
+        if(baseAdapter == null){
+            baseAdapter = new LocalMusicListAdapter(getActivity(), (List<Map<String,String>>)dataList);
         }
-        return listViewAdapter;
+        return baseAdapter;
     }
 
     public void search(String keyWord){
@@ -54,14 +54,9 @@ public class ListViewSearchFragment extends BaseListFragment
                 showList.add(content);
             }
         }
-        ((BaseListFragmentAdapter)listViewAdapter).setData(showList);
-        listViewAdapter.notifyDataSetChanged();
+        ((LocalMusicListAdapter) baseAdapter).setData(showList);
+        baseAdapter.notifyDataSetChanged();
     }
-
-//    @Override
-//    public ListViewPopupWindows getListViewPopupWindow() {
-//        return null;
-//    }
 
     @Override
     protected void readDataFinish(List dataList) {
@@ -69,7 +64,7 @@ public class ListViewSearchFragment extends BaseListFragment
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView parent, View view, int position, long id) {
         super.onItemClick(parent, view, position, id);
     }
 

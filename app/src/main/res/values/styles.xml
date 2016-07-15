@@ -35,4 +35,21 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">#ffcdc9c9</item>
     </style>
+
+    <!-- "dialog_song_operation"里的"TextView"样式-->
+    <style name="dialog_song_operation_text_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+    <!-- "dialog_song_operation"里的"ImageView"样式-->
+    <style name="dialog_song_operation_image_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">#87ceeb</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
 </resources>

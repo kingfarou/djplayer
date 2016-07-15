@@ -1,14 +1,10 @@
 package com.jf.djplayer.localmusic;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
@@ -61,7 +57,6 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
     @Override
     protected FragmentStatePagerAdapter getViewPagerAdapter() {
         List<Fragment> fragmentList = new ArrayList<>(4);
-//        fragmentList.add(new SongFragment());
         fragmentList.add(new SongFragment());
         fragmentList.add(new SingerFragment());
         fragmentList.add(new AlbumFragment());

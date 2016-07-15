@@ -8,9 +8,9 @@ import com.jf.djplayer.interfaces.SongInfoObserver;
 
 /**
  * Created by JF on 2016/2/22.
- * 所有对歌曲进行的收藏/取消收藏、删除、信息修改，都要发送对应广播、
- * 这个接收器将接收这些广播
- * 对这些广播有兴趣的类，实现SongInfoObserver接口，就可监听歌曲信息变化
+ * 所有对歌曲进行的收藏/取消收藏、删除、信息修改等等操作，都要对应的有界面提示，
+ * 所有这些操作都会发送对应广播，对这些操作有兴趣那些界面，实现"SongInfoObserver"接口，
+ * 通过这个广播里的回调，获取事件
  */
 public class UpdateUiSongInfoReceiver extends BroadcastReceiver {
     public static final String position = "position";//表示用户所操作的歌曲在列表里面的序号

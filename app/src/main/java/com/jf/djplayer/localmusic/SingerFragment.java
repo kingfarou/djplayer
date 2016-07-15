@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -17,7 +15,6 @@ import com.jf.djplayer.classifyshowsong.ClassifySongFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
-import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
@@ -59,7 +56,7 @@ public class SingerFragment extends LocalMusicListFragment implements SearchedDa
     }
 
     @Override
-    protected List getData() {
+    protected List<Map<String, String>> getData() {
         dataList = new SongInfoOpenHelper(getActivity()).getValueSongNumber(SongInfoOpenHelper.artist);
         int sortBy = getActivity().getPreferences(Context.MODE_PRIVATE).getInt(KEY_SINGER_SORT_BY, VALUES_SINGER_SORT_ACCORDING_NO);
         if(sortBy == VALUES_SINGER_SORT_ACCORDING_SINGER_NAME){
@@ -71,8 +68,8 @@ public class SingerFragment extends LocalMusicListFragment implements SearchedDa
     }
 
     @Override
-    protected BaseAdapter getListViewAdapter(List dataList) {
-        return new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+    protected BaseAdapter getListViewAdapter(List<Map<String, String>> dataList) {
+        return new LocalMusicListAdapter(getActivity(), dataList);
     }
 
     @Override
@@ -101,12 +98,12 @@ public class SingerFragment extends LocalMusicListFragment implements SearchedDa
                     case 1:
                         sortAccordingTitle();
                         getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_SINGER_SORT_BY, VALUES_SINGER_SORT_ACCORDING_SINGER_NAME).commit();
-                        listViewAdapter.notifyDataSetChanged();
+                        baseAdapter.notifyDataSetChanged();
                         break;
                     case 2:
                         sortAccordingContent();
                         getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_SINGER_SORT_BY, VALUES_SINGER_SORT_ACCORDING_SONG_NUMBER).commit();
-                        listViewAdapter.notifyDataSetChanged();
+                        baseAdapter.notifyDataSetChanged();
                         break;
                     default:
                         break;
@@ -137,7 +134,7 @@ public class SingerFragment extends LocalMusicListFragment implements SearchedDa
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView parent, View view, int position, long id) {
         //设置"fragment.setArguments()"参数
         Bundle bundle = new Bundle();
         bundle.putString(ClassifySongFragment.COLUMN_NAME, SongInfoOpenHelper.artist);//读取数据库里面的"歌手"字段

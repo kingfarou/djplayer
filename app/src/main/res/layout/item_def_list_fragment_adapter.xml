@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--当前应用"ListView"没个"Item"默认样式-->
+<!--当前应用"ListView"每个"Item"默认样式-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:gravity="center_vertical" android:orientation="vertical"

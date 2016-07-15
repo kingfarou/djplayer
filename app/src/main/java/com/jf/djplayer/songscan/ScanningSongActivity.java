@@ -29,13 +29,13 @@ import java.util.List;
 public class ScanningSongActivity extends BaseActivity {
 
     private List<File> fileList;
-    private ImageView scanFinishIv = null;//这是扫描完成图标
-    private ImageView scanningIv = null;//不断变更提示信息
+    private ImageView scanFinishIv;//这是扫描完成图标
+    private ImageView scanningIv;//不断变更提示信息
     private List<String> pathList;//记录要扫描的文件路径
-    private TextView scanInfoTv = null;//这个用来显示扫描信息
-    private ProgressBar progressBar = null;
-    private Button scanFinishButton = null;//这是扫描完成按钮
-    private String currentAbsolute = null;
+    private TextView scanInfoTv;//这个用来显示扫描信息
+    private ProgressBar progressBar;
+    private Button scanFinishButton;//这是扫描完成按钮
+    private String currentAbsolute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +105,18 @@ public class ScanningSongActivity extends BaseActivity {
             //本地数据库帮助类
             SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(ScanningSongActivity.this);
 //            根据所传入的路径读取路径下的所有歌曲
-            List<Song> songInfoList = systemMediaDatabaseUtils.getSongInfoAccordingPath(scanPath);
+            final List<Song> songInfoList = systemMediaDatabaseUtils.getSongInfoAccordingPath(scanPath);
 //            如果没有任何歌曲直接返回
             if(songInfoList==null){
                 return 0;
             }
+            //根据读到的歌曲数，设置进度条最大值
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressBar.setMax(songInfoList.size());
+                }
+            });
 //            循环遍历读取到的所有歌曲
             int insertSongNumber = 0;
             for(Song songInfo:songInfoList){
@@ -118,7 +125,7 @@ public class ScanningSongActivity extends BaseActivity {
 //                如果歌曲添加成功则要更新显示信息来的
                 if(songInfoOpenHelper.insertInLocalMusicTable(songInfo)!=-1){
                     insertSongNumber++;//记录一共添加了几首歌
-                    publishProgress(songInfo.getFileAbsolutePath());//显示所扫描的歌曲路径
+                    publishProgress(songInfo.getFileAbsolutePath(), insertSongNumber+"");//显示所扫描的歌曲路径
 //                    延迟一下才能看到扫描过程
                     try {
                         Thread.sleep(100L);
@@ -138,6 +145,7 @@ public class ScanningSongActivity extends BaseActivity {
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
             scanInfoTv.setText(values[0]);
+            progressBar.setProgress(Integer.parseInt(values[1]));
         }
 
         @Override

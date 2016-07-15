@@ -11,7 +11,7 @@ import java.util.List;
  * Created by JF on 2016/1/29.
  * 根据文件名来进行排序
  */
-public class SortByFileName implements SongInfoListSortable,Comparator<Song> {
+public class SortByFileName implements SongListSortable,Comparator<Song> {
 
     File lhsFile;
     File rhsFile;

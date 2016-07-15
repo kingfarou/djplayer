@@ -7,11 +7,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jf.djplayer.base.basefragment.SongListFragment;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.R;
 
@@ -21,15 +21,26 @@ import com.jf.djplayer.R;
  */
 public class SongInfoDialog extends DialogFragment {
 
-    private View view = null;
+    private View view;
     private int position;
-    private Song songInfo = null;
-    public SongInfoDialog(){}
+    private Song song;
+
+//    @SuppressLint("ValidFragment")
+//    public SongInfoDialog(Song song,int position){
+//        this.song = song;//获取传递来的歌曲信息
+//        this.position = position;
+//    }
 
 
-    public SongInfoDialog(Song songInfo,int position){
-        this.songInfo = songInfo;//获取传递来的歌曲信息
-        this.position = position;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        if(arguments == null){
+            return;
+        }
+        position = arguments.getInt(SongListFragment.KEY_POSITION, SongListFragment.VALUES_DEFAULT_POSITION);
+        song = (Song)arguments.getSerializable(SongListFragment.KEY_SONG);
     }
 
     @NonNull
@@ -43,8 +54,10 @@ public class SongInfoDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        启动编辑歌曲信息那个Dialog
-                        EditSongInfoDialog editSongInfoDialog = new EditSongInfoDialog(songInfo,position);
-                        editSongInfoDialog.show( ((FragmentActivity)getActivity()).getSupportFragmentManager(),"editSongInfoDialog");
+                        EditSongInfoDialog editSongInfoDialog = new EditSongInfoDialog();
+                        editSongInfoDialog.setArguments(getArguments());
+                        editSongInfoDialog.setTargetFragment(getTargetFragment(), SongListFragment.REQUEST_CODE_UPDATE_SONG_FILE_INFO);
+                        editSongInfoDialog.show( getActivity().getSupportFragmentManager(),"EditSongInfoDialog");
                         dialog.dismiss();
                     }
                 })
@@ -57,15 +70,15 @@ public class SongInfoDialog extends DialogFragment {
     return builder.create();
 }
     private void initView(){
-        int minutes = songInfo.getDuration()/1000/60;
-        int second = songInfo.getDuration()/1000%60;
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_song_name)).setText(songInfo.getSongName());
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_singer)).setText(songInfo.getSingerName());
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_album)).setText(songInfo.getAlbum());
+        int minutes = song.getDuration()/1000/60;
+        int second = song.getDuration()/1000%60;
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_song_name)).setText(song.getSongName());
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_singer)).setText(song.getSingerName());
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_album)).setText(song.getAlbum());
         ((TextView)view.findViewById(R.id.tv_dialog_song_info_style)).setText("未知");
         ((TextView)view.findViewById(R.id.tv_dialog_song_info_duration)).setText(minutes/10+minutes%10+":"+second);
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_size)).setText(songInfo.getSize()+"");
-        ((TextView)view.findViewById(R.id.tv_dialog_song_info_absolutePath)).setText(songInfo.getFileAbsolutePath());
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_size)).setText(song.getSize()+"");
+        ((TextView)view.findViewById(R.id.tv_dialog_song_info_absolutePath)).setText(song.getFileAbsolutePath());
 
     }
 

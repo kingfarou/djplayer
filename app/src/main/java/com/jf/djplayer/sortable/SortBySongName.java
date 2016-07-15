@@ -13,7 +13,7 @@ import java.util.Locale;
  * Created by JF on 2016/1/5.
  * 根据歌曲名字进行排序
  */
-public class SortBySongName implements SongInfoListSortable ,Comparator<Song>{
+public class SortBySongName implements SongListSortable,Comparator<Song>{
 
     private Collator collator = Collator.getInstance(Locale.CHINA);
 

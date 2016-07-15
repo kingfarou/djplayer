@@ -1,19 +1,19 @@
 package com.jf.djplayer.dialogfragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.jf.djplayer.base.basefragment.SongListFragment;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.R;
-import com.jf.djplayer.broadcastreceiver.UpdateUiSongInfoReceiver;
 
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
@@ -22,32 +22,45 @@ import com.jf.djplayer.database.SongInfoOpenHelper;
  */
 public class EditSongInfoDialog extends DialogFragment {
 
-    private Song songInfo;
-    private EditText et_song_name;//歌名
-    private EditText et_artist_name;//歌手
-    private EditText et_album;//专辑
-    private EditText et_style;//风格
-    private int position;
+    private Song song;
+    private EditText songNameEt;//歌名
+    private EditText singerEt;//歌手
+    private EditText albumEt;//专辑
+    private EditText styleEt;//风格
+    private int position;//被点击的歌曲在原列表位置
 
     private View view;
 
-    public EditSongInfoDialog(){}
+//    public EditSongInfoDialog(){}
 
-    public EditSongInfoDialog(Song songInfo,int position){
-        this.songInfo = songInfo;
-        this.position = position;
+//    @SuppressLint("ValidFragment")
+//    public EditSongInfoDialog(Song song,int position){
+//        this.song = song;
+//        this.position = position;
+//    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        if(arguments == null){
+            return;
+        }
+        this.position = arguments.getInt(SongListFragment.KEY_POSITION, SongListFragment.VALUES_DEFAULT_POSITION);
+        this.song = (Song)arguments.getSerializable(SongListFragment.KEY_SONG);
     }
 
-//    布局文件里的View做初始化
+    //    布局文件里的View做初始化
     private void initView(){
-        et_song_name = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_songName);
-        et_artist_name = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_artistName);
-        et_album = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_album);
-        et_style = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_style);
-        et_song_name.setText(songInfo.getSongName());
-        et_artist_name.setText(songInfo.getSingerName());
-        et_album.setText(songInfo.getAlbum());
-        et_style.setText("<未知>");
+        songNameEt = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_songName);
+        singerEt = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_artistName);
+        albumEt = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_album);
+        styleEt = (EditText)view.findViewById(R.id.et_dialog_edit_songInfo_style);
+        songNameEt.setText(song.getSongName());
+        singerEt.setText(song.getSingerName());
+        albumEt.setText(song.getAlbum());
+        styleEt.setText("<未知>");
     }
 
     @Override
@@ -60,17 +73,18 @@ public class EditSongInfoDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        将新数据给设置好
-                        songInfo.setSongName(et_song_name.getText().toString());
-                        songInfo.setSingerName(et_artist_name.getText().toString());
-                        songInfo.setAlbum(et_album.getText().toString());
+                        song.setSongName(songNameEt.getText().toString());
+                        song.setSingerName(singerEt.getText().toString());
+                        song.setAlbum(albumEt.getText().toString());
 //                        调用工具类来更新数据库的歌曲信息
                         SongInfoOpenHelper updateOpenHelper = new SongInfoOpenHelper(getActivity());
-                        updateOpenHelper.updateLocalMusicTables(songInfo);
-//                        发送广播通知界面更新数据
-//                        Intent updateSongInfoIntent = new Intent(UpdateUiSongInfoReceiver.UPDATE_SONG_INFO);
-                        Intent updateSongInfoIntent = new Intent(UpdateUiSongInfoReceiver.ACTION_UPDATE_SONG_FILE_INFO);
-                        updateSongInfoIntent.putExtra(UpdateUiSongInfoReceiver.position,position);
-                        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(updateSongInfoIntent);
+                        updateOpenHelper.updateLocalMusicTables(song);
+////                        发送广播通知界面更新数据
+////                        Intent updateSongInfoIntent = new Intent(UpdateUiSongInfoReceiver.UPDATE_SONG_INFO);
+//                        Intent updateSongInfoIntent = new Intent(UpdateUiSongInfoReceiver.ACTION_UPDATE_SONG_FILE_INFO);
+//                        updateSongInfoIntent.putExtra(UpdateUiSongInfoReceiver.position,position);
+//                        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(updateSongInfoIntent);
+                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

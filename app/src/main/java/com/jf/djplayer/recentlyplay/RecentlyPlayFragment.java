@@ -1,12 +1,8 @@
 package com.jf.djplayer.recentlyplay;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
@@ -22,13 +18,6 @@ import java.util.List;
  */
 public class RecentlyPlayFragment extends BaseViewPagerFragment {
 
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        return super.onCreateView(inflater, container, savedInstanceState);
-//    }
-
-
     @Override
     protected void initView(View layoutView) {
         super.initView(layoutView);
@@ -37,14 +26,6 @@ public class RecentlyPlayFragment extends BaseViewPagerFragment {
         setTitleSearchVisibility(View.VISIBLE);
         setTitleMoreVisibility(View.VISIBLE);
     }
-
-//    @Override
-//    protected void initBeforeReturnView() {
-//        setTitleImageResourceId(R.drawable.ic_return);
-//        setTitleText(getResources().getString(R.string.recently_play));
-//        setTitleSearchVisibility(View.VISIBLE);
-//        setTitleMoreVisibility(View.VISIBLE);
-//    }
 
     //返回空表示该容器只有一个页卡，所以就不需要显示页卡
     @Override
@@ -55,11 +36,8 @@ public class RecentlyPlayFragment extends BaseViewPagerFragment {
     @Override
     protected FragmentStatePagerAdapter getViewPagerAdapter() {
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new RecentlyPlayExpandFragment());
-        FragmentViewPagerAdapter fragmentViewPagerAdapter =
-                new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
-//        fragmentViewPagerAdapter.setFragments(fragmentList);
-        return fragmentViewPagerAdapter;
+        fragmentList.add(new RecentlyPlayListFragment());
+        return new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
     }
 
     @Override

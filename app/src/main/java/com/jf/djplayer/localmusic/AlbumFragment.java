@@ -3,18 +3,14 @@ package com.jf.djplayer.localmusic;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
-import com.jf.djplayer.base.baseadapter.BaseListFragmentAdapter;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
@@ -29,7 +25,6 @@ import java.util.Map;
 public class AlbumFragment extends LocalMusicListFragment
                 implements SearchedDataProvider{
 
-//    private List<Map<String,String>> albumList;//数据
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐的请求码
     private ListViewPopupWindows mListViewPopupWindows;
     private View footerView;//"ListView"的"footerView"
@@ -58,7 +53,7 @@ public class AlbumFragment extends LocalMusicListFragment
     }
 
     @Override
-    protected List getData() {
+    protected List<Map<String, String>> getData() {
         dataList = new SongInfoOpenHelper(getActivity()).getValueSongNumber(SongInfoOpenHelper.album);
         int sortBy = getActivity().getPreferences(Context.MODE_PRIVATE).getInt(KEY_ALBUM_SORT_ACCORDING, VALUES_ALBUM_SORT_ACCORDING_NO_THING);
         if(sortBy == VALUES_ALBUM_SORT_ACCORDING_NAME){
@@ -70,8 +65,8 @@ public class AlbumFragment extends LocalMusicListFragment
     }
 
     @Override
-    protected BaseAdapter getListViewAdapter(List dataList) {
-        return new BaseListFragmentAdapter(getActivity(), (List<Map<String,String>>)dataList);
+    protected BaseAdapter getListViewAdapter(List<Map<String, String>> dataList) {
+        return new LocalMusicListAdapter(getActivity(), dataList);
     }
 
     @Override
@@ -99,12 +94,12 @@ public class AlbumFragment extends LocalMusicListFragment
                     case 1:
                         sortAccordingTitle();
                         getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_ALBUM_SORT_ACCORDING, VALUES_ALBUM_SORT_ACCORDING_NAME).commit();
-                        listViewAdapter.notifyDataSetChanged();
+                        baseAdapter.notifyDataSetChanged();
                         break;
                     case 2:
                         sortAccordingContent();
                         getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_ALBUM_SORT_ACCORDING, VALUES_ALBUM_SORT_ACCORDING_SONG_NUMBER).commit();
-                        listViewAdapter.notifyDataSetChanged();
+                        baseAdapter.notifyDataSetChanged();
                         break;
                     default:break;
                 }
@@ -115,12 +110,12 @@ public class AlbumFragment extends LocalMusicListFragment
     }
 
     @Override
-    protected void readDataFinish(List dataList){
+    protected void readDataFinish(List<Map<String, String>> dataList) {
         if(dataList==null) {
             return;
         }
 //        this.dataList = dataList;
-        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"专辑");
+        ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size() + "专辑");
     }
 
     /**
