@@ -59,7 +59,7 @@
 
     <!--BaseExpandFragmentAdapter__基类适配器-->
     <string name="collection">收藏</string>
-    <string name="cancle_collection">取消收藏</string>
+    <string name="cancel_collection">取消收藏</string>
     <string name="delete">删除</string>
     <string name="add">添加</string>
     <string name="set_to_bell">设为铃声</string>
@@ -70,6 +70,13 @@
     <!-- 播放列表_SongPlayListFragment-->
     <string name="no_song_in_play_list">播放列表木有歌曲哦</string>
 
+    <!--音乐扫描-->
+    <string name="scan_setting">扫描设置</string>
+    <string name="filter_by_duration">按时长过滤</string>
+    <string name="scan_finish">扫描完成</string>
+    <string name="filter_by_file_size">按文件大小过滤</string>
+    <string name="scan_all">全盘扫描</string>
+    <string name="custom_scan">自定义扫描</string>
     <!--其他-->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

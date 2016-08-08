@@ -63,7 +63,7 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
         //设置各个功能选项
         TextView collectionTv = (TextView)layoutView.findViewById(R.id.tv_dialog_song_operation_collection);
         if(song.getCollection() == Song.IS_COLLECTION){
-            collectionTv.setText(R.string.cancle_collection);
+            collectionTv.setText(R.string.cancel_collection);
         }
         collectionTv.setOnClickListener(this);
         layoutView.findViewById(R.id.tv_dialog_song_operation_delete).setOnClickListener(this);

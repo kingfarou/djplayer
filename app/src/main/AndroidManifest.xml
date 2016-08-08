@@ -27,15 +27,21 @@
         <activity android:name=".main.MainActivity"/>
         <!-- main模块所用"Activity"__end-->
 
-        <!-- 专门用于显示播放信息用的活动-->
+        <!-- 播放信息-->
         <activity
             android:name=".playinfo.PlayInfoActivity"
             android:launchMode="singleTop">
         </activity>
 
 
-        <!-- 显示扫描过程用的活动-->
+        <!-- 音乐扫描_start-->
+        <!--扫描入口-->
+        <activity android:name=".songscan.ScanSongActivity"/>
+        <!--扫描设置-->
+        <activity android:name=".songscan.ScanSettingActivity"/>
+        <!--扫描过程-->
         <activity android:name=".songscan.ScanningSongActivity"/>
+        <!--音乐扫描_end-->
 
         <!-- 搜索模块"Activity"__start-->
         <activity android:name=".search.SearchActivity"/>

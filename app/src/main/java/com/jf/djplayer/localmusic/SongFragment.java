@@ -22,6 +22,8 @@ import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.SongInfoObserver;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.search.SearchedDataProvider;
+import com.jf.djplayer.songscan.ScanSettingActivity;
+import com.jf.djplayer.songscan.ScanSongActivity;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.sortable.SongListSortable;
 import com.jf.djplayer.sortable.SortBySingerName;
@@ -197,7 +199,9 @@ public class SongFragment extends SongListFragment implements SongInfoObserver,S
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0){
                     //扫描音乐
-                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+                    //position == 0代码暂时作为测试用
+//                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+                    getParentFragment().startActivity(new Intent(getActivity(), ScanSongActivity.class));
                 } else if(position == 1){
                     //按照歌曲名字排序歌曲
                     songListSortable = new SortBySongName();

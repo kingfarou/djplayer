@@ -1,87 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <!--天籁之音，想你所想，听你所听-->
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3">
-        <ImageView
-            android:id="@+id/iv_activity_scanning_song"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_app"
-            android:layout_centerInParent="true"/>
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="天籁之音，想你所想，听你所听"
-            android:layout_marginTop="8dp"
-            android:textSize="24sp"
-            android:layout_below="@id/iv_activity_scanning_song"
-            android:layout_centerHorizontal="true"/>
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="天籁之音，想你所想，听你所听"
+        android:drawableTop="@drawable/ic_app"
+        android:gravity="center"/>
 
-    <!-- 下面那个相对布局-->
-    <RelativeLayout
+    <!-- 屏幕下方所有东西-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
         android:background="@color/sky_blue">
+        <!--左边两个变换图标-->
         <FrameLayout
             android:id="@+id/fl_activity_scanning_song"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
-            <!-- -->
-            <ImageView
-                android:id="@+id/iv_activity_scanning_song_scanning"
+            <!--扫描过程圆圈型进度条-->
+            <ProgressBar
+                android:id="@+id/pb_activity_scanning_song_scanning"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:src="@drawable/icon_scanning"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
             <!-- 扫描完成显示这个图标-->
             <ImageView
                 android:id="@+id/iv_activity_scanning_song_scanFinish"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_gravity="center"
                 android:src="@drawable/icon_tick"/>
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/tv_activity_scanning_song_scanInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/fl_activity_scanning_song"
-            android:layout_toEndOf="@id/fl_activity_scanning_song"
-            android:textSize="16sp"
-            android:padding="16dp"
-            android:textColor="#ffffffff"
-            android:text="已找到歌曲0首"/>
-        <ProgressBar
-            android:id="@+id/pb_activity_scanning_song"
-            style="?android:attr/progressBarStyleHorizontal"
+        <!--右边显示扫描信息用的控件-->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_activity_scanning_song_scanInfo"
-            android:layout_alignStart="@id/tv_activity_scanning_song_scanInfo"
-            android:layout_below="@id/tv_activity_scanning_song_scanInfo"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"/>
+            android:layout_height="match_parent"
+            android:padding="8dp">
+            <TextView
+                android:id="@+id/tv_activity_scanning_song_scanInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="2"
+                android:maxLines="2"
+                android:textSize="16sp"
+                android:textColor="#ffffffff"
+                android:text="已找到歌曲0首"/>
+            <ProgressBar
+                android:id="@+id/pb_activity_scanning_song_song_num"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_below="@id/tv_activity_scanning_song_scanInfo"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/btn_activity_scanning_song_scanFinish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:padding="16dp"
-            android:layout_below="@id/tv_activity_scanning_song_scanInfo"
-            android:layout_centerInParent="true"
-            android:background="@drawable/green_white_press_selector"
-            android:textColor="@color/white"
-            android:text="扫描完成"/>
-    </RelativeLayout>
-</LinearLayout>
+            <Button
+                android:id="@+id/btn_activity_scanning_song_scanFinish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_activity_scanning_song_scanInfo"
+                android:layout_centerHorizontal="true"
+                android:textSize="16sp"
+                android:padding="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/green_white_press_selector"
+                android:textColor="@color/white"
+                android:text="@string/scan_finish"
+                android:visibility="invisible"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</FrameLayout>
