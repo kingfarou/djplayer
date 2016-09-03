@@ -1,7 +1,6 @@
 package com.jf.djplayer.main;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -9,7 +8,7 @@ import android.view.animation.Animation;
 import android.widget.Toast;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.baseactivity.BaseActivity;
+import com.jf.djplayer.base.activity.BaseActivity;
 import com.jf.djplayer.util.FileUtil;
 
 
@@ -31,7 +30,7 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     @Override
-    protected void initExtra() {
+    protected void initOther() {
     }
 
 

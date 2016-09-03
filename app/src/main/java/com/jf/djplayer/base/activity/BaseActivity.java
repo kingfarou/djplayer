@@ -1,4 +1,4 @@
-package com.jf.djplayer.base.baseactivity;
+package com.jf.djplayer.base.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -18,7 +18,7 @@ abstract public class BaseActivity extends FragmentActivity{
         MyApplication.showLog(this.getClass().getSimpleName());
 
         setContentView(getContentViewId());
-        initExtra();
+        initOther();
         initView();
     }
 
@@ -31,10 +31,10 @@ abstract public class BaseActivity extends FragmentActivity{
     /**
      * 在控件初始化之前的其他初始化
      */
-    abstract protected void initExtra();
+    protected void initOther(){}
 
     /**
      * 执行控件相关的初始化
      */
-    abstract protected void initView();
+    protected void initView(){}
 }

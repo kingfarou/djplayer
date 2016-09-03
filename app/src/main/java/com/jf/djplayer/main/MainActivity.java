@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.baseactivity.BaseActivity;
+import com.jf.djplayer.base.activity.BaseActivity;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.interfaces.PlayController;
@@ -26,6 +26,8 @@ public class MainActivity extends BaseActivity
         implements FragmentChanger, PlayController, ServiceConnection{
 
     private FragmentManager fragmentManager;
+
+    //管理后台音乐播放用的服务
     private PlayerService playerService;
 
     @Override
@@ -39,7 +41,7 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    protected void initExtra() {
+    protected void initOther() {
         //通过两个方式启动服务确保解绑之后服务不会关闭
         Intent startService = new Intent(this,PlayerService.class);
         startService(startService);

@@ -1,15 +1,9 @@
 package com.jf.djplayer.main;
 
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.basefragment.BaseFragment;
+import com.jf.djplayer.base.fragment.BaseFragment;
 
 /**
  * Created by jf on 2016/6/7.
@@ -32,7 +26,7 @@ public class DrawerFragment extends BaseFragment implements View.OnClickListener
 //    }
 
     @Override
-    protected void initExtra() {
+    protected void initOther() {
     }
 
     @Override

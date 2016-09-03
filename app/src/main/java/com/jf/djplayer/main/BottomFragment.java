@@ -17,7 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.baseactivity.BaseActivity;
+import com.jf.djplayer.base.activity.BaseActivity;
+import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.module.PlayInfo;
 import com.jf.djplayer.base.MyApplication;
@@ -33,10 +34,10 @@ import java.lang.ref.WeakReference;
  * Created by Administrator on 2015/8/22.
  * 播放控制底边栏
  */
-public class BottomFragment extends Fragment implements PlayInfoObserver,View.OnClickListener{
+public class BottomFragment extends BaseFragment implements PlayInfoObserver,View.OnClickListener{
 
     //view成员变量
-    private View viewLayout;//这是当前Fragment布局文件
+//    private View viewLayout;//这是当前Fragment布局文件
     private ImageView singerPicture;//这个表示歌手图片
     private TextView songNameTv;//歌名
     private TextView songArtistTv;//这个表示歌手名字
@@ -59,12 +60,34 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.viewLayout = inflater.inflate(R.layout.fragment_bottom, container, false);
-        initView();//界面信息的初始化
-        //添加观察者到主题里面
-        playInfoSubject = PlayerOperator.getInstance();
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 
-        return viewLayout;
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_bottom;
+    }
+
+    @Override
+    protected void initView(View layoutView) {
+        //找到布局文件里的控件
+        linearLayout = (LinearLayout)layoutView.findViewById(R.id.ll_fragment_bottom);
+        singerPicture = (ImageView) layoutView.findViewById(R.id.iv_fragment_bottom_singer_picture);
+        progressBar = (ProgressBar)layoutView.findViewById(R.id.pb_fragment_bottom_control);
+        songNameTv = (TextView) layoutView.findViewById(R.id.tv_fragment_bottom_control_songName);
+        songArtistTv = (TextView) layoutView.findViewById(R.id.tv_fragment_bottom_control_artistName);
+        playButton = (ImageButton) layoutView.findViewById(R.id.ib_fragment_bottom_control_play);
+        nextButton = (ImageButton) layoutView.findViewById(R.id.ib_fragment_bottom_control_next);
+        menuButton = (ImageButton) layoutView.findViewById(R.id.ib_fragment_bottom_control_menu);
+        //设置监听以及数据
+        layoutView.findViewById(R.id.ll_fragment_bottom).setOnClickListener(this);
+        playButton.setOnClickListener(this);
+        nextButton.setOnClickListener(this);
+        menuButton.setOnClickListener(this);
+        linearLayout.setOnClickListener(this);
+
+        //添加观察者到主题里面，注意这个操作要在控件都初始化以后
+        playInfoSubject = PlayerOperator.getInstance();
     }
 
     @Override
@@ -73,9 +96,9 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
         playController = (PlayController)activity;
     }
 
-//    不论Fragment新启动的
-//    还是从回退栈里面重新启动
-//    都会回调这个方法
+    /*不论Fragment新启动的
+    还是从回退栈里面重新启动
+    都会回调这个方法*/
     @Override
     public void onStart() {
         super.onStart();
@@ -89,25 +112,6 @@ public class BottomFragment extends Fragment implements PlayInfoObserver,View.On
 //        当用户不再看到界面了执行以下操作
         playInfoSubject.removeObserver(this);//将自己从主题里面移除出去
         continueUpdateUI = false;
-    }
-
-    //    找到控件以及设置相关的监听器
-    private void initView() {
-        //找到布局文件里的控件
-        linearLayout = (LinearLayout)viewLayout.findViewById(R.id.ll_fragment_bottom);
-        singerPicture = (ImageView) viewLayout.findViewById(R.id.iv_fragment_bottom_singer_picture);
-        progressBar = (ProgressBar)viewLayout.findViewById(R.id.pb_fragment_bottom_control);
-        songNameTv = (TextView) viewLayout.findViewById(R.id.tv_fragment_bottom_control_songName);
-        songArtistTv = (TextView) viewLayout.findViewById(R.id.tv_fragment_bottom_control_artistName);
-        playButton = (ImageButton) viewLayout.findViewById(R.id.ib_fragment_bottom_control_play);
-        nextButton = (ImageButton) viewLayout.findViewById(R.id.ib_fragment_bottom_control_next);
-        menuButton = (ImageButton) viewLayout.findViewById(R.id.ib_fragment_bottom_control_menu);
-//        设置监听以及数据
-        viewLayout.findViewById(R.id.ll_fragment_bottom).setOnClickListener(this);
-        playButton.setOnClickListener(this);
-        nextButton.setOnClickListener(this);
-        menuButton.setOnClickListener(this);
-        linearLayout.setOnClickListener(this);
     }
 
     //点击事件回调方法

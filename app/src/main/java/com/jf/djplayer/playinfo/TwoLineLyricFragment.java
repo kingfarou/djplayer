@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
@@ -28,9 +29,9 @@ import java.lang.ref.WeakReference;
  * Created by JF on 2016/2/6.
  * 播放信息-两行歌词显示界面
  */
-public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
+public class TwoLineLyricFragment extends BaseFragment implements PlayInfoObserver{
 
-    private View layoutView;//当前布局的根视图
+//    private View layoutView;//当前布局的根视图
     private Song lastSongInfo;//保存最新歌曲信息
 
     private TextView topLineTv;//这是第一行的歌词
@@ -46,13 +47,38 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        layoutView = inflater.inflate(R.layout.fragment_two_line_lyric, container, false);
+//        layoutView = inflater.inflate(R.layout.fragment_two_line_lyric, container, false);
 //        获取所需要的主体对象
-        playInfoSubject = PlayerOperator.getInstance();
-        viewInit();//对视图进行初始化
-        initHandler();//对Handler做初始化
+//        playInfoSubject = PlayerOperator.getInstance();
+//        viewInit();//对视图进行初始化
+//        initHandler();//对Handler做初始化
+//
+//        return layoutView;
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 
-        return layoutView;
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_two_line_lyric;
+    }
+
+    @Override
+    protected void initOther() {
+        //获取所需要的主题对象
+        playInfoSubject = PlayerOperator.getInstance();
+    }
+
+    @Override
+    protected void initView(View layoutView) {
+        topLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_topLine);
+        bottomLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_bottomLine);
+//        初始化时界面所显示的文字
+        topLineTv.setText(getResources().getString(R.string.good_tone));
+        topLineTv.setGravity(Gravity.CENTER_HORIZONTAL);
+        bottomLineTv.setText(getResources().getString(R.string.app_name));
+        bottomLineTv.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        initHandler();
     }
 
     @Override
@@ -70,16 +96,16 @@ public class TwoLineLyricFragment extends Fragment implements PlayInfoObserver{
     }
 
 
-//    view初始化的
-    private void viewInit(){
-        topLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_topLine);
-        bottomLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_bottomLine);
-//        初始化时界面所显示的文字
-        topLineTv.setText(getResources().getString(R.string.good_tone));
-        topLineTv.setGravity(Gravity.CENTER_HORIZONTAL);
-        bottomLineTv.setText(getResources().getString(R.string.app_name));
-        bottomLineTv.setGravity(Gravity.CENTER_HORIZONTAL);
-    }
+////    view初始化的
+//    private void viewInit(){
+//        topLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_topLine);
+//        bottomLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_bottomLine);
+////        初始化时界面所显示的文字
+//        topLineTv.setText(getResources().getString(R.string.good_tone));
+//        topLineTv.setGravity(Gravity.CENTER_HORIZONTAL);
+//        bottomLineTv.setText(getResources().getString(R.string.app_name));
+//        bottomLineTv.setGravity(Gravity.CENTER_HORIZONTAL);
+//    }
 
     private void initHandler(){
         updateUIHandler = new UpdateUiHandler(this);

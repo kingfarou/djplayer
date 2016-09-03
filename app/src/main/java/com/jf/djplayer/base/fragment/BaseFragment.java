@@ -1,9 +1,8 @@
-package com.jf.djplayer.base.basefragment;
+package com.jf.djplayer.base.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ abstract public class BaseFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        initExtra();
+        initOther();
         layoutView = inflater.inflate(getLayoutId(), container, false);
         initView(layoutView);
         return layoutView;
@@ -36,18 +35,18 @@ abstract public class BaseFragment extends Fragment{
 
     /**
      * 获取要加载的布局文件Id
-     * @return
+     * @return 返回要加载的布局文件id：R.layout.xx
      */
     abstract protected int getLayoutId();
 
     /**
      * 在"View"初始化前的初始化
      */
-    abstract protected void initExtra();
+    protected void initOther(){}
 
     /**
      * 初始化View
       * @param layoutView 在"getLayoutId()"方法里面所返回的Id所对应的View
      */
-    abstract protected void initView(View layoutView);
+    protected void initView(View layoutView){}
 }

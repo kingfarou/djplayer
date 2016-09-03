@@ -4,8 +4,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.MyApplication;
-import com.jf.djplayer.base.baseactivity.BaseActivity;
+import com.jf.djplayer.base.activity.BaseActivity;
 
 /**
  * Created by jf on 2016/8/5.
@@ -27,7 +26,7 @@ public class ScanSettingActivity extends BaseActivity implements SeekBar.OnSeekB
     }
 
     @Override
-    protected void initExtra() {
+    protected void initOther() {
         //读取用户所设置的扫描选项
         ScanOptionHelper scanOptionHelper = new ScanOptionHelper();
         duration = scanOptionHelper.getDuration()/1000;

@@ -1,12 +1,11 @@
 package com.jf.djplayer.songscan;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.MyApplication;
-import com.jf.djplayer.base.baseactivity.BaseActivity;
+import com.jf.djplayer.base.activity.BaseActivity;
 
 /**
  * Created by jf on 2016/8/8.
@@ -20,7 +19,7 @@ public class ScanSongActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    protected void initExtra() {
+    protected void initOther() {
 
     }
 

@@ -1,19 +1,15 @@
 package com.jf.djplayer.playinfo;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,11 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.jf.djplayer.base.baseactivity.BaseActivity;
+import com.jf.djplayer.base.activity.BaseActivity;
+import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.R;
-import com.jf.djplayer.adapter.SongPlayInfoAdapter;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.module.PlayInfo;
@@ -38,15 +34,10 @@ import com.jf.djplayer.playertool.PlayerOperator;
 import com.jf.djplayer.customview.CustomTitles;
 import com.jf.djplayer.playertool.SingerPictureTools;
 import com.viewpagerindicator.CirclePageIndicator;
-import com.viewpagerindicator.LinePageIndicator;
-
-import android.support.v4.app.Fragment;
 
 import java.lang.ref.WeakReference;
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.Preferences;
 
 /**
  * Created by Administrator on 2015/8/4.
@@ -89,10 +80,10 @@ public class PlayInfoActivity extends BaseActivity implements
 
     private static final String KEY_FIRST_START = "keyFirstStart";
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     protected int getContentViewId() {
@@ -100,7 +91,7 @@ public class PlayInfoActivity extends BaseActivity implements
     }
 
     @Override
-    protected void initExtra() {
+    protected void initOther() {
         Intent intent = new Intent(this, PlayerService.class);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
         //获取更新播放信息用的主题
@@ -208,11 +199,11 @@ public class PlayInfoActivity extends BaseActivity implements
 
     private void initViewPager(){
         viewPager = (ViewPager)findViewById(R.id.vp_activity_play_info);
-        List<Fragment> fragmentList = new ArrayList<>();
+        List<BaseFragment> fragmentList = new ArrayList<>();
         fragmentList.add(new PlayListFragment());//添加当前播放列表显示界面
         fragmentList.add(new TwoLineLyricFragment());//添加两行歌词显示界面
         fragmentList.add(new ScrollLyricsFragment());//这是歌词滚屏显示界面
-        viewPager.setAdapter(new SongPlayInfoAdapter(getSupportFragmentManager(), fragmentList));
+        viewPager.setAdapter(new PlayInfoFragmentAdapter(getSupportFragmentManager(), fragmentList));
         circlePageIndicator = (CirclePageIndicator)findViewById(R.id.circle_page_indicator_activity_play_info);
         circlePageIndicator.setViewPager(viewPager);
         circlePageIndicator.setCurrentItem(1);//初始化在第二个页面里

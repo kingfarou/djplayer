@@ -1,16 +1,12 @@
 package com.jf.djplayer.myfavorite;
 import android.app.Activity;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
-import com.jf.djplayer.base.basefragment.BaseViewPagerFragment;
+import com.jf.djplayer.base.fragment.BaseViewPagerFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 
 import com.jf.djplayer.customview.CustomTitles;

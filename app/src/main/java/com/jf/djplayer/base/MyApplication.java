@@ -5,7 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.jf.djplayer.base.baseactivity.BaseActivity;
+import com.jf.djplayer.base.activity.BaseActivity;
 
 /**
  * Created by Administrator on 2015/7/20.

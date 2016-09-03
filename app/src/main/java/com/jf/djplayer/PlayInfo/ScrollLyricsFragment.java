@@ -9,24 +9,25 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.base.fragment.BaseFragment;
 
 /**
  * Created by JF on 2016/2/6.
  * 这是滚动显示歌词页面
  */
-public class ScrollLyricsFragment extends Fragment{
+public class ScrollLyricsFragment extends BaseFragment{
 
-    private View layoutView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        layoutView = inflater.inflate(R.layout.fragment_scroll_lyric,container,false);
-        viewInit();
-        return layoutView;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    private void viewInit(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_scroll_lyric;
     }
+
 }
 
 

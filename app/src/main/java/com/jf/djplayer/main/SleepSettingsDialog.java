@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.MyApplication;
-import com.jf.djplayer.base.baseactivity.BaseActivity;
+import com.jf.djplayer.base.activity.BaseActivity;
 
 /**
  * Created by jf on 2016/6/12.

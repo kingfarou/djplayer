@@ -1,11 +1,10 @@
-package com.jf.djplayer.base.basefragment;
+package com.jf.djplayer.base.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.widget.BaseAdapter;
 
-import com.jf.djplayer.base.baseadapter.SongListFragmentAdapter;
-import com.jf.djplayer.base.basefragment.BaseListFragment;
+import com.jf.djplayer.base.adapter.SongListFragmentAdapter;
 import com.jf.djplayer.module.Song;
 
 import java.util.List;

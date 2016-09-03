@@ -7,7 +7,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.basefragment.BaseListFragment;
+import com.jf.djplayer.base.fragment.BaseListFragment;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
@@ -79,12 +79,6 @@ public class PlayListFragment extends BaseListFragment implements PlayInfoObserv
         //从观察者里面移除
         playInfoSubject.removeObserver(this);
     }
-
-//    @Override
-//    protected void doListViewOnItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        //点击需要播放选中歌曲
-//        ((PlayController)getActivity()).play(playInfoSubject.getPlayInfo().getPlayListName(), playInfoSubject.getPlayInfo().getSongList(), position);
-//    }
 
     @Override
     public void onItemClick(AdapterView parent, View view, int position, long id) {

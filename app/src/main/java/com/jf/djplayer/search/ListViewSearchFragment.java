@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.jf.djplayer.localmusic.LocalMusicListAdapter;
-import com.jf.djplayer.base.basefragment.BaseListFragment;
+import com.jf.djplayer.base.fragment.BaseListFragment;
 
 import java.util.ArrayList;
 import java.util.List;

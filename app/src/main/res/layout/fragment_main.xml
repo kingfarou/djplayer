@@ -55,7 +55,7 @@
 
     </LinearLayout>
 
-    <!-- 这个"RelativeLayout"是中间的那个布局-->
+    <!-- 中间“本地音乐”布局-->
     <LinearLayout
         android:id="@+id/ll_fragment_mine_local_music"
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.jf.djplayer.base.basefragment;
+package com.jf.djplayer.base.fragment;
 
 import android.os.AsyncTask;
 import android.view.View;
@@ -40,7 +40,7 @@ public abstract class BaseListFragment<T> extends BaseFragment
     }
 
     @Override
-    protected void initExtra() {
+    protected void initOther() {
     }
 
     @Override

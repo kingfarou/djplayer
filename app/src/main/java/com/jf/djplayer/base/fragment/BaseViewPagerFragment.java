@@ -1,14 +1,9 @@
-package com.jf.djplayer.base.basefragment;
+package com.jf.djplayer.base.fragment;
 
-import android.graphics.pdf.PdfDocument;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.jf.djplayer.R;
@@ -37,7 +32,7 @@ abstract public class BaseViewPagerFragment extends BaseFragment
     }
 
     @Override
-    protected void initExtra() {
+    protected void initOther() {
     }
 
     @Override

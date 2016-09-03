@@ -8,8 +8,8 @@ import android.view.View;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
-import com.jf.djplayer.base.basefragment.BaseFragment;
-import com.jf.djplayer.base.basefragment.BaseViewPagerFragment;
+import com.jf.djplayer.base.fragment.BaseFragment;
+import com.jf.djplayer.base.fragment.BaseViewPagerFragment;
 import com.jf.djplayer.customview.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.search.SearchActivity;

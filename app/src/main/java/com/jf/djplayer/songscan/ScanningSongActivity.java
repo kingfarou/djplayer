@@ -10,8 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-import com.jf.djplayer.base.MyApplication;
-import com.jf.djplayer.base.baseactivity.BaseActivity;
+import com.jf.djplayer.base.activity.BaseActivity;
 import com.jf.djplayer.R;
 
 
@@ -48,7 +47,7 @@ public class ScanningSongActivity extends BaseActivity {
     }
 
     @Override
-    protected void initExtra() {
+    protected void initOther() {
     }
 
     @Override

@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.jf.djplayer.base.basefragment.SongListFragment;
+import com.jf.djplayer.base.fragment.SongListFragment;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.R;
 
