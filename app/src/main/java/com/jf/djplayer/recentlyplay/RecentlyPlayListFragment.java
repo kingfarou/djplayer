@@ -13,6 +13,7 @@ import com.jf.djplayer.base.fragment.SongListFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.module.Song;
+import com.jf.djplayer.util.ToastUtil;
 
 import java.util.List;
 
@@ -63,12 +64,14 @@ public class RecentlyPlayListFragment extends SongListFragment{
 
     @Override
     protected void onCollectionSong(int position) {
-        MyApplication.showToast((BaseActivity) getActivity(), "收藏成功");
+//        MyApplication.showToast((BaseActivity) getActivity(), "收藏成功");
+        ToastUtil.showShortToast(getActivity(), "收藏成功");
     }
 
     @Override
     protected void onCancelCollectionSong(int position) {
-        MyApplication.showToast((BaseActivity) getActivity(), "取消收藏");
+//        MyApplication.showToast((BaseActivity) getActivity(), "取消收藏");
+        ToastUtil.showShortToast(getActivity(), "取消收藏");
     }
 
     @Override
@@ -78,7 +81,8 @@ public class RecentlyPlayListFragment extends SongListFragment{
         }
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"首歌");
         baseAdapter.notifyDataSetChanged();
-        MyApplication.showToast((BaseActivity) getActivity(), "删除成功");
+//        MyApplication.showToast((BaseActivity) getActivity(), "删除成功");
+        ToastUtil.showShortToast(getActivity(), "取消收藏");
     }
 
     @Override

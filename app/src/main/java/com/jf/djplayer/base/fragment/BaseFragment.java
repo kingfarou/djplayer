@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jf.djplayer.base.MyApplication;
+import com.jf.djplayer.util.LogUtil;
 
 /**
  * Created by JF on 2016/4/10.
@@ -21,7 +22,8 @@ abstract public class BaseFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //打印当前在哪一个Fragment，方便调试
-        MyApplication.showLog(this.getClass().getSimpleName());
+//        MyApplication.showLog(this.getClass().getSimpleName());
+        LogUtil.info(getClass().getSimpleName());
     }
 
     @Nullable

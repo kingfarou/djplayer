@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,7 @@ import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.playertool.PlayerOperator;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
+import com.jf.djplayer.util.ToastUtil;
 
 import java.lang.ref.WeakReference;
 
@@ -129,7 +129,8 @@ public class BottomFragment extends BaseFragment implements PlayInfoObserver,Vie
         if(id == R.id.ib_fragment_bottom_control_play){
             playInfo = playInfoSubject.getPlayInfo();
             if(playInfo == null){
-                MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
+//                MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
+                ToastUtil.showShortToast(getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
                 return;
             }
             if(playInfo.isPlaying()){
@@ -142,7 +143,8 @@ public class BottomFragment extends BaseFragment implements PlayInfoObserver,Vie
         //如果点击下一曲的按钮
         if(id == R.id.ib_fragment_bottom_control_next){
             if(playInfo == null){
-                MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
+//                MyApplication.showToast((BaseActivity) getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
+                ToastUtil.showShortToast(getActivity(), "还没选中任何一首歌曲，快去本地音乐列表里选取吧");
                 return;
             }
             playController.nextSong();

@@ -16,6 +16,7 @@ import com.jf.djplayer.base.fragment.SongListFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.module.Song;
+import com.jf.djplayer.util.ToastUtil;
 
 import java.util.List;
 
@@ -82,7 +83,8 @@ public class MyFavoriteListFragment extends SongListFragment{
         dataList.remove(position);
         baseAdapter.notifyDataSetChanged();
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size() + "首歌");
-        MyApplication.showToast((BaseActivity) getActivity(), "取消收藏");
+//        MyApplication.showToast((BaseActivity) getActivity(), "取消收藏");
+        ToastUtil.showShortToast(getActivity(), "取消收藏");
     }
 
     //如果用户删除歌曲
@@ -91,7 +93,8 @@ public class MyFavoriteListFragment extends SongListFragment{
         dataList.remove(position);
         baseAdapter.notifyDataSetChanged();
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size() + "首歌");
-        MyApplication.showToast((BaseActivity)getActivity(), "删除成功");
+//        MyApplication.showToast((BaseActivity)getActivity(), "删除成功");
+        ToastUtil.showShortToast(getActivity(), "删除成功");
     }
 
     //如果用户修改歌曲信息

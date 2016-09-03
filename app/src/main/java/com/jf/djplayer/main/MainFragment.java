@@ -14,6 +14,7 @@ import com.jf.djplayer.R;
 
 import com.jf.djplayer.localmusic.LocalMusicFragment;
 import com.jf.djplayer.recentlyplay.RecentlyPlayFragment;
+import com.jf.djplayer.util.ToastUtil;
 
 /**
  * 主界面-MainFragment
@@ -62,11 +63,13 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                 break;
             //我的下载
             case R.id.btn_fragment_main_my_down:
-                MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
+//                MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
+                ToastUtil.showShortToast(getActivity(), "该功能还未实现");
                 break;
             //我的歌单
             case R.id.btn_fragment_mine_song_menu:
-                MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
+//                MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
+                ToastUtil.showShortToast(getActivity(), "该功能还未实现");
                 break;
             //最近播放
             case R.id.btn_fragment_mine_recently_play:
@@ -74,7 +77,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                 break;
             //随机播放(界面上的那个塞子）
             case R.id.imgBtn_fragment_mine_dice:
-                MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
+//                MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
+                ToastUtil.showShortToast(getActivity(), "该功能还未实现");
                 break;
         }
     }

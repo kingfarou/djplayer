@@ -27,6 +27,7 @@ import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.sortable.SongListSortable;
 import com.jf.djplayer.sortable.SortBySingerName;
 import com.jf.djplayer.sortable.SortBySongName;
+import com.jf.djplayer.util.ToastUtil;
 
 import java.util.List;
 
@@ -128,12 +129,14 @@ public class SongFragment extends SongListFragment implements SongInfoObserver,S
         String action = updateIntent.getAction();
         //如果用户添加收藏
         if(action.equals(UpdateUiSongInfoReceiver.ACTION_COLLECTION_SONG)){
-            MyApplication.showToast((BaseActivity)getActivity(), "收藏成功");
+//            MyApplication.showToast((BaseActivity)getActivity(), "收藏成功");
+            ToastUtil.showShortToast(getActivity(), "收藏成功");
             return;
         }
         //如果用户取消收藏
         if(action.equals(UpdateUiSongInfoReceiver.ACTION_CANCEL_COLLECTION_SONG)){
-            MyApplication.showToast((BaseActivity)getActivity(), "取消收藏");
+//            MyApplication.showToast((BaseActivity)getActivity(), "取消收藏");
+            ToastUtil.showShortToast(getActivity(), "取消收藏");
             return;
         }
         //如果用户删除歌曲
@@ -141,19 +144,21 @@ public class SongFragment extends SongListFragment implements SongInfoObserver,S
             dataList.remove(position);//将歌曲从集合里面移除
             //更新底部所显示的歌曲数量
             ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"首歌");
-            baseAdapter.notifyDataSetChanged();//让"ExpandableListView"刷新数据
+            baseAdapter.notifyDataSetChanged();//让"ListView"刷新数据
         }
     }
     /*"SongInfoObserver"方法实现_end*/
 
     @Override
     protected void onCollectionSong(int position) {
-        MyApplication.showToast((BaseActivity) getActivity(), "收藏成功");
+//        MyApplication.showToast((BaseActivity) getActivity(), "收藏成功");
+        ToastUtil.showShortToast(getActivity(), "收藏成功");
     }
 
     @Override
     protected void onCancelCollectionSong(int position) {
-        MyApplication.showToast((BaseActivity) getActivity(), "取消收藏");
+//        MyApplication.showToast((BaseActivity) getActivity(), "取消收藏");
+        ToastUtil.showShortToast(getActivity(), "取消收藏");
     }
 
     @Override
@@ -163,7 +168,8 @@ public class SongFragment extends SongListFragment implements SongInfoObserver,S
         }
         ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(dataList.size()+"首歌");
         baseAdapter.notifyDataSetChanged();
-        MyApplication.showToast((BaseActivity) getActivity(), "删除成功");
+//        MyApplication.showToast((BaseActivity) getActivity(), "删除成功");
+        ToastUtil.showShortToast(getActivity(), "删除成功");
     }
 
     @Override
@@ -215,10 +221,12 @@ public class SongFragment extends SongListFragment implements SongInfoObserver,S
                     baseAdapter.notifyDataSetChanged();
                 }else if(position == 3){
                     //按照添加时间排序歌曲
-                    MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
+//                    MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
+                    ToastUtil.showShortToast(getActivity(), "该功能还未实现");
                 }else if(position == 4){
                     //歌曲进行批量管理
-                    MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
+//                    MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
+                    ToastUtil.showShortToast(getActivity(), "该功能还未实现");
                 }
                 listPopupWindow.dismiss();
 //                switch (position) {

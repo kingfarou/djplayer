@@ -16,6 +16,7 @@ import com.jf.djplayer.base.activity.BaseActivity;
 import com.jf.djplayer.base.fragment.SongListFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.module.Song;
+import com.jf.djplayer.util.ToastUtil;
 
 /**
  * Created by jf on 2016/7/13.
@@ -112,19 +113,22 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
         }
         //如果点击添加按钮
         if(id == R.id.tv_dialog_song_operation_add){
-            MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
+//            MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
+            ToastUtil.showShortToast(getActivity(), "该功能还未实现");
             dismiss();
             return;
         }
         //如果需要设置歌曲作为铃声
         if(id == R.id.tv_dialog_song_operation_set_to_bell){
-            MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
+//            MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
+            ToastUtil.showShortToast(getActivity(), "该功能还未实现");
             dismiss();
             return;
         }
         //如果需要发送歌曲
         if(id == R.id.tv_dialog_song_operation_send){
-            MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
+//            MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
+            ToastUtil.showShortToast(getActivity(), "该功能还未实现");
             dismiss();
             return;
         }

@@ -12,6 +12,8 @@ import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.module.PlayInfo;
 import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
+import com.jf.djplayer.util.LogUtil;
+import com.jf.djplayer.util.ToastUtil;
 import com.jf.djplayer.util.UserOptionPreferences;
 
 import java.io.File;
@@ -66,7 +68,8 @@ public class PlayerOperator implements
             synchronized (PlayerOperator.class){
                 if(playerOperator==null) {
                     playerOperator = new PlayerOperator();
-                    MyApplication.showLog("创建单例");
+//                    MyApplication.showLog("创建单例");
+                    LogUtil.info("创建PlayerOperator单例");
                 }
             }
         }
@@ -82,7 +85,8 @@ public class PlayerOperator implements
     public void play(String playListName, List<Song> songList, int playPosition){
         //如果输入参数不对
         if(songList == null || playPosition<0 || playPosition>=songList.size()){
-            MyApplication.showLog("所选择的播放列表为空，或者位置不正确");
+//            MyApplication.showLog("所选择的播放列表为空，或者位置不正确");
+            LogUtil.info("所选择的播放列表为空，或者位置不正确");
             return;
         }
         //如果原来没有播放任何歌曲
@@ -96,8 +100,10 @@ public class PlayerOperator implements
                 mMediaPlayer.setDataSource(playFile.getAbsolutePath());
                 mMediaPlayer.prepareAsync();
             }catch (IOException e){
-                MyApplication.showLog("异常--"+e.toString()+"-位置-"+"playerOperator.play(List, int)方法");
-                Toast.makeText(mContext, "所点击的歌曲文件有误", Toast.LENGTH_SHORT).show();
+//                MyApplication.showLog("异常--"+e.toString()+"-位置-"+"playerOperator.play(List, int)方法");
+//                Toast.makeText(mContext, "所点击的歌曲文件有误", Toast.LENGTH_SHORT).show();
+                LogUtil.info("异常--\"+e.toString()+\"-位置-\"+\"playerOperator.play(List, int)方法");
+                ToastUtil.showShortToast(mContext, "说点击的歌曲文件有误");
             }
             return;
         }
@@ -191,7 +197,8 @@ public class PlayerOperator implements
         //在释放掉当前对象
         if(playerOperator!=null) {
             playerOperator = null;
-            MyApplication.showLog("销毁单例");
+//            MyApplication.showLog("销毁单例");
+            LogUtil.info("销毁单例");
         }
     }
 
@@ -369,24 +376,28 @@ public class PlayerOperator implements
             return;
         }
         if(focusChange==AudioManager.AUDIOFOCUS_GAIN){
-            MyApplication.showLog("重新获取音频焦点");
+//            MyApplication.showLog("重新获取音频焦点");
+            LogUtil.info("重新获取音频焦点");
             if (!mMediaPlayer.isPlaying() && PlayerOperator.this.canPlay) {
                 play();
             }
         }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS){
-            MyApplication.showLog("长期失去音频焦点");
+//            MyApplication.showLog("长期失去音频焦点");
+            LogUtil.info("长期失去音频焦点");
             //这里绝对不能调用"over()"方法，不然的话整个单例都会出现问题
             //over();
         }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT){
             //暂时失去音频焦点
             //很可能在短时间内获得
-//                比如接听一个打进来的电话
-            MyApplication.showLog("暂时失去音频焦点");
+            //比如接听一个打进来的电话
+//            MyApplication.showLog("暂时失去音频焦点");
+            LogUtil.info("暂时失去音频焦点");
             if (mMediaPlayer.isPlaying()) {
                 PlayerOperator.this.pause();
             }
         }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK){
-            MyApplication.showLog("暂时失去音频焦点允许小声播放");
+//            MyApplication.showLog("暂时失去音频焦点允许小声播放");
+            LogUtil.info("暂时失去音频焦点允许小声播放");
             if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.setVolume(0.1f, 0.1f);//降低当前音量大小
 //                    一秒钟后设置回去
