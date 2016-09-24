@@ -137,6 +137,9 @@ public class MainActivity extends BaseActivity
     }
     /*"ServiceConnection"方法覆盖_end*/
 
+    /**
+     * 退出App
+     */
     public void exitApp() {
         playerService.stopSelf();
         finish();
