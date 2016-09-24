@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/icon_activity_scan_setting_scan"/>
     <!--全盘扫描的按钮-->
     <Button
         android:id="@+id/btn_activity_scan_song_scan_all"
@@ -11,13 +17,14 @@
         android:text="@string/scan_all"
         android:layout_margin="8dp"/>
 
-    <!--自定义扫描的按钮-->
+    <!--自定义扫描的按钮，路径选择功能还未实现，该按钮暂时隐藏-->
     <Button
         android:id="@+id/btn_activity_scan_song_custom_scan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/custom_scan"
-        android:layout_margin="8dp"/>
+        android:layout_margin="8dp"
+        android:visibility="invisible"/>
 
     <!--这是扫描设置按钮-->
     <TextView

@@ -41,14 +41,13 @@ public class SongFragment extends SongListFragment implements SearchedDataProvid
     private static final int VALUES_SONG_SORT_BY_SINGER_NAME = 1<<2;//按照歌手名称排序
     private static final int VALUES_SONG_SORT_BY_ADD_TIME = 1<<3;//按照添加时间排序
 
-    //启动其他"Activity"的请求码
+    //请求码
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐
-//    public static final int REQUEST_CODE_DELETE_SONG = 1<<1;//删除歌曲
 
     //其他变量
-    private PlayController playController;//当点击了歌曲列表，通过该变量来控制音乐播放
-    private View footerView;//显示列表里面有多少条歌曲
-    private SongListSortable songListSortable;//对列表歌曲进行排序的工具
+    private PlayController playController;      //当点击了歌曲列表，通过该变量来控制音乐播放
+    private View footerView;                    //显示列表里面有多少条歌曲
+    private SongListSortable songListSortable;  //对列表歌曲进行排序的工具
 
     /*获取列表数据相关代码__start*/
     @Override
@@ -173,7 +172,7 @@ public class SongFragment extends SongListFragment implements SearchedDataProvid
                     //扫描音乐
                     //position == 0代码暂时作为测试用
 //                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
-                    getParentFragment().startActivity(new Intent(getActivity(), ScanSongActivity.class));
+                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
                 } else if(position == 1){
                     //按照歌曲名字排序歌曲
                     songListSortable = new SortBySongName();

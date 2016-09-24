@@ -3,25 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" android:padding="8dp">
 
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="start"/>-->
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="right"/>-->
-    <!--</FrameLayout>-->
-
     <!--按时长过滤的设置__start-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:text="@string/filter_by_duration"/>
+
     <!--动态的提示文字-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,29 +32,28 @@
     </LinearLayout>
 
     <!--可选择的过滤时长从0-120-->
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:orientation="horizontal"
         android:gravity="center_vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
             android:text="0"/>
         <SeekBar
             android:id="@+id/seek_bar_activity_scan_setting_duration"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:max="120"
             android:layout_margin="8dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
             android:text="120"/>
-    </FrameLayout>
+    </LinearLayout>
     <!--按时长过滤的设置__end-->
 
     <!--按文件大小过滤的设置__start-->
@@ -97,19 +84,20 @@
     </LinearLayout>
 
     <!--可选择的文件大小从0-1M-->
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:orientation="horizontal"
         android:gravity="center_vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
             android:text="0"/>
         <SeekBar
             android:id="@+id/seek_bar_activity_scan_setting_size"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:max="1024"
@@ -117,8 +105,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
             android:text="1M"/>
-    </FrameLayout>
+    </LinearLayout>
     <!--按文件大小过滤的设置__end-->
+
+    <Button
+        android:id="@+id/btn_activity_scan_setting_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/confirm"/>
 </LinearLayout>

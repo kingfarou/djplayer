@@ -49,10 +49,11 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
         }
     }
 
-    @Override
-    protected ViewPager.PageTransformer getViewPagerTransformer() {
-        return new LocalMusicPageTransformer();
-    }
+    //ViewPager过场动画视觉效果不太好，暂停使用
+//    @Override
+//    protected ViewPager.PageTransformer getViewPagerTransformer() {
+//        return new LocalMusicPageTransformer();
+//    }
 
     @Override
     protected FragmentStatePagerAdapter getViewPagerAdapter() {
