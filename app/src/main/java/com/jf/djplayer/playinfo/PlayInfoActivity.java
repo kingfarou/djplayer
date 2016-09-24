@@ -31,7 +31,7 @@ import com.jf.djplayer.util.UserOptionPreferences;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.playertool.PlayerOperator;
 
-import com.jf.djplayer.customview.CustomTitles;
+import com.jf.djplayer.view.TitleBar;
 import com.jf.djplayer.playertool.SingerPictureTools;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class PlayInfoActivity extends BaseActivity implements
         ServiceConnection ,SeekBar.OnSeekBarChangeListener,PlayInfoObserver,
-        CustomTitles.FragmentTitleListener,View.OnClickListener,PlayController{
+        TitleBar.OnTitleClickListener,View.OnClickListener,PlayController{
 
     //布局文件的根布局，用来显示歌手图片
     private LinearLayout ll_root_view;
@@ -235,22 +235,11 @@ public class PlayInfoActivity extends BaseActivity implements
     }
     /*"ServiceConnection"方法实现_结束*/
 
-    /*"FragmentTitleListener"方法实现_开始*/
-//    里面几个监听方法覆盖
+    /*标题按钮点击事件回调方法*/
     @Override
-    public void onTitleClick() {
+    public void onTitleClick(View titleView) {
         finish();//如果标题被按下了结束活动
     }
-
-    @Override
-    public void onSearchIvOnclick() {
-    }
-
-    @Override
-    public void onMoreIvOnclick() {
-    }
-    /*"FragmentTitleListener"方法实现_结束*/
-
 
     //点击事件监听方法
     @Override

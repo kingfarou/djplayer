@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.jf.djplayer.search.SearchedDataProvider;
 import com.jf.djplayer.songscan.ScanningSongActivity;
-import com.jf.djplayer.customview.ListViewPopupWindows;
+import com.jf.djplayer.view.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 

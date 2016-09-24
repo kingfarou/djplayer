@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.activity.BaseActivity;
-import com.jf.djplayer.customview.CustomTitles;
+import com.jf.djplayer.view.TitleBar;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ import java.util.List;
  * 搜索列表样式只有两类，分别对应"ExpandableListView"列表以及"ListView"列表
  */
 public class SearchActivity extends BaseActivity
-        implements CustomTitles.FragmentTitleListener, TextWatcher,
+        implements TitleBar.OnTitleClickListener, TextWatcher,
         SearchedDataProvider {
 
-    private CustomTitles customTitles;//标题
+    private TitleBar titleBar;//标题
     private EditText searchKeywordEt;//用户输入搜索内容
     private SearcherFragment searcherFragment;//搜索用的"Fragment"
 
@@ -51,20 +51,15 @@ public class SearchActivity extends BaseActivity
         fragmentInit();
     }
 
-    @Override
-    protected void initOther() {
-
-    }
-
     //对标题栏做初始化
     private void fragmentTitleInit(){
-        customTitles = (CustomTitles)findViewById(R.id.fragment_title_layout_activity_search);
-        customTitles.setTitleIcon(R.drawable.ic_return);
-        customTitles.setSearchVisibility(View.GONE);//设置标题栏“搜索”按钮不可见
-        customTitles.setMenuVisibility(View.GONE);//设置标题栏“菜单”按钮不可见
-        customTitles.setTitleText("查找");
+        titleBar = (TitleBar)findViewById(R.id.fragment_title_layout_activity_search);
+        titleBar.setTitleIcon(R.drawable.ic_return);
+        titleBar.setSearchVisibility(View.GONE);//设置标题栏“搜索”按钮不可见
+        titleBar.setMenuVisibility(View.GONE);//设置标题栏“菜单”按钮不可见
+        titleBar.setTitleText("查找");
         //给标题栏里的按钮设置监听
-        customTitles.setTitleClickListener(this);
+        titleBar.setOnTitleClickListener(this);
     }
 
     //用户输入框初始化
@@ -129,17 +124,7 @@ public class SearchActivity extends BaseActivity
     }
 
     @Override
-    public void onTitleClick() {
+    public void onTitleClick(View titleView) {
         finish();
-    }
-
-    @Override
-    public void onSearchIvOnclick() {
-        //搜索按钮没有显示，所以这里不用做任何事
-    }
-
-    @Override
-    public void onMoreIvOnclick() {
-        //“更多”按钮没有显示所以这里不用做任何事
     }
 }

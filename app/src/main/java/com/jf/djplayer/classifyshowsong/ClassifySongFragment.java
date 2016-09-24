@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
-import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
+import com.jf.djplayer.adapter.BaseFragmentStatePagerAdapter;
 import com.jf.djplayer.base.fragment.BaseViewPagerFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 
@@ -26,9 +26,9 @@ public class ClassifySongFragment extends BaseViewPagerFragment {
     protected void initView(View layoutView) {
         super.initView(layoutView);
         //搜索按钮菜单按钮设置可见
-        mCustomTitles.setSearchVisibility(View.VISIBLE);
-        mCustomTitles.setMenuVisibility(View.VISIBLE);
-        mCustomTitles.setTitleText(getArguments().getString((COLUMN_VALUES), "分类显示"));
+        titleBar.setSearchVisibility(View.VISIBLE);
+        titleBar.setMenuVisibility(View.VISIBLE);
+        titleBar.setTitleText(getArguments().getString((COLUMN_VALUES), "分类显示"));
     }
 
     @Override
@@ -47,12 +47,12 @@ public class ClassifySongFragment extends BaseViewPagerFragment {
         //初始化集合以及适配器
         List<Fragment> fragmentList = new ArrayList<>(1);
         fragmentList.add(fragment);
-        mFragmentStatePagerAdapter = new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
+        mFragmentStatePagerAdapter = new BaseFragmentStatePagerAdapter(getChildFragmentManager(), fragmentList);
         return mFragmentStatePagerAdapter;
     }
 
     @Override
-    public void onTitleClick() {
+    public void onTitleClick(View titleView) {
         ((FragmentChanger)getActivity()).popFragments();
     }
 }

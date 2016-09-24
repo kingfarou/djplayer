@@ -7,10 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
+import com.jf.djplayer.adapter.BaseFragmentStatePagerAdapter;
 import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.base.fragment.BaseViewPagerFragment;
-import com.jf.djplayer.customview.ListViewPopupWindows;
+import com.jf.djplayer.view.ListViewPopupWindows;
 import com.jf.djplayer.interfaces.FragmentChanger;
 import com.jf.djplayer.search.SearchActivity;
 import com.jf.djplayer.search.SearchedDataProvider;
@@ -41,7 +41,7 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        for (Fragment fragment : ((FragmentViewPagerAdapter)mFragmentStatePagerAdapter).getFragmentList()) {
+        for (Fragment fragment : ((BaseFragmentStatePagerAdapter)mFragmentStatePagerAdapter).getFragmentList()) {
             //可见的"Fragment"才去调用"onActivityResult()"不可见的调用了会出错
             if(fragment.isVisible()){
                 fragment.onActivityResult(requestCode, resultCode, data);
@@ -61,7 +61,7 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
         fragmentList.add(new SingerFragment());
         fragmentList.add(new AlbumFragment());
         fragmentList.add(new FolderFragment());
-        return new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
+        return new BaseFragmentStatePagerAdapter(getChildFragmentManager(), fragmentList);
     }
 
     //返回"tabs"个个页卡所对应的标题名字
@@ -73,17 +73,16 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
                 getResources().getString(R.string.folder)};
     }
 
-    /*"FragmentTitleListener"方法覆盖_start*/
-    //如果标题栏的标题按钮被按下了
+    //标题点击回调方法
     @Override
-    public void onTitleClick() {
+    public void onTitleClick(View titleView) {
         ((FragmentChanger) getActivity()).popFragments();
     }
 
-    //如果标题栏的搜索按钮被按下了
+    //搜索按钮点击回调方法
     @Override
-    public void onSearchIvOnclick() {
-        //待搜索的数据集合
+    public void onSearchClick(View searchView) {
+    //待搜索的数据集合
         Fragment fragment = getViewPagerCurrentPage();
 //        Fragment fragment = (Fragment) mFragmentStatePagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
         List searchedList = ((SearchedDataProvider)fragment).returnSearchedDataList();
@@ -120,28 +119,29 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
         startActivity(searchIntent);
     }
 
-    //标题栏的"更多按钮"被按下了
+    //菜单按钮点击回调方法
     @Override
-    public void onMoreIvOnclick() {
+    public void onMenuClick(View menuView) {
         ListViewPopupWindows listViewPopupWindows = null;
-        BaseFragment fragment = (BaseFragment)mFragmentStatePagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
-        switch (mViewPager.getCurrentItem()) {
+        BaseFragment fragment = (BaseFragment) mFragmentStatePagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+        int currentItem = mViewPager.getCurrentItem();
+        switch (currentItem) {
             case 0:
-                listViewPopupWindows = ((SongFragment)fragment).getListViewPopupWindow();
+                listViewPopupWindows = ((SongFragment) fragment).getListViewPopupWindow();
                 break;
             case 1:
-                listViewPopupWindows = ((SingerFragment)fragment).getListViewPopupWindow();
+                listViewPopupWindows = ((SingerFragment) fragment).getListViewPopupWindow();
                 break;
             case 2:
-                listViewPopupWindows = ((AlbumFragment)fragment).getListViewPopupWindow();
+                listViewPopupWindows = ((AlbumFragment) fragment).getListViewPopupWindow();
                 break;
             case 3:
-                listViewPopupWindows = ((FolderFragment)fragment).getListViewPopupWindow();
+                listViewPopupWindows = ((FolderFragment) fragment).getListViewPopupWindow();
                 break;
             default:
                 break;
         }
-        listViewPopupWindows.showAsDropDown(mCustomTitles, windowWidths - listViewPopupWindows.getWidth(), 0);
+        listViewPopupWindows.showAsDropDown(titleBar, windowWidths - listViewPopupWindows.getWidth(), 0);
     }
     /*"FragmentTitleListener"方法覆盖_end*/
 }

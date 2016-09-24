@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.MyApplication;
-import com.jf.djplayer.base.activity.BaseActivity;
 import com.jf.djplayer.base.fragment.SongListFragment;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.module.Song;
@@ -29,10 +28,12 @@ import com.jf.djplayer.util.ToastUtil;
  */
 public class SongOperationDialog extends DialogFragment implements View.OnClickListener{
 
-    private int position;//被点击的歌曲位置
-    private Song song;//被点击的歌曲信息
+    private int position;       //被点击的歌曲位置
+    private Song song;          //被点击的歌曲信息
 
+    /**键，表示被点击的歌曲位置*/
     public static final String KEY_POSITION = "position";
+    /**键，被点击的歌曲对象*/
     public static final String KEY_SONG = "song";
 
     @Override
@@ -80,17 +81,30 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
         //如果点击收藏歌曲
         if(id == R.id.tv_dialog_song_operation_collection){
             //如果歌曲原来已经收藏，取消收藏，否则的话添加收藏
+//            if(song.getCollection() == Song.IS_COLLECTION){
+//                new SongInfoOpenHelper(MyApplication.getContext()).updateCollection(song,Song.NOT_COLLECTION);
+//                song.setCollection(Song.NOT_COLLECTION);
+//                if(getTargetFragment() != null){
+//                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
+//                }
+//            }else{
+//                new SongInfoOpenHelper(MyApplication.getContext()).updateCollection(song,Song.IS_COLLECTION);
+//                song.setCollection(Song.IS_COLLECTION);
+//                if(getTargetFragment() != null){
+//                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
+//                }
+//            }
             if(song.getCollection() == Song.IS_COLLECTION){
                 new SongInfoOpenHelper(MyApplication.getContext()).updateCollection(song,Song.NOT_COLLECTION);
                 song.setCollection(Song.NOT_COLLECTION);
                 if(getTargetFragment() != null){
-                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
+                    getTargetFragment().onActivityResult(SongListFragment.REQUEST_CODE_CANCEL_COLLECTION_SONG, Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
                 }
             }else{
                 new SongInfoOpenHelper(MyApplication.getContext()).updateCollection(song,Song.IS_COLLECTION);
                 song.setCollection(Song.IS_COLLECTION);
                 if(getTargetFragment() != null){
-                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
+                    getTargetFragment().onActivityResult(SongListFragment.REQUEST_CODE_COLLECTION_SONG, Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
                 }
             }
             dismiss();
@@ -113,14 +127,12 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
         }
         //如果点击添加按钮
         if(id == R.id.tv_dialog_song_operation_add){
-//            MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
             ToastUtil.showShortToast(getActivity(), "该功能还未实现");
             dismiss();
             return;
         }
         //如果需要设置歌曲作为铃声
         if(id == R.id.tv_dialog_song_operation_set_to_bell){
-//            MyApplication.showToast((BaseActivity)getActivity(), "该功能还未实现");
             ToastUtil.showShortToast(getActivity(), "该功能还未实现");
             dismiss();
             return;
@@ -135,7 +147,7 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
         if(id == R.id.tv_dialog_song_operation_information){
             SongInfoDialog songInfoDialog = new SongInfoDialog();
             songInfoDialog.setArguments(arguments);
-            songInfoDialog.setTargetFragment(getTargetFragment(), SongListFragment.REQUEST_CODE_UPDATE_SONG_FILE_INFO);
+            songInfoDialog.setTargetFragment(getTargetFragment(), SongListFragment.REQUEST_CODE_EDIT_SONG_INFO);
             songInfoDialog.show(getTargetFragment().getChildFragmentManager(), "songOperationDialog");
             dismiss();
         }

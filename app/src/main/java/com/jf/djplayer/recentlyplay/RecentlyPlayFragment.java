@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
+import com.jf.djplayer.adapter.BaseFragmentStatePagerAdapter;
 import com.jf.djplayer.base.fragment.BaseViewPagerFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
 
@@ -37,12 +37,11 @@ public class RecentlyPlayFragment extends BaseViewPagerFragment {
     protected FragmentStatePagerAdapter getViewPagerAdapter() {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new RecentlyPlayListFragment());
-        return new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
+        return new BaseFragmentStatePagerAdapter(getChildFragmentManager(), fragmentList);
     }
 
     @Override
-    public void onTitleClick() {
-        super.onTitleClick();
+    public void onTitleClick(View titleView) {
         ((FragmentChanger)getActivity()).popFragments();
     }
 }

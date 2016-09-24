@@ -16,9 +16,8 @@ abstract public class BaseActivity extends FragmentActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //打印当前Activity名字，方便调试
-//        MyApplication.showLog(this.getClass().getSimpleName());
         LogUtil.info(getClass().getSimpleName());
-
+        //调用方法做初始化
         setContentView(getContentViewId());
         initOther();
         initView();

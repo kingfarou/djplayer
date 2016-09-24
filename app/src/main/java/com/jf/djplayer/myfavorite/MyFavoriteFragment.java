@@ -5,11 +5,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.adapter.FragmentViewPagerAdapter;
+import com.jf.djplayer.adapter.BaseFragmentStatePagerAdapter;
 import com.jf.djplayer.base.fragment.BaseViewPagerFragment;
 import com.jf.djplayer.interfaces.FragmentChanger;
-
-import com.jf.djplayer.customview.CustomTitles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +18,7 @@ import java.util.List;
  */
 public class MyFavoriteFragment extends BaseViewPagerFragment {
 
-    private View layoutView;
     private FragmentChanger fragmentChanger;
-    private CustomTitles CustomTitles;
 
 //    @Nullable
 //    @Override
@@ -43,7 +39,7 @@ public class MyFavoriteFragment extends BaseViewPagerFragment {
     protected FragmentStatePagerAdapter getViewPagerAdapter() {
         List<Fragment> fragmentList = new ArrayList<>(1);
         fragmentList.add(new MyFavoriteListFragment());
-        return new FragmentViewPagerAdapter(getChildFragmentManager(), fragmentList);
+        return new BaseFragmentStatePagerAdapter(getChildFragmentManager(), fragmentList);
     }
 
     @Override
@@ -57,18 +53,10 @@ public class MyFavoriteFragment extends BaseViewPagerFragment {
         fragmentChanger = (FragmentChanger)activity;
     }
 
+    //标题栏点击事件回调的方法
     @Override
-    public void onTitleClick() {
+    public void onTitleClick(View titleView) {
         fragmentChanger.popFragments();
     }
 
-    @Override
-    public void onSearchIvOnclick() {
-
-    }
-
-    @Override
-    public void onMoreIvOnclick() {
-
-    }
 }

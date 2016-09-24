@@ -7,13 +7,12 @@
 
     <!--标题文字-->
         <TextView
-            android:id="@+id/tv_custom_titles_title_text"
+            android:id="@+id/tv_layout_title_bar_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_custom_titles_item"
             android:padding="8dp"
             android:textSize="24sp"
-            android:text="titleContent"
             android:drawablePadding="8dp"
             android:textColor="@color/white"/>
     <!--</LinearLayout>-->
@@ -26,19 +25,19 @@
 
     <!--搜索按钮-->
     <ImageView
-        android:id="@+id/iv_custom_titles_search"
+        android:id="@+id/iv_layout_title_bar_search"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@drawable/bg_custom_titles_item"
         android:padding="8dp"
-        android:src="@drawable/ic_search"/>
+        android:src="@drawable/icon_search"/>
 
     <!--菜单按钮-->
     <ImageView
-        android:id="@+id/iv_custom_titles_menu"
+        android:id="@+id/iv_layout_title_bar_menu"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@drawable/bg_custom_titles_item"
         android:padding="8dp"
-        android:src="@drawable/icon_more"/>
+        android:src="@drawable/icon_menu"/>
 </merge>

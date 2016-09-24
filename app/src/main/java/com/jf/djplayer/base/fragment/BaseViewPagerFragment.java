@@ -7,22 +7,23 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.customview.CustomTitles;
-import com.jf.djplayer.customview.TextViewTabs;
+import com.jf.djplayer.view.TitleBar;
+import com.jf.djplayer.view.TextViewTabs;
 
 /**
  * Created by JF on 2016/4/25.
  * 带有自定义标题栏以及"ViewPager"的"Fragment"基类，基类实现：
- * >带有一个自定义的"FragmentTitleLayout"
+ * >带有一个自定义标题栏
  * >带有一个自定义的"TextViewTabs"
  * >定义好了"ViewPager"，子类将适配器做好就可以了
  */
 abstract public class BaseViewPagerFragment extends BaseFragment
-        implements CustomTitles.FragmentTitleListener, ViewPager.OnPageChangeListener,
+        implements TitleBar.OnTitleClickListener, TitleBar.OnSearchClickListener, TitleBar.OnMenuClickListener,
+        ViewPager.OnPageChangeListener,
         AdapterView.OnItemClickListener{
 
-    protected CustomTitles mCustomTitles;//这是"Fragment"容器的统一标题
-    private TextViewTabs mTextViewTabs;//自定义栏目指示器
+    protected TitleBar titleBar;//这是"Fragment"容器的统一标题
+    private TextViewTabs textViewTabs;//自定义栏目指示器
     protected ViewPager mViewPager;//用来装填多个的"Fragment"
     protected FragmentStatePagerAdapter mFragmentStatePagerAdapter;
 
@@ -32,19 +33,17 @@ abstract public class BaseViewPagerFragment extends BaseFragment
     }
 
     @Override
-    protected void initOther() {
-    }
-
-    @Override
     protected void initView(View layoutView) {
-        //"FragmentTitleLayout"初始化
-        mCustomTitles = (CustomTitles)layoutView.findViewById(R.id.fragmentTitleLayout_fragment_base_group);
-        mCustomTitles.setTitleClickListener(this);
+        //对标题栏做初始化
+        titleBar = (TitleBar)layoutView.findViewById(R.id.fragmentTitleLayout_fragment_base_group);
+        titleBar.setOnTitleClickListener(this);
+        titleBar.setOnSearchClickListener(this);
+        titleBar.setOnMenuClickListener(this);
 
         //"TextViewLinearLayout"初始化
-        mTextViewTabs = (TextViewTabs)layoutView.findViewById(R.id.textViewLinearLayout_fragment_base_group);
-        mTextViewTabs.setItemText(getTextViewTabsText());
-        mTextViewTabs.setOnItemClickListener(this);
+        textViewTabs = (TextViewTabs)layoutView.findViewById(R.id.textViewLinearLayout_fragment_base_group);
+        textViewTabs.setItemText(getTextViewTabsText());
+        textViewTabs.setOnItemClickListener(this);
 
         //"ViewPager"初始化
         mViewPager = (ViewPager)layoutView.findViewById(R.id.vp_fragment_base_group);
@@ -56,45 +55,6 @@ abstract public class BaseViewPagerFragment extends BaseFragment
         mFragmentStatePagerAdapter = getViewPagerAdapter();
         mViewPager.setAdapter(mFragmentStatePagerAdapter);
     }
-
-    //    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View layoutView = inflater.inflate(R.layout.fragment_base_group,container,false);
-//
-//        //findViewById()
-//        mCustomTitles = (CustomTitles)layoutView.findViewById(R.id.fragmentTitleLayout_fragment_base_group);
-//        mViewPager = (ViewPager)layoutView.findViewById(R.id.vp_fragment_base_group);
-//        mTextViewTabs = (TextViewTabs)layoutView.findViewById(R.id.textViewLinearLayout_fragment_base_group);
-//
-//        initView();
-//        initBeforeReturnView();
-//        return layoutView;
-//    }
-
-//    private void initView(){
-//        //"FragmentTitleLayout"初始化
-//        mCustomTitles.setTitleClickListener(this);
-//
-//        //"TextViewLinearLayout"初始化
-//        mTextViewTabs.setItemText(getTextViewTabsText());
-//        mTextViewTabs.setOnItemClickListener(this);
-//
-//        //"ViewPager"初始化
-//        mViewPager.setOnPageChangeListener(this);
-//        ViewPager.PageTransformer pageTransformer = getViewPagerTransformer();
-//        if(pageTransformer != null){
-//            mViewPager.setPageTransformer(true, getViewPagerTransformer());
-//        }
-//        mFragmentStatePagerAdapter = getViewPagerAdapter();
-//        mViewPager.setAdapter(mFragmentStatePagerAdapter);
-//    }
-
-//    /**
-//     * 在"onCreateView()"方法返回前回调的方法
-//     * 子类可在此做自己的初始化
-//     */
-//    abstract protected void initBeforeReturnView();
 
     /**
      * 子类在该方法里面返回"TextViewTabs"所显示的文字内容
@@ -117,7 +77,7 @@ abstract public class BaseViewPagerFragment extends BaseFragment
      * @param resourceId 标题的图片资源:R.drawable.xxxx
      */
     protected final void setTitleImageResourceId(int resourceId){
-        mCustomTitles.setTitleIcon(resourceId);
+        titleBar.setTitleIcon(resourceId);
     }
 
     /**
@@ -125,7 +85,7 @@ abstract public class BaseViewPagerFragment extends BaseFragment
      * @param titleText 标题文字
      */
     protected final void setTitleText(String titleText){
-        mCustomTitles.setTitleText(titleText);
+        titleBar.setTitleText(titleText);
     }
 
     /**
@@ -133,7 +93,7 @@ abstract public class BaseViewPagerFragment extends BaseFragment
      * @param visibility 他只能是如下几个值的一个：View.VISIBLE、View.INVISIBLE、View.GONE
      */
     protected final void setTitleSearchVisibility(int visibility){
-        mCustomTitles.setSearchVisibility(visibility);
+        titleBar.setSearchVisibility(visibility);
     }
 
     /**
@@ -141,11 +101,11 @@ abstract public class BaseViewPagerFragment extends BaseFragment
      * @param visibility 他只能是如下几个值的一个：View.VISIBLE、View.INVISIBLE、View.GONE
      */
     protected final void setTitleMoreVisibility(int visibility){
-        mCustomTitles.setMenuVisibility(visibility);
+        titleBar.setMenuVisibility(visibility);
     }
 
     /**
-     * 获取"FragmentViewPagerAdapter"当前正显示的那个"Fragment"实例
+     * 获取"BaseFragmentStatePagerAdapter"当前正显示的那个"Fragment"实例
      * @return 正显示的"Fragment"实例，如果适配器是空的，则返回null
      */
     protected final Fragment getViewPagerCurrentPage(){
@@ -163,31 +123,30 @@ abstract public class BaseViewPagerFragment extends BaseFragment
         return mViewPager.getCurrentItem();
     }
 
-    /*"FragmentTitleListener"方法实现--start，子类根据需要进行重写*/
+    /*标题栏的三个点击事件方法实现__start，子类根据需要进行重写*/
     @Override
-    public void onTitleClick() {
+    public void onTitleClick(View titleView) {
     }
 
     @Override
-    public void onSearchIvOnclick() {
+    public void onSearchClick(View SearchView) {
     }
 
     @Override
-    public void onMoreIvOnclick() {
+    public void onMenuClick(View menuView) {
     }
-        /*"FragmentTitleListener"方法实现--end*/
+    /*标题栏的三个点击事件方法实现__end，子类根据需要进行重写*/
 
     /*"OnPageChangedListener"方法实现--start，子类根据需要进行重写*/
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
     }
 
     @Override
     public void onPageSelected(int position) {
         //当"ViewPager"被滑动了，"TextViewTabs"变为相对应的栏目
-        if(mTextViewTabs.getItemText()!=null){
-            mTextViewTabs.setCurrentItem(position);
+        if(textViewTabs.getItemText()!=null){
+            textViewTabs.setCurrentItem(position);
         }
     }
 

@@ -72,13 +72,14 @@ public class SongListFragmentAdapter extends MyBaseAdapter<Song> implements View
             //打开歌曲操作弹窗
             SongOperationDialog songOperationDialog = new SongOperationDialog();
             songOperationDialog.setArguments(arguments);
-            /*虽然歌曲操作窗口会有多个操作，但是直接操作只有收藏/取消收藏，其他操作会在其他弹窗，
-              所以这里设置的请求码，直接设置收藏以及收藏以及取消收藏的请求码*/
-            if(dataList.get(position).getCollection() == Song.IS_COLLECTION){
-                songOperationDialog.setTargetFragment(fragment, SongListFragment.REQUEST_CODE_CANCEL_COLLECTION_SONG);
-            }else{
-                songOperationDialog.setTargetFragment(fragment, SongListFragment.REQUEST_CODE_COLLECTION_SONG);
-            }
+//            /*虽然歌曲操作窗口会有多个操作，但是直接操作只有收藏/取消收藏，其他操作会在其他弹窗，
+//              所以这里设置的请求码，直接设置收藏以及收藏以及取消收藏的请求码*/
+//            if(dataList.get(position).getCollection() == Song.IS_COLLECTION){
+//                songOperationDialog.setTargetFragment(fragment, SongListFragment.REQUEST_CODE_CANCEL_COLLECTION_SONG);
+//            }else{
+//                songOperationDialog.setTargetFragment(fragment, SongListFragment.REQUEST_CODE_COLLECTION_SONG);
+//            }
+            songOperationDialog.setTargetFragment(fragment, SongListFragment.REQUEST_CODE_SELECT_OPERATION);
             songOperationDialog.show(fragment.getChildFragmentManager(), "SongOperationDialog");
             return;
         }

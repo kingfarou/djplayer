@@ -8,16 +8,18 @@ import java.util.List;
 
 /**
  * Created by JF on 2016/1/20.
- * 我自己的Viewpager专用适配器
+ * 基本"FragmentStatePagerAdapter"类，
+ * 如果没有特殊需求，项目里面通用此类作为"ViewPager"的适配器
  */
-public class FragmentViewPagerAdapter extends FragmentStatePagerAdapter{
+public class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter{
 
     private List<Fragment> fragmentList;
-    public FragmentViewPagerAdapter(FragmentManager fm) {
+
+    public BaseFragmentStatePagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public FragmentViewPagerAdapter(FragmentManager fm, List<Fragment> fragmentList){
+    public BaseFragmentStatePagerAdapter(FragmentManager fm, List<Fragment> fragmentList){
         super(fm);
         this.fragmentList = fragmentList;
     }
@@ -33,6 +35,6 @@ public class FragmentViewPagerAdapter extends FragmentStatePagerAdapter{
 
     @Override
     public int getCount() {
-        return fragmentList.size();
+        return fragmentList != null ? fragmentList.size() : 0;
     }
 }

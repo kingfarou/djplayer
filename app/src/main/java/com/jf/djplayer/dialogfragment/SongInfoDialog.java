@@ -56,7 +56,7 @@ public class SongInfoDialog extends DialogFragment {
 //                        启动编辑歌曲信息那个Dialog
                         EditSongInfoDialog editSongInfoDialog = new EditSongInfoDialog();
                         editSongInfoDialog.setArguments(getArguments());
-                        editSongInfoDialog.setTargetFragment(getTargetFragment(), SongListFragment.REQUEST_CODE_UPDATE_SONG_FILE_INFO);
+                        editSongInfoDialog.setTargetFragment(getTargetFragment(), SongListFragment.REQUEST_CODE_EDIT_SONG_INFO);
                         editSongInfoDialog.show( getActivity().getSupportFragmentManager(),"EditSongInfoDialog");
                         dialog.dismiss();
                     }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自定义标题栏所用布局文件属性-->
+    <declare-styleable name="TitleBar">
+        <attr name="titleIcon" format="reference"/><!--标题图片-->
+        <attr name="titleText" format="string"/><!--标题文字-->
+        <attr name="titleTextColor" format="color"/><!--文字颜色-->
+        <attr name="titleIconDistance" format="dimension"/><!--标题图片和标题文字之间的距离-->
+        <attr name="titleTextSize" format="dimension"/><!--文字大小-->
+
+        <!--搜索图标是否可见-->
+        <attr name="searchIconVisibility">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="4"/>
+            <enum name="gone" value="8"/>
+        </attr>
+
+        <!--菜单图标是否可见-->
+        <attr name="menuIconVisibility" >
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="4"/>
+            <enum name="gone" value="8" />
+        </attr>
+    </declare-styleable>
+</resources>

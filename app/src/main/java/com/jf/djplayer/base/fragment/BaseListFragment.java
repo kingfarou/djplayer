@@ -40,10 +40,6 @@ public abstract class BaseListFragment<T> extends BaseFragment
     }
 
     @Override
-    protected void initOther() {
-    }
-
-    @Override
     protected void initView(View layoutView) {
         listView = (ListView) layoutView.findViewById(R.id.lv_fragment_list_view);
 
@@ -58,7 +54,7 @@ public abstract class BaseListFragment<T> extends BaseFragment
             listViewEmptyView.setVisibility(View.INVISIBLE);
         }
 
-//        开始执行读数据的异步任务
+        //开始执行读数据的异步任务
         readDataAsyncTask = new ReadDataAsyncTask();
         readDataAsyncTask.execute();
     }
@@ -225,19 +221,20 @@ public abstract class BaseListFragment<T> extends BaseFragment
             listView.setEmptyView(listViewEmptyView);
         }//_showListView()
 
-//        当读取到有数据时，"listView"的初始化
+        //当读取到有数据时，"listView"的初始化
         private void listViewInit(){
-//            设置相应点击事件
+            //设置相应点击事件
             listView.setOnItemClickListener(BaseListFragment.this);
             listView.setOnItemLongClickListener(BaseListFragment.this);
-//            添加头View
+
+            //添加头View
             if(listView.getHeaderViewsCount()==0){
                 View headerView = getListViewHeaderView();
                 if(headerView!=null){
                     listView.addHeaderView(headerView);
                 }
             }
-//            添加尾View
+            //添加尾View
             if(listView.getFooterViewsCount()==0){
                 View footerView = getListViewFooterView();
                 if(footerView!=null){

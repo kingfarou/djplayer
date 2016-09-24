@@ -1,4 +1,4 @@
-package com.jf.djplayer.customview;
+package com.jf.djplayer.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -79,11 +79,7 @@ public class EditSongInfoDialog extends DialogFragment {
 //                        调用工具类来更新数据库的歌曲信息
                         SongInfoOpenHelper updateOpenHelper = new SongInfoOpenHelper(getActivity());
                         updateOpenHelper.updateLocalMusicTables(song);
-////                        发送广播通知界面更新数据
-////                        Intent updateSongInfoIntent = new Intent(UpdateUiSongInfoReceiver.UPDATE_SONG_INFO);
-//                        Intent updateSongInfoIntent = new Intent(UpdateUiSongInfoReceiver.ACTION_UPDATE_SONG_FILE_INFO);
-//                        updateSongInfoIntent.putExtra(UpdateUiSongInfoReceiver.position,position);
-//                        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(updateSongInfoIntent);
+//                        发送广播通知界面更新数据
                         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
                     }
                 })

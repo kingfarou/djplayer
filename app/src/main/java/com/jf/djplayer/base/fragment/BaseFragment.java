@@ -16,13 +16,13 @@ import com.jf.djplayer.util.LogUtil;
  */
 abstract public class BaseFragment extends Fragment{
 
+    /**Fragment布局文件对象*/
     protected View layoutView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //打印当前在哪一个Fragment，方便调试
-//        MyApplication.showLog(this.getClass().getSimpleName());
         LogUtil.info(getClass().getSimpleName());
     }
 

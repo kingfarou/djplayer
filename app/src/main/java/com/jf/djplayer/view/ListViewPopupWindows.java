@@ -1,4 +1,4 @@
-package com.jf.djplayer.customview;
+package com.jf.djplayer.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,14 +7,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.jf.djplayer.R;
-
-import java.util.List;
 
 /**
  * Created by JF on 2016/3/26.
