@@ -11,7 +11,6 @@ import com.jf.djplayer.other.IntentConstant;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
-import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.playertool.PlayInfoNotification;
 import com.jf.djplayer.playertool.PlayerOperator;
 import com.jf.djplayer.util.LogUtil;
@@ -36,7 +35,7 @@ public class PlayerService extends Service implements PlayInfoObserver{
     public void onCreate() {
         super.onCreate();
 //        MyApplication.showLog("创建服务");
-        LogUtil.info("创建服务");
+        LogUtil.i("创建服务");
 //        Log.i("test","--PlayerService--onCreate");
         //音乐播放工具类初始化
         playerOperator = PlayerOperator.getInstance();
@@ -111,7 +110,7 @@ public class PlayerService extends Service implements PlayInfoObserver{
     public void onDestroy() {
         super.onDestroy();
 //        MyApplication.showLog("销毁服务");
-        LogUtil.info("销毁服务");
+        LogUtil.i("销毁服务");
         playerOperator.over();//结束音频控制所有服务
         playInfoNotification.cancelNotification();//关闭相关歌曲信息通知
     }

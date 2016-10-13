@@ -9,18 +9,18 @@ import java.io.File;
  * Created by jf on 2016/9/3.
  * SD卡辅助工具
  */
-public class SDCardUtil {
+public class SdCardUtil {
 
-    private SDCardUtil() {
-    /* cannot be instantiated */
+    //该类不允许初始化，只提供了工具方法
+    private SdCardUtil() {
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 
     /**
      * 判断SDCard是否可用
-     * @return
+     * @return true：如果SD卡可用，false：不可用
      */
-    public static boolean isSDCardEnable() {
+    public static boolean isSdCardEnable() {
         return Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED);
     }
@@ -39,7 +39,7 @@ public class SDCardUtil {
      * @return
      */
     public static long getSDCardAllSize() {
-        if (isSDCardEnable()) {
+        if (isSdCardEnable()) {
             StatFs stat = new StatFs(getSDCardPath());
             // 获取空闲的数据块的数量
             long availableBlocks = (long) stat.getAvailableBlocks() - 4;

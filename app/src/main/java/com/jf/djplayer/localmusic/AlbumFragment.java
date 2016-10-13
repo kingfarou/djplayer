@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jf.djplayer.search.SearchedDataProvider;
+import com.jf.djplayer.songscan.ScanSongActivity;
 import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.view.ListViewPopupWindows;
 import com.jf.djplayer.database.SongInfoOpenHelper;
@@ -45,7 +46,7 @@ public class AlbumFragment extends LocalMusicListFragment
         noDataView.findViewById(R.id.btn_local_music_no_song_key_scan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+                getParentFragment().startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
 
             }
         });
@@ -81,27 +82,23 @@ public class AlbumFragment extends LocalMusicListFragment
 
     public ListViewPopupWindows getListViewPopupWindow(){
         Resources resources = getResources();
-        mListViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{resources.getString(R.string.scan_music),
-                resources.getString(R.string.sort_by_album),
-                resources.getString(R.string.sort_by_song_num)});
+        mListViewPopupWindows = new ListViewPopupWindows(getActivity(),new String[]{resources.getString(R.string.scan_music), resources.getString(R.string.sort_by_album), resources.getString(R.string.sort_by_song_num)});
         mListViewPopupWindows.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    case 0:
-                        getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
-                        break;
-                    case 1:
-                        sortAccordingTitle();
-                        getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_ALBUM_SORT_ACCORDING, VALUES_ALBUM_SORT_ACCORDING_NAME).commit();
-                        baseAdapter.notifyDataSetChanged();
-                        break;
-                    case 2:
-                        sortAccordingContent();
-                        getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_ALBUM_SORT_ACCORDING, VALUES_ALBUM_SORT_ACCORDING_SONG_NUMBER).commit();
-                        baseAdapter.notifyDataSetChanged();
-                        break;
-                    default:break;
+                if(position == 0){
+                    //点击的是扫描音乐
+                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+                }else if(position == 1){
+                    //点击按照专辑名字排序
+                    sortAccordingTitle();
+                    getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_ALBUM_SORT_ACCORDING, VALUES_ALBUM_SORT_ACCORDING_NAME).commit();
+                    baseAdapter.notifyDataSetChanged();
+                }else if(position == 2){
+                    //点击按照歌曲数量排序
+                    sortAccordingContent();
+                    getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_ALBUM_SORT_ACCORDING, VALUES_ALBUM_SORT_ACCORDING_SONG_NUMBER).commit();
+                    baseAdapter.notifyDataSetChanged();
                 }
                 mListViewPopupWindows.dismiss();
             }

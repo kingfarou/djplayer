@@ -6,13 +6,14 @@ import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.activity.BaseActivity;
+import com.jf.djplayer.view.TitleBar;
 
 /**
  * Created by jf on 2016/8/5.
  * 音乐扫描-扫描设置
  */
 public class ScanSettingActivity extends BaseActivity
-        implements SeekBar.OnSeekBarChangeListener, View.OnClickListener{
+        implements SeekBar.OnSeekBarChangeListener, View.OnClickListener, TitleBar.OnTitleClickListener{
 
     private TextView durationTv;        //扫描时长，文字显示
     private TextView sizeTv;            //文件大小，文字显示
@@ -35,6 +36,12 @@ public class ScanSettingActivity extends BaseActivity
 
     @Override
     protected void initView() {
+        //对标题栏做初始化
+        TitleBar titleBar = (TitleBar) findViewById(R.id.title_bar);
+        titleBar.setSearchVisibility(View.GONE);
+        titleBar.setMenuVisibility(View.GONE);
+        titleBar.setOnTitleClickListener(this);
+
         //以下控件分别是，扫描时长，文字显示和进度条，扫描大小，文件大小和进度条，确定按钮
         durationTv = (TextView)findViewById(R.id.tv_activity_scan_setting_duration);
         SeekBar durationSeekBar = (SeekBar)findViewById(R.id.seek_bar_activity_scan_setting_duration);
@@ -105,5 +112,10 @@ public class ScanSettingActivity extends BaseActivity
             scanOptionHelper.setSize(size);
             finish();
         }
+    }
+
+    @Override
+    public void onTitleClick(View titleView) {
+        finish();
     }
 }

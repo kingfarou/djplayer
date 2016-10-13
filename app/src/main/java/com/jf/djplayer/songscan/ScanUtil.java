@@ -6,6 +6,7 @@ import android.provider.MediaStore;
 
 import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.module.Song;
+import com.jf.djplayer.util.SdCardUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,27 +25,27 @@ public class ScanUtil{
      * @return 返回根据扫描条件所得到的歌曲信息集合对象，如果没有读到任何数据，则返回null
      */
     public List<Song> scanSong(){
-        //获取数据库的条件查询语句
-        String scanSentence = getScanSelection();
+        List<Song> songList = new ArrayList<>();    //待返回的查询结果
+        String scanSentence = getScanSelection();   //从数据库获取用户所设置的查询条件
 
-        //根据语句条件扫描系统媒体库的歌曲
-        Cursor cursor = MyApplication.getContext().getContentResolver().query(MediaStore.Audio.Media.INTERNAL_CONTENT_URI,
-                new String[]{MediaStore.Audio.Media.TITLE,
-                        MediaStore.Audio.Media.ARTIST,
-                        MediaStore.Audio.Media.ALBUM,
-                        MediaStore.Audio.Media.DURATION,
-                        MediaStore.Audio.Media.SIZE,
-                        MediaStore.Audio.Media.DATA},
-                scanSentence, null, null);
+        //扫描并添加内存里的歌
+        List<Song> internalSongList = scanSong(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, scanSentence);
+        if(internalSongList != null) songList.addAll(internalSongList);
 
-        //将结果集转成"List<Song>"并返回
-        return cursorToSongList(cursor);
+        //如果SD卡可读，扫描并添加SD卡里面的歌
+        if(SdCardUtil.isSdCardEnable()){
+            List<Song> externalSongList = scanSong(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, scanSentence);
+            if(externalSongList != null) songList.addAll(externalSongList);
+        }
+        if(songList.size()<1) return null;
+        return songList;
     }
 
     //根据用户所设置的过滤条件，生成"SQLite"条件查询用的语句
     private String getScanSelection(){
         //"ScanOptionHelper"用来获取所设置的过滤条件
         ScanOptionHelper scanOptionHelper = new ScanOptionHelper();
+
         //装填每个过滤条件所对应的查询语句
         List<String> filterSentence = new ArrayList<>();
 
@@ -70,6 +71,19 @@ public class ScanUtil{
         }
         stringBuilder.append(filterSentence.get(size-1));
         return stringBuilder.toString();
+    }
+
+    //扫描指定的表下面（其实只有内存表、外存表），指定扫描条件下的歌曲，返回歌曲集合对象
+    private List<Song> scanSong(Uri tableName, String scanSentence){
+        Cursor cursor = MyApplication.getContext().getContentResolver().query(tableName,
+                new String[]{MediaStore.Audio.Media.TITLE,
+                        MediaStore.Audio.Media.ARTIST,
+                        MediaStore.Audio.Media.ALBUM,
+                        MediaStore.Audio.Media.DURATION,
+                        MediaStore.Audio.Media.SIZE,
+                        MediaStore.Audio.Media.DATA},
+                scanSentence, null, null);
+        return cursorToSongList(cursor);
     }
 
     //将读到的"Cursor"歌曲信息数据集合转成"List<Song>"集合

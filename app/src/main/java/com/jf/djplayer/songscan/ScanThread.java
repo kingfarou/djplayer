@@ -8,7 +8,6 @@ import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.module.Song;
 import com.jf.djplayer.util.LogUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,7 +74,7 @@ public class ScanThread extends Thread{
                 sleep(200);
             }catch (InterruptedException e){
 //                MyApplication.showLog("扫描线程中断异常--"+e.toString());
-                LogUtil.info("扫描线程中断异常--"+e.toString());
+                LogUtil.i("扫描线程中断异常--"+e.toString());
             }
         }
     }//updateScanInfo()

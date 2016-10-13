@@ -34,7 +34,7 @@ public class SearchSongFragment extends BaseListFragment<Song> implements Search
     protected List<Song> getData() {
         List<Song> searchList = searchedDataProvider.returnSearchedDataList();//获取待搜索的数据列表
         //注意这里必须创建新的集合，不可以和"searchedList"指向同样一个集合
-        showList = new ArrayList<>(searchList.size());
+        if(searchList != null) showList = new ArrayList<>(searchList.size());
         return searchList;
     }
 

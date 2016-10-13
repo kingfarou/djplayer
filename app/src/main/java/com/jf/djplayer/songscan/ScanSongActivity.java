@@ -7,12 +7,14 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.base.activity.BaseActivity;
 import com.jf.djplayer.util.ToastUtil;
+import com.jf.djplayer.view.TitleBar;
 
 /**
  * Created by jf on 2016/8/8.
  * 音乐扫描-音乐扫描入口页面
  */
-public class ScanSongActivity extends BaseActivity implements View.OnClickListener{
+public class ScanSongActivity extends BaseActivity
+        implements View.OnClickListener, TitleBar.OnTitleClickListener{
 
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐
 
@@ -23,6 +25,11 @@ public class ScanSongActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
+        //对标题栏做初始化
+        TitleBar titleBar = (TitleBar) findViewById(R.id.title_bar_activity_scan_song);
+        titleBar.setSearchVisibility(View.GONE);
+        titleBar.setMenuVisibility(View.GONE);
+        titleBar.setOnTitleClickListener(this);
         //三个按钮，分别是全盘扫描，自定义扫描，扫描设置
         findViewById(R.id.btn_activity_scan_song_scan_all).setOnClickListener(this);
         findViewById(R.id.btn_activity_scan_song_custom_scan).setOnClickListener(this);
@@ -53,5 +60,10 @@ public class ScanSongActivity extends BaseActivity implements View.OnClickListen
                 finish();
             }
         }
+    }
+
+    @Override
+    public void onTitleClick(View titleView) {
+        finish();
     }
 }

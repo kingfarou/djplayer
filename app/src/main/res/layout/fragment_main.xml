@@ -79,6 +79,7 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
             android:layout_margin="8dp">
             <TextView
                 android:id="@+id/tv_mine_fragment_local_music"
@@ -106,6 +107,7 @@
             android:contentDescription="这是随机播放按钮"
             android:layout_gravity="center_vertical"
             android:background="@drawable/blue_white_press_selector"
-            android:src="@drawable/icon_dice"/>
+            android:src="@drawable/icon_dice"
+            android:visibility="invisible"/>
     </LinearLayout>
 </RelativeLayout>

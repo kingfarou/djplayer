@@ -1,25 +1,27 @@
 package com.jf.djplayer.main;
 
 import android.content.Intent;
-import android.os.Environment;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.Toast;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.activity.BaseActivity;
 import com.jf.djplayer.util.FileUtil;
+import com.jf.djplayer.util.SdCardUtil;
+import com.jf.djplayer.util.ToastUtil;
 
 
 /**
  * Created by JF on 2016/3/6.
- * 欢迎界面-welcome page
+ * 主模块，欢迎界面
  */
 public class WelcomeActivity extends BaseActivity {
 
     //透明度动画的持续时间
     private static final int ANIMATION_DURATION = 2000;
+
     //透明度动画透明的数值
     private static final float FROM_ALPHA = 0.2f;
     private static final float TO_ALPHA = 1.0f;
@@ -28,11 +30,6 @@ public class WelcomeActivity extends BaseActivity {
     protected int getContentViewId() {
         return R.layout.activity_welcome;
     }
-
-    @Override
-    protected void initOther() {
-    }
-
 
     @Override
     protected void initView() {
@@ -49,7 +46,7 @@ public class WelcomeActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 //动画结束后的跳转
-                reDirectTo();
+                startMainActivity();
             }
 
             @Override
@@ -57,23 +54,30 @@ public class WelcomeActivity extends BaseActivity {
             }
         });
         view.startAnimation(alphaAnimation);
-        appDirInit();
+        initAppDir();
     }
 
     //创建应用在外存的相关目录
-    private void appDirInit(){
-        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            FileUtil fileTool = new FileUtil(this);
-            fileTool.createAppRootDir();//创建应用的根目录
-            fileTool.appDirInit();//创建应用所需要的各个路径
-        }else{
-            Toast.makeText(WelcomeActivity.this, "SD卡读取失败，请确定已正确插入", Toast.LENGTH_SHORT).show();
+    private void initAppDir(){
+        //检查并提醒用户SD卡是否可用
+        if(!SdCardUtil.isSdCardEnable()){
+            ToastUtil.showLongToast(this, "SD卡不可用，无法创建所需路径，部分功能无法正常使用");
+            return;
         }
+        FileUtil fileTool = new FileUtil();
+        fileTool.initAppDir();//创建应用的根目录
     }
 
-    //重定向到主界面去
-    private void reDirectTo(){
+    //跳转到主界面去
+    private void startMainActivity(){
         startActivity(new Intent(this, MainActivity.class));
         finish();//启动完成关闭当前活动
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //欢迎界面不许返回
+        if(keyCode == KeyEvent.KEYCODE_BACK) return true;
+        return super.onKeyDown(keyCode, event);
     }
 }

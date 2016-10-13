@@ -27,6 +27,7 @@ import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.module.PlayInfo;
 import com.jf.djplayer.service.PlayerService;
 import com.jf.djplayer.util.FileUtil;
+import com.jf.djplayer.util.SdCardUtil;
 import com.jf.djplayer.util.UserOptionPreferences;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.playertool.PlayerOperator;
@@ -129,7 +130,7 @@ public class PlayInfoActivity extends BaseActivity implements
 
     //根据SD卡可读取状况，以及是否是第一次进入，提示信息
     private void showHint(){
-        if( !Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ){
+        if( !SdCardUtil.isSdCardEnable()){
             String noSDHint = "存储卡不可读取，歌手图片及歌词将不能显示。";
             AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示").setMessage(noSDHint).setPositiveButton("我知道了", null).create();
             alertDialog.show();

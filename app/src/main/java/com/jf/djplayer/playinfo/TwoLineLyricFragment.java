@@ -5,7 +5,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.jf.djplayer.module.Song;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.module.PlayInfo;
-import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.playertool.LyricTool;
 import com.jf.djplayer.playertool.PlayerOperator;
 import com.jf.djplayer.util.LogUtil;
@@ -48,13 +46,6 @@ public class TwoLineLyricFragment extends BaseFragment implements PlayInfoObserv
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        layoutView = inflater.inflate(R.layout.fragment_two_line_lyric, container, false);
-//        获取所需要的主体对象
-//        playInfoSubject = PlayerOperator.getInstance();
-//        viewInit();//对视图进行初始化
-//        initHandler();//对Handler做初始化
-//
-//        return layoutView;
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -160,7 +151,7 @@ public class TwoLineLyricFragment extends BaseFragment implements PlayInfoObserv
             //如果当前应用没有存有歌词直接返回
             if(!lyricTool.hasSongLyric()){
 //                MyApplication.showLog("没有对应歌词文件");
-                LogUtil.info("没有对应歌词文件");
+                LogUtil.i("没有对应歌词文件");
                 return;
             }
             lyricTool.loadLyric();//调用方法载入歌词

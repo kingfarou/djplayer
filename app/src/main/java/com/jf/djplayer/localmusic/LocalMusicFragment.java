@@ -34,7 +34,8 @@ public class LocalMusicFragment extends BaseViewPagerFragment {
         //进行子类对View初始化
         setTitleImageResourceId(R.drawable.ic_return);
         setTitleText(getResources().getString(R.string.local_music));
-        setTitleSearchVisibility(View.VISIBLE);
+        //搜索功能还在调试，暂时关闭
+        setTitleSearchVisibility(View.GONE);
         setTitleMoreVisibility(View.VISIBLE);
     }
 

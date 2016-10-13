@@ -3,7 +3,6 @@ package com.jf.djplayer.base.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.util.LogUtil;
 
 /**
@@ -16,7 +15,7 @@ abstract public class BaseActivity extends FragmentActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //打印当前Activity名字，方便调试
-        LogUtil.info(getClass().getSimpleName());
+        LogUtil.i(getClass().getSimpleName());
         //调用方法做初始化
         setContentView(getContentViewId());
         initOther();

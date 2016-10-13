@@ -38,13 +38,13 @@ public class BottomFragment extends BaseFragment implements PlayInfoObserver,Vie
 
     //view成员变量
 //    private View viewLayout;//这是当前Fragment布局文件
-    private ImageView singerPicture;//这个表示歌手图片
-    private TextView songNameTv;//歌名
-    private TextView songArtistTv;//这个表示歌手名字
-    private LinearLayout linearLayout;//整个界面线性布局
-    private ImageButton playButton;//播放
-    private ImageButton nextButton;//下首
-    private ImageButton menuButton;//菜单
+    private ImageView singerPicture;        //这个表示歌手图片
+    private TextView songNameTv;            //歌名
+    private TextView songArtistTv;          //这个表示歌手名字
+    private LinearLayout linearLayout;      //整个界面线性布局
+    private ImageButton playButton;         //播放
+    private ImageButton nextButton;         //下首
+    private ImageButton menuButton;         //菜单
     private ProgressBar progressBar;
 
     //功能类的成员变量

@@ -15,7 +15,7 @@ public class ToastUtil {
     }
 
     //你可以在这里统一控制否是显示"Taost"
-    private static boolean isShow = true;
+    private static final boolean isShow = true;
 
     /**
      * 短时间显示Toast
