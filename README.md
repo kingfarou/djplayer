@@ -23,14 +23,8 @@
 - 歌手图片：手机内存/djplayer/artistPicuture   
 
 # 一些模块的截图
-主界面
+主界面、歌曲列表、音乐扫描分别如下图所示
 
-![主界面](https://raw.githubusercontent.com/JaffarOu/djplayer/master/PictureInReadMe/main.jpg)    
-
-歌曲列表
-
-![歌曲列表](https://raw.githubusercontent.com/JaffarOu/djplayer/master/PictureInReadMe/songList.jpg)    
-
-音乐扫描
-
+![主界面](https://raw.githubusercontent.com/JaffarOu/djplayer/master/PictureInReadMe/main.jpg)
+![歌曲列表](https://raw.githubusercontent.com/JaffarOu/djplayer/master/PictureInReadMe/songList.jpg)  
 ![音乐扫描](https://raw.githubusercontent.com/JaffarOu/djplayer/master/PictureInReadMe/scanSong.jpg)
