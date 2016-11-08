@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.util.DimenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,7 @@ public class TextViewTabs extends LinearLayout implements OnClickListener{
 //        获取所有静态属性
         selectedTextColor = typedArray.getColor(R.styleable.TextViewTabs_textViewTabs_selectedTextColor, Color.BLUE);
         unSelectedTextColor = typedArray.getColor(R.styleable.TextViewTabs_textViewTabs_unSelectedTextColor, Color.GRAY);
-        itemTextSize = typedArray.getDimension(R.styleable.TextViewTabs_textViewTabs_itemTextSize,16f);
+        itemTextSize = typedArray.getDimension(R.styleable.TextViewTabs_textViewTabs_itemTextSize, DimenUtil.spToPx(16));
         //默认该控件不显示，如果调用者返回的栏目文字个数不等于零，该控件才能显示
         setVisibility(GONE);
         typedArray.recycle();
@@ -75,7 +77,7 @@ public class TextViewTabs extends LinearLayout implements OnClickListener{
         for(int i = 0;i< itemText.length;i++){
             textView = new TextView(context);
             textView.setPadding(4, 4, 4, 4);
-            textView.setTextSize(itemTextSize);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, itemTextSize);
             textView.setTextColor(unSelectedTextColor);
             textView.setText(itemText[i]);
             textView.setGravity(Gravity.CENTER);
