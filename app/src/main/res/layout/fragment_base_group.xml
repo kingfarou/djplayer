@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         customView:textViewTabs_selectedTextColor="@color/sky_blue"
-        customView:textViewTabs_itemTextSize="16sp">
+        customView:textViewTabs_itemTextSize="20sp">
     </com.jf.djplayer.view.TextViewTabs>
 
     <android.support.v4.view.ViewPager
