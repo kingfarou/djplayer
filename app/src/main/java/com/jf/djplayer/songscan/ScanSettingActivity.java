@@ -1,5 +1,6 @@
 package com.jf.djplayer.songscan;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -22,20 +23,19 @@ public class ScanSettingActivity extends BaseActivity
     private int size;                   //用户所设置的文件大小（kb）
 
     @Override
-    protected int getContentViewId() {
-        return R.layout.activity_scan_setting;
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_scan_setting);
 
-    @Override
-    protected void initOther() {
-        //读取用户所设置的扫描选项
+        // 读取用户所设置的扫描选项
         ScanOptionHelper scanOptionHelper = new ScanOptionHelper();
         duration = scanOptionHelper.getDuration()/1000;
         size = scanOptionHelper.getSize();
+
+        initView();
     }
 
-    @Override
-    protected void initView() {
+    private void initView(){
         //对标题栏做初始化
         TitleBar titleBar = (TitleBar) findViewById(R.id.title_bar);
         titleBar.setSearchVisibility(View.GONE);

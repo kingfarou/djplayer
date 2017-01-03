@@ -16,25 +16,5 @@ abstract public class BaseActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         //打印当前Activity名字，方便调试
         LogUtil.i(getClass().getSimpleName());
-        //调用方法做初始化
-        setContentView(getContentViewId());
-        initOther();
-        initView();
     }
-
-    /**
-     * 获取"Activity"要加载的布局文件id
-     * @return 要加载的布局文件id
-     */
-    abstract protected int getContentViewId();
-
-    /**
-     * 在控件初始化之前的其他初始化
-     */
-    protected void initOther(){}
-
-    /**
-     * 执行控件相关的初始化
-     */
-    protected void initView(){}
 }

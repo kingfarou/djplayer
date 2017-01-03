@@ -1,6 +1,7 @@
 package com.jf.djplayer.main;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -19,20 +20,21 @@ import com.jf.djplayer.util.ToastUtil;
  */
 public class WelcomeActivity extends BaseActivity {
 
-    //透明度动画的持续时间
+    // 透明度动画的持续时间
     private static final int ANIMATION_DURATION = 2000;
 
-    //透明度动画透明的数值
+    // 透明度动画透明的数值
     private static final float FROM_ALPHA = 0.2f;
     private static final float TO_ALPHA = 1.0f;
 
     @Override
-    protected int getContentViewId() {
-        return R.layout.activity_welcome;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welcome);
+        initView();
     }
 
-    @Override
-    protected void initView() {
+    private void initView() {
         View view = findViewById(R.id.fl_activity_welcome);
         //窗口界面的出现添加动画的效果
         AlphaAnimation alphaAnimation = new AlphaAnimation(FROM_ALPHA, TO_ALPHA);

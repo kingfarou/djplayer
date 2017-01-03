@@ -39,19 +39,8 @@ public class ScanningSongActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_scanning_song;
-    }
-
-    @Override
-    protected void initOther() {
-    }
-
-    @Override
-    protected void initView() {
+        setContentView(R.layout.activity_scanning_song);
+        // 初始化view
         scanningPb = (ProgressBar)findViewById(R.id.pb_activity_scanning_song_scanning);
         scanFinishIv = (ImageView) findViewById(R.id.iv_activity_scanning_song_scanFinish);
         scanInfoTv = (TextView) findViewById(R.id.tv_activity_scanning_song_scanInfo);
@@ -64,7 +53,7 @@ public class ScanningSongActivity extends BaseActivity {
             }
         });
         songScanHandler = new SongScanHandler(this);
-        //扫描音乐
+        // 扫描音乐
         scanSong();
     }
 

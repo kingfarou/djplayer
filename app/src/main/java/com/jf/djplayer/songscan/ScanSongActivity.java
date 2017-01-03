@@ -1,6 +1,7 @@
 package com.jf.djplayer.songscan;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.jf.djplayer.R;
@@ -19,18 +20,16 @@ public class ScanSongActivity extends BaseActivity
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐
 
     @Override
-    protected int getContentViewId() {
-        return R.layout.activity_scan_song;
-    }
-
-    @Override
-    protected void initView() {
-        //对标题栏做初始化
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_scan_song);
+        // view初始化
+        // 对标题栏做初始化
         TitleBar titleBar = (TitleBar) findViewById(R.id.title_bar_activity_scan_song);
         titleBar.setSearchVisibility(View.GONE);
         titleBar.setMenuVisibility(View.GONE);
         titleBar.setOnTitleClickListener(this);
-        //三个按钮，分别是全盘扫描，自定义扫描，扫描设置
+        // 三个按钮，分别是全盘扫描，自定义扫描，扫描设置
         findViewById(R.id.btn_activity_scan_song_scan_all).setOnClickListener(this);
         findViewById(R.id.btn_activity_scan_song_custom_scan).setOnClickListener(this);
         findViewById(R.id.tv_activity_scan_song_scan_setting).setOnClickListener(this);

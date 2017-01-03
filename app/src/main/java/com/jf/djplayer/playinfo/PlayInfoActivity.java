@@ -84,23 +84,14 @@ public class PlayInfoActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_play_info;
-    }
-
-    @Override
-    protected void initOther() {
+        setContentView(R.layout.activity_play_info);
+        // 绑定服务
         Intent intent = new Intent(this, PlayerService.class);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
         //获取更新播放信息用的主题
         playInfoSubject = PlayerOperator.getInstance();
-    }
 
-    @Override
-    protected void initView() {
+        // View初始化
         showHint();
         initWidget();//调用方法对视图初始化
         initViewPager();//对ViewPager做初始化

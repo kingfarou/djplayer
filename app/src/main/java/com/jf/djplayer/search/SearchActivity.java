@@ -1,4 +1,5 @@
 package com.jf.djplayer.search;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -38,27 +39,24 @@ public class SearchActivity extends BaseActivity
     public static final String SEARCH_LIST = "searchList";//这是待搜索的数据集合
 
     @Override
-    protected int getContentViewId() {
-        return R.layout.activity_search;
-    }
-
-    @Override
-    protected void initView() {
-        //对标题栏显示部分做初始化
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
+        // 对标题栏显示部分做初始化
         fragmentTitleInit();
         editInit();
-        //对所添加的"Fragment"做初始化
+        // 对所添加的"Fragment"做初始化
         fragmentInit();
     }
 
-    //对标题栏做初始化
+    // 对标题栏做初始化
     private void fragmentTitleInit(){
         titleBar = (TitleBar)findViewById(R.id.fragment_title_layout_activity_search);
         titleBar.setTitleIcon(R.drawable.ic_return);
         titleBar.setSearchVisibility(View.GONE);//设置标题栏“搜索”按钮不可见
         titleBar.setMenuVisibility(View.GONE);//设置标题栏“菜单”按钮不可见
         titleBar.setTitleText("查找");
-        //给标题栏里的按钮设置监听
+        // 给标题栏里的按钮设置监听
         titleBar.setOnTitleClickListener(this);
     }
 

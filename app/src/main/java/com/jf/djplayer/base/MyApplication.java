@@ -20,6 +20,7 @@ public class MyApplication extends Application {
         super.onCreate();
         context = this;
     }
+
     public static Context getContext(){
         return context;
     }

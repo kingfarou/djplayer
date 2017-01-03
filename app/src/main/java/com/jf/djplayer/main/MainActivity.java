@@ -35,24 +35,15 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_main);
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    protected void initOther() {
-        //通过两个方式启动服务确保解绑之后服务不会关闭
+        // 初始化服务，通过两个方式启动服务确保解绑之后服务不会关闭
         Intent startService = new Intent(this,PlayerService.class);
         startService(startService);
         bindService(startService, this, BIND_AUTO_CREATE);
-    }
 
-    @Override
-    protected void initView() {
-        //"fl_activity_main_fragment_container"里的"Fragment"必须是动态添加的，由于这些"Fragment"都会被动态的变更
+        // Fragment的初始化
+        // "fl_activity_main_fragment_container"里的"Fragment"必须是动态添加的，由于这些"Fragment"都会被动态的变更
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.fl_activity_main_fragment_container,new MainFragment()).commit();
     }
