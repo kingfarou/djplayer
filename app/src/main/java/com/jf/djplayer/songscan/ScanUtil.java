@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.jf.djplayer.base.MyApplication;
-import com.jf.djplayer.module.Song;
+import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.util.SdCardUtil;
 
 import java.util.ArrayList;

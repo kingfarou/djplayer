@@ -13,10 +13,10 @@ import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.fragment.BaseFragment;
-import com.jf.djplayer.module.Song;
+import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
-import com.jf.djplayer.module.PlayInfo;
+import com.jf.djplayer.bean.PlayInfo;
 import com.jf.djplayer.playertool.LyricTool;
 import com.jf.djplayer.playertool.PlayerOperator;
 import com.jf.djplayer.util.LogUtil;

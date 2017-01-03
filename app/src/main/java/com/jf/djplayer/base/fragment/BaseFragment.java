@@ -18,11 +18,13 @@ abstract public class BaseFragment extends Fragment{
     /**Fragment布局文件对象*/
     protected View layoutView;
 
+    private static final String ON_CREATE = "--onCreate()";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //打印当前在哪一个Fragment，方便调试
-        LogUtil.i(getClass().getSimpleName());
+        LogUtil.i(getClass().getSimpleName()+ON_CREATE);
     }
 
     @Nullable

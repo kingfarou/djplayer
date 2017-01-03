@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.jf.djplayer.module.Song;
+import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.recentlyplay.RecentlyPlayListFragment;
 
 import java.io.File;

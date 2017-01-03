@@ -11,8 +11,8 @@ import com.jf.djplayer.base.fragment.BaseListFragment;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
-import com.jf.djplayer.module.Song;
-import com.jf.djplayer.module.PlayInfo;
+import com.jf.djplayer.bean.Song;
+import com.jf.djplayer.bean.PlayInfo;
 import com.jf.djplayer.playertool.PlayerOperator;
 
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
 package com.jf.djplayer.base.activity;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 
 import com.jf.djplayer.util.LogUtil;
@@ -11,10 +12,11 @@ import com.jf.djplayer.util.LogUtil;
  */
 abstract public class BaseActivity extends FragmentActivity{
 
+    private static final String ON_CREATE = "--onCreate()";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //打印当前Activity名字，方便调试
-        LogUtil.i(getClass().getSimpleName());
+        LogUtil.i(getClass().getSimpleName()+ON_CREATE);
     }
 }

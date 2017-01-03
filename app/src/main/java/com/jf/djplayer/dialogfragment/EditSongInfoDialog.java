@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.jf.djplayer.base.fragment.SongListFragment;
-import com.jf.djplayer.module.Song;
+import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.R;
 
 import com.jf.djplayer.database.SongInfoOpenHelper;

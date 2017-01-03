@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jf.djplayer.base.fragment.SongListFragment;
-import com.jf.djplayer.module.Song;
+import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.util.FileUtil;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;

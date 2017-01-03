@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 
 import com.jf.djplayer.base.adapter.SongListFragmentAdapter;
 import com.jf.djplayer.base.fragment.BaseListFragment;
-import com.jf.djplayer.module.Song;
+import com.jf.djplayer.bean.Song;
 
 import java.util.ArrayList;
 import java.util.List;

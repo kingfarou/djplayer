@@ -1,6 +1,6 @@
 package com.jf.djplayer.interfaces;
 
-import com.jf.djplayer.module.PlayInfo;;
+import com.jf.djplayer.bean.PlayInfo;;
 
 /**
  * Created by JF on 2016/1/28.

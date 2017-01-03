@@ -1,6 +1,6 @@
 package com.jf.djplayer.sortable;
 
-import com.jf.djplayer.module.Song;
+import com.jf.djplayer.bean.Song;
 
 import java.io.File;
 import java.util.Collections;

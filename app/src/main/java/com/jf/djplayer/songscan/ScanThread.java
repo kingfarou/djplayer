@@ -5,7 +5,7 @@ import android.os.Message;
 
 import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.database.SongInfoOpenHelper;
-import com.jf.djplayer.module.Song;
+import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.util.LogUtil;
 
 import java.util.List;

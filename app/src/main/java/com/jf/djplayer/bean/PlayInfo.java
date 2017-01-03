@@ -1,21 +1,20 @@
-package com.jf.djplayer.module;
+package com.jf.djplayer.bean;
 
 import java.util.List;
 
 /**
  * Created by JF on 2016/5/25.
- * 歌曲播放信息对象
- * "PlayInfoSubject"类向"PlayInfoObserver"传递该对象，
- * 用来表示当前播放信息
+ * 歌曲“播放信息”对象，用来表示当前播放信息
+ * "PlayInfoSubject"类向"PlayInfoObserver"传递该对象
  */
 public class PlayInfo {
 
-    private String playListName;//当前正播放的列表所归属的界面名字
-    private List<Song> songList;//当前正播放的歌曲列表
-    private int playPosition;//正播放的歌曲所在列表里的位置
-    private Song songInfo;//当前正播放的歌曲信息
-    private boolean isPlaying;//歌曲是否正在播放（正在唱着）
-    private int progress;//歌曲当前播放进度
+    private String playListName;    // 当前正播放的列表所归属的界面名字
+    private List<Song> songList;    // 当前正播放的歌曲列表
+    private int playPosition;       // 正播放的歌曲所在列表里的位置
+    private Song songInfo;          // 当前正播放的歌曲信息
+    private boolean isPlaying;      // 歌曲是否正在播放（正在唱着）
+    private int progress;           // 歌曲当前播放进度
 
     public PlayInfo(){}
 

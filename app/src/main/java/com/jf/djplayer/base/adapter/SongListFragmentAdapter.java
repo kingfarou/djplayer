@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +12,7 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.base.fragment.SongListFragment;
 import com.jf.djplayer.dialogfragment.SongOperationDialog;
-import com.jf.djplayer.module.Song;
+import com.jf.djplayer.bean.Song;
 
 import java.util.List;
 

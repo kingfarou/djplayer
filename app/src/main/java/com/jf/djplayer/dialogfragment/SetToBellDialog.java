@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.module.Song;
+import com.jf.djplayer.bean.Song;
 
 /**
  * Created by JF on 2015/11/28.

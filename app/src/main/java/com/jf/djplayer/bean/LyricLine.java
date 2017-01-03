@@ -1,4 +1,4 @@
-package com.jf.djplayer.playinfo;
+package com.jf.djplayer.bean;
 
 /**
  * Created by JF on 2016/2/13.
@@ -7,8 +7,8 @@ package com.jf.djplayer.playinfo;
  */
 public class LyricLine {
 
-    private int startTime;//一句歌词开始时间
-    private String lyricContent;//一句歌词歌词内容
+    private int startTime;          // 一句歌词开始时间
+    private String lyricContent;    // 一句歌词歌词内容
 
     /**
      * 传入歌词开始时间以及歌词内容构建歌词对象
@@ -20,13 +20,19 @@ public class LyricLine {
         this.lyricContent = lyricContent;
     }
 
-    public int getStartTime(){
-        return this.startTime;
+    public int getStartTime() {
+        return startTime;
     }
 
-    public String getLyricContent(){
-        return this.lyricContent;
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
     }
 
+    public String getLyricContent() {
+        return lyricContent;
+    }
 
+    public void setLyricContent(String lyricContent) {
+        this.lyricContent = lyricContent;
+    }
 }
