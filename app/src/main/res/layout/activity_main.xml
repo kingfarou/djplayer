@@ -7,14 +7,14 @@
     android:background="@drawable/bg_fragment_mine">
 
     <!--标题栏-->
-    <com.jf.djplayer.view.TitleBar
+    <com.jf.djplayer.widget.TitleBar
         android:id="@+id/fragmentTitleLinearLayout_fragment_mine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         customView:titleIcon="@drawable/ic_app"
         customView:titleIconDistance="8dp"
         customView:titleText="@string/app_name">
-    </com.jf.djplayer.view.TitleBar>
+    </com.jf.djplayer.widget.TitleBar>
 
     <!-- 这个是底边控制栏-->
     <fragment

@@ -6,12 +6,12 @@
     android:layout_height="match_parent">
 
     <!--标题栏-->
-    <com.jf.djplayer.view.TitleBar
+    <com.jf.djplayer.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:titleText="@string/scan_setting">
-    </com.jf.djplayer.view.TitleBar>
+    </com.jf.djplayer.widget.TitleBar>
 
     <!--按时长过滤的设置__start-->
     <TextView

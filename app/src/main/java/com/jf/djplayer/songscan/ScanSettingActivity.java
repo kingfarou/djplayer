@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.activity.BaseActivity;
-import com.jf.djplayer.view.TitleBar;
+import com.jf.djplayer.widget.TitleBar;
 
 /**
  * Created by jf on 2016/8/5.

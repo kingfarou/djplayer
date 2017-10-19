@@ -5,11 +5,11 @@
     android:layout_height="match_parent">
 
     <!-- 标题栏-->
-    <com.jf.djplayer.view.TitleBar
+    <com.jf.djplayer.widget.TitleBar
         android:id="@+id/fragment_title_layout_activity_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.jf.djplayer.view.TitleBar>
+    </com.jf.djplayer.widget.TitleBar>
 
     <!-- 用户输入搜索内容-->
     <EditText

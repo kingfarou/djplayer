@@ -1,4 +1,4 @@
-package com.jf.djplayer.view;
+package com.jf.djplayer.widget;
 
 import android.app.Activity;
 import android.content.Context;

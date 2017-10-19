@@ -5,10 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.base.activity.BaseActivity;
 import com.jf.djplayer.util.ToastUtil;
-import com.jf.djplayer.view.TitleBar;
+import com.jf.djplayer.widget.TitleBar;
 
 /**
  * Created by jf on 2016/8/8.

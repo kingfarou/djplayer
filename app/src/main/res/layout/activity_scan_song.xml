@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.jf.djplayer.view.TitleBar
+    <com.jf.djplayer.widget.TitleBar
         android:id="@+id/title_bar_activity_scan_song"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:titleText="扫描音乐">
-    </com.jf.djplayer.view.TitleBar>
+    </com.jf.djplayer.widget.TitleBar>
 
     <ImageView
         android:layout_width="wrap_content"

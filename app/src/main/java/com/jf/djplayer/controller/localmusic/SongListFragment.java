@@ -25,7 +25,7 @@ import com.jf.djplayer.sortable.SortBySingerName;
 import com.jf.djplayer.sortable.SortBySongName;
 import com.jf.djplayer.util.LogUtil;
 import com.jf.djplayer.util.ToastUtil;
-import com.jf.djplayer.view.ListViewPopupWindows;
+import com.jf.djplayer.widget.ListViewPopupWindows;
 
 import java.util.List;
 

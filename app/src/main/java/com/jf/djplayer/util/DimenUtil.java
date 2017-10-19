@@ -7,7 +7,7 @@ import com.jf.djplayer.base.MyApplication;
 
 /**
  * Created by JF on 2016/11/8.
- * Tool that used to change px,dp,sp
+ * 转变px、dp、sp的工具
  */
 public final class DimenUtil {
 

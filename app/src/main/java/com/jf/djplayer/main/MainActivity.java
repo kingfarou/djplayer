@@ -17,7 +17,7 @@ import com.jf.djplayer.controller.myfavorite.MyFavoriteActivity;
 import com.jf.djplayer.controller.recentlyplay.RecentlyPlayActivity;
 import com.jf.djplayer.service.PlayerService;
 import com.jf.djplayer.util.ToastUtil;
-import com.jf.djplayer.view.TitleBar;
+import com.jf.djplayer.widget.TitleBar;
 
 
 import java.util.List;

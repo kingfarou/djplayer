@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.view.TitleBar;
-import com.jf.djplayer.view.TextViewTabs;
+import com.jf.djplayer.widget.TitleBar;
+import com.jf.djplayer.widget.TextViewTabs;
 
 /**
  * Created by JF on 2016/4/25.

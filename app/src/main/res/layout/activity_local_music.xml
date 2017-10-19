@@ -7,11 +7,11 @@
     tools:context="com.jf.djplayer.controller.localmusic.LocalMusicActivity">
 
     <!--标题栏-->
-    <com.jf.djplayer.view.TitleBar
+    <com.jf.djplayer.widget.TitleBar
         android:id="@+id/title_bar_activity_local_music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.jf.djplayer.view.TitleBar>
+    </com.jf.djplayer.widget.TitleBar>
 
     <!-- ViewPager指示器-->
     <com.viewpagerindicator.TabPageIndicator

@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.jf.djplayer.controller.myfavorite.MyFavoriteActivity">
 
-    <com.jf.djplayer.view.TitleBar
+    <com.jf.djplayer.widget.TitleBar
         android:id="@+id/title_bar_activity_my_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.jf.djplayer.view.TitleBar>
+    </com.jf.djplayer.widget.TitleBar>
 
     <!-- 这个是底边控制栏-->
     <fragment

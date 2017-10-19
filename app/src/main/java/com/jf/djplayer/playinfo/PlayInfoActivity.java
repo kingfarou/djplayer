@@ -32,7 +32,7 @@ import com.jf.djplayer.util.UserOptionPreferences;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.playertool.PlayerOperator;
 
-import com.jf.djplayer.view.TitleBar;
+import com.jf.djplayer.widget.TitleBar;
 import com.jf.djplayer.playertool.SingerPictureTools;
 import com.viewpagerindicator.CirclePageIndicator;
 

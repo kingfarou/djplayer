@@ -1,4 +1,4 @@
-package com.jf.djplayer.view;
+package com.jf.djplayer.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
