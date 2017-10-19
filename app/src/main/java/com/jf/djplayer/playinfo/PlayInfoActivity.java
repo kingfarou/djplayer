@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2015/8/4.
+ * Created by KingFar on 2015/8/4.
  * 播放信息"Activity"
  */
 public class PlayInfoActivity extends BaseActivity implements

@@ -28,7 +28,7 @@ import com.jf.djplayer.util.ToastUtil;
  */
 public class SongOperationDialog extends DialogFragment implements View.OnClickListener{
 
-    /** 选择要对歌曲做的操作*/
+    /** 对歌曲进行操作的请求码*/
     public static final int REQUEST_CODE_SELECT_OPERATION = 1<<2;
     /** 收藏歌曲的请求码*/
     public static final int REQUEST_CODE_COLLECTION_SONG = 1<<3;
@@ -39,13 +39,15 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
     /** 更新歌曲信息的请求码*/
     public static final int REQUEST_CODE_EDIT_SONG_INFO = 1<<6;
 
-    private int position;       //被点击的歌曲位置
-    private Song song;          //被点击的歌曲信息
+    /** 键，表示被操作的歌曲在原列表里的位置*/
+    public static final String KEY_POSITION = "key_position";
+    /** 默认位置*/
+    public static final int VALUES_DEFAULT_POSITION = -1;
+    /** 键，表示被操作的歌曲对象*/
+    public static final String KEY_SONG = "key_song";
 
-//    /**键，表示被点击的歌曲位置*/
-//    public static final String KEY_POSITION = "position";
-//    /**键，被点击的歌曲对象*/
-//    public static final String KEY_SONG = "song";
+    private int position;       // 被点击的歌曲位置
+    private Song song;          // 被点击的歌曲信息
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,8 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
         if(arguments == null){
             return;
         }
-        position = arguments.getInt(SongListFragment.KEY_POSITION);
-        song = (Song)arguments.getSerializable(SongListFragment.KEY_SONG);
+        position = arguments.getInt(KEY_POSITION);
+        song = (Song)arguments.getSerializable(KEY_SONG);
 
         //去掉标题的同时保留了"DialogFragment"宽度正常
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_MinWidth);
@@ -92,30 +94,17 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
         //如果点击收藏歌曲
         if(id == R.id.tv_dialog_song_operation_collection){
             //如果歌曲原来已经收藏，取消收藏，否则的话添加收藏
-//            if(song.getCollection() == Song.IS_COLLECTION){
-//                new SongInfoOpenHelper(MyApplication.getContext()).updateCollection(song,Song.NOT_COLLECTION);
-//                song.setCollection(Song.NOT_COLLECTION);
-//                if(getTargetFragment() != null){
-//                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
-//                }
-//            }else{
-//                new SongInfoOpenHelper(MyApplication.getContext()).updateCollection(song,Song.IS_COLLECTION);
-//                song.setCollection(Song.IS_COLLECTION);
-//                if(getTargetFragment() != null){
-//                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
-//                }
-//            }
             if(song.getCollection() == Song.IS_COLLECTION){
                 new SongInfoOpenHelper(MyApplication.getContext()).updateCollection(song,Song.NOT_COLLECTION);
                 song.setCollection(Song.NOT_COLLECTION);
                 if(getTargetFragment() != null){
-                    getTargetFragment().onActivityResult(REQUEST_CODE_CANCEL_COLLECTION_SONG, Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
+                    getTargetFragment().onActivityResult(REQUEST_CODE_CANCEL_COLLECTION_SONG, Activity.RESULT_OK, new Intent().putExtra(KEY_POSITION, position));
                 }
             }else{
                 new SongInfoOpenHelper(MyApplication.getContext()).updateCollection(song,Song.IS_COLLECTION);
                 song.setCollection(Song.IS_COLLECTION);
                 if(getTargetFragment() != null){
-                    getTargetFragment().onActivityResult(REQUEST_CODE_COLLECTION_SONG, Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
+                    getTargetFragment().onActivityResult(REQUEST_CODE_COLLECTION_SONG, Activity.RESULT_OK, new Intent().putExtra(KEY_POSITION, position));
                 }
             }
             dismiss();
@@ -124,8 +113,8 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
 
         //装填被点击的位置以及对应歌曲信息
         Bundle arguments = new Bundle();
-        arguments.putInt(SongListFragment.KEY_POSITION, position);
-        arguments.putSerializable(SongListFragment.KEY_SONG, song);
+        arguments.putInt(KEY_POSITION, position);
+        arguments.putSerializable(KEY_SONG, song);
 
         //如果点击删除歌曲
         if(id == R.id.tv_dialog_song_operation_delete){

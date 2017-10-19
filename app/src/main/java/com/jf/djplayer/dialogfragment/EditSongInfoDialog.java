@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.jf.djplayer.base.fragment.SongListFragment;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.R;
 
@@ -47,8 +46,8 @@ public class EditSongInfoDialog extends DialogFragment {
         if(arguments == null){
             return;
         }
-        this.position = arguments.getInt(SongListFragment.KEY_POSITION, SongListFragment.VALUES_DEFAULT_POSITION);
-        this.song = (Song)arguments.getSerializable(SongListFragment.KEY_SONG);
+        this.position = arguments.getInt(SongOperationDialog.KEY_POSITION, SongOperationDialog.VALUES_DEFAULT_POSITION);
+        this.song = (Song)arguments.getSerializable(SongOperationDialog.KEY_SONG);
     }
 
     //    布局文件里的View做初始化
@@ -80,7 +79,7 @@ public class EditSongInfoDialog extends DialogFragment {
                         SongInfoOpenHelper updateOpenHelper = new SongInfoOpenHelper(getActivity());
                         updateOpenHelper.updateLocalMusicTables(song);
 //                        发送广播通知界面更新数据
-                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
+                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongOperationDialog.KEY_POSITION, position));
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

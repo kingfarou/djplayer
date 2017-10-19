@@ -44,11 +44,6 @@ public class SongListFragment extends BaseFragment
     private static final int VALUES_SONG_SORT_BY_SINGER_NAME = 1<<2;//按照歌手名称排序
     private static final int VALUES_SONG_SORT_BY_ADD_TIME = 1<<3;//按照添加时间排序
 
-    /** 键，表示被操作的歌曲在原列表里的位置，用于Bundle传递*/
-    public static final String KEY_POSITION = "key_position";
-    /** 键，表示被操作的歌曲对象，用于Bundle传递*/
-    public static final String KEY_SONG = "key_song";
-
     //请求码
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐
 
@@ -99,8 +94,8 @@ public class SongListFragment extends BaseFragment
                 ToastUtil.showShortToast(getActivity(), "取消收藏");
             } else if(requestCode == SongOperationDialog.REQUEST_CODE_DELETE_SONG && data != null) {
                 // 删除歌曲
-                int position = data.getIntExtra(KEY_POSITION, -1);
-                if( data.getIntExtra(KEY_POSITION, -1) != -1 ) {
+                int position = data.getIntExtra(SongOperationDialog.KEY_POSITION, -1);
+                if( position != -1 ) {
                     songList.remove(position);
                 }
                 ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songList.size()+"首歌");
@@ -153,32 +148,6 @@ public class SongListFragment extends BaseFragment
                     ToastUtil.showShortToast(getActivity(), "该功能还未实现");
                 }
                 listPopupWindow.dismiss();
-//                switch (position) {
-//                    case 0://扫描音乐
-//                        getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
-//                        break;
-//                    case 1://按照歌曲名字排序歌曲
-//                        songListSortable = new SortBySongName();
-//                        songListSortable.sort(dataList);
-//                        getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_SONG_SORT_BY, VALUES_SONG_SORT_BY_SONG_NAME).commit();
-//                        baseAdapter.notifyDataSetChanged();
-//                        break;
-//                    case 2://按照歌手名字排序歌曲
-//                        songListSortable = new SortBySingerName();
-//                        songListSortable.sort(dataList);
-//                        getActivity().getPreferences(Context.MODE_PRIVATE).edit().putInt(KEY_SONG_SORT_BY, VALUES_SONG_SORT_BY_SINGER_NAME).commit();
-//                        baseAdapter.notifyDataSetChanged();
-//                        break;
-//                    case 3://按照添加时间排序歌曲
-//                        MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
-//                        break;
-//                    case 4://歌曲进行批量管理
-//                        MyApplication.showToast((BaseActivity) getActivity(), "该功能还未实现");
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                listPopupWindow.dismiss();
             }
         });
         return listPopupWindow;

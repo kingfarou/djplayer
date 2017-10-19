@@ -12,9 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.adapter.SongListFragmentAdapter;
 import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.bean.Song;
+import com.jf.djplayer.controller.localmusic.SongListAdapter;
 import com.jf.djplayer.datamanager.MyFavoriteLoader;
 import com.jf.djplayer.dialogfragment.SongOperationDialog;
 import com.jf.djplayer.interfaces.PlayController;
@@ -37,16 +37,11 @@ public class MyFavoriteListFragment extends BaseFragment
     private static final int VALUES_SONG_SORT_BY_SINGER_NAME = 1<<2;//按照歌手名称排序
     private static final int VALUES_SONG_SORT_BY_ADD_TIME = 1<<3;//按照添加时间排序
 
-    /** 键，表示被操作的歌曲在原列表里的位置，用于Bundle传递*/
-    public static final String KEY_POSITION = "key_position";
-    /** 键，表示被操作的歌曲对象，用于Bundle传递*/
-    public static final String KEY_SONG = "key_song";
-
     //请求码
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐
 
     private ListView listView;     // 歌曲列表
-    private SongListFragmentAdapter songListFragmentAdapter;
+    private MyFavoriteListAdapter myFavoriteListAdapter;
     private View loadingHintView;  // ListView加载提示
     private View emptyView;        // ListView没数据时的提示
     private View footerView; // ListView的footView
@@ -85,10 +80,10 @@ public class MyFavoriteListFragment extends BaseFragment
                 loadMyFavoriteMusic();
             } else if(requestCode == SongOperationDialog.REQUEST_CODE_CANCEL_COLLECTION_SONG && data != null) {
                 // 取消收藏某一首歌
-                int position = data.getIntExtra(KEY_POSITION, -1);
+                int position = data.getIntExtra(SongOperationDialog.KEY_POSITION, -1);
                 songList.remove(position);
-                songListFragmentAdapter.setSongList(songList);
-                songListFragmentAdapter.notifyDataSetChanged();
+                myFavoriteListAdapter.setSongList(songList);
+                myFavoriteListAdapter.notifyDataSetChanged();
                 ToastUtil.showShortToast(getActivity(), "取消收藏");
                 if(songList.size() == 0){
                     emptyView.setVisibility(View.VISIBLE);
@@ -99,15 +94,15 @@ public class MyFavoriteListFragment extends BaseFragment
                 }
             } else if(requestCode == SongOperationDialog.REQUEST_CODE_DELETE_SONG && data != null) {
                 // 删除歌曲
-                int position = data.getIntExtra(KEY_POSITION, -1);
+                int position = data.getIntExtra(SongOperationDialog.KEY_POSITION, -1);
                 songList.remove(position);
-                songListFragmentAdapter.setSongList(songList);
-                songListFragmentAdapter.notifyDataSetChanged();
+                myFavoriteListAdapter.setSongList(songList);
+                myFavoriteListAdapter.notifyDataSetChanged();
                 ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songList.size()+"首歌");
                 ToastUtil.showShortToast(getActivity(), "删除成功");
             } else if(requestCode == SongOperationDialog.REQUEST_CODE_EDIT_SONG_INFO && data != null){
                 // 修改歌曲信息
-                songListFragmentAdapter.notifyDataSetChanged();
+                myFavoriteListAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -153,8 +148,8 @@ public class MyFavoriteListFragment extends BaseFragment
             ((TextView) footerView.findViewById(R.id.tv_list_footer_view)).setText(songList.size() + "首歌");
             listView.addFooterView(footerView);
             listView.setOnItemClickListener(this);
-            songListFragmentAdapter = new SongListFragmentAdapter(this, songList);
-            listView.setAdapter(songListFragmentAdapter);
+            myFavoriteListAdapter = new MyFavoriteListAdapter(this, songList);
+            listView.setAdapter(myFavoriteListAdapter);
         }
     }
 

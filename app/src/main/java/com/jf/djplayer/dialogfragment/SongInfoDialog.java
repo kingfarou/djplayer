@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.jf.djplayer.base.fragment.SongListFragment;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.R;
 
@@ -39,8 +38,8 @@ public class SongInfoDialog extends DialogFragment {
         if(arguments == null){
             return;
         }
-        position = arguments.getInt(SongListFragment.KEY_POSITION, SongListFragment.VALUES_DEFAULT_POSITION);
-        song = (Song)arguments.getSerializable(SongListFragment.KEY_SONG);
+        position = arguments.getInt(SongOperationDialog.KEY_POSITION, SongOperationDialog.VALUES_DEFAULT_POSITION);
+        song = (Song)arguments.getSerializable(SongOperationDialog.KEY_SONG);
     }
 
     @NonNull

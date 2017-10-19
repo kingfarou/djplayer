@@ -1,4 +1,4 @@
-package com.jf.djplayer.controller.localmusic;
+package com.jf.djplayer.controller.myfavorite;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,14 +18,14 @@ import java.util.List;
 
 /**
  * Created by Kingfar on 2016/7/14.
- * 本地音乐-歌曲列表适配器
+ * 我的最爱-歌曲列表适配器
  */
-public class SongListAdapter extends BaseAdapter implements View.OnClickListener{
+public class MyFavoriteListAdapter extends BaseAdapter implements View.OnClickListener{
 
     private Fragment fragment;    // 适配器内需要弹出DialogFragment，传入的Fragment作为targetFragment
     private List<Song> songList;  // 歌曲列表
 
-    public SongListAdapter(Fragment fragment, List<Song> songList){
+    public MyFavoriteListAdapter(Fragment fragment, List<Song> songList){
         this.fragment = fragment;
         this.songList = songList;
     }

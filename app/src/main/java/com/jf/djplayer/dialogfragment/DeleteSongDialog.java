@@ -16,7 +16,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jf.djplayer.base.fragment.SongListFragment;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.util.FileUtil;
 import com.jf.djplayer.database.SongInfoOpenHelper;
@@ -25,7 +24,8 @@ import com.jf.djplayer.R;
 import java.io.File;
 
 /**
- * Created by Administrator on 2015/8/16.
+ * Created by Kingfar on 2015/8/16.
+ * 删除歌曲的弹窗
  */
 public class DeleteSongDialog extends DialogFragment implements CompoundButton.OnCheckedChangeListener{
 
@@ -46,8 +46,8 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
         if (arguments == null) {
             return;
         }
-        position = arguments.getInt(SongListFragment.KEY_POSITION, SongListFragment.VALUES_DEFAULT_POSITION);
-        song = (Song) arguments.getSerializable(SongListFragment.KEY_SONG);
+        position = arguments.getInt(SongOperationDialog.KEY_POSITION, SongOperationDialog.VALUES_DEFAULT_POSITION);
+        song = (Song) arguments.getSerializable(SongOperationDialog.KEY_SONG);
     }
 
     @NonNull
@@ -95,7 +95,7 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
                 deleteOpenHelper.deleteFromLocalMusicTable(song);
                 //设置返回，告诉外层"Fragment"删除歌曲
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra(SongListFragment.KEY_POSITION, position);
+                resultIntent.putExtra(SongOperationDialog.KEY_POSITION, position);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, resultIntent);
             }
         })//setPositionButton()
