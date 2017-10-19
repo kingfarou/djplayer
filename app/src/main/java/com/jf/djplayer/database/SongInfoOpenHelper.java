@@ -5,9 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.MediaStore;
 
+import com.jf.djplayer.bean.Album;
+import com.jf.djplayer.bean.Folder;
+import com.jf.djplayer.bean.Singer;
 import com.jf.djplayer.bean.Song;
-import com.jf.djplayer.recentlyplay.RecentlyPlayListFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,15 +35,17 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
     //用来表示信息的量
     public static final int isCollection = 1;
     public static final int noCollection = 0;
+    /**当一首歌最后一次播放时间等于这个常量，表示这首歌从未播放过*/
+    public static final int NEVER_PLAY = 0;
 
     //这是“SONG_INFO_TABLE”表的所有列的名字
     public static final String id = "_ID";//主键
-    public static final String title = "_title";//歌名
-    public static final String artist = "_artist";//歌手
-    public static final String album = "_album";//专辑
-    public static final String duration = "_duration";//时长
-    public static final String size = "_size";//大小
-    public static final String fileAbsolutePath = "absolute_path";//音频文件绝对路径
+    public static final String title = MediaStore.Audio.Media.TITLE;//歌名
+    public static final String artist = MediaStore.Audio.Media.ARTIST;//歌手
+    public static final String album = MediaStore.Audio.Media.ALBUM;//专辑
+    public static final String duration = MediaStore.Audio.Media.DURATION;//时长
+    public static final String size = MediaStore.Audio.Media.SIZE;//大小
+    public static final String fileAbsolutePath = MediaStore.Audio.Media.DATA;//音频文件绝对路径
     public static final String folderPath = "folder_path";//歌曲文件所在的文件夹路径
     public static final String collection = "_collection";//标记用户是否收藏音乐
     private static final String lastPlayTime = "last_play_time";//标记歌曲最后一次播放时间
@@ -117,7 +122,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         songInfoValues.put(folderPath, songInfo.getFileAbsolutePath() == null? notKnow: new File(songInfo.getFileAbsolutePath()).getParent());
         songInfoValues.put(fileAbsolutePath, songInfo.getFileAbsolutePath() == null? notKnow:songInfo.getFileAbsolutePath());
         songInfoValues.put(collection, songInfo.getCollection());
-        songInfoValues.put(lastPlayTime, RecentlyPlayListFragment.NEVER_PLAY);
+        songInfoValues.put(lastPlayTime, NEVER_PLAY);
         long id =  songInfoDatabase.insert(LOCAL_MUSIC_TABLE_NAME, null, songInfoValues);
         songInfoDatabase.close();
         return id;
@@ -136,8 +141,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
 
 
     /**
-     * 更新由songInfo对象里面的绝对路径
-     * 所指定的那条歌曲记录
+     * 更新由songInfo对象里面的绝对路径所指定的那条歌曲记录
      * @param song 待更新的歌曲对象
      */
     public void updateLocalMusicTables(Song song) {
@@ -161,7 +165,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
      * @return 一个装着本地数据库所有歌曲的集合
      */
     public List<Song> getLocalMusicSongInfo(){
-//        读取所有歌曲数据
+        // 读取所有歌曲数据
         Cursor songInfoCursor = getReadableDatabase().query(LOCAL_MUSIC_TABLE_NAME,null,null,null,null,null,null);
         //如果没有歌曲数据直接返回
         if (songInfoCursor.getCount()==0){
@@ -317,6 +321,93 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         }
         songNumberDatabase.close();
         return mapList;
+    }
+
+    /**
+     * 获取全部歌手列表
+     * @return 歌手列表
+     */
+    public List<Singer> getSingerList(){
+        List<String> dataList = getDistinctValue(artist);
+        if (dataList==null||dataList.size()==0) return null;//如果为空直接返回
+        SQLiteDatabase songNumberDatabase= getReadableDatabase();
+        Cursor songNumberCursor;
+        List<Singer> singerList = new ArrayList<>(dataList.size());
+    //        List<Map<String,String>> mapList = new ArrayList<>(dataList.size());
+    //        Map<String,String> itemMap;
+    //        读取“_dataList”里面每个数据所对应的歌曲数目
+        Singer singer = null;
+        for (String columnValues:dataList) {
+            songNumberCursor = songNumberDatabase.query(LOCAL_MUSIC_TABLE_NAME, new String[]{collection}, artist+"=?", new String[]{columnValues}, null, null, null);
+            singer = new Singer(null, columnValues, songNumberCursor.getCount());
+            singerList.add(singer);
+    //            itemMap = new HashMap<>(2);
+    ////            装填值及所对应的歌曲数目
+    //            itemMap.put("title", columnValues);
+    //            itemMap.put("content", songNumberCursor.getCount() + "");
+    //            mapList.add(itemMap);
+            songNumberCursor.close();
+        }
+        songNumberDatabase.close();
+        return singerList;
+    }
+
+    /**
+     * 获取专辑列表
+     * @return 专辑列表
+     */
+    public List<Album> getAlbumList(){
+        List<String> dataList = getDistinctValue(album);
+        if (dataList==null||dataList.size()==0) return null;//如果为空直接返回
+        SQLiteDatabase songNumberDatabase= getReadableDatabase();
+        Cursor songNumberCursor;
+        List<Album> albumList = new ArrayList<>(dataList.size());
+//        List<Map<String,String>> mapList = new ArrayList<>(dataList.size());
+//        Map<String,String> itemMap;
+//        读取“_dataList”里面每个数据所对应的歌曲数目
+        Album album = null;
+        for (String columnValues:dataList) {
+            songNumberCursor = songNumberDatabase.query(LOCAL_MUSIC_TABLE_NAME, new String[]{collection}, SongInfoOpenHelper.album+"=?", new String[]{columnValues}, null, null, null);
+            album = new Album(null, columnValues, songNumberCursor.getCount());
+            albumList.add(album);
+//            itemMap = new HashMap<>(2);
+////            装填值及所对应的歌曲数目
+//            itemMap.put("title", columnValues);
+//            itemMap.put("content", songNumberCursor.getCount() + "");
+//            mapList.add(itemMap);
+            songNumberCursor.close();
+        }
+        songNumberDatabase.close();
+        return albumList;
+    }
+
+    /**
+     * 获取全部路径
+     * @return 路径列表
+     */
+    public List<Folder> getFolderList(){
+        List<String> dataList = getDistinctValue(folderPath);
+        if (dataList==null||dataList.size()==0) return null;//如果为空直接返回
+        SQLiteDatabase songNumberDatabase= getReadableDatabase();
+        Cursor songNumberCursor;
+        List<Folder> folderList = new ArrayList<>(dataList.size());
+        //        List<Map<String,String>> mapList = new ArrayList<>(dataList.size());
+        //        Map<String,String> itemMap;
+        //        读取“_dataList”里面每个数据所对应的歌曲数目
+        Folder folder = null;
+        for (String columnValues:dataList) {
+            songNumberCursor = songNumberDatabase.query(LOCAL_MUSIC_TABLE_NAME, new String[]{collection}, SongInfoOpenHelper.folderPath+"=?", new String[]{columnValues}, null, null, null);
+            folder = new Folder(columnValues, songNumberCursor.getCount());
+            folderList.add(folder);
+            //            itemMap = new HashMap<>(2);
+            ////            装填值及所对应的歌曲数目
+            //            itemMap.put("title", columnValues);
+            //            itemMap.put("content", songNumberCursor.getCount() + "");
+            //            mapList.add(itemMap);
+            songNumberCursor.close();
+        }
+        songNumberDatabase.close();
+        return folderList;
     }
 
 }

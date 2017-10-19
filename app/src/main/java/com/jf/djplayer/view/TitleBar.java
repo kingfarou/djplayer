@@ -52,7 +52,6 @@ public class TitleBar extends LinearLayout implements OnClickListener{
 
         //搜索按钮属性设置
         searchIv.setVisibility(typedArray.getInteger(R.styleable.TitleBar_searchIconVisibility, View.VISIBLE));
-
         //菜单按钮属性设置
         menuIv.setVisibility(typedArray.getInteger(R.styleable.TitleBar_menuIconVisibility, View.VISIBLE));
 
@@ -128,26 +127,21 @@ public class TitleBar extends LinearLayout implements OnClickListener{
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        //点击标题
         if(id == R.id.tv_layout_title_bar_title_text){
-            if(onTitleClickListener != null){
+            //点击标题
+            if(onTitleClickListener != null) {
                 onTitleClickListener.onTitleClick(v);
             }
-            return;
-        }
-        //点击搜索
-        if(id == R.id.iv_layout_title_bar_search){
+        }else if(id == R.id.iv_layout_title_bar_search){
+            //点击搜索
             if(onSearchClickListener != null){
                 onSearchClickListener.onSearchClick(v);
             }
-            return;
-        }
-        //点击菜单
-        if(id == R.id.iv_layout_title_bar_menu){
+        }else if(id == R.id.iv_layout_title_bar_menu){
+            //点击菜单
             if(onMenuClickListener != null){
                 onMenuClickListener.onMenuClick(v);
             }
-            return;
         }
     }
 

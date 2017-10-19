@@ -66,8 +66,8 @@ public class SongListFragmentAdapter extends MyBaseAdapter<Song> implements View
             int position = (int)view.getTag();
             //传递被点击的位置，以及该位置的歌曲信息
             Bundle arguments = new Bundle();
-            arguments.putInt(SongOperationDialog.KEY_POSITION, position);
-            arguments.putSerializable(SongOperationDialog.KEY_SONG, dataList.get(position));
+            arguments.putInt(SongListFragment.KEY_POSITION, position);
+            arguments.putSerializable(SongListFragment.KEY_SONG, dataList.get(position));
             //打开歌曲操作弹窗
             SongOperationDialog songOperationDialog = new SongOperationDialog();
             songOperationDialog.setArguments(arguments);
@@ -78,7 +78,7 @@ public class SongListFragmentAdapter extends MyBaseAdapter<Song> implements View
 //            }else{
 //                songOperationDialog.setTargetFragment(fragment, SongListFragment.REQUEST_CODE_COLLECTION_SONG);
 //            }
-            songOperationDialog.setTargetFragment(fragment, SongListFragment.REQUEST_CODE_SELECT_OPERATION);
+            songOperationDialog.setTargetFragment(fragment, SongOperationDialog.REQUEST_CODE_SELECT_OPERATION);
             songOperationDialog.show(fragment.getChildFragmentManager(), "SongOperationDialog");
             return;
         }

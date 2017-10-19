@@ -19,6 +19,8 @@ abstract public class BaseFragment extends Fragment{
     protected View layoutView;
 
     private static final String ON_CREATE = "--onCreate()";
+    private static final String ON_STOP = "--onStop()";
+    private static final String ON_DESTROY = "--onDestroy()";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,29 +29,15 @@ abstract public class BaseFragment extends Fragment{
         LogUtil.i(getClass().getSimpleName()+ON_CREATE);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        initOther();
-        layoutView = inflater.inflate(getLayoutId(), container, false);
-        initView(layoutView);
-        return layoutView;
+    public void onStop() {
+        super.onStop();
+        LogUtil.i(getClass().getSimpleName()+ON_STOP);
     }
 
-    /**
-     * 获取要加载的布局文件Id
-     * @return 返回要加载的布局文件id：R.layout.xx
-     */
-    abstract protected int getLayoutId();
-
-    /**
-     * 在"View"初始化前的初始化
-     */
-    protected void initOther(){}
-
-    /**
-     * 初始化View
-      * @param layoutView 在"getLayoutId()"方法里面所返回的Id所对应的View
-     */
-    protected void initView(View layoutView){}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtil.i(getClass().getSimpleName()+ON_DESTROY);
+    }
 }

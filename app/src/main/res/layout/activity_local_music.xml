@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_local_music"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jf.djplayer.controller.localmusic.LocalMusicActivity">
+
+    <!--标题栏-->
+    <com.jf.djplayer.view.TitleBar
+        android:id="@+id/title_bar_activity_local_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.jf.djplayer.view.TitleBar>
+
+    <!-- ViewPager指示器-->
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/tab_page_indicator_activity_local_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar_activity_local_music"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="#ffC0C0C0"/>
+
+    <!--底边播放控制栏-->
+    <fragment
+        android:name="com.jf.djplayer.main.BottomFragment"
+        android:id="@+id/bottom_fragment_activity_local_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        tools:layout="@layout/fragment_bottom" />
+
+    <!--各个播放列表页-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_activity_local_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tab_page_indicator_activity_local_music"
+        android:layout_above="@id/bottom_fragment_activity_local_music">
+    </android.support.v4.view.ViewPager>
+</RelativeLayout>

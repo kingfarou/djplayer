@@ -45,23 +45,16 @@ public class TwoLineLyricFragment extends BaseFragment implements PlayInfoObserv
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_two_line_lyric;
-    }
-
-    @Override
-    protected void initOther() {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         //获取所需要的主题对象
         playInfoSubject = PlayerOperator.getInstance();
+        View layoutView = inflater.inflate(R.layout.fragment_two_line_lyric, container, false);
+        initView(layoutView);
+        return layoutView;
     }
 
-    @Override
-    protected void initView(View layoutView) {
+    private void initView(View layoutView) {
         topLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_topLine);
         bottomLineTv = (TextView)layoutView.findViewById(R.id.tv_fragment_two_line_lyric_bottomLine);
 //        初始化时界面所显示的文字

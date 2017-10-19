@@ -28,13 +28,24 @@ import com.jf.djplayer.util.ToastUtil;
  */
 public class SongOperationDialog extends DialogFragment implements View.OnClickListener{
 
+    /** 选择要对歌曲做的操作*/
+    public static final int REQUEST_CODE_SELECT_OPERATION = 1<<2;
+    /** 收藏歌曲的请求码*/
+    public static final int REQUEST_CODE_COLLECTION_SONG = 1<<3;
+    /** 取消收藏歌曲的请求码*/
+    public static final int REQUEST_CODE_CANCEL_COLLECTION_SONG = 1<<4;
+    /** 这是删除歌曲的请求码*/
+    public static final int REQUEST_CODE_DELETE_SONG = 1<<5;
+    /** 更新歌曲信息的请求码*/
+    public static final int REQUEST_CODE_EDIT_SONG_INFO = 1<<6;
+
     private int position;       //被点击的歌曲位置
     private Song song;          //被点击的歌曲信息
 
-    /**键，表示被点击的歌曲位置*/
-    public static final String KEY_POSITION = "position";
-    /**键，被点击的歌曲对象*/
-    public static final String KEY_SONG = "song";
+//    /**键，表示被点击的歌曲位置*/
+//    public static final String KEY_POSITION = "position";
+//    /**键，被点击的歌曲对象*/
+//    public static final String KEY_SONG = "song";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,8 +55,8 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
         if(arguments == null){
             return;
         }
-        position = arguments.getInt(KEY_POSITION);
-        song = (Song)arguments.getSerializable(KEY_SONG);
+        position = arguments.getInt(SongListFragment.KEY_POSITION);
+        song = (Song)arguments.getSerializable(SongListFragment.KEY_SONG);
 
         //去掉标题的同时保留了"DialogFragment"宽度正常
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_MinWidth);
@@ -98,13 +109,13 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
                 new SongInfoOpenHelper(MyApplication.getContext()).updateCollection(song,Song.NOT_COLLECTION);
                 song.setCollection(Song.NOT_COLLECTION);
                 if(getTargetFragment() != null){
-                    getTargetFragment().onActivityResult(SongListFragment.REQUEST_CODE_CANCEL_COLLECTION_SONG, Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
+                    getTargetFragment().onActivityResult(REQUEST_CODE_CANCEL_COLLECTION_SONG, Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
                 }
             }else{
                 new SongInfoOpenHelper(MyApplication.getContext()).updateCollection(song,Song.IS_COLLECTION);
                 song.setCollection(Song.IS_COLLECTION);
                 if(getTargetFragment() != null){
-                    getTargetFragment().onActivityResult(SongListFragment.REQUEST_CODE_COLLECTION_SONG, Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
+                    getTargetFragment().onActivityResult(REQUEST_CODE_COLLECTION_SONG, Activity.RESULT_OK, new Intent().putExtra(SongListFragment.KEY_POSITION, position));
                 }
             }
             dismiss();
@@ -120,7 +131,7 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
         if(id == R.id.tv_dialog_song_operation_delete){
             DeleteSongDialog deleteSongDialogFragment = new DeleteSongDialog();
             deleteSongDialogFragment.setArguments(arguments);
-            deleteSongDialogFragment.setTargetFragment(getTargetFragment(), SongListFragment.REQUEST_CODE_DELETE_SONG);
+            deleteSongDialogFragment.setTargetFragment(getTargetFragment(), REQUEST_CODE_DELETE_SONG);
             deleteSongDialogFragment.show(getTargetFragment().getChildFragmentManager(), "DeleteSongDialogFragment");
             dismiss();
             return;
@@ -147,7 +158,7 @@ public class SongOperationDialog extends DialogFragment implements View.OnClickL
         if(id == R.id.tv_dialog_song_operation_information){
             SongInfoDialog songInfoDialog = new SongInfoDialog();
             songInfoDialog.setArguments(arguments);
-            songInfoDialog.setTargetFragment(getTargetFragment(), SongListFragment.REQUEST_CODE_EDIT_SONG_INFO);
+            songInfoDialog.setTargetFragment(getTargetFragment(), REQUEST_CODE_EDIT_SONG_INFO);
             songInfoDialog.show(getTargetFragment().getChildFragmentManager(), "songOperationDialog");
             dismiss();
         }

@@ -15,7 +15,7 @@ public class LogUtil {
 
     //可以在这单独控制是否需要打印日志
     private static final boolean isDebug = true;
-    private static final String TAG = "com.jf.djplayer.testLog";
+    private static final String TAG = "com.jf.djplayer.logTag";
 
     //下面四个是默认tag的函数
     public static void v(String msg) {

@@ -13,7 +13,8 @@ import java.util.List;
  */
 public class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter{
 
-    private List<Fragment> fragmentList;
+    private List<Fragment> fragmentList; // 要显示的Fragment集合
+    private String[] fragmentTitles;     // Fragment集合里面每个Fragment标题
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm) {
         super(fm);
@@ -22,6 +23,12 @@ public class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter{
     public BaseFragmentStatePagerAdapter(FragmentManager fm, List<Fragment> fragmentList){
         super(fm);
         this.fragmentList = fragmentList;
+    }
+
+    public BaseFragmentStatePagerAdapter(FragmentManager fm, List<Fragment> fragmentList, String[] fragmentTitles){
+        super(fm);
+        this.fragmentList = fragmentList;
+        this.fragmentTitles = fragmentTitles;
     }
 
     public List<Fragment> getFragmentList() {
@@ -36,5 +43,10 @@ public class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter{
     @Override
     public int getCount() {
         return fragmentList != null ? fragmentList.size() : 0;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return fragmentTitles  != null ? fragmentTitles[position] : "";
     }
 }

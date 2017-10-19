@@ -6,6 +6,7 @@ import android.widget.BaseAdapter;
 
 import com.jf.djplayer.base.adapter.SongListFragmentAdapter;
 import com.jf.djplayer.bean.Song;
+import com.jf.djplayer.dialogfragment.SongOperationDialog;
 
 import java.util.List;
 
@@ -18,27 +19,11 @@ import java.util.List;
  */
 abstract public class SongListFragment extends BaseListFragment<Song>{
 
-    //用来发给"DialogFragment"用的请求码
-    /**选择要对歌曲做的操作*/
-    public static final int REQUEST_CODE_SELECT_OPERATION = 1<<2;
-
-    /**收藏歌曲的请求码*/
-    public static final int REQUEST_CODE_COLLECTION_SONG = 1<<3;
-
-    /**取消收藏歌曲的请求码*/
-    public static final int REQUEST_CODE_CANCEL_COLLECTION_SONG = 1<<4;
-
-    /**这是删除歌曲的请求码*/
-    public static final int REQUEST_CODE_DELETE_SONG = 1<<5;
-
-    /**更新歌曲信息的请求码*/
-    public static final int REQUEST_CODE_EDIT_SONG_INFO = 1<<6;
-
-    /**键，表示被操作的歌曲在原列表里的位置，用于Bundle传递*/
+    /** 键，表示被操作的歌曲在原列表里的位置，用于Bundle传递*/
     public static final String KEY_POSITION = "key_position";
-    /**默认位置*/
+    /** 默认位置*/
     public static final int VALUES_DEFAULT_POSITION = -1;
-    /**键，表示被操作的歌曲对象，用于Bundle传递*/
+    /** 键，表示被操作的歌曲对象，用于Bundle传递*/
     public static final String KEY_SONG = "key_song";
 
     @Override
@@ -53,22 +38,22 @@ abstract public class SongListFragment extends BaseListFragment<Song>{
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK) {
             //收藏歌曲
-            if(requestCode == REQUEST_CODE_COLLECTION_SONG && data != null){
+            if(requestCode == SongOperationDialog.REQUEST_CODE_COLLECTION_SONG && data != null){
                 onCollectionSong(data.getIntExtra(KEY_POSITION, VALUES_DEFAULT_POSITION));
                 return;
             }
             //取消收藏某一首歌
-            if(requestCode == REQUEST_CODE_CANCEL_COLLECTION_SONG && data != null) {
+            if(requestCode == SongOperationDialog.REQUEST_CODE_CANCEL_COLLECTION_SONG && data != null) {
                 onCancelCollectionSong(data.getIntExtra(KEY_POSITION, VALUES_DEFAULT_POSITION));
                 return;
             }
             //删除歌曲
-            if(requestCode == REQUEST_CODE_DELETE_SONG && data != null) {
+            if(requestCode == SongOperationDialog.REQUEST_CODE_DELETE_SONG && data != null) {
                 onDeleteSong(data.getIntExtra(KEY_POSITION, VALUES_DEFAULT_POSITION));
                 return;
             }
             //修改歌曲信息
-            if(requestCode == REQUEST_CODE_EDIT_SONG_INFO && data != null){
+            if(requestCode == SongOperationDialog.REQUEST_CODE_EDIT_SONG_INFO && data != null){
                 onUpdateSongInfo(data.getIntExtra(KEY_POSITION, VALUES_DEFAULT_POSITION));
                 return;
             }

@@ -31,6 +31,7 @@ import java.lang.ref.WeakReference;
 /**
  * Created by Administrator on 2015/8/22.
  * 播放控制底边栏
+ * 该Fragment的宿主Activity需要实现PlayController接口
  */
 public class BottomFragment extends BaseFragment implements PlayInfoObserver,View.OnClickListener{
 
@@ -56,17 +57,14 @@ public class BottomFragment extends BaseFragment implements PlayInfoObserver,Vie
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View layoutView = inflater.inflate(R.layout.fragment_bottom, container, false);
+        initView(layoutView);
+        return layoutView;
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_bottom;
-    }
-
-    @Override
-    protected void initView(View layoutView) {
+    private void initView(View layoutView) {
         //找到布局文件里的控件
         linearLayout = (LinearLayout)layoutView.findViewById(R.id.ll_fragment_bottom);
         singerPicture = (ImageView) layoutView.findViewById(R.id.iv_fragment_bottom_singer_picture);

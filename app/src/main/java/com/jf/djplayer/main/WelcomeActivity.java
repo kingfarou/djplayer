@@ -9,29 +9,41 @@ import android.view.animation.Animation;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.activity.BaseActivity;
+import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.util.FileUtil;
+import com.jf.djplayer.util.LogUtil;
 import com.jf.djplayer.util.SdCardUtil;
 import com.jf.djplayer.util.ToastUtil;
 
 
 /**
  * Created by JF on 2016/3/6.
- * 主模块，欢迎界面
+ * 欢迎界面，该界面共需执行三个任务，执行完了才会进入到主界面：
+ * 1、渐变动画；2、APP路径创建；3、读取数据库已有的歌曲总数量
  */
 public class WelcomeActivity extends BaseActivity {
 
+    /** Intent键，数据库歌曲总数量*/
+    public static final String KEY_CODE_SONG_NUM = "songNum";
+
     // 透明度动画的持续时间
-    private static final int ANIMATION_DURATION = 2000;
+    private final int ANIMATION_DURATION = 2000;
 
     // 透明度动画透明的数值
-    private static final float FROM_ALPHA = 0.2f;
-    private static final float TO_ALPHA = 1.0f;
+    private final float FROM_ALPHA = 0.2f;
+    private final float TO_ALPHA = 1.0f;
+
+    private final int TOTAL_TASK_NUM = 3; // 该界面总共要完成任务数量
+    private int finishedTaskNum = 0;      // 已完成任务数量
+    private int songNum; // 数据库里的歌曲总数量
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         initView();
+        initAppDir();
+        checkSongNum();
     }
 
     private void initView() {
@@ -47,8 +59,12 @@ public class WelcomeActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                //动画结束后的跳转
-                startMainActivity();
+                LogUtil.i(WelcomeActivity.class.getSimpleName()+"--渐变动画任务完成");
+                // 标记任务总数量+1
+                finishedTaskNum+=1;
+                if(finishedTaskNum == TOTAL_TASK_NUM){
+                    startMainActivity();
+                }
             }
 
             @Override
@@ -56,23 +72,38 @@ public class WelcomeActivity extends BaseActivity {
             }
         });
         view.startAnimation(alphaAnimation);
-        initAppDir();
     }
 
     //创建应用在外存的相关目录
     private void initAppDir(){
         //检查并提醒用户SD卡是否可用
         if(!SdCardUtil.isSdCardEnable()){
-            ToastUtil.showLongToast(this, "SD卡不可用，无法创建所需路径，部分功能无法正常使用");
-            return;
+            ToastUtil.showLongToast(this, "SD卡不可用，部分功能可能无法正常使用，请检查您的SD卡");
+        } else {
+            FileUtil fileTool = new FileUtil();
+            fileTool.initAppDir();//创建应用的根目录
         }
-        FileUtil fileTool = new FileUtil();
-        fileTool.initAppDir();//创建应用的根目录
+        LogUtil.i(WelcomeActivity.class.getSimpleName()+"--创建路径任务完成");
+        finishedTaskNum+=1;
+        if(finishedTaskNum == TOTAL_TASK_NUM){
+            startMainActivity();
+        }
+    }
+
+    private void checkSongNum(){
+        LogUtil.i(WelcomeActivity.class.getSimpleName()+"--查询歌曲数量任务完成");
+        songNum = new SongInfoOpenHelper(this).getLocalMusicNumber();
+        finishedTaskNum+=1;
+        if(finishedTaskNum == TOTAL_TASK_NUM){
+            startMainActivity();
+        }
     }
 
     //跳转到主界面去
     private void startMainActivity(){
-        startActivity(new Intent(this, MainActivity.class));
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(KEY_CODE_SONG_NUM, songNum);
+        startActivity(intent);
         finish();//启动完成关闭当前活动
     }
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_my_favorite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jf.djplayer.controller.myfavorite.MyFavoriteActivity">
+
+    <com.jf.djplayer.view.TitleBar
+        android:id="@+id/title_bar_activity_my_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.jf.djplayer.view.TitleBar>
+
+    <!-- 这个是底边控制栏-->
+    <fragment
+        android:name="com.jf.djplayer.main.BottomFragment"
+        android:id="@+id/bottom_fragment_activity_my_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        tools:layout="@layout/fragment_bottom" />
+
+    <!--歌曲列表-->
+    <fragment
+        android:name="com.jf.djplayer.controller.myfavorite.MyFavoriteListFragment"
+        android:id="@+id/my_favorite_list_fragment_activity_my_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar_activity_my_favorite"
+        android:layout_above="@id/bottom_fragment_activity_my_favorite"/>
+</RelativeLayout>

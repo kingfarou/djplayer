@@ -12,39 +12,61 @@ import java.io.File;
  */
 public class FileUtil {
 
-    /**
-     * App所用到的各路径，需要加上根目录的路径作为前缀，方可使用
-     * 比如：new File(Environment.getExternalStoryDir(),APP_ROOT_DIR);
-     */
+    /** 应用存储文件的根目录（相对路径），该目录在SD卡目录下*/
     public static final String APP_ROOT_DIR = "djPlayer";//这是应用存储文件的根目录（相对路径）
-    public static final String SINGER_INFO_DIR = APP_ROOT_DIR+"/artist";//存储歌手信息的文件夹
-    public static final String SONG = APP_ROOT_DIR+"/song";//存放歌曲文件的文件夹
-    public static final String LYRIC_DIR = APP_ROOT_DIR+"/lyric";//存放歌词文件的文件夹
-    public static final String SINGER_PICTURE_DIR = APP_ROOT_DIR+"/artistPicture";//这是存放歌手图片路径
 
-    private File sdDirFile;
+    /** 存放歌曲文件的文件夹*/
+    public static final String SONG = APP_ROOT_DIR+"/song";
+
+    /** 存储歌手信息的文件夹*/
+    public static final String SINGER_INFO_DIR = APP_ROOT_DIR+"/artist";
+
+    /** 存放歌词文件的文件夹*/
+    public static final String LYRIC_DIR = APP_ROOT_DIR+"/lyric";
+
+    /** 这是存放歌手图片路径*/
+    public static final String SINGER_PICTURE_DIR = APP_ROOT_DIR+"/artistPicture";
 
     /**
      * 创建App所需的所有路径
-     * @return true:创建成功，false:创建失败,或原路径已经存在
+     * @return 路径已存在（包括创建成功或者文件原来就已存在）：true
+     *          外部存储卡不可读（路径可能已存在可能不存在，未知）：false
      */
     public boolean initAppDir(){
         if(!SdCardUtil.isSdCardEnable()) {
-            LogUtil.i("SD卡不可读，应用路径创建失败");
+            LogUtil.i(getClass().getName()+"--SD卡不可读");
             return false;
         }
-        sdDirFile = Environment.getExternalStorageDirectory();
-        File appRootDirFile = new File(sdDirFile,APP_ROOT_DIR);//拼接应用根目录的路径
-        if(!appRootDirFile.mkdir()) return false;
-        String[] appDirFileStrings = new String[]{SONG, SINGER_INFO_DIR, LYRIC_DIR, SINGER_PICTURE_DIR};//要创建的所有目录合集
-        File appDirFile;
-        for(String appDirFileString:appDirFileStrings){
-            appDirFile = new File(sdDirFile,appDirFileString);
-            if(!appDirFile.exists()) {
-                if(!appDirFile.mkdir()) return false;
+        File sdCardDir = Environment.getExternalStorageDirectory();
+        File appRootDir = new File(sdCardDir,APP_ROOT_DIR);
+        if(!appRootDir.exists()){
+            appRootDir.mkdir();
+        }
+        String[] dirStrings = new String[]{SONG, SINGER_INFO_DIR, LYRIC_DIR, SINGER_PICTURE_DIR};//要创建的所有目录合集
+        File dir;
+        for(String dirString:dirStrings){
+            dir = new File(sdCardDir,dirString);
+            if(!dir.exists()) {
+                dir.mkdir();
             }
         }
         return true;
     }
 
+    /**
+     * 获取存放歌词文件的路径
+     * @return 获取成功：返回表示歌词文件路径的File对象，获取失败：null
+     */
+    public File getLyricDir(){
+        if(!SdCardUtil.isSdCardEnable()) {
+            LogUtil.i(getClass().getName()+"--SD卡不可读");
+            return null;
+        }
+        File sdCardDir = Environment.getExternalStorageDirectory();
+        File lyricDir = new File(sdCardDir,LYRIC_DIR);
+        if(!lyricDir.exists()){
+            lyricDir.mkdirs();
+        }
+        return lyricDir;
+    }
 }

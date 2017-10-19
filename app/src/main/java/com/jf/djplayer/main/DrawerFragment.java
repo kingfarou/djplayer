@@ -1,6 +1,10 @@
 package com.jf.djplayer.main;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.fragment.BaseFragment;
@@ -13,24 +17,16 @@ public class DrawerFragment extends BaseFragment implements View.OnClickListener
 
     private View optionView;//中间那些选项按钮
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_drawer;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View layoutView = inflater.inflate(R.layout.fragment_drawer, container, false);
+        initView(layoutView);
+        return layoutView;
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_drawer, container, false);
-//        initView(view);
-//        return view;
-//    }
-
-    @Override
-    protected void initOther() {
-    }
-
-    @Override
-    protected void initView(View layoutView) {
+    private void initView(View layoutView) {
         optionView = layoutView.findViewById(R.id.option_view_fragment_drawer);
         optionView.findViewById(R.id.tv_item_fragment_drawer_sleep_setting).setOnClickListener(this);
         optionView.findViewById(R.id.tv_item_fragment_drawer_setting).setOnClickListener(this);
@@ -39,17 +35,6 @@ public class DrawerFragment extends BaseFragment implements View.OnClickListener
         //设置页面退出按钮监听
         layoutView.findViewById(R.id.tv_fragment_drawer_exit).setOnClickListener(this);
     }
-
-
-//    private void initView(View rootView){
-//        //设置选项列表里的各个"View"
-//        optionView = rootView.findViewById(R.id.option_view_fragment_drawer);
-//        optionView.findViewById(R.id.tv_item_fragment_drawer_sleep_setting).setOnClickListener(this);
-//        optionView.findViewById(R.id.tv_item_fragment_drawer_setting).setOnClickListener(this);
-//        optionView.findViewById(R.id.tv_item_fragment_drawer_scan_music).setOnClickListener(this);
-//        //设置页面退出按钮
-//        rootView.findViewById(R.id.tv_fragment_drawer_exit).setOnClickListener(this);
-//    }
 
     @Override
     public void onClick(View view) {

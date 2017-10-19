@@ -6,9 +6,8 @@ import java.util.List;
 
 /**
  * Created by JF on 2016/1/26.
- * 活动通过实现这个接口成为音乐播放的控制着
- * Fragment通过这个接口控制活动从而
- * 控制播放
+ * Activity通过实现这个接口成为音乐播放的控制者，
+ * Fragment通过这个接口控制Activity从而控制播放
  */
 public interface PlayController {
 

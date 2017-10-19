@@ -19,13 +19,10 @@ public class ScrollLyricsFragment extends BaseFragment{
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_scroll_lyric;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View layoutView = inflater.inflate(R.layout.fragment_scroll_lyric, container, false);
+        return layoutView;
     }
 
 }

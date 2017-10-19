@@ -1,6 +1,4 @@
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation" >
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- app_全局资源-->
     <string name="app_name">蛋卷音乐</string>
     <string name="action_search">搜索</string>

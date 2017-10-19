@@ -1,9 +1,13 @@
 package com.jf.djplayer.base.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.jf.djplayer.R;
@@ -27,12 +31,15 @@ abstract public class BaseViewPagerFragment extends BaseFragment
     protected ViewPager mViewPager;//用来装填多个的"Fragment"
     protected FragmentStatePagerAdapter mFragmentStatePagerAdapter;
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_base_group;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View layoutView = inflater.inflate(R.layout.fragment_base_group, container, false);
+        initView(layoutView);
+        return layoutView;
     }
 
-    @Override
     protected void initView(View layoutView) {
         //对标题栏做初始化
         titleBar = (TitleBar)layoutView.findViewById(R.id.fragmentTitleLayout_fragment_base_group);
