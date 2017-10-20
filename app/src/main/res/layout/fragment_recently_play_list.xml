@@ -1,22 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--本地音乐各个列表共用布局-->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <!--ListView加载完成前的进度条-->
-    <include
-        android:id="@+id/loading_hint_view_fragment_recently_play_list"
-        layout="@layout/loading_layout"/>
-
-    <!--ListView加载完成但是没内容时的提示-->
-    <include
-        android:id="@+id/empty_view_fragment_recently_play_list"
-        layout="@layout/fragment_no_favourites"/>
-
-    <!--歌曲列表-->
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context=".controller.recentlyplay.RecentlyPlayActivity">
+    <!--数据列表-->
     <ListView
         android:id="@+id/lv_fragment_recently_play_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
 
+    <!--加载完成前的进度条-->
+    <LinearLayout
+        android:id="@+id/ll_fragment_recently_play_list_loading_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal">
+        <!--进度条-->
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <!--“载入”提示文本-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/loading"/>
+    </LinearLayout>
+
+    <!--加载完成没有内容的提示-->
+    <LinearLayout
+        android:id="@+id/ll_fragment_recently_play_list_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal">
+        <ImageView
+            android:id="@+id/iv_fragment_no_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fragment_no_song"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="还未播放过任何歌曲哦~~\n到播放列表点一首来听听吧"
+            android:textSize="20sp"/>
+    </LinearLayout>
 </FrameLayout>

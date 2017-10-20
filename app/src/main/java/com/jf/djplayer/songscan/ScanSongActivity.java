@@ -16,7 +16,8 @@ import com.jf.djplayer.widget.TitleBar;
 public class ScanSongActivity extends BaseActivity
         implements View.OnClickListener, TitleBar.OnTitleClickListener{
 
-    private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐
+    /** 请求码，扫描音乐*/
+    public static final int REQUEST_CODE_SCAN_MUSIC = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

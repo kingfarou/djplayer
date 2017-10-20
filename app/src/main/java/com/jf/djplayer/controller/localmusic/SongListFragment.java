@@ -44,9 +44,6 @@ public class SongListFragment extends BaseFragment
     private static final int VALUES_SONG_SORT_BY_SINGER_NAME = 1<<2;//按照歌手名称排序
     private static final int VALUES_SONG_SORT_BY_ADD_TIME = 1<<3;//按照添加时间排序
 
-    //请求码
-    private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐
-
     private ListView listView;     // 歌曲列表
     private SongListAdapter songListAdapter;
     private View loadingHintView;  // ListView加载提示
@@ -61,7 +58,7 @@ public class SongListFragment extends BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View layoutView = inflater.inflate(R.layout.fragment_song_list, container, false);
+        View layoutView = inflater.inflate(R.layout.layout_local_music_list, container, false);
         isDestroyView = false;
         initView(layoutView);
         return layoutView;
@@ -83,7 +80,7 @@ public class SongListFragment extends BaseFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == REQUEST_CODE_SCAN_MUSIC){
+            if(requestCode == ScanSongActivity.REQUEST_CODE_SCAN_MUSIC){
                 // 如果是扫描音乐的返回，调用异步任务刷新数据
                 loadLocalMusic();
             } else if(requestCode == SongOperationDialog.REQUEST_CODE_COLLECTION_SONG && data != null){
@@ -125,7 +122,7 @@ public class SongListFragment extends BaseFragment
                     //扫描音乐
                     //position == 0代码暂时作为测试用
 //                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
-                    startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+                    startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), ScanSongActivity.REQUEST_CODE_SCAN_MUSIC);
                 } else if(position == 1){
                     //按照歌曲名字排序歌曲
                     songListSortable = new SortBySongName();
@@ -156,16 +153,16 @@ public class SongListFragment extends BaseFragment
     // 初始化界面
     private void initView(View layoutView){
         // find view
-        listView = (ListView)layoutView.findViewById(R.id.lv_fragment_second_song);
-        loadingHintView = layoutView.findViewById(R.id.loading_hint_view_fragment_second_song);
-        emptyView = layoutView.findViewById(R.id.empty_view_fragment_second_song);
+        listView = (ListView)layoutView.findViewById(R.id.lv_layout_local_music_list);
+        loadingHintView = layoutView.findViewById(R.id.ll_layout_local_music_list_loading_view);
+        emptyView = layoutView.findViewById(R.id.ll_layout_local_music_list_empty_view);
         // 扫描音乐执行按钮
-        View scanMusicBtn = emptyView.findViewById(R.id.btn_local_music_no_song_key_scan);
+        View scanMusicBtn = emptyView.findViewById(R.id.btn_layout_local_music_list_scan_music);
         scanMusicBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LogUtil.i("扫描音乐");
-                startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+                startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), ScanSongActivity.REQUEST_CODE_SCAN_MUSIC);
             }
         });
         loadLocalMusic();

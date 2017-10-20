@@ -28,9 +28,6 @@ import java.util.List;
 public class FolderListFragment extends BaseFragment implements
         FolderLoader.FolderLoadListener, AdapterView.OnItemClickListener{
 
-    //请求码
-    private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐
-
     private ListView listView;                    // 文件夹列表
     private FolderListAdapter folderListAdapter;
     private View loadingHintView;                 // ListView加载提示
@@ -42,7 +39,7 @@ public class FolderListFragment extends BaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View layoutView = inflater.inflate(R.layout.fragment_folder_list, container, false);
+        View layoutView = inflater.inflate(R.layout.layout_local_music_list, container, false);
         isDestroyView = false;
         initView(layoutView);
         return layoutView;
@@ -58,7 +55,7 @@ public class FolderListFragment extends BaseFragment implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == REQUEST_CODE_SCAN_MUSIC){
+            if(requestCode == ScanSongActivity.REQUEST_CODE_SCAN_MUSIC){
                 //如果是扫描音乐的返回，调用异步任务刷新数据
                 loadFolder();
             }
@@ -67,16 +64,16 @@ public class FolderListFragment extends BaseFragment implements
 
     private void initView(View layoutView){
         // find view
-        listView = (ListView)layoutView.findViewById(R.id.lv_fragment_second_folder);
-        loadingHintView = layoutView.findViewById(R.id.loading_hint_view_fragment_second_folder);
-        emptyView = layoutView.findViewById(R.id.empty_view_fragment_second_folder);
+        listView = (ListView)layoutView.findViewById(R.id.lv_layout_local_music_list);
+        loadingHintView = layoutView.findViewById(R.id.ll_layout_local_music_list_loading_view);
+        emptyView = layoutView.findViewById(R.id.ll_layout_local_music_list_empty_view);
         // 扫描音乐执行按钮
-        View scanMusicBtn = emptyView.findViewById(R.id.btn_local_music_no_song_key_scan);
+        View scanMusicBtn = emptyView.findViewById(R.id.btn_layout_local_music_list_scan_music);
         scanMusicBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LogUtil.i("扫描音乐");
-                startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+                startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), ScanSongActivity.REQUEST_CODE_SCAN_MUSIC);
             }
         });
         loadFolder();
@@ -98,7 +95,7 @@ public class FolderListFragment extends BaseFragment implements
         this.folderList = folderList;
         if(isDestroyView){
             // no thing to do
-        }if( folderList == null || folderList.size() == 0 ){
+        } else if( folderList == null || folderList.size() == 0 ){
             // 没有含有歌曲的文件夹
             emptyView.setVisibility(View.VISIBLE);
             loadingHintView.setVisibility(View.INVISIBLE);

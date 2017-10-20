@@ -62,6 +62,7 @@ public class RecentlyPlayListFragment extends BaseFragment
         initView(layoutView);
         return layoutView;
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -115,8 +116,8 @@ public class RecentlyPlayListFragment extends BaseFragment
     private void initView(View layoutView){
         // find view
         listView = (ListView)layoutView.findViewById(R.id.lv_fragment_recently_play_list);
-        loadingHintView = layoutView.findViewById(R.id.loading_hint_view_fragment_recently_play_list);
-        emptyView = layoutView.findViewById(R.id.empty_view_fragment_recently_play_list);
+        loadingHintView = layoutView.findViewById(R.id.ll_fragment_recently_play_list_loading_view);
+        emptyView = layoutView.findViewById(R.id.ll_fragment_recently_play_list_empty_view);
         // 扫描音乐执行按钮
         loadRecentlyPlaySong();
     }

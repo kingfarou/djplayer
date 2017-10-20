@@ -2,18 +2,17 @@
 <!--本地音乐各个列表共用布局-->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context=".controller.playinfo.PlayListFragment">
+    android:layout_width="match_parent" android:layout_height="match_parent">
     <!--数据列表-->
     <ListView
-        android:id="@+id/lv_fragment_play_list"
+        android:id="@+id/lv_layout_local_music_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
 
     <!--加载完成前的进度条-->
     <LinearLayout
-        android:id="@+id/ll_fragment_play_list_loading_view"
+        android:id="@+id/ll_layout_local_music_list_loading_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -34,7 +33,7 @@
 
     <!--加载完成没有内容的提示-->
     <LinearLayout
-        android:id="@+id/ll_fragment_play_list_empty_view"
+        android:id="@+id/ll_layout_local_music_list_empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -46,10 +45,30 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_fragment_no_song"/>
         <TextView
+            android:id="@+id/tv_local_music_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="没有正在播放的歌曲哦~~\n到曲目列表点一首来听听吧"
+            android:text="一首歌曲都木有"
             android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/tv_local_music_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:text="试试一键扫描添加"
+            android:textSize="20sp"/>
+
+        <!-- 一键扫描-->
+        <Button
+            android:id="@+id/btn_layout_local_music_list_scan_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/fragment_song_no_song_press"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="@string/scan_music"/>
     </LinearLayout>
 </FrameLayout>
