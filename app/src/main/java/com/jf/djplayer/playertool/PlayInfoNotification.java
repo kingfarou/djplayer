@@ -9,7 +9,7 @@ import android.widget.RemoteViews;
 
 import com.jf.djplayer.other.IntentConstant;
 import com.jf.djplayer.bean.Song;
-import com.jf.djplayer.playinfo.PlayInfoActivity;
+import com.jf.djplayer.controller.playinfo.PlayInfoActivity;
 import com.jf.djplayer.R;
 import com.jf.djplayer.service.PlayerService;
 

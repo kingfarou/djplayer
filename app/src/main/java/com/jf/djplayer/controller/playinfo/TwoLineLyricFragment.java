@@ -1,4 +1,4 @@
-package com.jf.djplayer.playinfo;
+package com.jf.djplayer.controller.playinfo;
 
 import android.os.Bundle;
 import android.os.Environment;

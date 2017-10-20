@@ -1,4 +1,4 @@
-package com.jf.djplayer.playinfo;
+package com.jf.djplayer.controller.playinfo;
 
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -195,7 +195,7 @@ public class PlayInfoActivity extends BaseActivity implements
         fragmentList.add(new PlayListFragment());//添加当前播放列表显示界面
         fragmentList.add(new TwoLineLyricFragment());//添加两行歌词显示界面
         fragmentList.add(new ScrollLyricsFragment());//这是歌词滚屏显示界面
-        viewPager.setAdapter(new PlayInfoFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        viewPager.setAdapter(new PlayInfoViewPagerAdapter(getSupportFragmentManager(), fragmentList));
         circlePageIndicator = (CirclePageIndicator)findViewById(R.id.circle_page_indicator_activity_play_info);
         circlePageIndicator.setViewPager(viewPager);
         circlePageIndicator.setCurrentItem(1);//初始化在第二个页面里

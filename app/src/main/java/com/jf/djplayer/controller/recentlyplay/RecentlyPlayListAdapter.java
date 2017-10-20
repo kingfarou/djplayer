@@ -1,34 +1,48 @@
-package com.jf.djplayer.base.adapter;
+package com.jf.djplayer.controller.recentlyplay;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.MyApplication;
-import com.jf.djplayer.base.fragment.SongListFragment;
-import com.jf.djplayer.dialogfragment.SongOperationDialog;
 import com.jf.djplayer.bean.Song;
+import com.jf.djplayer.dialogfragment.SongOperationDialog;
 
 import java.util.List;
 
 /**
- * Created by jf on 2016/7/14.
- * 显示“歌曲”列表的"Fragment"里的"ListView"所用适配器，
- * 包括本地音乐歌曲列表，我的最爱的列表，最近播放的列表
+ * Created by Kingfar on 2016/7/14.
+ * 本地音乐-歌曲列表适配器
  */
-public class SongListFragmentAdapter extends MyBaseAdapter<Song> implements View.OnClickListener{
+public class RecentlyPlayListAdapter extends BaseAdapter implements View.OnClickListener{
 
-    //由于在适配器里面需要弹出"DialogFragment"，所以需要外层的"Fragment"
-    private Fragment fragment;
+    private Fragment fragment;    // 适配器内需要弹出DialogFragment，传入的Fragment作为targetFragment
+    private List<Song> songList;  // 歌曲列表
 
-    public SongListFragmentAdapter(Fragment fragment, List<Song> songList){
+    public RecentlyPlayListAdapter(Fragment fragment, List<Song> songList){
         this.fragment = fragment;
-        this.dataList = songList;
+        this.songList = songList;
+    }
+
+    @Override
+    public int getCount() {
+        return songList == null ? 0 : songList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return songList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     private class ViewHolder{
@@ -50,7 +64,7 @@ public class SongListFragmentAdapter extends MyBaseAdapter<Song> implements View
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        Song song = dataList.get(position);
+        Song song = songList.get(position);
         viewHolder.songNameTv.setText(song.getSongName());
         viewHolder.singerTv.setText(song.getSingerName());
         viewHolder.operationIv.setTag(position);
@@ -66,25 +80,17 @@ public class SongListFragmentAdapter extends MyBaseAdapter<Song> implements View
             int position = (int)view.getTag();
             //传递被点击的位置，以及该位置的歌曲信息
             Bundle arguments = new Bundle();
-            arguments.putInt(SongListFragment.KEY_POSITION, position);
-            arguments.putSerializable(SongListFragment.KEY_SONG, dataList.get(position));
+            arguments.putInt(SongOperationDialog.KEY_POSITION, position);
+            arguments.putSerializable(SongOperationDialog.KEY_SONG, songList.get(position));
             //打开歌曲操作弹窗
             SongOperationDialog songOperationDialog = new SongOperationDialog();
             songOperationDialog.setArguments(arguments);
-//            /*虽然歌曲操作窗口会有多个操作，但是直接操作只有收藏/取消收藏，其他操作会在其他弹窗，
-//              所以这里设置的请求码，直接设置收藏以及收藏以及取消收藏的请求码*/
-//            if(dataList.get(position).getCollection() == Song.IS_COLLECTION){
-//                songOperationDialog.setTargetFragment(fragment, SongListFragment.REQUEST_CODE_CANCEL_COLLECTION_SONG);
-//            }else{
-//                songOperationDialog.setTargetFragment(fragment, SongListFragment.REQUEST_CODE_COLLECTION_SONG);
-//            }
             songOperationDialog.setTargetFragment(fragment, SongOperationDialog.REQUEST_CODE_SELECT_OPERATION);
             songOperationDialog.show(fragment.getChildFragmentManager(), "SongOperationDialog");
-            return;
         }
     }
 
     public void setSongList(List<Song> songList){
-        this.dataList = songList;
+        this.songList = songList;
     }
 }

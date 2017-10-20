@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.adapter.SongListFragmentAdapter;
 import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.datamanager.RecentlyPlayLoader;
@@ -23,8 +22,8 @@ import com.jf.djplayer.util.ToastUtil;
 import java.util.List;
 
 /**
- * Created by Kingfar on 2017/10/18.
- * 最近播放-歌曲列表
+ * Created by Kingfar on 2017/10/20.
+ * 最近播放-歌曲列表适配器
  */
 
 public class RecentlyPlayListFragment extends BaseFragment
@@ -46,7 +45,7 @@ public class RecentlyPlayListFragment extends BaseFragment
     private static final int REQUEST_CODE_SCAN_MUSIC = 1;//扫描音乐
 
     private ListView listView;     // 歌曲列表
-    private SongListFragmentAdapter songListFragmentAdapter;
+    private RecentlyPlayListAdapter recentlyPlayListAdapter;
     private View loadingHintView;  // ListView加载提示
     private View emptyView;        // ListView没数据时的提示
     private View footerView; // ListView的footView
@@ -87,8 +86,8 @@ public class RecentlyPlayListFragment extends BaseFragment
                 // 取消收藏某一首歌
                 int position = data.getIntExtra(KEY_POSITION, -1);
                 songList.remove(position);
-                songListFragmentAdapter.setSongList(songList);
-                songListFragmentAdapter.notifyDataSetChanged();
+                recentlyPlayListAdapter.setSongList(songList);
+                recentlyPlayListAdapter.notifyDataSetChanged();
                 ToastUtil.showShortToast(getActivity(), "取消收藏");
                 if(songList.size() == 0){
                     emptyView.setVisibility(View.VISIBLE);
@@ -101,13 +100,13 @@ public class RecentlyPlayListFragment extends BaseFragment
                 // 删除歌曲
                 int position = data.getIntExtra(KEY_POSITION, -1);
                 songList.remove(position);
-                songListFragmentAdapter.setSongList(songList);
-                songListFragmentAdapter.notifyDataSetChanged();
+                recentlyPlayListAdapter.setSongList(songList);
+                recentlyPlayListAdapter.notifyDataSetChanged();
                 ((TextView)footerView.findViewById(R.id.tv_list_footer_view)).setText(songList.size()+"首歌");
                 ToastUtil.showShortToast(getActivity(), "删除成功");
             } else if(requestCode == SongOperationDialog.REQUEST_CODE_EDIT_SONG_INFO && data != null){
                 // 修改歌曲信息
-                songListFragmentAdapter.notifyDataSetChanged();
+                recentlyPlayListAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -153,8 +152,8 @@ public class RecentlyPlayListFragment extends BaseFragment
             ((TextView) footerView.findViewById(R.id.tv_list_footer_view)).setText(songList.size() + "首歌");
             listView.addFooterView(footerView);
             listView.setOnItemClickListener(this);
-            songListFragmentAdapter = new SongListFragmentAdapter(this, songList);
-            listView.setAdapter(songListFragmentAdapter);
+            recentlyPlayListAdapter = new RecentlyPlayListAdapter(this, songList);
+            listView.setAdapter(recentlyPlayListAdapter);
         }
     }
 

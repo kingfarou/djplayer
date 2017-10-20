@@ -11,11 +11,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.adapter.SongListFragmentAdapter;
 import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.datamanager.ClassifySongLoader;
-import com.jf.djplayer.datamanager.MyFavoriteLoader;
 import com.jf.djplayer.interfaces.PlayController;
 
 import java.util.List;
@@ -29,7 +27,7 @@ public class ClassifySongListFragment extends BaseFragment
         implements ClassifySongLoader.ClassifySongLoadListener, AdapterView.OnItemClickListener{
 
     private ListView listView;     // 歌曲列表
-    private SongListFragmentAdapter songListFragmentAdapter;
+    private ClassifySongListAdapter classifySongListAdapter;
     private View loadingHintView;  // ListView加载提示
     private View emptyView;        // ListView没数据时的提示
     private View footerView; // ListView的footView
@@ -98,8 +96,8 @@ public class ClassifySongListFragment extends BaseFragment
             ((TextView) footerView.findViewById(R.id.tv_list_footer_view)).setText(songList.size() + "首歌");
             listView.addFooterView(footerView);
             listView.setOnItemClickListener(this);
-            songListFragmentAdapter = new SongListFragmentAdapter(this, songList);
-            listView.setAdapter(songListFragmentAdapter);
+            classifySongListAdapter = new ClassifySongListAdapter(this, songList);
+            listView.setAdapter(classifySongListAdapter);
         }
     }
 

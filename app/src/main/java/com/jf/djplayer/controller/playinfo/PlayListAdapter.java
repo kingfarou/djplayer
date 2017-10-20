@@ -1,4 +1,4 @@
-package com.jf.djplayer.playinfo;
+package com.jf.djplayer.controller.playinfo;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,9 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.bean.Song;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jf on 2016/6/12.
@@ -19,23 +19,23 @@ import java.util.Map;
  */
 public class PlayListAdapter extends BaseAdapter {
 
-    private List<Map<String, String>> mapList;//数据集合
-    private Context context;//环境
+    private List<Song> songList;// 歌曲集合
+    private Context context;// 环境
     private int playingPosition = -1;
 
-    public PlayListAdapter(Context context, List<Map<String, String>> mapList) {
+    public PlayListAdapter(Context context, List<Song> songList) {
         this.context = context;
-        this.mapList = mapList;
+        this.songList = songList;
     }
 
     @Override
     public int getCount() {
-        return mapList.size();
+        return songList == null ? 0 : songList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mapList.get(position);
+        return songList.get(position);
     }
 
     @Override
@@ -62,8 +62,8 @@ public class PlayListAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_song_name.setText(mapList.get(position).get(PlayListFragment.MAP_TITLE));
-        viewHolder.tv_singer_name.setText(mapList.get(position).get(PlayListFragment.MAP_CONTENT));
+        viewHolder.tv_song_name.setText(songList.get(position).getSongName());
+        viewHolder.tv_singer_name.setText(songList.get(position).getSingerName());
         //如果这个位置是当前正播放的歌曲的位置，将标志的控件显示出来，否则隐藏标志控件
         if(position == playingPosition){
             viewHolder.iv_play_icon.setVisibility(View.VISIBLE);
@@ -76,10 +76,10 @@ public class PlayListAdapter extends BaseAdapter {
     /**
      * 设置数据，该方法会调用刷新数据那个方法
      *
-     * @param mapList 需显示的新的数据
+     * @param songList 需显示的新的数据
      */
-    public void setData(List mapList) {
-        this.mapList = mapList;
+    public void setData(List<Song> songList) {
+        this.songList = songList;
     }
 
     public void setPlayingPosition(int playingPosition){

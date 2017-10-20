@@ -38,7 +38,7 @@
 
         <!-- 播放信息 -->
         <activity
-            android:name=".playinfo.PlayInfoActivity"
+            android:name=".controller.playinfo.PlayInfoActivity"
             android:launchMode="singleTop" />
 
         <!-- 音乐扫描_start -->
