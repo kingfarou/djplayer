@@ -6,11 +6,11 @@ import android.os.StatFs;
 import java.io.File;
 
 /**
- * Created by jf on 2016/9/3.
- * SD卡辅助工具
+ * Created by Kingfar on 2017/10/20.
+ * SD卡工具类
  */
-public class SdCardUtil {
 
+public class SdCardUtil {
     //该类不允许初始化，只提供了工具方法
     private SdCardUtil() {
         throw new UnsupportedOperationException("cannot be instantiated");
