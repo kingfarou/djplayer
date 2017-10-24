@@ -36,7 +36,7 @@ public class LocalMusicLoader {
                 }catch (InterruptedException e){
 
                 }
-                List<Song> songList = new SongInfoOpenHelper(MyApplication.getContext()).getLocalMusicSongInfo();
+                List<Song> songList = new SongInfoOpenHelper(MyApplication.getContext()).getLocalMusicSongList();
                 Message resultMessage = new InnerHandler().obtainMessage(
                         LOAD_SUCCESS, new LocalMusicLoadResult(localMusicLoadListener, songList));
                 resultMessage.sendToTarget();

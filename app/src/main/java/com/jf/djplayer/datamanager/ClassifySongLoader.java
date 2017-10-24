@@ -26,7 +26,7 @@ public class ClassifySongLoader {
      * 读取本地音乐数据
      * @param listener "LocalMusicReadListener"接口
      */
-    public void loadSong(ClassifySongLoadListener listener, final String typeName, final String typeValue){
+    public void loadSong(ClassifySongLoadListener listener, final int typeName, final String typeValue){
         classifySongLoadListener = listener;
         new Thread(){
             @Override

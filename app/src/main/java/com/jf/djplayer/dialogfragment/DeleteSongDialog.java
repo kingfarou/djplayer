@@ -92,7 +92,7 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
                 }
 //                清除数据库里面的歌曲记录
                 SongInfoOpenHelper deleteOpenHelper = new SongInfoOpenHelper(getActivity());
-                deleteOpenHelper.deleteFromLocalMusicTable(song);
+                deleteOpenHelper.deleteFromLocalMusic(song);
                 //设置返回，告诉外层"Fragment"删除歌曲
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra(SongOperationDialog.KEY_POSITION, position);

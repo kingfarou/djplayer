@@ -64,7 +64,7 @@ public class ScanThread extends Thread{
         int sum = songList.size();
         //逐条发送每条歌曲信息
         for(int i = 0; i<songList.size(); i++){
-            songInfoOpenHelper.insertInLocalMusicTable(songList.get(i));
+            songInfoOpenHelper.insertLocalMusic(songList.get(i));
             //发送歌曲信息到主线程
             updateMessage = handler.obtainMessage(ScanningSongActivity.HANDLER_WHAT_UPDATE_SCAN_INFO,
                     new ScanInfo(sum, i+1, songList.get(i).getFileAbsolutePath()));
@@ -73,7 +73,6 @@ public class ScanThread extends Thread{
             try{
                 sleep(200);
             }catch (InterruptedException e){
-//                MyApplication.showLog("扫描线程中断异常--"+e.toString());
                 LogUtil.i("扫描线程中断异常--"+e.toString());
             }
         }

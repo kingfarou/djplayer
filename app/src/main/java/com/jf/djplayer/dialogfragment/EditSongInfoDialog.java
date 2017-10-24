@@ -77,7 +77,7 @@ public class EditSongInfoDialog extends DialogFragment {
                         song.setAlbum(albumEt.getText().toString());
 //                        调用工具类来更新数据库的歌曲信息
                         SongInfoOpenHelper updateOpenHelper = new SongInfoOpenHelper(getActivity());
-                        updateOpenHelper.updateLocalMusicTables(song);
+                        updateOpenHelper.updateLocalMusic(song);
 //                        发送广播通知界面更新数据
                         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent().putExtra(SongOperationDialog.KEY_POSITION, position));
                     }

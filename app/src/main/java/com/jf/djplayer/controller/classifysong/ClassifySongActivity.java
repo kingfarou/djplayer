@@ -27,13 +27,13 @@ public class ClassifySongActivity extends BaseActivity implements
 
     // 类型名字可选值
     /** 歌手类型*/
-    public static final String TYPE_NAME_SINGER = SongInfoOpenHelper.artist;
+    public static final int TYPE_NAME_SINGER = SongInfoOpenHelper.TYPE_NAME_SINGER;
     /** 专辑类型*/
-    public static final String TYPE_NAME_ALBUM = SongInfoOpenHelper.album;
+    public static final int TYPE_NAME_ALBUM = SongInfoOpenHelper.TYPE_NAME_ALBUM;
     /** 文件夹类型*/
-    public static final String TYPE_NAME_FOLDER = SongInfoOpenHelper.folderPath;
+    public static final int TYPE_NAME_FOLDER = SongInfoOpenHelper.TYPE_NAME_FOLDER;
 
-    private String typeName = "";
+    private int typeName;
     private String typeValue = "";
 
     private PlayerService playerService;                  // 管理后台音乐播放用的服务
@@ -43,7 +43,7 @@ public class ClassifySongActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         // 获取要现实的类型名字和值
         Intent intent = getIntent();
-        typeName = intent.getStringExtra(TYPE_NAME);
+        typeName = intent.getIntExtra(TYPE_NAME, -1);
         typeValue = intent.getStringExtra(TYPE_VALUE);
         // init view
         setContentView(R.layout.activity_classify_song);
@@ -123,7 +123,7 @@ public class ClassifySongActivity extends BaseActivity implements
     /****************ServiceConnection方法实现****************/
 
     @Override
-    public String getTypeName() {
+    public int getTypeName() {
         return typeName;
     }
 

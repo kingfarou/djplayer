@@ -10,10 +10,10 @@ public class LogUtil {
 
     //该类不允许初始化，只提供了打印方法
     private LogUtil() {
-        throw new UnsupportedOperationException("cannot be instantiated");
+        throw new UnsupportedOperationException("LogUtil类不允许创建对象");
     }
 
-    //可以在这单独控制是否需要打印日志
+    // 可以在这单独控制是否需要打印日志
     private static final boolean isDebug = true;
     private static final String TAG = "com.jf.djplayer.logTag";
 

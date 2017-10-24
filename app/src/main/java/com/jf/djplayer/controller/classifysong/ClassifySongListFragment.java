@@ -35,7 +35,7 @@ public class ClassifySongListFragment extends BaseFragment
     private List<Song> songList;  // 歌曲列表
     private PlayController playController;      // 当点击了歌曲列表，通过该变量来控制音乐播放
 
-    private String typeName = "";  // 要加载的分类名字
+    private int typeName;  // 要加载的分类名字
     private String typeValue = ""; // 要加载的分类的值
 
     @Nullable
@@ -126,7 +126,7 @@ public class ClassifySongListFragment extends BaseFragment
          * ClassifySongActivity.TYPE_NAME_ALBUM
          * ClassifySongActivity.TYPE_NAME_FOLDER
          */
-        String getTypeName();
+        int getTypeName();
 
         /**
          * 获取要查询的类型的值
