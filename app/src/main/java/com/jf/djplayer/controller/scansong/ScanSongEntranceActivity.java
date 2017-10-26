@@ -1,4 +1,4 @@
-package com.jf.djplayer.songscan;
+package com.jf.djplayer.controller.scansong;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,14 +6,15 @@ import android.view.View;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.activity.BaseActivity;
+import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.util.ToastUtil;
 import com.jf.djplayer.widget.TitleBar;
 
 /**
  * Created by jf on 2016/8/8.
- * 音乐扫描-音乐扫描入口页面
+ * 扫描歌曲-入口界面
  */
-public class ScanSongActivity extends BaseActivity
+public class ScanSongEntranceActivity extends BaseActivity
         implements View.OnClickListener, TitleBar.OnTitleClickListener{
 
     /** 请求码，扫描音乐*/
@@ -22,7 +23,7 @@ public class ScanSongActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan_song);
+        setContentView(R.layout.activity_scan_song_entranc);
         // view初始化
         // 对标题栏做初始化
         TitleBar titleBar = (TitleBar) findViewById(R.id.title_bar_activity_scan_song);

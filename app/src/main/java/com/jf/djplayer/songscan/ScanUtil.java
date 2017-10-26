@@ -6,6 +6,7 @@ import android.provider.MediaStore;
 
 import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.bean.Song;
+import com.jf.djplayer.util.ScanOptionUtil;
 import com.jf.djplayer.util.SdCardUtil;
 
 import java.util.ArrayList;
@@ -43,24 +44,24 @@ public class ScanUtil{
 
     //根据用户所设置的过滤条件，生成"SQLite"条件查询用的语句
     private String getScanSelection(){
-        //"ScanOptionHelper"用来获取所设置的过滤条件
-        ScanOptionHelper scanOptionHelper = new ScanOptionHelper();
+        // 获取所设置的过滤条件
+        ScanOptionUtil scanOptionUtil = new ScanOptionUtil();
 
         //装填每个过滤条件所对应的查询语句
         List<String> filterSentence = new ArrayList<>();
 
         //根据路径获取扫描路径过滤语句
-        List<String> path = scanOptionHelper.getPathList();
+        List<String> path = scanOptionUtil.getPathList();
         if(path != null && path.size() != 0){
             filterSentence.add(getPathQuerySentence(path));
         }
 
         //根据时间获取歌曲时长过滤语句
-        int duration = scanOptionHelper.getDuration();
+        int duration = scanOptionUtil.getDuration();
         filterSentence.add(getDurationQuerySentence(duration));
 
         //根据大小获取歌曲文件大小过滤语句
-        int songSize = scanOptionHelper.getSize();
+        int songSize = scanOptionUtil.getSize();
         filterSentence.add(getSizeQuerySentence(songSize));
 
         //将各语句拼接成最终的语句

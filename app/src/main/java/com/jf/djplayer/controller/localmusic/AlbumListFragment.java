@@ -16,7 +16,7 @@ import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.bean.Album;
 import com.jf.djplayer.controller.classifysong.ClassifySongActivity;
 import com.jf.djplayer.datamanager.AlbumLoader;
-import com.jf.djplayer.songscan.ScanSongActivity;
+import com.jf.djplayer.controller.scansong.ScanSongEntranceActivity;
 import com.jf.djplayer.util.LogUtil;
 
 import java.util.List;
@@ -55,7 +55,7 @@ public class AlbumListFragment extends BaseFragment implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == ScanSongActivity.REQUEST_CODE_SCAN_MUSIC){
+            if(requestCode == ScanSongEntranceActivity.REQUEST_CODE_SCAN_MUSIC){
                 //如果是扫描音乐的返回，调用异步任务刷新数据
                 loadAlbum();
             }
@@ -73,7 +73,7 @@ public class AlbumListFragment extends BaseFragment implements
             @Override
             public void onClick(View view) {
                 LogUtil.i("扫描音乐");
-                startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), ScanSongActivity.REQUEST_CODE_SCAN_MUSIC);
+                startActivityForResult(new Intent(getActivity(), ScanSongEntranceActivity.class), ScanSongEntranceActivity.REQUEST_CODE_SCAN_MUSIC);
             }
         });
         loadAlbum();

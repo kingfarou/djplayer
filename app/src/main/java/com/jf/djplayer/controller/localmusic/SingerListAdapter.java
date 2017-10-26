@@ -17,12 +17,12 @@ import java.util.List;
  * 本地音乐-歌手列表适配器
  */
 
-public class SingListAdapter extends BaseAdapter {
+public class SingerListAdapter extends BaseAdapter {
 
     private List<Singer> singerList;
     private Context context;
 
-    public SingListAdapter(Context context, List<Singer> singerList){
+    public SingerListAdapter(Context context, List<Singer> singerList){
         this.context = context;
         this.singerList = singerList;
     }

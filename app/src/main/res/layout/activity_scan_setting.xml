@@ -7,7 +7,7 @@
 
     <!--标题栏-->
     <com.jf.djplayer.widget.TitleBar
-        android:id="@+id/title_bar"
+        android:id="@+id/title_bar_activity_scan_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:titleText="@string/scan_setting">
@@ -21,27 +21,13 @@
         android:textSize="24sp"
         android:text="@string/filter_by_duration"/>
 
-    <!--动态的提示文字-->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!--动态的提示文字：时长-->
+    <TextView
+        android:id="@+id/tv_activity_scan_setting_duration"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="4dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="不要扫描小于"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/tv_activity_scan_setting_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="秒的歌曲"
-            android:textSize="16sp"/>
-    </LinearLayout>
+        android:text="不要扫描小于60秒的歌曲"
+        android:textSize="16sp"/>
 
     <!--可选择的过滤时长从0-120-->
     <LinearLayout
@@ -76,26 +62,12 @@
         android:textSize="24sp"
         android:text="@string/filter_by_file_size"/>
     <!--动态的提示文字-->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_activity_scan_setting_size"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="4dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="不要扫描小于"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/tv_activity_scan_setting_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="k的歌曲"
-            android:textSize="16sp"/>
-    </LinearLayout>
+        android:textSize="16sp"
+        android:text="不要扫描小于512k的歌曲"/>
 
     <!--可选择的文件大小从0-1M-->
     <LinearLayout

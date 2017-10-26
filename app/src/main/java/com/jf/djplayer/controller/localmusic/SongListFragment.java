@@ -19,7 +19,7 @@ import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.datamanager.LocalMusicLoader;
 import com.jf.djplayer.dialogfragment.SongOperationDialog;
 import com.jf.djplayer.interfaces.PlayController;
-import com.jf.djplayer.songscan.ScanSongActivity;
+import com.jf.djplayer.controller.scansong.ScanSongEntranceActivity;
 import com.jf.djplayer.sortable.SongListSortable;
 import com.jf.djplayer.sortable.SortBySingerName;
 import com.jf.djplayer.sortable.SortBySongName;
@@ -80,7 +80,7 @@ public class SongListFragment extends BaseFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == ScanSongActivity.REQUEST_CODE_SCAN_MUSIC){
+            if(requestCode == ScanSongEntranceActivity.REQUEST_CODE_SCAN_MUSIC){
                 // 如果是扫描音乐的返回，调用异步任务刷新数据
                 loadLocalMusic();
             } else if(requestCode == SongOperationDialog.REQUEST_CODE_COLLECTION_SONG && data != null){
@@ -122,7 +122,7 @@ public class SongListFragment extends BaseFragment
                     //扫描音乐
                     //position == 0代码暂时作为测试用
 //                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
-                    startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), ScanSongActivity.REQUEST_CODE_SCAN_MUSIC);
+                    startActivityForResult(new Intent(getActivity(), ScanSongEntranceActivity.class), ScanSongEntranceActivity.REQUEST_CODE_SCAN_MUSIC);
                 } else if(position == 1){
                     //按照歌曲名字排序歌曲
                     songListSortable = new SortBySongName();
@@ -162,7 +162,7 @@ public class SongListFragment extends BaseFragment
             @Override
             public void onClick(View view) {
                 LogUtil.i("扫描音乐");
-                startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), ScanSongActivity.REQUEST_CODE_SCAN_MUSIC);
+                startActivityForResult(new Intent(getActivity(), ScanSongEntranceActivity.class), ScanSongEntranceActivity.REQUEST_CODE_SCAN_MUSIC);
             }
         });
         loadLocalMusic();

@@ -43,9 +43,9 @@
 
         <!-- 音乐扫描_start -->
         <!-- 扫描入口 -->
-        <activity android:name=".songscan.ScanSongActivity" />
+        <activity android:name=".controller.scansong.ScanSongEntranceActivity" />
         <!-- 扫描设置 -->
-        <activity android:name=".songscan.ScanSettingActivity" />
+        <activity android:name=".controller.scansong.ScanSettingActivity" />
         <!-- 扫描过程 -->
         <activity android:name=".songscan.ScanningSongActivity" />
         <!-- 音乐扫描_end -->

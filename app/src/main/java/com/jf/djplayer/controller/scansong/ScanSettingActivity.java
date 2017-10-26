@@ -1,4 +1,4 @@
-package com.jf.djplayer.songscan;
+package com.jf.djplayer.controller.scansong;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.activity.BaseActivity;
+import com.jf.djplayer.util.ScanOptionUtil;
 import com.jf.djplayer.widget.TitleBar;
 
 /**
@@ -28,16 +29,16 @@ public class ScanSettingActivity extends BaseActivity
         setContentView(R.layout.activity_scan_setting);
 
         // 读取用户所设置的扫描选项
-        ScanOptionHelper scanOptionHelper = new ScanOptionHelper();
-        duration = scanOptionHelper.getDuration()/1000;
-        size = scanOptionHelper.getSize();
+        ScanOptionUtil scanOptionUtil = new ScanOptionUtil();
+        duration = scanOptionUtil.getDuration()/1000;
+        size = scanOptionUtil.getSize();
 
         initView();
     }
 
     private void initView(){
         //对标题栏做初始化
-        TitleBar titleBar = (TitleBar) findViewById(R.id.title_bar);
+        TitleBar titleBar = (TitleBar) findViewById(R.id.title_bar_activity_scan_setting);
         titleBar.setSearchVisibility(View.GONE);
         titleBar.setMenuVisibility(View.GONE);
         titleBar.setOnTitleClickListener(this);
@@ -56,27 +57,20 @@ public class ScanSettingActivity extends BaseActivity
         sizeSeekBar.setOnSeekBarChangeListener(this);
 
         //设置"TextView"
-        durationTv.setText(duration+"");
-        sizeTv.setText(size+"");
+        durationTv.setText("不要扫描小于"+duration+"秒的歌曲");
+        sizeTv.setText("不要扫描小于"+size+"k的歌曲");
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         int id = seekBar.getId();
         if(id == R.id.seek_bar_activity_scan_setting_duration){
-            //滑动的是调整时长的进度条，设置时长
-            durationTv.setText(progress+"");
+            // 滑动的是调整时长的进度条，设置时长
+            durationTv.setText("不要扫描小于"+progress+"秒的歌曲");
         }else if(id == R.id.seek_bar_activity_scan_setting_size){
             //滑动调整大小的进度条，设置大小
-            sizeTv.setText(progress+"");
+            sizeTv.setText("不要扫描小于"+progress+"k的歌曲");
         }
-//        if(seekBar == durationSeekBar){
-//            //如果滑动的是调整时长的进度条
-//            durationTv.setText(progress+"");
-//        }else{
-//            //滑动的是调整大小的进度条
-//            sizeTv.setText(progress+"");
-//        }
     }
 
     @Override
@@ -93,11 +87,6 @@ public class ScanSettingActivity extends BaseActivity
             //滑动调整大小的进度条
             size = seekBar.getProgress();
         }
-//        if(seekBar == durationSeekBar){
-//            duration = seekBar.getProgress();
-//        }else{
-//            size = seekBar.getProgress();
-//        }
     }
 
     @Override
@@ -105,11 +94,11 @@ public class ScanSettingActivity extends BaseActivity
         int id = v.getId();
         //点击确定
         if(id == R.id.btn_activity_scan_setting_confirm){
-            //将用户的设置存入数据库里
-            ScanOptionHelper scanOptionHelper = new ScanOptionHelper();
-            //需要进行单位转变
-            scanOptionHelper.setDuration(duration*1000);
-            scanOptionHelper.setSize(size);
+//            //将用户的设置存入数据库里
+            ScanOptionUtil scanOptionUtil = new ScanOptionUtil();
+            scanOptionUtil.setDuration(duration*1000);
+            scanOptionUtil.setSize(size);
+            scanOptionUtil.saveAllOptions();
             finish();
         }
     }

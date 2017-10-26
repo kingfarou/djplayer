@@ -16,7 +16,7 @@ import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.bean.Singer;
 import com.jf.djplayer.controller.classifysong.ClassifySongActivity;
 import com.jf.djplayer.datamanager.SingerLoader;
-import com.jf.djplayer.songscan.ScanSongActivity;
+import com.jf.djplayer.controller.scansong.ScanSongEntranceActivity;
 import com.jf.djplayer.util.LogUtil;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class SingerListFragment extends BaseFragment implements
         SingerLoader.SingerLoadListener, AdapterView.OnItemClickListener{
 
     private ListView listView;               // 歌手列表
-    private SingListAdapter singListAdapter; // 歌手列表适配器
+    private SingerListAdapter singerListAdapter; // 歌手列表适配器
     private View loadingHintView;            // ListView加载提示
     private View emptyView;                  // ListView没数据时的提示
     private View footerView;                 // ListView的footView
@@ -55,7 +55,7 @@ public class SingerListFragment extends BaseFragment implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == ScanSongActivity.REQUEST_CODE_SCAN_MUSIC){
+            if(requestCode == ScanSongEntranceActivity.REQUEST_CODE_SCAN_MUSIC){
                 //如果是扫描音乐的返回，调用异步任务刷新数据
                 loadSinger();
             }
@@ -73,7 +73,7 @@ public class SingerListFragment extends BaseFragment implements
             @Override
             public void onClick(View view) {
                 LogUtil.i("扫描音乐");
-                startActivityForResult(new Intent(getActivity(), ScanSongActivity.class), ScanSongActivity.REQUEST_CODE_SCAN_MUSIC);
+                startActivityForResult(new Intent(getActivity(), ScanSongEntranceActivity.class), ScanSongEntranceActivity.REQUEST_CODE_SCAN_MUSIC);
             }
         });
         loadSinger();
@@ -108,8 +108,8 @@ public class SingerListFragment extends BaseFragment implements
             footerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_footer_view, null);
             ((TextView) footerView.findViewById(R.id.tv_list_footer_view)).setText(singerList.size() + "歌手");
             listView.addFooterView(footerView);
-            singListAdapter = new SingListAdapter(getActivity(), singerList);
-            listView.setAdapter(singListAdapter);
+            singerListAdapter = new SingerListAdapter(getActivity(), singerList);
+            listView.setAdapter(singerListAdapter);
             listView.setOnItemClickListener(this);
         }
     }
