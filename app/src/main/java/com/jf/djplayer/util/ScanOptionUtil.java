@@ -40,23 +40,22 @@ public class ScanOptionUtil {
                 }catch (ClassNotFoundException e){
                     LogUtil.i(getClass().getSimpleName() + "构造方法异常--信息："+e.getMessage());
                 }finally {
-                    try{ois.close();}catch (IOException e){}
+                    try{ois.close();}catch (IOException e){/*no thing to do*/}
                 }
             }catch (IOException e){
                 LogUtil.i(getClass().getSimpleName() + "构造方法异常--信息："+e.getMessage());
             }finally {
-                try{fis.close();}catch (IOException e){}
+                try{fis.close();}catch (IOException e){/*no thing to do*/}
             }
         }catch (FileNotFoundException e) {
             LogUtil.i(getClass().getSimpleName() + "构造方法异常--信息：" + e.getMessage());
-        }finally {
-            // 如果在文件读取过程中任意过程失败了，则scanOptions为空，
-            // 此时创建一个ScanOptions对象兵传入默认参数
-            if(scanOptions == null){
-                scanOptions = new ScanOptions();
-                scanOptions.setDuration(DEFAULT_DURATION);
-                scanOptions.setSize(DEFAULT_SIZE);
-            }
+        }
+        // 如果在文件读取过程中任意过程失败了，则scanOptions为空，
+        // 此时创建一个ScanOptions对象并传入默认参数
+        if(scanOptions == null){
+            scanOptions = new ScanOptions();
+            scanOptions.setDuration(DEFAULT_DURATION);
+            scanOptions.setSize(DEFAULT_SIZE);
         }
     }
 
