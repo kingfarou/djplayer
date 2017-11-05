@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.activity.BaseActivity;
-import com.jf.djplayer.songscan.ScanningSongActivity;
 import com.jf.djplayer.util.ToastUtil;
 import com.jf.djplayer.widget.TitleBar;
 
@@ -41,7 +40,7 @@ public class ScanSongEntranceActivity extends BaseActivity
         int id = view.getId();
         if(id == R.id.btn_activity_scan_song_scan_all){
             //点击全盘扫描按钮
-            startActivityForResult(new Intent(this, ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
+            startActivityForResult(new Intent(this, ScanningActivity.class), REQUEST_CODE_SCAN_MUSIC);
         }else if(id == R.id.btn_activity_scan_song_custom_scan){
             //点击自定义路径按钮
             ToastUtil.showShortToast(this, "该功能还未实现");

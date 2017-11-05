@@ -121,7 +121,6 @@ public class SongListFragment extends BaseFragment
                 if(position == 0){
                     //扫描音乐
                     //position == 0代码暂时作为测试用
-//                    getParentFragment().startActivityForResult(new Intent(getActivity(), ScanningSongActivity.class), REQUEST_CODE_SCAN_MUSIC);
                     startActivityForResult(new Intent(getActivity(), ScanSongEntranceActivity.class), ScanSongEntranceActivity.REQUEST_CODE_SCAN_MUSIC);
                 } else if(position == 1){
                     //按照歌曲名字排序歌曲
