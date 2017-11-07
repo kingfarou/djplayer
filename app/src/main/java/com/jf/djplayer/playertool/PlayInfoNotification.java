@@ -11,7 +11,7 @@ import com.jf.djplayer.other.IntentConstant;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.controller.playinfo.PlayInfoActivity;
 import com.jf.djplayer.R;
-import com.jf.djplayer.service.PlayerService;
+import com.jf.djplayer.backgroundplay.PlayerService;
 
 /**
  * Created by Administrator on 2015/8/24.

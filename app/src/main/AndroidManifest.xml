@@ -56,7 +56,7 @@
 
         <!-- 后台控制播放用的服务 -->
         <service
-            android:name=".service.PlayerService"
+            android:name=".backgroundplay.PlayerService"
             android:exported="false" />
 
         <activity android:name=".controller.scansong.ScanningActivity"></activity>

@@ -126,10 +126,8 @@ public class SongScanner {
             }
             int what = msg.what;
             if (what == UPDATE_PROGRESS) {
-                LogUtil.i(SongScanner.class.getSimpleName()+"--InnerHandler--handleMessage()--更新歌曲信息");
                 listener.onProgressUpdate((ScanInfo)msg.obj);
             }else if(what == SCAN_SUCCESS){
-                LogUtil.i(SongScanner.class.getSimpleName()+"--InnerHandler--handleMessage()--扫描成功");
                 listener.onSuccess((ScanInfo)msg.obj);
             }else if(what == SCAN_FAILED){
                 Exception e = new Exception("歌曲扫描失败");

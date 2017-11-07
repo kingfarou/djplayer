@@ -21,7 +21,7 @@ import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.bean.PlayInfo;
 import com.jf.djplayer.controller.playinfo.PlayInfoActivity;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
-import com.jf.djplayer.playertool.PlayerOperator;
+import com.jf.djplayer.backgroundplay.PlayerOperator;
 import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.util.ToastUtil;

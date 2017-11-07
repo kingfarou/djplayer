@@ -1,4 +1,4 @@
-package com.jf.djplayer.playertool;
+package com.jf.djplayer.backgroundplay;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -82,7 +82,7 @@ public class PlayerOperator implements
      * @param songList 歌曲列表
      * @param playPosition 被选中的歌曲在列表的位置
      */
-    public void play(String playListName, List<Song> songList, int playPosition){
+    void play(String playListName, List<Song> songList, int playPosition){
         //如果输入参数不对
         if(songList == null || playPosition<0 || playPosition>=songList.size()){
 //            MyApplication.showLog("所选择的播放列表为空，或者位置不正确");
@@ -132,7 +132,7 @@ public class PlayerOperator implements
         }//如果两次点击的是同一首歌
     }
 
-    public void setCanPlay(boolean canPlay){
+    void setCanPlay(boolean canPlay){
         this.canPlay = canPlay;
     }
 
@@ -140,7 +140,7 @@ public class PlayerOperator implements
     /**
      * 播放，某一首歌暂停后又继续播放，应当调用这个方法
      */
-    public void play(){
+    void play(){
         mMediaPlayer.start();
         //通知所有的观察着歌曲信息
         notifyObservers();
@@ -149,7 +149,7 @@ public class PlayerOperator implements
     /**
      * 暂停当前所播放的歌曲
      */
-    public void pause(){
+    void pause(){
         mMediaPlayer.pause();
         //通知所有的观察着歌曲信息
         notifyObservers();
@@ -159,7 +159,7 @@ public class PlayerOperator implements
     /**
      * 播放歌曲列表里的下一首歌
      */
-    public void nextSong() {
+    void nextSong() {
         //记录新的歌曲信息
         playInfo.setPlayPosition( (playInfo.getPlayPosition()+1)%playInfo.getSongList().size() );
         playInfo.setSongInfo(playInfo.getSongList().get(playInfo.getPlayPosition()));
@@ -169,7 +169,7 @@ public class PlayerOperator implements
     /**
      * 播放列表里面的前一首歌曲
      */
-    public void previousSong(){
+    void previousSong(){
         //修改previousPosition
         if(playInfo.getPlayPosition() == 0){
             playInfo.setPlayPosition(playInfo.getSongList().size()-1);
@@ -184,7 +184,7 @@ public class PlayerOperator implements
     /**
      * 当应用程序退出时调用这个方法彻底放弃音频资源
      */
-    public void over(){
+    void over(){
         //先要释放掉MediaPlayer
         if (mMediaPlayer!=null){
             if (mMediaPlayer.isPlaying()){
@@ -206,7 +206,7 @@ public class PlayerOperator implements
      * 设置当前播放进度（毫秒单位）
      * @param msec
      */
-    public void seekTo(int msec){
+    void seekTo(int msec){
         mMediaPlayer.seekTo(msec);
         notifyObservers();
     }
@@ -284,7 +284,7 @@ public class PlayerOperator implements
     }
     /*"PlayInfoSubject"方法实现_结束*/
 
-    public List<Song> getSongInfoList(){
+    List<Song> getSongInfoList(){
 //        return this.songInfoList;
         return this.playInfo.getSongList();
     }
@@ -293,7 +293,7 @@ public class PlayerOperator implements
      * 返回歌曲是否正在播放
      * @return true:当前歌曲正在播放，false:歌曲暂停或者压根没有选择任何歌曲
      */
-    public boolean isPlaying() {
+    boolean isPlaying() {
         boolean isPlaying;
         try{
             isPlaying = mMediaPlayer.isPlaying();

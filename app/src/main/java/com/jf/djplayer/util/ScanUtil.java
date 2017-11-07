@@ -23,6 +23,10 @@ import java.util.List;
  */
 public class ScanUtil{
 
+    /**
+     * 扫描歌曲，根据用户所选择的扫描条件，扫描内部存储和外部存储符合条件的歌曲
+     * @return 内部存储和外部存储符合条件的歌曲的结果集
+     */
     public Cursor scanSong(){
         String scanSentence = getScanSelection();
         Cursor[] cursors = new Cursor[2];
@@ -48,7 +52,7 @@ public class ScanUtil{
         return new MergeCursor(cursors);
     }
 
-    //根据用户所设置的过滤条件，生成"SQLite"条件查询用的语句
+    // 根据用户所设置的过滤条件，生成"SQLite"条件查询用的语句
     private String getScanSelection(){
         // 获取所设置的过滤条件
         ScanOptionUtil scanOptionUtil = new ScanOptionUtil();

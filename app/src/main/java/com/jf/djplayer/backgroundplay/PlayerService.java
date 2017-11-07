@@ -1,4 +1,4 @@
-package com.jf.djplayer.service;
+package com.jf.djplayer.backgroundplay;
 
 
 import android.app.Service;
@@ -12,7 +12,6 @@ import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.playertool.PlayInfoNotification;
-import com.jf.djplayer.playertool.PlayerOperator;
 import com.jf.djplayer.util.LogUtil;
 
 import java.util.List;

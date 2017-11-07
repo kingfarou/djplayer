@@ -10,7 +10,7 @@ import com.jf.djplayer.R;
 import com.jf.djplayer.base.activity.BaseActivity;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.interfaces.PlayController;
-import com.jf.djplayer.service.PlayerService;
+import com.jf.djplayer.backgroundplay.PlayerService;
 import com.jf.djplayer.widget.TitleBar;
 
 import java.util.List;
