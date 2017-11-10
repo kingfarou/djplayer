@@ -2,6 +2,7 @@ package com.jf.djplayer.datamanager;
 
 import android.database.Cursor;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 
@@ -114,6 +115,7 @@ public class SongScanner {
         private WeakReference<SongScanListener> songScanListenerWeakReference;
 
         public InnerHandler(WeakReference<SongScanListener> listenerWeakReference){
+            super(Looper.getMainLooper());
             songScanListenerWeakReference = listenerWeakReference;
         }
 
