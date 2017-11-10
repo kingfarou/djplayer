@@ -3,7 +3,7 @@ package com.jf.djplayer.playertool;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 
-import com.jf.djplayer.util.FileUtil;
+import com.jf.djplayer.util.DirManager;
 
 import java.io.File;
 
@@ -30,7 +30,7 @@ public class SingerPictureTools {
      * @return true:有歌手图，false:没有图片
      */
     public boolean hasSingerPicture(){
-        File singerPictureDir = new File(Environment.getExternalStorageDirectory(), FileUtil.SINGER_PICTURE_DIR);
+        File singerPictureDir = new DirManager().getSingerPictureDir();
         singerPictureFile = new File(singerPictureDir,singerName+".jpg");
 //        Log.i("test",singerPictureFile.getAbsolutePath());
         return singerPictureFile.exists();

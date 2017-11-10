@@ -1,14 +1,9 @@
 package com.jf.djplayer.controller.playinfo;
 
 import android.app.AlertDialog;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -17,16 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.jf.djplayer.base.activity.BaseActivity;
+import com.jf.djplayer.base.activity.BackgroundPlayActivity;
 import com.jf.djplayer.base.fragment.BaseFragment;
-import com.jf.djplayer.interfaces.PlayController;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.R;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.bean.PlayInfo;
-import com.jf.djplayer.backgroundplay.PlayerService;
-import com.jf.djplayer.util.FileUtil;
+import com.jf.djplayer.util.DirManager;
 import com.jf.djplayer.util.SdCardUtil;
 import com.jf.djplayer.util.UserOptionPreferences;
 import com.jf.djplayer.database.SongInfoOpenHelper;
@@ -44,9 +37,8 @@ import java.util.List;
  * Created by KingFar on 2015/8/4.
  * 播放信息"Activity"
  */
-public class PlayInfoActivity extends BaseActivity implements
-        ServiceConnection ,SeekBar.OnSeekBarChangeListener,PlayInfoObserver,
-        TitleBar.OnTitleClickListener,View.OnClickListener,PlayController{
+public class PlayInfoActivity extends BackgroundPlayActivity implements SeekBar.OnSeekBarChangeListener,PlayInfoObserver,
+        TitleBar.OnTitleClickListener,View.OnClickListener{
 
     //布局文件的根布局，用来显示歌手图片
     private LinearLayout ll_root_view;
@@ -71,7 +63,6 @@ public class PlayInfoActivity extends BaseActivity implements
     private CirclePageIndicator circlePageIndicator;
 
     private PlayInfoSubject playInfoSubject;//持有所播放歌曲信息的主题
-    private PlayerService playerService;//后台歌曲播放服务
     private UpdatePlayInfoHandler updatePlayInfoHandler;
 
     //这个是"message.what"标记。用来标记UI更新事件
@@ -85,9 +76,6 @@ public class PlayInfoActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_info);
-        // 绑定服务
-        Intent intent = new Intent(this, PlayerService.class);
-        bindService(intent, this, Context.BIND_AUTO_CREATE);
         //获取更新播放信息用的主题
         playInfoSubject = PlayerOperator.getInstance();
 
@@ -113,12 +101,6 @@ public class PlayInfoActivity extends BaseActivity implements
         continueUpdateUI = false;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(this);//取消对服务的绑定
-    }
-
     //根据SD卡可读取状况，以及是否是第一次进入，提示信息
     private void showHint(){
         if( !SdCardUtil.isSdCardEnable()){
@@ -129,10 +111,11 @@ public class PlayInfoActivity extends BaseActivity implements
             //当用户第一次在SD卡可读取的情况下进入该页面
             boolean isFirstStart = getPreferences(MODE_PRIVATE).getBoolean(KEY_FIRST_START, true);
             if(isFirstStart){
+                DirManager dirManager = new DirManager();
                 //弹出一个"DialogFragment"显示相关用户提示
                 String message = "当前界面支持歌手图片以及歌词显示。\n" +
-                        "歌手图片：将歌手图片文件（仅支持jpg文件）存放在“"+Environment.getExternalStorageDirectory()+"/"+ FileUtil.SINGER_PICTURE_DIR+"/”路径下面，并以歌手名字作为文件名字即可，如“刘德华.jpg”。\n" +
-                        "歌词文件：将歌词文件（仅支持lrc文件）存放在“"+Environment.getExternalStorageDirectory()+"/"+FileUtil.LYRIC_DIR+"/”路径下面，并将文件名字命名为“歌手名字 - 歌曲名字”即可，比如“王力宏 - 你不知道的事.lrc”";
+                        "歌手图片：将歌手图片文件（仅支持jpg文件）存放在“"+dirManager.getSingerPictureDir().getAbsolutePath()+"/”路径下面，并以歌手名字作为文件名字即可，如“刘德华.jpg”。\n" +
+                        "歌词文件：将歌词文件（仅支持lrc文件）存放在“"+dirManager.getLyricDir().getAbsolutePath()+"/”路径下面，并将文件名字命名为“歌手名字 - 歌曲名字”即可，比如“王力宏 - 你不知道的事.lrc”";
                 final AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示").setMessage(message).setPositiveButton("我知道了", null).create();
                 alertDialog.show();
                 //修改标记
@@ -214,19 +197,6 @@ public class PlayInfoActivity extends BaseActivity implements
         return minutesTensDigit+""+minuteUnitsDigit+":"+secondTensDigit+""+secondUnitsDigit;
     }
 
-    /*"ServiceConnection"方法实现_开始*/
-    @Override
-    public void onServiceConnected(ComponentName name, IBinder service) {
-//        Log.i("test","绑定服务");
-        this.playerService = ((PlayerService.PlayerServiceBinder) service).getPlayerService();
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName name) {
-
-    }
-    /*"ServiceConnection"方法实现_结束*/
-
     /*标题按钮点击事件回调方法*/
     @Override
     public void onTitleClick(View titleView) {
@@ -272,21 +242,21 @@ public class PlayInfoActivity extends BaseActivity implements
         }
         //如果点击播放前一曲的按钮
         if(id == R.id.iv_previous_song){
-            playerService.previousSong();
+            previousSong();
             return;
         }
         //如果点击播放或者暂停按钮
         if(id == R.id.iv_play_or_pause){
             if(playInfo.isPlaying()){
-                playerService.pause();
+                pause();
             }else{
-                playerService.play();
+                play();
             }
             return;
         }
         //如果点击播放下一曲的按钮
         if(id == R.id.iv_next_song){
-            playerService.nextSong();
+            nextSong();
             return;
         }
     }//onClick
@@ -331,7 +301,7 @@ public class PlayInfoActivity extends BaseActivity implements
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 //        设置当前播放进度
-        playerService.seekTo(seekBar.getProgress());
+        seekTo(seekBar.getProgress());
         continueUpdateUI = true;
 //        circulations = true;
 
@@ -404,47 +374,6 @@ public class PlayInfoActivity extends BaseActivity implements
         iv_play_or_pause.setImageResource(R.drawable.activity_song_play_info_play);
         continueUpdateUI = false;//修改允许更新UI标志
     }
-
-    /*"PlayController"方法实现_开始*/
-    @Override
-    public void play(List<Song> songInfoList, int position) {
-    }
-
-    @Override
-    public void play(String playListName, List<Song> songList, int playPosition) {
-        playerService.play(playListName, songList, playPosition);
-    }
-
-    @Override
-    public void play() {
-    }
-
-    @Override
-    public boolean isPlaying() {
-        return false;
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void nextSong() {
-
-    }
-
-    @Override
-    public void previousSong() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-    /*"PlayController"方法实现_结束*/
-
 
     //定时更新UI用的"Handler"
     private static class UpdatePlayInfoHandler extends Handler{

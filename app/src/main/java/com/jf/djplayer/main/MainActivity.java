@@ -116,6 +116,11 @@ public class MainActivity extends BaseActivity implements
     public void stop() {
 
     }
+
+    @Override
+    public void seekTo(int position) {
+        playerService.seekTo(position);
+    }
     /*"PlayController"方法覆盖_end*/
 
     /*"ServiceConnection"方法覆盖_start*/

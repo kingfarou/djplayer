@@ -4,7 +4,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.jf.djplayer.bean.LyricLine;
-import com.jf.djplayer.util.FileUtil;
+import com.jf.djplayer.util.DirManager;
 import com.jf.djplayer.util.SdCardUtil;
 
 import java.io.BufferedReader;
@@ -48,7 +48,7 @@ public class LyricTool {
 //        标记是否存在歌词文件
         if(lyricFile == null){
             if(!SdCardUtil.isSdCardEnable()) return false;
-            lyricFile = new File(Environment.getExternalStorageDirectory(), FileUtil.LYRIC_DIR +"/"+ lyricFileNames);
+            lyricFile = new File(new DirManager().getLyricDir(), lyricFileNames);
         }
         return lyricFile.exists();
     }

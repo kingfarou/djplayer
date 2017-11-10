@@ -108,6 +108,11 @@ public class ClassifySongActivity extends BaseActivity implements
     public void stop() {
 
     }
+
+    @Override
+    public void seekTo(int position) {
+        playerService.seekTo(position);
+    }
     /****************PlayController接口方法实现****************/
 
     /****************ServiceConnection方法实现****************/

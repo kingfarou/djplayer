@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jf.djplayer.bean.Song;
-import com.jf.djplayer.util.FileUtil;
+import com.jf.djplayer.util.DirManager;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.R;
 
@@ -65,7 +65,7 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
                     Toast.makeText(getActivity(), "SD卡读取失败，请您检查SD卡是否已接好", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                File sdCardFile = Environment.getExternalStorageDirectory();//获取SD卡的路径
+//                File sdCardFile = Environment.getExternalStorageDirectory();//获取SD卡的路径
 //                如果删除歌曲文件
                 if (isDeleteSongFile) {
                     File songFile = new File(song.getFileAbsolutePath());
@@ -82,8 +82,8 @@ public class DeleteSongDialog extends DialogFragment implements CompoundButton.O
                 if (isDeleteSoundFile) {
                 }
                 if (isDeleteLyricFile) {
-                    File lyricDir = new File(sdCardFile, FileUtil.LYRIC_DIR);//连接歌词文件路径
-                    File songFile = new File(song.getFileAbsolutePath());//连接歌曲那个文件
+                    File lyricDir = new DirManager().getLyricDir();//连接歌词文件路径
+                    File songFile = new File(song.getFileAbsolutePath());//连接歌曲文件
 //                    截取歌曲文件名字（去拓展名）
                     String songFileName = songFile.getName().substring(0,songFile.getName().length()-4);
 //                    Log.i("test",songFileName);

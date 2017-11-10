@@ -12,40 +12,41 @@ import java.util.List;
 public interface PlayController {
 
     /**
-     * 传入要播放的歌曲列表
-     * 以及要播放的歌曲所在序号
-     * @param songInfoList
-     * @param position
+     * 播放歌曲
+     * @param songInfoList 要播放的歌曲列表
+     * @param position 播放列表里第几首歌
      */
     public void play(List<Song> songInfoList,int position);
 
-    public void play(String playListName, List<Song> songList, int playPosition);
     /**
-     * 暂停之后继续播放用的
+     * 播放歌曲
+     * @param playListName 播放列表的名字
+     * @param songList 要播放的歌曲列表
+     * @param playPosition 播放列表里第几首歌
      */
+    public void play(String playListName, List<Song> songList, int playPosition);
+
+    /** 暂停之后继续播放用的*/
     public void play();
 
-    /**
-     * 查询当前是否正在播放
-     */
+    /** 查询当前是否正在播放*/
     public boolean isPlaying();
-    /**
-     * 暂停
-     */
+
+    /** 暂停*/
     public void pause();
 
-    /**
-     * 播放列表里的下一首歌
-     */
+    /** 播放列表里的下一首歌*/
     public void nextSong();
 
-    /**
-     * 播放列表里面的前一手歌曲
-     */
+    /** 播放列表里面的前一手歌曲*/
     public void previousSong();
 
-    /**
-     * 停止进行歌曲播放
-     */
+    /** 停止进行歌曲播放*/
     public void stop();
+
+    /**
+     * 跳转播放位置
+     * @param position 播放位置
+     */
+    public void seekTo(int position);
 }
