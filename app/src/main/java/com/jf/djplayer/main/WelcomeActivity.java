@@ -8,6 +8,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
 import com.jf.djplayer.R;
+import com.jf.djplayer.backgroundplay.PlayerService;
 import com.jf.djplayer.base.activity.BaseActivity;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.util.DirManager;
@@ -46,13 +47,7 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initAppDir();
-        checkSongNum();
-        if(isAnimationFinish){
-            startMainActivity();
-        }else {
-            isInitFinish = true;
-        }
+        initApp();
     }
 
     private void initView() {
@@ -68,7 +63,6 @@ public class WelcomeActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                LogUtil.i("渐变动画任务完成");
                 if(isInitFinish){
                     startMainActivity();
                 }else {
@@ -83,6 +77,20 @@ public class WelcomeActivity extends BaseActivity {
         view.startAnimation(alphaAnimation);
     }
 
+    // APP各种初始化
+    private void initApp(){
+        initAppDir();
+        // 欢迎界面就要启动服务，其他模块都是以bind方式启动服务，
+        // 该界面以start方式启动，以避免Activity被销毁时服务被销毁
+        Intent startService = new Intent(this, PlayerService.class);
+        startService(startService);
+        if(isAnimationFinish){
+            startMainActivity();
+        }else {
+            isInitFinish = true;
+        }
+    }
+
     //创建应用在外存的相关目录
     private void initAppDir(){
         //检查并提醒用户SD卡是否可用
@@ -92,10 +100,6 @@ public class WelcomeActivity extends BaseActivity {
             DirManager dirManager = new DirManager();
             dirManager.initAppDir();//创建应用的根目录
         }
-    }
-
-    private void checkSongNum(){
-        songNum = new SongInfoOpenHelper(this).getLocalMusicNumber();
     }
 
     //跳转到主界面去

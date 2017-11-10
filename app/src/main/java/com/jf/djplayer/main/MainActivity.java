@@ -1,56 +1,36 @@
 package com.jf.djplayer.main;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.jf.djplayer.R;
-import com.jf.djplayer.base.activity.BaseActivity;
-import com.jf.djplayer.bean.Song;
-import com.jf.djplayer.interfaces.PlayController;
+import com.jf.djplayer.base.activity.BackgroundPlayActivity;
+import com.jf.djplayer.datamanager.SongNumberLoader;
 import com.jf.djplayer.controller.localmusic.LocalMusicActivity;
 import com.jf.djplayer.controller.myfavorite.MyFavoriteActivity;
 import com.jf.djplayer.controller.recentlyplay.RecentlyPlayActivity;
-import com.jf.djplayer.backgroundplay.PlayerService;
 import com.jf.djplayer.util.ToastUtil;
 import com.jf.djplayer.widget.TitleBar;
 
 
-import java.util.List;
-
 /**
  * 主界面
  */
-public class MainActivity extends BaseActivity implements
-        PlayController, ServiceConnection, View.OnClickListener{
+public class MainActivity extends BackgroundPlayActivity implements View.OnClickListener{
 
-    //管理后台音乐播放用的服务
-    private PlayerService playerService;
+    private TextView songNumberTv;  // 歌曲数量
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // 初始化服务，通过两个方式启动服务确保解绑之后服务不会关闭
-        Intent startService = new Intent(this,PlayerService.class);
-        startService(startService);
-        bindService(startService, this, BIND_AUTO_CREATE);
-
         initView();
+        getSongNumber();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(this);
-    }
-
-    //重写该方法是为了"MainActivity"里的"Fragment"的"onActivityResult()"方法能够得到回调
+    // 重写该方法是为了"MainActivity"里的"Fragment"的"onActivityResult()"方法能够得到回调
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -69,78 +49,33 @@ public class MainActivity extends BaseActivity implements
         findViewById(R.id.btn_fragment_mine_song_menu).setOnClickListener(this);
         findViewById(R.id.btn_fragment_mine_recently_play).setOnClickListener(this);
         findViewById(R.id.imgBtn_fragment_mine_dice).setOnClickListener(this);
-
-        // 设置歌曲数量
-        int songNum = getIntent().getIntExtra(WelcomeActivity.KEY_CODE_SONG_NUM, 0);
-        TextView songNumberTv = (TextView)findViewById(R.id.tv_fragment_main_song_num);
-        songNumberTv.setText(songNum + "首歌曲");
+        // 歌曲数量
+        songNumberTv = (TextView)findViewById(R.id.tv_fragment_main_song_num);
     }
 
-    /*"PlayController"方法覆盖_start*/
-    @Override
-    public void play(List<Song> songInfoList,int position) {
-//        playerService.play(_songInfoList, position);
+    // 获取本地音乐歌曲数量
+    private void getSongNumber(){
+        SongNumberLoader songNumberLoader = new SongNumberLoader();
+        songNumberLoader.setSongNumberLoadListener(new SongNumberLoader.SongNumberLoadListener() {
+            @Override
+            public void onSuccess(int songNumber) {
+                songNumberTv.setText(songNumber+"首歌曲");
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+            }
+        });
+        songNumberLoader.load();
     }
-
-    @Override
-    public void play(String playListName, List<Song> songList, int playPosition) {
-        playerService.play(playListName, songList, playPosition);
-    }
-
-    @Override
-    public void play() {
-        playerService.play();
-    }
-
-    @Override
-    public boolean isPlaying() {
-        return playerService.isPlaying();
-    }
-
-    @Override
-    public void pause() {
-        playerService.pause();
-    }
-
-    @Override
-    public void nextSong() {
-        playerService.nextSong();
-    }
-
-    @Override
-    public void previousSong() {
-        playerService.previousSong();
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void seekTo(int position) {
-        playerService.seekTo(position);
-    }
-    /*"PlayController"方法覆盖_end*/
-
-    /*"ServiceConnection"方法覆盖_start*/
-    @Override
-    public void onServiceConnected(ComponentName name, IBinder service) {
-        playerService = ((PlayerService.PlayerServiceBinder)service).getPlayerService();
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName name) {
-
-    }
-    /*"ServiceConnection"方法覆盖_end*/
 
     /**
      * 退出App
      */
     public void exitApp() {
-        playerService.stopSelf();
-        finish();
+//        playerService.stopSelf();
+//        finish();
     }
 
     @Override
@@ -166,4 +101,5 @@ public class MainActivity extends BaseActivity implements
             ToastUtil.showShortToast(this, "该功能还未实现");
         }
     }
+
 }
