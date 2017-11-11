@@ -1,11 +1,8 @@
-package com.jf.djplayer.playertool;
+package com.jf.djplayer.util;
 
-import android.os.Environment;
 import android.util.Log;
 
 import com.jf.djplayer.bean.LyricLine;
-import com.jf.djplayer.util.DirManager;
-import com.jf.djplayer.util.SdCardUtil;
 
 import java.io.BufferedReader;
 import java.io.File;

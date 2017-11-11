@@ -1,4 +1,4 @@
-package com.jf.djplayer.playertool;
+package com.jf.djplayer.util;
 
 import android.graphics.drawable.Drawable;
 import android.os.Environment;

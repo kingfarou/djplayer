@@ -17,7 +17,7 @@ import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.interfaces.PlayInfoObserver;
 import com.jf.djplayer.interfaces.PlayInfoSubject;
 import com.jf.djplayer.bean.PlayInfo;
-import com.jf.djplayer.playertool.LyricTool;
+import com.jf.djplayer.util.LyricTool;
 import com.jf.djplayer.backgroundplay.PlayerOperator;
 import com.jf.djplayer.util.LogUtil;
 

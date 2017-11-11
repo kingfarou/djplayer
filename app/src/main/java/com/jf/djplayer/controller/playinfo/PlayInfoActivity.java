@@ -26,7 +26,7 @@ import com.jf.djplayer.database.SongInfoOpenHelper;
 import com.jf.djplayer.backgroundplay.PlayerOperator;
 
 import com.jf.djplayer.widget.TitleBar;
-import com.jf.djplayer.playertool.SingerPictureTools;
+import com.jf.djplayer.util.SingerPictureTools;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.lang.ref.WeakReference;
