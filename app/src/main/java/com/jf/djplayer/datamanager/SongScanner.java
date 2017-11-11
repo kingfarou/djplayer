@@ -39,54 +39,7 @@ public class SongScanner {
 
     /** 开始扫描*/
     public void startScan(){
-        new Thread(){
-            @Override
-            public void run() {
-                LogUtil.i(SongScanner.class.getSimpleName()+"--startScan()--子线程开始工作");
-                // 获取歌曲扫描工具，执行扫描并获取扫描结果
-                ScanUtil scanUtil = new ScanUtil();
-                Cursor songCursor = scanUtil.scanSong();
-                // 获取Cursor各个列的索引
-                int titleIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
-                int artistIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
-                int albumIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
-                int durationIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
-                int sizeIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.SIZE);
-                int dataIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
-                // 装填歌曲集合
-                List<Song> songList = new ArrayList<>(songCursor.getCount());
-                Song songInfo;
-                while (songCursor.moveToNext()) {
-                    songInfo = new Song(
-                            songCursor.getString(titleIndex),
-                            songCursor.getString(artistIndex),
-                            songCursor.getString(albumIndex),
-                            songCursor.getInt(durationIndex),
-                            songCursor.getInt(sizeIndex),
-                            songCursor.getString(dataIndex)
-                    );
-                    songList.add(songInfo);
-                }
-                songCursor.close();
-                SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(MyApplication.getContext());
-                int sum = songList.size();
-                // 逐条发送每条歌曲信息
-                for(int i = 0; i < sum; i++){
-                    songInfoOpenHelper.insertLocalMusic(songList.get(i));
-                    //发送歌曲信息到主线程
-                    innerHandler.obtainMessage(UPDATE_PROGRESS, new ScanInfo(sum, i+1, songList.get(i).getFileAbsolutePath()))
-                            .sendToTarget();
-                    // 线程休眠，方便查看效果以及调试
-                    try{
-                        sleep(200);
-                    }catch (InterruptedException e){
-                        LogUtil.i("扫描线程中断异常--"+e.toString());
-                    }
-                }
-                // 发送扫描成功信息
-                innerHandler.obtainMessage(SCAN_SUCCESS, new ScanInfo(sum, sum, null)).sendToTarget();
-            }
-        }.start();
+        new Thread(new ScanRunnable()).start();
     }
 
     /** 歌曲扫描监听器*/
@@ -109,6 +62,59 @@ public class SongScanner {
          * @param e 异常信息
          */
         void onFailed(Exception e);
+    }
+
+    // 封装扫描任务过程的Runnable
+    private class ScanRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            // 获取歌曲扫描工具，执行扫描并获取扫描结果
+            ScanUtil scanUtil = new ScanUtil();
+            Cursor songCursor = scanUtil.scanSong();
+            // 获取Cursor各个列的索引
+            int titleIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int artistIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+            int albumIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
+            int durationIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
+            int sizeIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.SIZE);
+            int dataIndex = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+            // 插入过程用到的变量
+            Song song; // 正在处理的歌曲
+            int batchNumber = 10; // 批量插入时，每次插入几首歌曲
+            List<Song> songList = new ArrayList<>(batchNumber); // 批量插入用的集合
+            int sum = songCursor.getCount(); // 扫描到的歌曲总数
+            int current = 0; // 正在处理的歌曲序号
+            SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(MyApplication.getContext());
+            // 遍历结果集并将结果插入到APP的数据库里（批量插入）
+            while (songCursor.moveToNext()) {
+                current+=1;
+                song = new Song(songCursor.getString(titleIndex), songCursor.getString(artistIndex),
+                        songCursor.getString(albumIndex), songCursor.getInt(durationIndex),
+                        songCursor.getInt(sizeIndex), songCursor.getString(dataIndex));
+                // 发送正在处理的歌曲信息到UI线程给用户看
+                innerHandler.obtainMessage(UPDATE_PROGRESS, new ScanInfo(sum, current, song.getFileAbsolutePath())).sendToTarget();
+                songList.add(song);
+                // 批量插入
+                if(songList.size() == batchNumber){
+                    songInfoOpenHelper.insertLocalMusic(songList);
+                    songList.clear();
+                }
+                // 线程休眠，方便查看效果以及调试
+                try{
+                    Thread.sleep(200);
+                }catch (InterruptedException e){
+                    LogUtil.i("扫描线程中断异常--"+e.toString());
+                }
+            }
+            // 如果扫描到的歌曲总数和批处理的个数不成整数倍关系，
+            // 则剩余未处理的歌曲在这里补充处理
+            if(songList.size() != 0){
+                songInfoOpenHelper.insertLocalMusic(songList);
+            }
+            // 发送扫描成功信息
+            innerHandler.obtainMessage(SCAN_SUCCESS, new ScanInfo(sum, sum, null)).sendToTarget();
+        }
     }
 
     // 子线程发送消息到UI线程用的Handler

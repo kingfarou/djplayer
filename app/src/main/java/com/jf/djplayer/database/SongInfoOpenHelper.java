@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.MediaStore;
+import android.provider.Settings;
 
 import com.jf.djplayer.bean.Album;
 import com.jf.djplayer.bean.Folder;
@@ -148,47 +149,41 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
 
     /****************本地音乐歌曲表：增、删、改、查****************/
     /**
+     * 批量插入本地歌曲
+     * @param songList 歌曲集合
+     */
+    public void insertLocalMusic(List<Song> songList){
+        if(songList == null || songList.size() == 0) throw new IllegalArgumentException(getClass().getSimpleName()+"--insertLocalMusic()收到的参数异常");
+        int size = songList.size();
+        SQLiteDatabase songDatabase = getWritableDatabase();
+        long startTime = System.currentTimeMillis();
+        songDatabase.beginTransaction();
+        for(int i = 0; i < size; i++){
+            insertLocalMusic(songDatabase, songList.get(i));
+        }
+        songDatabase.setTransactionSuccessful();
+        songDatabase.endTransaction();
+        LogUtil.i(getClass().getSimpleName(), "插入耗时："+(System.currentTimeMillis() - startTime));
+        songDatabase.close();
+    }
+
+    /**
      * 插入一首本地歌曲
      * @param song 需插入的歌曲对象
      * @return 返回新插入的行数ID，如果插入发生错误，返回-1
      */
     public long insertLocalMusic(Song song){
-        String notKnow = "未知";
-        if(song == null) {
-            throw new IllegalArgumentException(getClass().getSimpleName()+"--insertLocalMusic()收到的参数异常");
-        }
-        SQLiteDatabase songInfoDatabase = getWritableDatabase();
-        ContentValues songValues = new ContentValues();
-        // 判断字符串是不是空对象，如果是就给一个默认值，让自己的数据库不要有空的对象
-        if(song.getSongName() == null || song.getSongName().equals("")) song.setSongName(notKnow);
-        if(song.getSingerName() == null || song.getSongName().equals("")) song.setSingerName(notKnow);
-        if(song.getAlbum() == null || song.getAlbum().equals("")) song.setAlbum(notKnow);
-        // 插入
-        songValues.putNull(LocalMusicSongTable.ID); // id由系统去进行自增
-        songValues.put(LocalMusicSongTable.TITLE, song.getSongName());
-        songValues.put(LocalMusicSongTable.ARTIST,song.getSingerName());
-        songValues.put(LocalMusicSongTable.ALBUM,song.getAlbum());
-        songValues.put(LocalMusicSongTable.DURATION,song.getDuration());
-        songValues.put(LocalMusicSongTable.SIZE,song.getSize());
-        songValues.put(LocalMusicSongTable.FOLDER, (song.getFileAbsolutePath() == null || song.getFileAbsolutePath().equals("")) ?
-                notKnow : new File(song.getFileAbsolutePath()).getParent());
-        songValues.put(LocalMusicSongTable.ABSOLUTE_PATH, (song.getFileAbsolutePath() == null || song.getFileAbsolutePath().equals("")) ?
-                notKnow : song.getFileAbsolutePath());
-        songValues.put(LocalMusicSongTable.collection, song.getCollection());
-        songValues.put(LocalMusicSongTable.lastPlayTime, NEVER_PLAY);
-        long insertId = songInfoDatabase.insert(LocalMusicSongTable.TABLE_NAME, null, songValues);
-        // 数据库插入失败
-        if(insertId == -1){
-            songInfoDatabase.close();
-            return -1;
-        } else {
-            // 歌曲表插入成功，则该歌曲对应歌手、专辑、文件夹表歌曲数量加一
-            numberOfSongAddOne(LocalMusicSingerTable.TABLE_NAME, song.getSingerName());
-            numberOfSongAddOne(LocalMusicAlbumTable.TABLE_NAME, song.getAlbum());
-            numberOfSongAddOne(LocalMusicFolderTable.TABLE_NAME, new File(song.getFileAbsolutePath()).getParent());
-            songInfoDatabase.close();
-            return insertId;
-        }
+        if(song == null) throw new IllegalArgumentException(getClass().getSimpleName()+"--insertLocalMusic()收到的参数异常");
+        // 启动事务
+        SQLiteDatabase songDatabase = getWritableDatabase();
+        songDatabase.beginTransaction();
+        // 执行插入
+        long resultId = insertLocalMusic(songDatabase, song);
+        // 结束事务
+        songDatabase.setTransactionSuccessful();
+        songDatabase.endTransaction();
+        songDatabase.close();
+        return resultId;
     }
 
     /**
@@ -199,13 +194,13 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         StringBuilder deleteBuilder = new StringBuilder(8);
         deleteBuilder.append("delete from ").append(LocalMusicSongTable.TABLE_NAME)
                 .append(" where ").append(LocalMusicSongTable.ABSOLUTE_PATH).append("='").append(song.getFileAbsolutePath()).append("';");
-        getWritableDatabase().execSQL(deleteBuilder.toString());
+        SQLiteDatabase songDatabase = getWritableDatabase();
+        songDatabase.execSQL(deleteBuilder.toString());
         // 从歌曲表删除一首歌曲，则该歌曲对应歌手、专辑、文件夹表歌曲数量减一
-        numberOfSongMinusOne(LocalMusicSingerTable.TABLE_NAME, song.getSingerName());
-        numberOfSongMinusOne(LocalMusicAlbumTable.TABLE_NAME, song.getAlbum());
-        numberOfSongMinusOne(LocalMusicFolderTable.TABLE_NAME, new File(song.getFileAbsolutePath()).getParent());
+        numberOfSongMinusOne(songDatabase, LocalMusicSingerTable.TABLE_NAME, song.getSingerName());
+        numberOfSongMinusOne(songDatabase, LocalMusicAlbumTable.TABLE_NAME, song.getAlbum());
+        numberOfSongMinusOne(songDatabase, LocalMusicFolderTable.TABLE_NAME, new File(song.getFileAbsolutePath()).getParent());
     }
-
 
     /**
      * 更新由song对象里面的绝对路径所指定的那条歌曲记录
@@ -219,19 +214,20 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         selectSingerBuilder.append("SELECT ").append(LocalMusicSongTable.ARTIST).append(",").append(LocalMusicSongTable.ALBUM)
                 .append(" from ").append(LocalMusicSongTable.TABLE_NAME)
                 .append(" where ").append(LocalMusicSongTable.ABSOLUTE_PATH).append("=").append("'").append(song.getFileAbsolutePath()).append("';");
-        Cursor singerAndAlbumCursor = getReadableDatabase().rawQuery(selectSingerBuilder.toString(), null);
+        SQLiteDatabase songDatabase = getReadableDatabase();
+        Cursor singerAndAlbumCursor = songDatabase.rawQuery(selectSingerBuilder.toString(), null);
         singerAndAlbumCursor.moveToNext();
         String oldSinger = singerAndAlbumCursor.getString(singerAndAlbumCursor.getColumnIndex(LocalMusicSongTable.ARTIST));
         // 如果用户修改过歌手名字，同步变更歌手表信息
         if( !oldSinger.equals(song.getSingerName()) ){
-            numberOfSongMinusOne(LocalMusicSingerTable.TABLE_NAME, oldSinger);
-            numberOfSongAddOne(LocalMusicSingerTable.TABLE_NAME, song.getSingerName());
+            numberOfSongMinusOne(songDatabase, LocalMusicSingerTable.TABLE_NAME, oldSinger);
+            numberOfSongAddOne(songDatabase, LocalMusicSingerTable.TABLE_NAME, song.getSingerName());
         }
         // 对专辑表进行和歌手表相同的操作
         String oldAlbum = singerAndAlbumCursor.getString(singerAndAlbumCursor.getColumnIndex(LocalMusicSongTable.ALBUM));
         if( !oldAlbum.equals(song.getAlbum()) ){
-            numberOfSongMinusOne(LocalMusicAlbumTable.TABLE_NAME, oldAlbum);
-            numberOfSongAddOne(LocalMusicAlbumTable.TABLE_NAME, song.getAlbum());
+            numberOfSongMinusOne(songDatabase, LocalMusicAlbumTable.TABLE_NAME, oldAlbum);
+            numberOfSongAddOne(songDatabase, LocalMusicAlbumTable.TABLE_NAME, song.getAlbum());
         }
         // 更新本地音乐歌曲表信息
         SQLiteDatabase songInfoDatabase = getWritableDatabase();
@@ -360,26 +356,6 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         return cursorToSongList(cursor);
     }
 
-    // 将结果集里的音乐信息，变成"List<_SongInfo>"对象
-    private List<Song> cursorToSongList(Cursor cursor){
-        List<Song> songInfoList = new ArrayList<>(cursor.getCount());
-        Song songInfo;
-        // 装填所有歌曲数据
-        while (cursor.moveToNext()){
-            songInfo = new Song();
-            songInfo.setSongName(cursor.getString(cursor.getColumnIndex(LocalMusicSongTable.TITLE)));
-            songInfo.setSingerName(cursor.getString(cursor.getColumnIndex(LocalMusicSongTable.ARTIST)));
-            songInfo.setAlbum(cursor.getString(cursor.getColumnIndex(LocalMusicSongTable.ALBUM)));
-            songInfo.setDuration(cursor.getInt(cursor.getColumnIndex(LocalMusicSongTable.DURATION)));
-            songInfo.setSize(cursor.getInt(cursor.getColumnIndex(LocalMusicSongTable.SIZE)));
-            songInfo.setFileAbsolutePath(cursor.getString(cursor.getColumnIndex(LocalMusicSongTable.ABSOLUTE_PATH)));
-            songInfo.setCollection(cursor.getInt(cursor.getColumnIndex(LocalMusicSongTable.collection)));
-            songInfo.setLastPlayTime(cursor.getInt(cursor.getColumnIndex(LocalMusicSongTable.lastPlayTime)));
-            songInfoList.add(songInfo);
-        }
-        return songInfoList;
-    }
-
     /**
      * 获取全部歌手列表
      * @return 歌手列表
@@ -451,13 +427,66 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         return albumList;
     }
 
+    // 将结果集里的音乐信息，变成"List<_SongInfo>"对象
+    private List<Song> cursorToSongList(Cursor cursor){
+        List<Song> songInfoList = new ArrayList<>(cursor.getCount());
+        Song songInfo;
+        // 装填所有歌曲数据
+        while (cursor.moveToNext()){
+            songInfo = new Song();
+            songInfo.setSongName(cursor.getString(cursor.getColumnIndex(LocalMusicSongTable.TITLE)));
+            songInfo.setSingerName(cursor.getString(cursor.getColumnIndex(LocalMusicSongTable.ARTIST)));
+            songInfo.setAlbum(cursor.getString(cursor.getColumnIndex(LocalMusicSongTable.ALBUM)));
+            songInfo.setDuration(cursor.getInt(cursor.getColumnIndex(LocalMusicSongTable.DURATION)));
+            songInfo.setSize(cursor.getInt(cursor.getColumnIndex(LocalMusicSongTable.SIZE)));
+            songInfo.setFileAbsolutePath(cursor.getString(cursor.getColumnIndex(LocalMusicSongTable.ABSOLUTE_PATH)));
+            songInfo.setCollection(cursor.getInt(cursor.getColumnIndex(LocalMusicSongTable.collection)));
+            songInfo.setLastPlayTime(cursor.getInt(cursor.getColumnIndex(LocalMusicSongTable.lastPlayTime)));
+            songInfoList.add(songInfo);
+        }
+        return songInfoList;
+    }
+
+    // 向歌曲表插入一首歌曲
+    // 该方法没有启动事务，需要调用这启动事务
+    private long insertLocalMusic(SQLiteDatabase songDatabase, Song song){
+        String notKnow = "未知";
+        ContentValues songValues = new ContentValues();
+        // 判断字符串是不是空对象，如果是就给一个默认值，让自己的数据库不要有空的对象
+        if(song.getSongName() == null || song.getSongName().equals("")) song.setSongName(notKnow);
+        if(song.getSingerName() == null || song.getSongName().equals("")) song.setSingerName(notKnow);
+        if(song.getAlbum() == null || song.getAlbum().equals("")) song.setAlbum(notKnow);
+        // 插入
+        songValues.putNull(LocalMusicSongTable.ID); // id由系统去进行自增
+        songValues.put(LocalMusicSongTable.TITLE, song.getSongName());
+        songValues.put(LocalMusicSongTable.ARTIST,song.getSingerName());
+        songValues.put(LocalMusicSongTable.ALBUM,song.getAlbum());
+        songValues.put(LocalMusicSongTable.DURATION,song.getDuration());
+        songValues.put(LocalMusicSongTable.SIZE,song.getSize());
+        songValues.put(LocalMusicSongTable.FOLDER, (song.getFileAbsolutePath() == null || song.getFileAbsolutePath().equals("")) ?
+                notKnow : new File(song.getFileAbsolutePath()).getParent());
+        songValues.put(LocalMusicSongTable.ABSOLUTE_PATH, (song.getFileAbsolutePath() == null || song.getFileAbsolutePath().equals("")) ?
+                notKnow : song.getFileAbsolutePath());
+        songValues.put(LocalMusicSongTable.collection, song.getCollection());
+        songValues.put(LocalMusicSongTable.lastPlayTime, NEVER_PLAY);
+        long resultId = songDatabase.insert(LocalMusicSongTable.TABLE_NAME, null, songValues);
+        // 结果处理
+        if(resultId != -1){
+            // 歌曲插入成功，则该歌曲对应歌手、专辑、文件夹表歌曲数量加一
+            numberOfSongAddOne(songDatabase, LocalMusicSingerTable.TABLE_NAME, song.getSingerName());
+            numberOfSongAddOne(songDatabase, LocalMusicAlbumTable.TABLE_NAME, song.getAlbum());
+            numberOfSongAddOne(songDatabase, LocalMusicFolderTable.TABLE_NAME, new File(song.getFileAbsolutePath()).getParent());
+        }
+        return resultId;
+    }
+
     /**
      * 歌手表或专辑表或文件夹表某条记录歌曲数量加一
      * @param witchTable 哪一张表，如歌手表、专辑表、或文件夹表
      * @param columnValue 名字
      * 示例：如想将歌手表里歌手“张三”歌曲数量加一，则witchTable传入歌手表，columnValue传入“张三”
      */
-    private void numberOfSongAddOne(String witchTable, String columnValue){
+    private void numberOfSongAddOne(SQLiteDatabase songDatabase, String witchTable, String columnValue){
         if(columnValue == null || columnValue.equals("")){
             columnValue = "未知";
         }
@@ -483,14 +512,14 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         StringBuilder selectBuilder = new StringBuilder();
         selectBuilder.append("SELECT * FROM ").append(tableName)
                 .append(" where ").append(columnName).append("='").append(columnValue).append("'");
-        Cursor cursor = getReadableDatabase().rawQuery(selectBuilder.toString(),null);
+        Cursor cursor = songDatabase.rawQuery(selectBuilder.toString(),null);
         if(cursor.getCount() == 0){
             // 对应表原来没有该（歌手、专辑、或文件夹），新增一行并设置歌曲数量为一
             StringBuilder insertBuilder = new StringBuilder(14);
             insertBuilder.append("INSERT INTO ").append(tableName).append("(")
                     .append(columnName).append(",").append(numberOfSongColumnName).append(")")
                     .append("VALUES(").append("'").append(columnValue).append("',").append(1).append(");");
-            getWritableDatabase().execSQL(insertBuilder.toString());
+            songDatabase.execSQL(insertBuilder.toString());
         }else{
             // 对应表有该（歌手、专辑、或文件夹），将歌曲数量加一
             cursor.moveToNext();
@@ -500,7 +529,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
             updateBuilder.append("update ").append(tableName).append(" set ")
                     .append(numberOfSongColumnName).append("=").append(songNumber)
                     .append(" where ").append(columnName).append("='").append(columnValue).append("';");
-            getWritableDatabase().execSQL(updateBuilder.toString());
+            songDatabase.execSQL(updateBuilder.toString());
         }
         cursor.close();
     }
@@ -511,7 +540,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
      * @param columnValue 名字
      * 示例：如想将歌手表里歌手“张三”歌曲数量加一，则witchTable传入歌手表，columnValue传入“张三”
      */
-    private void numberOfSongMinusOne(String witchTable, String columnValue){
+    private void numberOfSongMinusOne(SQLiteDatabase songDatabase, String witchTable, String columnValue){
         if(columnValue == null || columnValue.equals("")){
             columnValue = "未知";
         }
@@ -537,7 +566,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
         StringBuilder selectBuilder = new StringBuilder(8);
         selectBuilder.append("SELECT * FROM ").append(tableName)
                 .append(" where ").append(columnName).append("='").append(columnValue).append("'");
-        Cursor cursor = getReadableDatabase().rawQuery(selectBuilder.toString(),null);
+        Cursor cursor = songDatabase.rawQuery(selectBuilder.toString(),null);
         int count = cursor.getCount();
         if(count == 0){
             /* 对应表原来没有该（歌手、专辑、或文件夹），理论上这是不可能出现的情况，
@@ -553,7 +582,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
                 StringBuilder deleteBuilder = new StringBuilder(8);
                 deleteBuilder.append("delete from ").append(tableName)
                         .append(" where ").append(columnName).append("='").append(columnValue).append("';");
-                getWritableDatabase().execSQL(deleteBuilder.toString());
+                songDatabase.execSQL(deleteBuilder.toString());
                 LogUtil.i(getClass().getName(), "原来只剩一首歌曲，直接删除该记录即可");
             }else{
                 // 原来剩余超过一首歌曲，将歌曲数量减一
@@ -562,7 +591,7 @@ public class SongInfoOpenHelper extends SQLiteOpenHelper {
                 updateBuilder.append("update ").append(tableName).append(" set ")
                         .append(numberOfSongColumnName).append("=").append(songNumber)
                         .append(" where ").append(columnName).append("='").append(columnValue).append("';");
-                getWritableDatabase().execSQL(updateBuilder.toString());
+                songDatabase.execSQL(updateBuilder.toString());
                 LogUtil.i(getClass().getName(), "对应表有该（歌手、专辑、或文件夹），将歌曲数量减一");
             }
         }
