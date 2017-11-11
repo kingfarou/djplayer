@@ -67,6 +67,7 @@ public class SongScanner {
                     );
                     songList.add(songInfo);
                 }
+                songCursor.close();
                 SongInfoOpenHelper songInfoOpenHelper = new SongInfoOpenHelper(MyApplication.getContext());
                 int sum = songList.size();
                 // 逐条发送每条歌曲信息
