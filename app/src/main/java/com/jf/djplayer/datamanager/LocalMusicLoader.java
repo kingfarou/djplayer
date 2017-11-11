@@ -8,26 +8,27 @@ import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/10/17.
  * 本地音乐加载器，加载App数据库里面全部的音乐。
- * 通过子线程读取本地音乐，通过接口回传给调用者
  */
 public class LocalMusicLoader {
 
     private static final int LOAD_SUCCESS = 1; // 读取成功的标志
     private static final int LOAD_FAILED = 0;  // 读取失败的标志
 
-    private LocalMusicLoadListener localMusicLoadListener;
+    private InnerHandler innerHandler;
 
-    /**
-     * 读取本地音乐数据
-     * @param listener "LocalMusicReadListener"接口
-     */
-    public void loadLocalMusic(LocalMusicLoadListener listener){
-        localMusicLoadListener = listener;
+    public void setLoadListener(LoadListener listener){
+        if(listener == null) return;
+        innerHandler = new InnerHandler(new WeakReference<>(listener));
+    }
+
+    /** 读取本地音乐数据*/
+    public void load(){
         new Thread(){
             @Override
             public void run() {
@@ -37,17 +38,15 @@ public class LocalMusicLoader {
 
                 }
                 List<Song> songList = new SongInfoOpenHelper(MyApplication.getContext()).getLocalMusicSongList();
-                Message resultMessage = new InnerHandler().obtainMessage(
-                        LOAD_SUCCESS, new LocalMusicLoadResult(localMusicLoadListener, songList));
+                Message resultMessage = innerHandler.obtainMessage(LOAD_SUCCESS, songList);
                 resultMessage.sendToTarget();
             }
         }.start();
     }
 
-    /**
-     * 本地音乐读取监听接口
-     */
-    public interface LocalMusicLoadListener{
+    /** 本地音乐读取监听接口*/
+    public interface LoadListener {
+
         /**
          * 读取成功时的回调方法
          * @param songList 本地音乐信息集合
@@ -64,31 +63,26 @@ public class LocalMusicLoader {
     // 接收子线程扫描结果的Handler
     private static class InnerHandler extends Handler{
 
-        InnerHandler(){
+        private WeakReference<LoadListener> listenerWeakReference;
+
+        InnerHandler(WeakReference<LoadListener> listenerWeakReference){
             super(Looper.getMainLooper());
+            this.listenerWeakReference = listenerWeakReference;
         }
 
         @Override
         public void handleMessage(Message msg) {
-            LocalMusicLoadResult localMusicReaderResult = (LocalMusicLoadResult)msg.obj;
+            LoadListener listener = listenerWeakReference.get();
+            if(listener == null){
+                return;
+            }
             if(msg.what == LOAD_SUCCESS){
-                localMusicReaderResult.localMusicLoadListener.onSuccess(localMusicReaderResult.songList);
+                listener.onSuccess((List<Song>)msg.obj);
             }else {
-                // 暂时传空值
-                localMusicReaderResult.localMusicLoadListener.onFailed(null);
+                Exception e = new Exception("本地音乐加载失败");
+                listener.onFailed(e);
             }
         }
     }
 
-    // 封装本地音乐读取结果的对象
-    private class LocalMusicLoadResult {
-
-        private LocalMusicLoadListener localMusicLoadListener;
-        private List<Song> songList;
-
-        LocalMusicLoadResult(LocalMusicLoadListener listener, List<Song> songs){
-            localMusicLoadListener = listener;
-            songList = songs;
-        }
-    }
 }

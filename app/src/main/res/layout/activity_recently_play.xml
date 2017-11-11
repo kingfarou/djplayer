@@ -24,7 +24,7 @@
 
     <!--显示最近播放的 歌曲的列表-->
     <fragment
-        android:name="com.jf.djplayer.controller.recentlyplay.RecentlyPlayListFragment"
+        android:name="com.jf.djplayer.controller.recentlyplay.ListFragment"
         android:id="@+id/my_favorite_list_fragment_activity_my_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

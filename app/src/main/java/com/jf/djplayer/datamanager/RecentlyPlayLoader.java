@@ -1,6 +1,5 @@
 package com.jf.djplayer.datamanager;
 
-import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -9,27 +8,30 @@ import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
  * Created by Kingfar on 2017/10/18.
  * “最近播放”音乐加载器
- * 通过子线程读取“最近播放”音乐，通过接口回传给调用者
  */
 public class RecentlyPlayLoader {
 
     private static final int LOAD_SUCCESS = 1; // 读取成功的标志
     private static final int LOAD_FAILED = 0;  // 读取失败的标志
 
-    private RecentlyPlayLoadListener recentlyPlayLoadListener;
+    private InnerHandler innerHandler;
+
+    public void setRecentlyLoadListener(LoadListener listener){
+        if(listener == null) return;
+        innerHandler = new InnerHandler(new WeakReference<>(listener));
+    }
 
     /**
      * 读取最近播放的歌曲数据
-     * @param listener "RecentlyPlayLoadListener"接口
      * @param number 需要读取最近播放的几首歌曲
      */
-    public void loadRecentlyPlaySong(RecentlyPlayLoadListener listener, final int number){
-        recentlyPlayLoadListener = listener;
+    public void load(final int number){
         new Thread(){
             @Override
             public void run() {
@@ -46,17 +48,15 @@ public class RecentlyPlayLoader {
                         songList.remove(i);
                     }
                 }
-                Message resultMessage = new InnerHandler().obtainMessage(
-                        LOAD_SUCCESS, new RecentlyPlayLoadResult(recentlyPlayLoadListener, songList));
+                Message resultMessage = innerHandler.obtainMessage(LOAD_SUCCESS, songList);
                 resultMessage.sendToTarget();
             }
         }.start();
     }
 
-    /**
-     * 本地音乐读取监听接口
-     */
-    public interface RecentlyPlayLoadListener {
+    /** 最近播放读取监听接口*/
+    public interface LoadListener {
+
         /**
          * 读取成功时的回调方法
          * @param songList 本地音乐信息集合
@@ -73,31 +73,26 @@ public class RecentlyPlayLoader {
     // 接收子线程扫描结果的Handler
     private static class InnerHandler extends Handler{
 
-        InnerHandler(){
+        private WeakReference<LoadListener> listenerWeakReference;
+
+        InnerHandler(WeakReference<LoadListener> listenerWeakReference){
             super(Looper.getMainLooper());
+            this.listenerWeakReference = listenerWeakReference;
         }
 
         @Override
         public void handleMessage(Message msg) {
-            RecentlyPlayLoadResult localMusicReaderResult = (RecentlyPlayLoadResult)msg.obj;
+            LoadListener listener = listenerWeakReference.get();
+            if(listener == null){
+                return;
+            }
             if(msg.what == LOAD_SUCCESS){
-                localMusicReaderResult.recentlyPlayLoadListener.onSuccess(localMusicReaderResult.songList);
-            }else {
-                // 暂时传空值
-                localMusicReaderResult.recentlyPlayLoadListener.onFailed(null);
+                listener.onSuccess((List<Song>)msg.obj);
+            } else {
+                Exception e = new Exception("最近播放的歌曲加载失败");
+                listener.onFailed(e);
             }
         }
     }
 
-    // 封装本地音乐读取结果的对象
-    private class RecentlyPlayLoadResult {
-
-        private RecentlyPlayLoadListener recentlyPlayLoadListener;
-        private List<Song> songList;
-
-        RecentlyPlayLoadResult(RecentlyPlayLoadListener listener, List<Song> songs){
-            recentlyPlayLoadListener = listener;
-            songList = songs;
-        }
-    }
 }

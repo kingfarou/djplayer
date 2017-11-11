@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.jf.djplayer.R;
 import com.jf.djplayer.base.fragment.BaseFragment;
 import com.jf.djplayer.bean.Song;
-import com.jf.djplayer.controller.localmusic.SongListAdapter;
 import com.jf.djplayer.datamanager.MyFavoriteLoader;
 import com.jf.djplayer.dialogfragment.SongOperationDialog;
 import com.jf.djplayer.interfaces.PlayController;
@@ -28,7 +27,7 @@ import java.util.List;
  */
 
 public class MyFavoriteListFragment extends BaseFragment
-        implements MyFavoriteLoader.MyFavoriteLoadListener, AdapterView.OnItemClickListener{
+        implements MyFavoriteLoader.LoadListener, AdapterView.OnItemClickListener{
 
     // 歌曲列表数据排序相关
     private static final String KEY_SONG_SORT_BY = MyFavoriteListFragment.class.getSimpleName()+"_songSortBy";
@@ -124,7 +123,8 @@ public class MyFavoriteListFragment extends BaseFragment
         emptyView.setVisibility(View.INVISIBLE);
         // 加载音乐
         MyFavoriteLoader myFavoriteLoader = new MyFavoriteLoader();
-        myFavoriteLoader.loadMyFavoriteSong(this);
+        myFavoriteLoader.setLoadListener(this);
+        myFavoriteLoader.load();
     }
 
     /****************本地音乐读取器回调接口****************/

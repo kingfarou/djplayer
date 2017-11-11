@@ -26,7 +26,7 @@ import java.util.List;
  * 本地音乐-文件夹列表
  */
 public class FolderListFragment extends BaseFragment implements
-        FolderLoader.FolderLoadListener, AdapterView.OnItemClickListener{
+        FolderLoader.loadListener, AdapterView.OnItemClickListener{
 
     private ListView listView;                    // 文件夹列表
     private FolderListAdapter folderListAdapter;
@@ -86,7 +86,8 @@ public class FolderListFragment extends BaseFragment implements
         emptyView.setVisibility(View.INVISIBLE);
         // 加载文件夹
         FolderLoader folderLoader = new FolderLoader();
-        folderLoader.loadFolder(this);
+        folderLoader.setLoadListener(this);
+        folderLoader.load();
     }
 
     /****************文件夹加载器回调接口****************/

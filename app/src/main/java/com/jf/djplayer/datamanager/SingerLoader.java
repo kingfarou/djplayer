@@ -8,6 +8,7 @@ import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.bean.Singer;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -19,15 +20,15 @@ public class SingerLoader {
 
     private static final int LOAD_SUCCESS = 1; // 读取成功的标志
     private static final int LOAD_FAILED = 0;  // 读取失败的标志
+    private InnerHandler innerHandler;
 
-    private SingerLoadListener singerLoadListener;
+    public void setLoadListener(LoadListener listener){
+        if(listener == null) return;
+        innerHandler = new InnerHandler(new WeakReference<>(listener));
+    }
 
-    /**
-     * 读取歌手
-     * @param listener "SingerLoadListener"接口
-     */
-    public void loadSinger(SingerLoadListener listener){
-        singerLoadListener = listener;
+    /** 读取歌手*/
+    public void load(){
         new Thread(){
             @Override
             public void run() {
@@ -37,17 +38,15 @@ public class SingerLoader {
 
                 }
                 List<Singer> singerList = new SongInfoOpenHelper(MyApplication.getContext()).getSingerList();
-                Message resultMessage = new InnerHandler().obtainMessage(
-                        LOAD_SUCCESS, new SingerLoadResult(singerLoadListener, singerList));
+                Message resultMessage = innerHandler.obtainMessage(LOAD_SUCCESS, singerList);
                 resultMessage.sendToTarget();
             }
         }.start();
     }
 
-    /**
-     * 歌手加载监听接口
-     */
-    public interface SingerLoadListener{
+    /** 歌手加载监听接口*/
+    public interface LoadListener {
+
         /**
          * 读取成功时的回调方法
          * @param singerList 歌手信息集合
@@ -64,31 +63,26 @@ public class SingerLoader {
     // 接收子线程扫描结果的Handler
     private static class InnerHandler extends Handler{
 
-        InnerHandler(){
+        private WeakReference<LoadListener> listenerWeakReference;
+
+        InnerHandler(WeakReference<LoadListener> listenerWeakReference){
             super(Looper.getMainLooper());
+            this.listenerWeakReference = listenerWeakReference;
         }
 
         @Override
         public void handleMessage(Message msg) {
-            SingerLoadResult singerLoadResult = (SingerLoadResult)msg.obj;
+            LoadListener listener = listenerWeakReference.get();
+            if(listener == null){
+                return;
+            }
             if(msg.what == LOAD_SUCCESS){
-                singerLoadResult.singerLoadListener.onSuccess(singerLoadResult.singerList);
+                listener.onSuccess((List<Singer>)msg.obj);
             }else {
-                // 暂时传空值
-                singerLoadResult.singerLoadListener.onFailed(null);
+                Exception e = new Exception("歌手加载失败");
+                listener.onFailed(e);
             }
         }
     }
 
-    // 封装本地音乐读取结果的对象
-    private class SingerLoadResult {
-
-        private SingerLoadListener singerLoadListener;
-        private List<Singer> singerList;
-
-        SingerLoadResult(SingerLoadListener listener, List<Singer> singers){
-            singerLoadListener = listener;
-            singerList = singers;
-        }
-    }
 }

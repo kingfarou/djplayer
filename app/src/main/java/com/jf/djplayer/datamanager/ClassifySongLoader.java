@@ -8,26 +8,32 @@ import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/10/17.
- * 本地音乐加载器，加载App数据库里面全部的音乐。
- * 通过子线程读取本地音乐，通过接口回传给调用者
+ * 分类歌曲加载器
  */
 public class ClassifySongLoader {
 
     private static final int LOAD_SUCCESS = 1; // 读取成功的标志
     private static final int LOAD_FAILED = 0;  // 读取失败的标志
 
-    private ClassifySongLoadListener classifySongLoadListener;
+    private InnerHandler innerHandler;
+
+    public void setLoadListener(LoadListener listener){
+        if(listener == null) return;
+        innerHandler = new InnerHandler(new WeakReference<>(listener));
+    }
 
     /**
-     * 读取本地音乐数据
-     * @param listener "LocalMusicReadListener"接口
+     *
+     * @param listener
+     * @param typeName
+     * @param typeValue
      */
-    public void loadSong(ClassifySongLoadListener listener, final int typeName, final String typeValue){
-        classifySongLoadListener = listener;
+    public void load(final int typeName, final String typeValue){
         new Thread(){
             @Override
             public void run() {
@@ -38,8 +44,7 @@ public class ClassifySongLoader {
                 }
                 List<Song> songList =
                         new SongInfoOpenHelper(MyApplication.getContext()).getClassifySongInfo(typeName, typeValue);
-                Message resultMessage = new InnerHandler().obtainMessage(
-                        LOAD_SUCCESS, new ClassifySongLoadResult(classifySongLoadListener, songList));
+                Message resultMessage = innerHandler.obtainMessage(LOAD_SUCCESS, songList);
                 resultMessage.sendToTarget();
             }
         }.start();
@@ -48,7 +53,7 @@ public class ClassifySongLoader {
     /**
      * 本地音乐读取监听接口
      */
-    public interface ClassifySongLoadListener {
+    public interface LoadListener {
         /**
          * 读取成功时的回调方法
          * @param songList 本地音乐信息集合
@@ -65,31 +70,26 @@ public class ClassifySongLoader {
     // 接收子线程扫描结果的Handler
     private static class InnerHandler extends Handler{
 
-        InnerHandler(){
+        private WeakReference<LoadListener> listenerWeakReference;
+
+        InnerHandler(WeakReference<LoadListener> listenerWeakReference){
             super(Looper.getMainLooper());
+            this.listenerWeakReference = listenerWeakReference;
         }
 
         @Override
         public void handleMessage(Message msg) {
-            ClassifySongLoadResult localMusicReaderResult = (ClassifySongLoadResult)msg.obj;
+            LoadListener listener = listenerWeakReference.get();
+            if(listener == null){
+                return;
+            }
             if(msg.what == LOAD_SUCCESS){
-                localMusicReaderResult.classifySongLoadListener.onSuccess(localMusicReaderResult.songList);
+                listener.onSuccess((List<Song>)msg.obj);
             }else {
-                // 暂时传空值
-                localMusicReaderResult.classifySongLoadListener.onFailed(null);
+                Exception e = new Exception("分类歌曲加载失败");
+                listener.onFailed(e);
             }
         }
     }
 
-    // 封装本地音乐读取结果的对象
-    private class ClassifySongLoadResult {
-
-        private ClassifySongLoadListener classifySongLoadListener;
-        private List<Song> songList;
-
-        ClassifySongLoadResult(ClassifySongLoadListener listener, List<Song> songs){
-            classifySongLoadListener = listener;
-            songList = songs;
-        }
-    }
 }

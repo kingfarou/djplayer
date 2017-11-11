@@ -20,8 +20,9 @@ public class SongNumberLoader {
     private static final int FAILED = 0;   // 加载失败
     private InnerHandler innerHandler;     // 内部Handler
 
-    public void setSongNumberLoadListener(SongNumberLoadListener listener){
-        innerHandler = new InnerHandler(new WeakReference(listener));
+    public void setLoadListener(loadListener listener){
+        if(listener == null) return;
+        innerHandler = new InnerHandler(new WeakReference<>(listener));
     }
 
     public void load(){
@@ -35,7 +36,7 @@ public class SongNumberLoader {
     }
 
     /** 歌曲数量加载监听器*/
-    public interface SongNumberLoadListener{
+    public interface loadListener {
 
         /**
          * 加载成功时的回调
@@ -53,9 +54,9 @@ public class SongNumberLoader {
     // 发送消息给监听器用的handler
     private static class InnerHandler extends Handler{
 
-        private WeakReference<SongNumberLoadListener> songNumberLoadListenerWeak;
+        private WeakReference<loadListener> songNumberLoadListenerWeak;
 
-        InnerHandler(WeakReference<SongNumberLoadListener> weakReference){
+        InnerHandler(WeakReference<loadListener> weakReference){
             super(Looper.getMainLooper());
             this.songNumberLoadListenerWeak = weakReference;
         }
@@ -63,12 +64,15 @@ public class SongNumberLoader {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            SongNumberLoadListener listener = (SongNumberLoadListener)songNumberLoadListenerWeak.get();
+            loadListener listener = (loadListener)songNumberLoadListenerWeak.get();
             if(listener == null){
                 return;
             }
             if(msg.what == SUCCESS){
                 listener.onSuccess((int)msg.obj);
+            }else{
+                Exception e = new Exception("歌手数量加载失败");
+                listener.onFailed(e);
             }
         }
     }

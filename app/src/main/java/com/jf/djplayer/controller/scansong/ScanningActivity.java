@@ -15,7 +15,7 @@ import com.jf.djplayer.datamanager.SongScanner;
  * Created by Kingfar on 2017/11/5.
  * 音乐扫描进行时界面
  */
-public class ScanningActivity extends BaseActivity implements SongScanner.SongScanListener{
+public class ScanningActivity extends BaseActivity implements SongScanner.ScanListener {
 
     RelativeLayout scanningDoingRl;   // 扫描进行时布局
     TextView scanningInfoTv;          // 扫描进行时文字信息

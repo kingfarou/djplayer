@@ -32,8 +32,8 @@ public class SongScanner {
 
     private InnerHandler innerHandler;
 
-    public void setSongScanListener(SongScanListener listener){
-        WeakReference<SongScanListener> weakReference = new WeakReference<SongScanListener>(listener);
+    public void setSongScanListener(ScanListener listener){
+        WeakReference<ScanListener> weakReference = new WeakReference<ScanListener>(listener);
         innerHandler = new InnerHandler(weakReference);
     }
 
@@ -89,7 +89,8 @@ public class SongScanner {
     }
 
     /** 歌曲扫描监听器*/
-    public interface SongScanListener{
+    public interface ScanListener {
+
         /**
          * 扫描进行时回调该方法更新扫描信息
          * @param scanInfo 扫描信息
@@ -112,16 +113,16 @@ public class SongScanner {
     // 子线程发送消息到UI线程用的Handler
     private static class InnerHandler extends Handler{
 
-        private WeakReference<SongScanListener> songScanListenerWeakReference;
+        private WeakReference<ScanListener> listenerWeakReference;
 
-        public InnerHandler(WeakReference<SongScanListener> listenerWeakReference){
+        public InnerHandler(WeakReference<ScanListener> listenerWeakReference){
             super(Looper.getMainLooper());
-            songScanListenerWeakReference = listenerWeakReference;
+            this.listenerWeakReference = listenerWeakReference;
         }
 
         @Override
         public void handleMessage(Message msg) {
-            SongScanListener listener = songScanListenerWeakReference.get();
+            ScanListener listener = listenerWeakReference.get();
             if(listener == null){
                 LogUtil.i(SongScanner.class.getSimpleName()+"--InnerHandler--handleMessage()--弱引用已经失效");
                 return;

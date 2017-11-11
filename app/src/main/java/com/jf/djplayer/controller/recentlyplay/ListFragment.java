@@ -26,11 +26,11 @@ import java.util.List;
  * 最近播放-歌曲列表适配器
  */
 
-public class RecentlyPlayListFragment extends BaseFragment
-        implements RecentlyPlayLoader.RecentlyPlayLoadListener, AdapterView.OnItemClickListener{
+public class ListFragment extends BaseFragment
+        implements RecentlyPlayLoader.LoadListener, AdapterView.OnItemClickListener{
 
     // 歌曲列表数据排序相关
-    private static final String KEY_SONG_SORT_BY = RecentlyPlayListFragment.class.getSimpleName()+"_songSortBy";
+    private static final String KEY_SONG_SORT_BY = ListFragment.class.getSimpleName()+"_songSortBy";
     private static final int VALUES_SONG_SORT_BY_NO = 1;//没有任何排序方式（不需排序）
     private static final int VALUES_SONG_SORT_BY_SONG_NAME = 1<<1;//按照歌曲名称排序
     private static final int VALUES_SONG_SORT_BY_SINGER_NAME = 1<<2;//按照歌手名称排序
@@ -129,7 +129,8 @@ public class RecentlyPlayListFragment extends BaseFragment
         emptyView.setVisibility(View.INVISIBLE);
         // 加载音乐
         RecentlyPlayLoader recentlyPlayLoader = new RecentlyPlayLoader();
-        recentlyPlayLoader.loadRecentlyPlaySong(this, 8);
+        recentlyPlayLoader.setRecentlyLoadListener(this);
+        recentlyPlayLoader.load(8);
     }
 
     /****************本地音乐读取器回调接口****************/

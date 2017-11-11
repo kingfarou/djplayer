@@ -24,7 +24,7 @@ import java.util.List;
  */
 
 public class ClassifySongListFragment extends BaseFragment
-        implements ClassifySongLoader.ClassifySongLoadListener, AdapterView.OnItemClickListener{
+        implements ClassifySongLoader.LoadListener, AdapterView.OnItemClickListener{
 
     private ListView listView;     // 歌曲列表
     private ClassifySongListAdapter classifySongListAdapter;
@@ -74,7 +74,8 @@ public class ClassifySongListFragment extends BaseFragment
         emptyView.setVisibility(View.INVISIBLE);
         // 加载音乐
         ClassifySongLoader classifySongLoader = new ClassifySongLoader();
-        classifySongLoader.loadSong(this, typeName, typeValue);
+        classifySongLoader.setLoadListener(this);
+        classifySongLoader.load(typeName, typeValue);
     }
 
     /****************本地音乐读取器回调接口****************/

@@ -8,6 +8,7 @@ import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.bean.Song;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -20,14 +21,15 @@ public class MyFavoriteLoader {
     private static final int LOAD_SUCCESS = 1; // 读取成功的标志
     private static final int LOAD_FAILED = 0;  // 读取失败的标志
 
-    private MyFavoriteLoadListener myFavoriteLoadListener;
+    private InnerHandler innerHandler;
 
-    /**
-     * 读取本地音乐数据
-     * @param listener "LocalMusicReadListener"接口
-     */
-    public void loadMyFavoriteSong(MyFavoriteLoadListener listener){
-        myFavoriteLoadListener = listener;
+    public void setLoadListener(LoadListener listener){
+        if(listener == null) return;
+        innerHandler = new InnerHandler(new WeakReference<>(listener));
+    }
+
+    /** 读取本地音乐数据*/
+    public void load(){
         new Thread(){
             @Override
             public void run() {
@@ -37,17 +39,15 @@ public class MyFavoriteLoader {
 
                 }
                 List<Song> songList = new SongInfoOpenHelper(MyApplication.getContext()).getCollectionSongInfo();
-                Message resultMessage = new InnerHandler().obtainMessage(
-                        LOAD_SUCCESS, new MyFavoriteLoadResult(myFavoriteLoadListener, songList));
+                Message resultMessage = innerHandler.obtainMessage(LOAD_SUCCESS, songList);
                 resultMessage.sendToTarget();
             }
         }.start();
     }
 
-    /**
-     * 本地音乐读取监听接口
-     */
-    public interface MyFavoriteLoadListener {
+    /** “我的最爱”读取监听接口*/
+    public interface LoadListener {
+
         /**
          * 读取成功时的回调方法
          * @param songList 本地音乐信息集合
@@ -64,31 +64,26 @@ public class MyFavoriteLoader {
     // 接收子线程扫描结果的Handler
     private static class InnerHandler extends Handler{
 
-        InnerHandler(){
+        WeakReference<LoadListener> listenerWeakReference;
+
+        InnerHandler(WeakReference<LoadListener> listenerWeakReference){
             super(Looper.getMainLooper());
+            this.listenerWeakReference = listenerWeakReference;
         }
 
         @Override
         public void handleMessage(Message msg) {
-            MyFavoriteLoadResult localMusicReaderResult = (MyFavoriteLoadResult)msg.obj;
+            LoadListener listener = listenerWeakReference.get();
+            if(listener == null){
+                return;
+            }
             if(msg.what == LOAD_SUCCESS){
-                localMusicReaderResult.myFavoriteLoadListener.onSuccess(localMusicReaderResult.songList);
+                listener.onSuccess((List<Song>)msg.obj);
             }else {
-                // 暂时传空值
-                localMusicReaderResult.myFavoriteLoadListener.onFailed(null);
+                Exception e = new Exception("“我的最爱”加载失败");
+                listener.onFailed(e);
             }
         }
     }
 
-    // 封装本地音乐读取结果的对象
-    private class MyFavoriteLoadResult {
-
-        private MyFavoriteLoadListener myFavoriteLoadListener;
-        private List<Song> songList;
-
-        MyFavoriteLoadResult(MyFavoriteLoadListener listener, List<Song> songs){
-            myFavoriteLoadListener = listener;
-            songList = songs;
-        }
-    }
 }

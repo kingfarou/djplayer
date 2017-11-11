@@ -26,7 +26,7 @@ import java.util.List;
  * 本地音乐-专辑列表
  */
 public class AlbumListFragment extends BaseFragment implements
-        AlbumLoader.AlbumLoadListener, AdapterView.OnItemClickListener{
+        AlbumLoader.LoadListener, AdapterView.OnItemClickListener{
 
     private ListView listView;                 // 歌手列表
     private AlbumListAdapter albumListAdapter; // 专辑列表适配器
@@ -86,7 +86,8 @@ public class AlbumListFragment extends BaseFragment implements
         emptyView.setVisibility(View.INVISIBLE);
         // 加载音乐
         AlbumLoader albumLoader = new AlbumLoader();
-        albumLoader.loadAlbum(this);
+        albumLoader.setLoadListener(this);
+        albumLoader.load();
     }
 
     /****************歌手加载器回调接口****************/

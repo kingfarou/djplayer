@@ -56,7 +56,7 @@ public class MainActivity extends BackgroundPlayActivity implements View.OnClick
     // 获取本地音乐歌曲数量
     private void getSongNumber(){
         SongNumberLoader songNumberLoader = new SongNumberLoader();
-        songNumberLoader.setSongNumberLoadListener(new SongNumberLoader.SongNumberLoadListener() {
+        songNumberLoader.setLoadListener(new SongNumberLoader.loadListener() {
             @Override
             public void onSuccess(int songNumber) {
                 songNumberTv.setText(songNumber+"首歌曲");

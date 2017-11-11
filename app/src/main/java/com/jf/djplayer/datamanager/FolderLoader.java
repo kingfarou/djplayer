@@ -8,6 +8,7 @@ import com.jf.djplayer.base.MyApplication;
 import com.jf.djplayer.bean.Folder;
 import com.jf.djplayer.database.SongInfoOpenHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -20,14 +21,15 @@ public class FolderLoader {
     private static final int LOAD_SUCCESS = 1; // 读取成功的标志
     private static final int LOAD_FAILED = 0;  // 读取失败的标志
 
-    private FolderLoadListener loadListener;
+    private InnerHandler innerHandler;
 
-    /**
-     * 读取歌手
-     * @param listener "SingerLoadListener"接口
-     */
-    public void loadFolder(FolderLoadListener listener){
-        loadListener = listener;
+    public void setLoadListener(loadListener listener){
+        if(listener == null) return;
+        innerHandler = new InnerHandler(new WeakReference<>(listener));
+    }
+
+    /** 读取歌手*/
+    public void load(){
         new Thread(){
             @Override
             public void run() {
@@ -37,17 +39,15 @@ public class FolderLoader {
 
                 }
                 List<Folder> folderList = new SongInfoOpenHelper(MyApplication.getContext()).getFolderList();
-                Message resultMessage = new InnerHandler().obtainMessage(
-                        LOAD_SUCCESS, new FolderLoadResult(loadListener, folderList));
+                Message resultMessage = innerHandler.obtainMessage(LOAD_SUCCESS, folderList);
                 resultMessage.sendToTarget();
             }
         }.start();
     }
 
-    /**
-     * 歌手加载监听接口
-     */
-    public interface FolderLoadListener{
+    /** 歌手加载监听接口*/
+    public interface loadListener {
+
         /**
          * 读取成功时的回调方法
          * @param folderList 文件夹列表集合
@@ -64,31 +64,26 @@ public class FolderLoader {
     // 接收子线程扫描结果的Handler
     private static class InnerHandler extends Handler{
 
-        InnerHandler(){
+        WeakReference<loadListener> listenerWeakReference;
+
+        InnerHandler(WeakReference<loadListener> listenerWeakReference){
             super(Looper.getMainLooper());
+            this.listenerWeakReference = listenerWeakReference;
         }
 
         @Override
         public void handleMessage(Message msg) {
-            FolderLoadResult folderLoadResult = (FolderLoadResult)msg.obj;
+            loadListener listener = listenerWeakReference.get();
+            if(listener == null){
+                return;
+            }
             if(msg.what == LOAD_SUCCESS){
-                folderLoadResult.folderLoadListener.onSuccess(folderLoadResult.folderList);
+                listener.onSuccess((List<Folder>)msg.obj);
             }else {
-                // 暂时传空值
-                folderLoadResult.folderLoadListener.onFailed(null);
+                Exception e = new Exception("歌曲路径集合加载失败 ");
+                listener.onFailed(e);
             }
         }
     }
 
-    // 封装本地音乐读取结果的对象
-    private class FolderLoadResult {
-
-        private FolderLoadListener folderLoadListener;
-        private List<Folder> folderList;
-
-        FolderLoadResult(FolderLoadListener listener, List<Folder> folderList){
-            folderLoadListener = listener;
-            this.folderList = folderList;
-        }
-    }
 }

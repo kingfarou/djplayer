@@ -26,7 +26,7 @@ import java.util.List;
  * 本地音乐-歌手列表
  */
 public class SingerListFragment extends BaseFragment implements
-        SingerLoader.SingerLoadListener, AdapterView.OnItemClickListener{
+        SingerLoader.LoadListener, AdapterView.OnItemClickListener{
 
     private ListView listView;               // 歌手列表
     private SingerListAdapter singerListAdapter; // 歌手列表适配器
@@ -86,7 +86,8 @@ public class SingerListFragment extends BaseFragment implements
         emptyView.setVisibility(View.INVISIBLE);
         // 加载音乐
         SingerLoader singerLoader = new SingerLoader();
-        singerLoader.loadSinger(this);
+        singerLoader.setLoadListener(this);
+        singerLoader.load();
     }
 
     /****************歌手加载器回调接口****************/
@@ -95,7 +96,7 @@ public class SingerListFragment extends BaseFragment implements
         this.singerList = singerList;
         if(isDestroyView){
             // no thing to do
-        }if( singerList == null || singerList.size() == 0 ){
+        }else if( singerList == null || singerList.size() == 0 ){
             // 没有歌手
             emptyView.setVisibility(View.VISIBLE);
             loadingHintView.setVisibility(View.INVISIBLE);

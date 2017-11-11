@@ -35,7 +35,7 @@ import java.util.List;
  */
 
 public class SongListFragment extends BaseFragment
-        implements LocalMusicLoader.LocalMusicLoadListener, AdapterView.OnItemClickListener{
+        implements LocalMusicLoader.LoadListener, AdapterView.OnItemClickListener{
 
     // 歌曲列表数据排序相关
     private static final String KEY_SONG_SORT_BY = SongListFragment.class.getSimpleName()+"_songSortBy";
@@ -174,7 +174,8 @@ public class SongListFragment extends BaseFragment
         emptyView.setVisibility(View.INVISIBLE);
         // 加载音乐
         LocalMusicLoader localMusicLoader = new LocalMusicLoader();
-        localMusicLoader.loadLocalMusic(this);
+        localMusicLoader.setLoadListener(this);
+        localMusicLoader.load();
     }
 
     /****************本地音乐读取器回调接口****************/
