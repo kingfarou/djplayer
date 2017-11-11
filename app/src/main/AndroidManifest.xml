@@ -15,7 +15,7 @@
 
         <!-- main模块所用"Activity"__start -->
         <!-- 欢迎界面Activity -->
-        <activity android:name=".main.WelcomeActivity">
+        <activity android:name=".controller.main.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
         </activity>
 
         <!-- main activity -->
-        <activity android:name=".main.MainActivity" />
+        <activity android:name=".controller.main.MainActivity" />
         <!-- main模块所用"Activity"__end -->
 
 

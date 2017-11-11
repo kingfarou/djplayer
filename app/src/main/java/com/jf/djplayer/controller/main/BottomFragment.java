@@ -1,4 +1,4 @@
-package com.jf.djplayer.main;
+package com.jf.djplayer.controller.main;
 
 import android.app.Activity;
 import android.content.Intent;

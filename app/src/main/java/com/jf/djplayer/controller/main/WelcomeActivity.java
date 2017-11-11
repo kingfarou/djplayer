@@ -1,4 +1,4 @@
-package com.jf.djplayer.main;
+package com.jf.djplayer.controller.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,8 @@ import android.view.animation.Animation;
 import com.jf.djplayer.R;
 import com.jf.djplayer.backgroundplay.PlayerService;
 import com.jf.djplayer.base.activity.BaseActivity;
-import com.jf.djplayer.database.SongInfoOpenHelper;
+import com.jf.djplayer.controller.main.MainActivity;
 import com.jf.djplayer.util.DirManager;
-import com.jf.djplayer.util.LogUtil;
 import com.jf.djplayer.util.SdCardUtil;
 import com.jf.djplayer.util.ToastUtil;
 

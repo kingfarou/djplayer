@@ -14,7 +14,7 @@
 
     <!-- 这个是底边控制栏-->
     <fragment
-        android:name="com.jf.djplayer.main.BottomFragment"
+        android:name="com.jf.djplayer.controller.main.BottomFragment"
         android:id="@+id/bottom_fragment_activity_my_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

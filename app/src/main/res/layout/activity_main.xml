@@ -18,7 +18,7 @@
 
     <!-- 这个是底边控制栏-->
     <fragment
-        android:name="com.jf.djplayer.main.BottomFragment"
+        android:name="com.jf.djplayer.controller.main.BottomFragment"
         android:id="@+id/bottom_fragment_activity_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
     <!--&lt;!&ndash; 侧滑布局&ndash;&gt;-->
     <!--<fragment-->
         <!--android:id="@+id/fragment_activity_main_drawer_view"-->
-        <!--android:name="com.jf.djplayer.main.DrawerFragment"-->
+        <!--android:name="com.jf.djplayer.controller.main.DrawerFragment"-->
         <!--android:layout_width="240dp"-->
         <!--android:layout_height="match_parent"-->
         <!--tools:layout="@layout/fragment_drawer"-->
