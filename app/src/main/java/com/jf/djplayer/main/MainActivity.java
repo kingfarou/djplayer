@@ -21,13 +21,20 @@ import com.jf.djplayer.widget.TitleBar;
 public class MainActivity extends BackgroundPlayActivity implements View.OnClickListener{
 
     private TextView songNumberTv;  // 歌曲数量
+    private SongNumberLoader songNumberLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        getSongNumber();
+        initSongNumberLoader();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshSongNumber();
     }
 
     // 重写该方法是为了"MainActivity"里的"Fragment"的"onActivityResult()"方法能够得到回调
@@ -53,9 +60,8 @@ public class MainActivity extends BackgroundPlayActivity implements View.OnClick
         songNumberTv = (TextView)findViewById(R.id.tv_fragment_main_song_num);
     }
 
-    // 获取本地音乐歌曲数量
-    private void getSongNumber(){
-        SongNumberLoader songNumberLoader = new SongNumberLoader();
+    private void initSongNumberLoader(){
+        songNumberLoader = new SongNumberLoader();
         songNumberLoader.setLoadListener(new SongNumberLoader.loadListener() {
             @Override
             public void onSuccess(int songNumber) {
@@ -67,6 +73,10 @@ public class MainActivity extends BackgroundPlayActivity implements View.OnClick
 
             }
         });
+    }
+
+    // 刷新歌曲数量显示
+    private void refreshSongNumber(){
         songNumberLoader.load();
     }
 
